@@ -123,6 +123,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   APPLE_SIGNING_IDENTITY: ${{ startsWith(matrix.platform, 'macos') && '-' || '' }}
+                  NODE_OPTIONS: --max-old-space-size=8192
               with:
                   projectPath: apps/desktop
                   tauriScript: pnpm tauri
