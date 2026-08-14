@@ -7,7 +7,6 @@
     "arrowParens": "avoid",
     "bracketSpacing": true,
     "endOfLine": "auto",
-    "eslintIntegration": false,
     "bracketSameLine": false,
     "jsxSingleQuote": false,
     "trailingComma": "all"

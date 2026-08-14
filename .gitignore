@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*
@@ -28,5 +29,9 @@ _release_files
 _temp
 .npmrc
 todo_list.md
+
+# Local UI test artifacts
+.playwright-cli/
+output/
 
 .vercel

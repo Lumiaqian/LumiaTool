@@ -1,113 +1,90 @@
-# 程序开发常用工具
+# LumiaTool
 
-使用过程中的任何问题或者需要新的工具欢迎提交`Issue`,新工具如果可以提供实现代码就完美了O(∩_∩)O
+[![CI](https://github.com/Lumiaqian/LumiaTool/actions/workflows/ci.yml/badge.svg)](https://github.com/Lumiaqian/LumiaTool/actions/workflows/ci.yml)
 
-## 先睹为快
+LumiaTool 是一个基于 React 与 Tauri 的跨平台桌面开发工具箱，集中提供编码转换、加解密、数据格式化、文本处理、开发调试和常用生成器。
 
-![](https://cdn.jsdelivr.net/gh/baiy/Ctool@master/images/v2.0.0.png)
+当前仓库是桌面端重构版本，版本号从 `0.0.1` 重新开始。旧版 Web、浏览器扩展和 uTools 适配器不再参与构建。
 
-## 安装使用
+## 功能概览
 
-### 在线使用
+-   编码与转换：Base64、URL、Unicode、ASCII、进制、Hex、序列化、变量命名等。
+-   加密与校验：Hash、HMAC、AES、DES、RSA、SM2/SM3/SM4、JWT、Bcrypt、CRC 等。
+-   数据与文本：JSON、XML、YAML、TOML、SQL、正则、文本对比、代码格式化等。
+-   开发调试：HTTP Snippet、WebSocket、Crontab、IP 计算、时间与时区等。
+-   生成与解析：二维码、条形码、UUID、随机字符、Docker Compose 等。
 
-<https://ctool.dev>
+大多数工具可以离线运行。IP 查询、ARM 指令转换、在线代码运行及用户主动连接的网络地址需要联网，具体说明见[隐私说明](./PRIVACY)。
 
-### Chrome 安装
+## 下载与安装
 
-- 在 [Chrome 应用商店](https://chrome.google.com/webstore/detail/ipfcebkfhpkjeikaammlkcnalknjahmh) 安装
+桌面端支持 macOS、Windows 和 Linux。发布包将在 [GitHub Releases](https://github.com/Lumiaqian/LumiaTool/releases) 提供。
 
-### 微软 Edge 安装
+当前 `0.0.1` 仍处于重构开发阶段；首次正式发布前，请按下方步骤在本地运行或构建。
 
-- 在 [微软 Edge 应用商店](https://microsoftedge.microsoft.com/addons/detail/cihekagpnnadjjplgljkmkpcfiopfplc) 安装
+## 本地开发
 
-### 火狐 Firefox 安装
+开发环境需要 Node.js 22 或更高版本、项目声明的 pnpm 版本、Rust 工具链，以及 Tauri 2 对应平台的系统依赖。
 
-- 在 [火狐 Firefox 应用商店](https://addons.mozilla.org/zh-CN/firefox/addon/ctool/) 安装
-
-### Utools 安装
-
-- [utools](https://u.tools/) 插件中心 搜索 `ctool`
-
-### Windows 客户端安装
-
-- 在 [Microsoft 应用商店](https://www.microsoft.com/store/apps/9P63J98XZ0M1) 安装
-
-### 其他桌面客户端安装
-
-- [点击下载](https://github.com/baiy/Ctool/releases)
-
-### aur
-
-```
-paru -S ctool-bin
-```
-
-## 开发
-
-```
+```bash
 # 安装依赖
 pnpm install
 
-# 开发调试
-pnpm run dev
+# 启动桌面开发模式
+pnpm dev
 
-# 编译核心文件
-pnpm run build
+# TypeScript 与 Rust 检查
+pnpm check
 
-## 打包适配发布平台
-// 所有平台
-pnpm run release
-// chrome
-pnpm --filter ctool-adapter-chrome run platform-release
-// edge
-pnpm --filter ctool-adapter-edge run platform-release
-// tauri 无法交叉编译, 请在对应操作系统下运行
-pnpm --filter ctool-adapter-tauri run platform-release
-// firefox
-pnpm --filter ctool-adapter-firefox run platform-release
-// utools
-pnpm --filter ctool-adapter-utools run platform-release
-// web
-pnpm --filter ctool-adapter-web run platform-release
+# 构建当前平台安装包
+pnpm build
 ```
 
-> 打包适配平台文件存放位置: /_release
+Tauri 不支持直接跨平台打包，请分别在 macOS、Windows 和 Linux 上执行构建。原始产物位于：
 
-## 功能列表
+```text
+apps/desktop/src-tauri/target/release/bundle/
+```
 
-|功能|说明|离线使用 |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------|------|
-|哈希|`md5`, `sha1`, `sha256`, `sha512`,`sm3`,`批量处理`,`支持文件` |√|
-|加密/解密|`AES`,`DES`,`RC4`,`Rabbit`,`TripleDes`,`sm2`,`sm4`|√|
-|BASE64编码 |`加密`,`解密`,`支持文件`|√|
-|URL编码|`编码`,`解码` |√|
-|时间|`时间戳双向转换`,`毫秒` ,`时区`,`时间计算器`|√|
-|二维码|`生成`,`解析` |√|
-|条形码|`生成` |√|
-|汉字转拼音|`声调`,`首字母`,`分隔符`|√|
-|IP地址查询 |`运营商`,`城市`|×|
-|代码格式化|`js`, `ts`, `html`, `css`, `less`, `scss`, `graphql`, `vue`, `angular`, `markdown`, `json5`, `xml`, `yaml`, `sql`, `压缩` |√|
-|Unicode|`双向转换`,`emoji`,`html 实体`,`css 实体` |√|
-|进制转换 |`2-64进制`|√|
-|正则表达式|`匹配`,`查找`,`替换`  |√|
-|随机字符生成器|`批量`,`特殊字符` |√|
-|序列化转换|`json`, `xml`, `yaml`, `phpArray`, `phpSerialize`, `properties`|√|
-|文本差异化对比|`行`,`单词`,`css`  |√|
-|crontab校验|`Crontab`,`规则`,`校验`,`例子`   |√|
-|websocket调试  |`websocket`,`在线调试` |×|
-|单位换算 |`长度`,`面积`,`体积`,`质量`,`温度`,`压力`,`功率`,`功`,`密度`,`力`,`时间`,`速度`,`数据存储`,`角度`  |√|
-|时间计算器|-|√|
-|JSON工具 |`格式化`,`校验`,`压缩`,`转义`,`去除转义`,`Unicode转中文`,`中文转Unicode`,`转GET参数`,`Java`, `C#`, `Go`, `Dart`,`csv`,`table`,`Protobuf`,`jsonpath` |√|
-|UUID |`在线生成uuid`|√|
-|ascii编码转换|`十进制`, `十六进制`, `八进制`, `二进制`, `字符串`|√|
-|变量名格式转换|`Var Name`, `var-name`, `VAR_NAME`, `VarName`, `varName`, `var_name`, `var name`  |√|
-|jwt解码|`header`, `payload`|√|
-|Hex/String转换 |`hex to string`, `string to hex`, `十六进制转字符串`, `字符串转十六进制`|√|
-|Hex/Base64转换 |`hex to Base64`, `Base64 to hex`|√|
-|文本处理 |`大小写转换`, `中英文标点转换`, `简繁转换`, `替换`, `字符统计`, `行去重`, `添加行号`, `行排序`, `过滤行首尾不可见字符`,`过滤空行`|√|
-|html编码 |-|√|
-|原码/反码/补码 |`生成` |√|
-|ARM/HEX|`互转` |×|
-|Bcrypt |`加密`,`验证` |√|
-|IP网络计算器|`子网掩码各个进制表示换算,IP地址进制表示换算`  |√|
-|SQL参数填充|`Mybatis打印SQL的参数填充`|√|
+整理为发布文件：
+
+```bash
+pnpm release
+```
+
+整理后的文件输出到 `_release/`。清理依赖、前端产物、Tauri 构建缓存和本地 UI 测试产物：
+
+```bash
+pnpm clean
+```
+
+## 仓库结构
+
+```text
+apps/desktop/       React 界面、工具实现和 Tauri 桌面外壳
+packages/config/    工具清单、分类、国际化和生成脚本
+scripts/            清理与发布辅助脚本
+packaging/aur/      Arch Linux 打包文件
+```
+
+根目录 `package.json` 中的版本号是应用版本的主要来源，Tauri 配置会直接读取该版本；发布前还需保持 `apps/desktop/src-tauri/Cargo.toml` 版本一致。
+
+## 参与贡献
+
+提交改动前请先阅读[贡献指南](./CONTRIBUTING.md)和[行为准则](./CODE_OF_CONDUCT.md)，并至少运行：
+
+```bash
+pnpm check
+```
+
+问题和功能建议可以提交到 [GitHub Issues](https://github.com/Lumiaqian/LumiaTool/issues)。使用与支持方式见[支持说明](./SUPPORT.md)。
+
+## 项目沿革
+
+本项目是基于 [baiy/Ctool](https://github.com/baiy/Ctool) 的独立桌面重构，保留原项目 MIT 许可证与作者信息。产品名和仓库名已改为 LumiaTool，不再作为上游 Ctool 的官方续作。
+
+## 许可证
+
+[MIT](./LICENSE)
+
+安全问题请不要提交公开 Issue，具体方式见[安全策略](./SECURITY.md)。

@@ -9,5 +9,5 @@ indent_size = 4
 
 # Matches multiple files with brace expansion notation
 # Set default charset
-[*.{js,ts,vue,html,css,scss,md}]
+[*.{js,cjs,mjs,jsx,ts,tsx,html,css,scss,json,json5,md,yml,yaml}]
 charset = utf-8
