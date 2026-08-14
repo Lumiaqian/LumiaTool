@@ -7,7 +7,7 @@
         "dev": "tauri dev",
         "dev:ui": "vite --host",
         "build": "tauri build",
-        "build:ui": "tsc -b && vite build",
+        "build:ui": "tsc -b && node --max-old-space-size=8192 ./node_modules/vite/bin/vite.js build",
         "preview": "vite preview"
     },
     "dependencies": {
