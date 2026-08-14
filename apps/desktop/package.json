@@ -33,7 +33,7 @@
         "cronstrue": "^2.21.0",
         "crypto-js": "^4.1.1",
         "csso": "^5.0.5",
-        "csv-parse": "^5.3.3",
+        "csv-parse": "^7.0.2",
         "csv-stringify": "^6.2.3",
         "ctool-config": "workspace:*",
         "dayjs": "catalog:",
