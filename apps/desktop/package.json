@@ -99,7 +99,7 @@
         "@types/jmespath": "^0.15.0",
         "@types/js-yaml": "^4.0.5",
         "@types/jsrsasign": "^10.5.4",
-        "@types/jstoxml": "^2.0.2",
+        "@types/jstoxml": "^5.0.0",
         "@types/lodash": "catalog:",
         "@types/netmask": "^2.0.5",
         "@types/node": "catalog:",

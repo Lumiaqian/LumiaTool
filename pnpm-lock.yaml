@@ -294,8 +294,8 @@ importers:
         specifier: ^10.5.4
         version: 10.5.14
       '@types/jstoxml':
-        specifier: ^2.0.2
-        version: 2.0.4
+        specifier: ^5.0.0
+        version: 5.0.0
       '@types/lodash':
         specifier: 'catalog:'
         version: 4.17.7
@@ -1059,8 +1059,8 @@ packages:
   '@types/jsrsasign@10.5.14':
     resolution: {integrity: sha512-lppSlfK6etu+cuKs40K4rg8As79PH6hzIB+v55zSqImbSH3SE6Fm8MBHCiI91cWlAP3Z4igtJK1VL3fSN09blQ==}
 
-  '@types/jstoxml@2.0.4':
-    resolution: {integrity: sha512-XHUMp2t8CfJUsKt8qjlspZWlkVeveFg2eF/kRV8CKiNQ+Fd3mJkfexIDXtZEnG/4aJZRCVNNn46zNddSVIUN0w==}
+  '@types/jstoxml@5.0.0':
+    resolution: {integrity: sha512-6W1oNiZ/frqtloQdjRm+UtZ0jioU4SMX7iU0OWistGQsr5nrrrhNs82O3Wa8csWKttCBifJTe+CDLFyzNkIOLQ==}
 
   '@types/lodash@4.17.7':
     resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
@@ -3313,7 +3313,7 @@ snapshots:
 
   '@types/jsrsasign@10.5.14': {}
 
-  '@types/jstoxml@2.0.4': {}
+  '@types/jstoxml@5.0.0': {}
 
   '@types/lodash@4.17.7': {}
 
