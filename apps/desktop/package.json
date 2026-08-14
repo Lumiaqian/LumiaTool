@@ -81,7 +81,7 @@
         "strict-uri-encode": "^2.0.0",
         "tippy.js": "^6.3.7",
         "uglify-js-export": "^3.17.4",
-        "ulid": "^2.3.0",
+        "ulid": "^3.0.2",
         "uuid": "^10.0.0",
         "valid-data-url": "^5.0.0",
         "valtio": "^2.3.2",
