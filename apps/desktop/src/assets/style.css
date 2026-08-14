@@ -1,0 +1,170 @@
+@import "./pico.css";
+
+:root:not([data-theme]) {
+    color-scheme: light dark;
+}
+
+[data-theme="light"] {
+    color-scheme: light;
+    --ctool-color-primary-theme: #1d1f23;
+    --ctool-color-secondary-theme: #68707a;
+    --ctool-border-color-theme: rgba(43, 52, 64, .14);
+    --ctool-placeholder-text-color-theme: #8a919b;
+    --ctool-mask-color: rgba(244, 247, 246, .92);
+    --ctool-background-color: #f4f7f6;
+    --ctool-block-title-bg-color: rgba(247, 250, 249, .84);
+    --ctool-block-content-bg-color: #ffffff;
+    --ctool-dropdown-background-color: rgba(255, 255, 255, .96);
+    --ctool-dropdown-hover-background-color: rgba(10, 132, 255, .1);
+    --ctool-form-element-background-color: rgba(255, 255, 255, .88);
+    --ctool-form-element-active-background-color: #ffffff;
+    --ctool-sidebar-background: rgba(232, 238, 236, .94);
+    --ctool-toolbar-background: rgba(248, 251, 250, .9);
+    --ctool-elevated-background: #ffffff;
+    --ctool-hover-background: rgba(44, 56, 72, .07);
+    --ctool-selected-background: rgba(10, 132, 255, .12);
+    --ctool-panel-shadow: 0 1px 2px rgba(23, 35, 51, .04), 0 14px 42px rgba(23, 35, 51, .07);
+    --ctool-shadow: 0 16px 42px rgba(23, 35, 51, .12);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+    --ctool-color-primary-theme: #f0f5f3;
+    --ctool-color-secondary-theme: #9ba6b3;
+    --ctool-border-color-theme: rgba(218, 228, 240, .13);
+    --ctool-placeholder-text-color-theme: #717b87;
+    --ctool-mask-color: rgba(18, 22, 21, .94);
+    --ctool-background-color: #111514;
+    --ctool-block-title-bg-color: rgba(31, 38, 36, .86);
+    --ctool-block-content-bg-color: #191f1d;
+    --ctool-dropdown-background-color: rgba(31, 39, 36, .97);
+    --ctool-dropdown-hover-background-color: rgba(10, 132, 255, .16);
+    --ctool-form-element-background-color: rgba(30, 37, 35, .9);
+    --ctool-form-element-active-background-color: #252e2b;
+    --ctool-sidebar-background: rgba(21, 27, 25, .96);
+    --ctool-toolbar-background: rgba(18, 23, 21, .92);
+    --ctool-elevated-background: #242c29;
+    --ctool-hover-background: rgba(225, 234, 245, .075);
+    --ctool-selected-background: rgba(10, 132, 255, .16);
+    --ctool-panel-shadow: 0 1px 1px rgba(0, 0, 0, .28), 0 18px 48px rgba(0, 0, 0, .24);
+    --ctool-shadow: 0 18px 48px rgba(0, 0, 0, .38);
+}
+
+[data-theme="light"] body {
+    color-scheme: light;
+}
+
+[data-theme="dark"] body {
+    color-scheme: dark;
+}
+
+#root, :root, html {
+    /* 主色调 */
+    --ctool-primary: #0a84ff;
+    --ctool-primary-hover: #409cff;
+    --ctool-primary-focus: rgba(10, 132, 255, .2);
+    --ctool-primary-soft: color-mix(in srgb, var(--ctool-primary) 11%, transparent);
+    --ctool-space-1: 4px;
+    --ctool-space-2: 8px;
+    --ctool-space-3: 12px;
+    --ctool-space-4: 16px;
+    --ctool-space-5: 20px;
+    --ctool-radius-sm: 7px;
+    --ctool-radius-md: 10px;
+    --ctool-radius-lg: 14px;
+
+    --ctool-contrast: #ed4014;
+    --ctool-contrast-hover: #f89898;
+    --ctool-contrast-focus: #ab5858;
+    /* 文字颜色 */
+    --ctool-color-primary: var(--ctool-color-primary-theme);
+    --ctool-color-secondary: var(--ctool-color-secondary-theme);
+    /* 默认表单高度和字体大小 */
+    --ctool-form-item-height: 2rem;
+    --ctool-form-font-size: .875rem;
+
+    --ctool-border-color: var(--ctool-border-color-theme);
+    --ctool-placeholder-text-color: var(--ctool-placeholder-text-color-theme);
+
+    --ctool-info-color: #909399;
+    --ctool-disabled-text-color: var(--ctool-placeholder-text-color);
+
+    --primary: var(--ctool-primary);
+    --primary-hover: var(--ctool-primary-hover);
+    --primary-focus: var(--ctool-primary-focus);
+    --color: var(--ctool-color-primary);
+    --background-color: var(--ctool-background-color);
+
+    --spacing: 0rem;
+    --form-element-spacing-vertical: 0rem;
+    --form-element-spacing-horizontal: 0rem;
+
+
+    --card-sectionning-background-color: var(--ctool-block-title-bg-color);
+    --card-background-color: var(--ctool-background-color);
+
+    --form-element-color: var(--ctool-color-primary);
+    --form-element-border-color: var(--ctool-border-color);
+    --form-element-background-color: var(--ctool-form-element-background-color);
+    --form-element-active-background-color: var(--ctool-form-element-active-background-color);
+
+    --dropdown-background-color: var(--ctool-dropdown-background-color);
+    --dropdown-hover-background-color: var(--ctool-dropdown-hover-background-color);
+
+    color: var(--color);
+}
+
+[data-theme="dark"],
+[data-theme="dark"] #root {
+    --ctool-primary: #2997ff;
+    --ctool-primary-hover: #57adff;
+    --ctool-primary-focus: rgba(41, 151, 255, .22);
+}
+
+
+#root [data-size="small"] {
+    --ctool-form-item-height: 1.5rem;
+    --ctool-form-font-size: .75rem;
+}
+
+#root [data-size="large"] {
+    --ctool-form-item-height: 2.5rem;
+}
+
+#root [data-disabled="y"] {
+    opacity: var(--form-element-disabled-opacity);
+    pointer-events: none;
+}
+
+input, select, textarea {
+    font-size: .875rem;
+    --form-element-placeholder-color: var(--ctool-placeholder-text-color);
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--ctool-background-color);
+    overflow: hidden;
+}
+
+input:not([type=submit], [type=button], [type=reset])[disabled], select[disabled], textarea[disabled], :where(fieldset[disabled]) :is(input:not([type=submit], [type=button], [type=reset]), select, textarea) {
+    --background-color: var(--form-element-background-color);
+    --border-color: var(--form-element-border-color);
+    opacity: unset;
+    pointer-events: unset;
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme=light]) {
+        --background-color: var(--ctool-background-color);
+    }
+}
+
+.ctool-input-label{
+    font-weight: 500;
+}
