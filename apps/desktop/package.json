@@ -14,7 +14,7 @@
         "@ltd/j-toml": "^1.38.0",
         "@monaco-editor/loader": "^1.4.0",
         "@prettier/plugin-php": "^0.22.0",
-        "@readme/httpsnippet": "^7.1.2",
+        "@readme/httpsnippet": "^11.4.0",
         "@tauri-apps/api": "^2.11.1",
         "@tauri-apps/plugin-opener": "^2.5.4",
         "@types/yargs-parser": "^21.0.0",
