@@ -30,7 +30,7 @@
         "composerize-ts": "^0.6.2",
         "crc": "^4.2.0",
         "cron-parser": "^4.7.1",
-        "cronstrue": "^2.21.0",
+        "cronstrue": "^3.24.0",
         "crypto-js": "^4.1.1",
         "csso": "^5.0.5",
         "csv-parse": "^5.3.3",
