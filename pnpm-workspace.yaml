@@ -4,7 +4,7 @@ packages:
 
 catalog:
     '@types/lodash': ^4.17.7
-    '@types/node': ^22.0.0
+    '@types/node': ^26.2.0
     lodash: ^4.17.21
     typescript: ^5.9.3
     vite: ^5.4.3
