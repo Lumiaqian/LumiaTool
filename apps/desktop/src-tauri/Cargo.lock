@@ -729,7 +729,7 @@ dependencies = [
  "libc",
  "option-ext",
  "redox_users",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -915,7 +915,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -1959,6 +1959,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ceec5bc11778974d1bcb055b18002eba7f4b3518b6a0081b3af5f21666da9ad"
 
 [[package]]
+name = "lumiatool"
+version = "0.0.1"
+dependencies = [
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-opener",
+]
+
+[[package]]
 name = "markup5ever"
 version = "0.38.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2611,15 +2620,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "qiankit"
-version = "0.0.1"
-dependencies = [
- "tauri",
- "tauri-build",
- "tauri-plugin-opener",
-]
-
-[[package]]
 name = "quick-xml"
 version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2764,9 +2764,9 @@ dependencies = [
 
 [[package]]
 name = "rustix"
-version = "0.37.23"
+version = "0.37.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d69718bf81c6127a49dc64e44a742e8bb9213c0ff8869a22c308f84c1d4ab06"
+checksum = "519165d378b97752ca44bbe15047d5d3409e875f39327546b42ac81d7e18c1b6"
 dependencies = [
  "bitflags 1.3.2",
  "errno",
@@ -2786,7 +2786,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.12.1",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -3567,7 +3567,7 @@ dependencies = [
  "cfg-if",
  "fastrand 1.9.0",
  "redox_syscall 0.3.5",
- "rustix 0.37.23",
+ "rustix 0.37.28",
  "windows-sys 0.48.0",
 ]
 
