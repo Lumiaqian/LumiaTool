@@ -47,6 +47,8 @@ jobs:
         needs: validate-version
         runs-on: ${{ matrix.platform }}
         timeout-minutes: 60
+        env:
+            NODE_OPTIONS: --max-old-space-size=8192
         permissions:
             contents: write
         strategy:
