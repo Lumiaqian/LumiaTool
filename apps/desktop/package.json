@@ -69,7 +69,7 @@
         "qr-code-styling": "github:baiy/styled-qr-code",
         "qrcode-parser": "^2.0.4",
         "qs": "^6.11.0",
-        "quicktype-core": "^23.0.0",
+        "quicktype-core": "^26.0.0",
         "react": "^19.2.8",
         "react-dom": "^19.2.8",
         "react-router-dom": "^7.18.2",
