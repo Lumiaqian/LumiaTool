@@ -56,7 +56,7 @@
         "jwt-decode": "^4.0.0",
         "lodash": "catalog:",
         "magic-bytes.js": "^1.0.13",
-        "mathjs": "^13.0.0",
+        "mathjs": "^15.2.0",
         "monaco-editor": "^0.51.0",
         "netmask": "^2.0.2",
         "nzh": "^1.0.13",
