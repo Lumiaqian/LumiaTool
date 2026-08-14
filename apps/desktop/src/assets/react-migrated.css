@@ -1,0 +1,2280 @@
+/* Tool.vue */
+.ctool-global {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0px, 1fr) auto;
+}
+
+/* block/Common.vue */
+.ctool-common-tool-draggable {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 125px);
+    gap: 5px;
+    justify-content: center;
+}
+
+/* block/Content.vue */
+.ctool-content {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.ctool-main-tool {
+    width: 100%;
+    height: 100%;
+}
+
+.ctool-row {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+}
+
+.ctool-row > * {
+    min-width: 0;
+}
+
+
+/* block/Search.vue */
+.ctool-search-block {
+    z-index: 99;
+    position: fixed;
+    top: 28px;
+    font-size: .875rem;
+    width: 165px;
+    display: flex;
+    flex-direction: column;
+    border: var(--border-width) solid var(--dropdown-border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--dropdown-background-color);
+    box-shadow: var(--card-box-shadow);
+    color: var(--dropdown-color);
+    white-space: nowrap;
+    font-style: normal;
+    margin-bottom: 0px;
+    padding: 5px 0 0;
+}
+
+.ctool-search-block li {
+    cursor: pointer;
+    list-style: none;
+    width: 100%;
+    color: var(--dropdown-color);
+    padding-left: 10px;
+    line-height: 1.9rem;
+    margin-bottom: 0;
+}
+
+.ctool-search-block li.ctool-search-active {
+    background-color: var(--dropdown-hover-background-color);
+}
+
+/* block/Setting.vue */
+.ctool-setting {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 12px 20px;
+    width: min(720px, 100%);
+}
+
+.ctool-setting > span {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--ctool-color-secondary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+/* components/Display.vue */
+.ctool-display {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.ctool-display .ctool-display-extra {
+    display: inline-flex;
+    align-items: center;
+}
+
+.ctool-display-toggle {
+    cursor: pointer !important;
+    height: 100%;
+    width: 24px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.ctool-display .ctool-display-extra-right .ctool-display-toggle {
+    justify-content: right;
+}
+
+.ctool-display .ctool-display-extra-left .ctool-display-toggle {
+    justify-content: left;
+}
+
+.ctool-display
+    :is(.ctool-display-extra-hide.ctool-display-extra-right, .ctool-display-extra-show.ctool-display-extra-left)
+    .ctool-display-toggle
+    .ctool-icon {
+    transform: rotate(180deg);
+}
+
+.ctool-display .ctool-display-extra-hide .ctool-display-toggle {
+    width: unset;
+    height: unset;
+}
+
+/* components/ExtendPage.vue */
+.ctool-extend-page {
+    position: fixed;
+    box-sizing: border-box;
+    padding: 5px;
+    top: 33px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 66px);
+    background-color: var(--background-color);
+    overflow-y: auto;
+}
+
+.ctool-extend-page-close {
+    --close-width: 80px;
+    position: fixed;
+    bottom: 3px;
+    width: var(--close-width);
+    left: calc(100vw / 2 - (var(--close-width) / 2));
+    display: inline-flex;
+}
+
+.ctool-extend-page-enter-active, .ctool-extend-page-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.ctool-extend-page-enter-from, .ctool-extend-page-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* components/HeightResize.vue */
+.ctool-height-resize {
+    width: 100%;
+}
+
+/* components/Message.vue */
+.ctool-message {
+    --position-top: 150px;
+    position: fixed;
+    top: var(--position-top);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+}
+
+.ctool-message-block {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: fit-content;
+    max-width: calc(100vw - 3rem);
+    font-size: .875rem;
+    line-height: 1rem;
+    color: var(--ctool-message-color);
+    background-color: var(--ctool-message-background-color);
+    border: 1px solid var(--ctool-message-border-color);
+    border-radius: var(--border-radius);
+    padding: .85rem 1.2rem;
+}
+
+.ctool-message-block .ctool-message-content {
+    max-height: calc(100vh - 6rem);
+    line-height: 24px;
+    overflow-y: auto;
+}
+
+.ctool-message pre, .ctool-message pre > code {
+    color: currentColor;
+    background-color: transparent;
+}
+
+.ctool-message-success {
+    --ctool-message-color: var(--ctool-primary);
+    --ctool-message-border-color: #e1f3d8;
+    --ctool-message-background-color: #edfcf7;
+}
+
+[data-theme="dark"] .ctool-message-success {
+    --ctool-message-border-color: #25371c;
+    --ctool-message-background-color: #002421;
+}
+
+.ctool-message-error {
+    --ctool-message-color: #f56c6c;
+    --ctool-message-border-color: #fde2e2;
+    --ctool-message-background-color: #fef0f0;
+}
+
+[data-theme="dark"] .ctool-message-error {
+    --ctool-message-border-color: #412626;
+    --ctool-message-background-color: #2b1d1d;
+}
+
+.ctool-message-info {
+    --ctool-message-color: #909399;
+    --ctool-message-border-color: #e9e9eb;
+    --ctool-message-background-color: #f4f4f5;
+}
+
+[data-theme="dark"] .ctool-message-info {
+    --ctool-message-color: #909399;
+    --ctool-message-border-color: #2d2d2f;
+    --ctool-message-background-color: #202121;
+}
+
+.ctool-message-enter-active, .ctool-message-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.ctool-message-enter-from, .ctool-message-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* components/Modal.vue */
+.ctool-modal {
+    --ctool-modal-margin: 1rem;
+}
+
+dialog.ctool-modal {
+    backdrop-filter: unset;
+    background-color: transparent;
+    -webkit-backdrop-filter: unset;
+}
+
+.ctool-modal article {
+    width: 400px;
+}
+
+.ctool-modal header {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .6rem 1rem;
+}
+
+.ctool-modal main {
+    margin: var(--ctool-modal-margin);
+}
+
+.ctool-modal footer {
+    padding: .6rem 1rem;
+}
+
+dialog.ctool-modal article {
+    overflow: unset;
+}
+
+.ctool-modal-enter-active, .ctool-modal-leave-active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.ctool-modal-enter-from, .ctool-modal-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* components/editor/Diff.vue */
+.ctool-code-diff {
+    border-color: var(--ctool-border-color);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--ctool-block-content-bg-color);
+}
+
+.ctool-code-diff-disable-border {
+    border: 0;
+}
+
+.ctool-code-diff .ctool-display-extra-bottom-right {
+    right: 12px;
+    bottom: 10px;
+    gap: 4px;
+    padding: 5px;
+    border: 1px solid color-mix(in srgb, var(--ctool-border-color) 78%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ctool-elevated-background) 90%, transparent);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
+    backdrop-filter: blur(20px) saturate(1.35);
+    -webkit-backdrop-filter: blur(20px) saturate(1.35);
+}
+
+.ctool-code-diff .ctool-diff-toolbar {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.ctool-diff-navigation {
+    display: inline-grid;
+    grid-template-columns: 28px 64px 28px;
+    align-items: center;
+    min-width: 120px;
+    height: 28px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--ctool-border-color) 72%, transparent);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--ctool-form-element-background-color) 88%, transparent);
+}
+
+.ctool-diff-navigation button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--ctool-color-secondary);
+    text-align: center;
+}
+
+.ctool-diff-navigation button:not(:disabled):hover {
+    color: var(--ctool-primary);
+    background: var(--ctool-hover-background);
+}
+
+.ctool-diff-navigation button:disabled {
+    opacity: .35;
+}
+
+.ctool-diff-navigation output {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-inline: 1px solid color-mix(in srgb, var(--ctool-border-color) 58%, transparent);
+    color: var(--ctool-color-secondary);
+    font-variant-numeric: tabular-nums;
+}
+
+/* components/editor/Editor.vue */
+.ctool-code-editor {
+    border-color: var(--ctool-border-color);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--ctool-block-content-bg-color);
+}
+
+.ctool-code-editor-disable-border.ctool-code-editor {
+    border: none;
+}
+
+/* components/serialize/SerializeOutput.vue */
+.ctool-serialize-output-disabled-border .ctool-code-editor .cm-editor {
+    border-width: 0px
+}
+
+/* components/ui/Bool.vue */
+.ctool-bool {
+    --height: 2;
+    --font-size: 0.875;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(1rem * var(--height));
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.ctool-bool[data-disabled="y"][data-border="y"] label {
+    color: unset;
+}
+
+.ctool-bool:hover, .ctool-bool[data-checked="y"] {
+    --color: var(--ctool-primary);
+}
+
+.ctool-bool input {
+    --border-width: 1px !important;
+    border-radius: 0;
+}
+
+.ctool-bool input:hover {
+    --border-color: var(--ctool-primary);
+}
+
+.ctool-bool[data-disabled="y"] input[type="checkbox"] {
+    --background-color: var(--form-element-disabled-background-color);
+}
+
+.ctool-bool label {
+    cursor: pointer;
+    font-size: calc(1rem * var(--font-size));
+    color: var(--color);
+
+}
+
+.ctool-bool[data-border="y"] {
+    border: 1px solid var(--ctool-border-color);
+    padding: 0 calc(.8rem * var(--font-size));
+    border-radius: var(--border-radius);
+    background-color: var(--ctool-background-color);
+}
+
+.ctool-bool[data-border="y"][data-checked="y"]:not([data-disabled="y"]), .ctool-bool[data-border="y"]:hover {
+    border: 1px solid var(--ctool-primary);
+}
+
+.ctool-bool[data-size="small"] {
+    --font-size: 0.75;
+    --height: 1.5;
+}
+
+.ctool-bool[data-size="large"] {
+    --font-size: 1;
+    --height: 2.5;
+}
+
+.ctool-bool input {
+    height: calc(1rem * var(--font-size));
+    width: calc(1rem * var(--font-size));
+}
+
+/* components/ui/Button.vue */
+.ctool-button {
+    display: inline-flex;
+    --height: var(--ctool-form-item-height);
+    width: auto;
+    height: var(--height);
+}
+
+.ctool-button button {
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 calc(var(--ctool-form-font-size) * 0.7);
+    font-size: var(--ctool-form-font-size);
+}
+.ctool-button button::before {
+    --spacing:1rem;
+}
+
+.ctool-button[data-type="general"] button {
+    --background-color: var(--ctool-form-element-background-color);
+    --border-color: var(--ctool-border-color);
+    --color: var(--color);
+}
+
+.ctool-button[data-type="general"] button:is([aria-current],:hover,:active,:focus) {
+    --border-color: var(--ctool-primary);
+    --color: var(--ctool-primary);
+}
+
+.ctool-button[data-type="dotted"] button {
+    --background-color: var(--ctool-form-element-background-color);
+    --border-color: var(--ctool-border-color);
+    --color: var(--color);
+    border-style: dashed;
+}
+.ctool-button[data-type="dotted"] button:is([aria-current],:hover,:active,:focus) {
+    --border-color: var(--ctool-primary);
+    --color: var(--ctool-primary);
+}
+
+.ctool-button[data-type="danger"] button {
+    --background-color: #ed4014;
+    --border-color: #ed4014;
+    --color: #fff;
+}
+
+.ctool-button[data-type="danger"] button:is([aria-current],:hover,:active,:focus) {
+    --background-color: #f89898;
+    --border-color: #f89898;
+    --color: #fff;
+}
+
+/* components/ui/Card.vue */
+.ctool-card {
+    width: 100%;
+    background-color: var(--ctool-block-content-bg-color);
+    border: 1px solid var(--ctool-border-color);
+    border-radius: 8px;
+    display: grid;
+    grid-template-rows: auto minmax(0px, 1fr);
+    height: auto;
+}
+
+.ctool-card-header {
+    padding: 0 8px 0 12px;
+    background-color: var(--ctool-block-title-bg-color);
+    border-bottom: 1px solid var(--ctool-border-color);
+    display: flex;
+    height: 2.35rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ctool-card-title, .ctool-card-extra {
+    font-size: .875rem;
+}
+
+.ctool-card-body {
+    overflow-y: auto;
+}
+
+/* components/ui/Color.vue */
+.ctool-color {
+    position: relative;
+    --height: var(--ctool-form-item-height);
+    --form-element-spacing-vertical: .3rem;
+    --form-element-spacing-horizontal: .3rem;
+    --ctool-color-left-padding: 0px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--ctool-form-font-size);
+}
+
+.ctool-color input[type="color"] {
+    width: calc(var(--ctool-color-left-padding) + var(--height));
+    height: calc(var(--height));
+    padding-left: calc(var(--ctool-color-left-padding) + var(--form-element-spacing-horizontal)) !important;
+    cursor: pointer;
+}
+
+
+.ctool-color-prepend {
+    border-right: var(--border-width) solid var(--form-element-border-color);
+    background-color: var(--ctool-block-title-bg-color);
+    color: var(--ctool-info-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 .4rem;
+    height: calc(var(--height) - var(--border-width) * 2) !important;
+}
+
+.ctool-color-left {
+    left: 2px;
+    position: absolute;
+    top: 1px;
+}
+
+/* components/ui/Icon.vue */
+.ctool-icon {
+    --font-size: 1rem;
+    fill: currentColor;
+    width: var(--font-size);
+    height: var(--font-size);
+    display: inline-flex;
+    overflow: visible;
+    box-sizing: content-box;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, -webkit-box-shadow, transform, -webkit-transform, filter, backdrop-filter;
+    transition-duration: .15s;
+}
+
+.ctool-icon-reverse {
+    color: var(--background-color)
+}
+
+.ctool-icon-hover {
+    cursor: pointer !important;
+}
+
+.ctool-icon-hover:hover,.ctool-icon-highlight {
+    color: var(--primary)
+}
+
+/* components/ui/Input.vue */
+.ctool-input {
+    --height: var(--ctool-form-item-height);
+    --ctool-input-left-padding: 0px;
+    --ctool-input-right-padding: 0px;
+    --ctool-input-prepend-padding: 0.4rem;
+    --ctool-input-append-padding: 0.4rem;
+    --form-element-spacing-vertical: 0.0625rem;
+    --form-element-spacing-horizontal: 0.4rem;
+    position: relative;
+    display: inline-flex;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: var(--ctool-form-font-size);
+}
+
+.ctool-input :is(.ctool-input-append, .ctool-input-prepend):has(.ctool-select, .ctool-button) {
+    --ctool-input-prepend-padding: 0;
+    --ctool-input-append-padding: 0;
+}
+
+.ctool-input[data-size="small"] {
+    --form-element-spacing-vertical: 0rem;
+}
+
+.ctool-input[data-size="large"] {
+    --form-element-spacing-vertical: 0.25rem;
+}
+
+.ctool-input > input {
+    font-size: var(--ctool-form-font-size);
+    box-sizing: border-box;
+    padding-left: calc(var(--ctool-input-left-padding) + var(--form-element-spacing-horizontal)) !important;
+    padding-right: calc(var(--ctool-input-right-padding) + var(--form-element-spacing-horizontal)) !important;
+    height: calc(var(--height)) !important;
+}
+
+.ctool-input-append,
+.ctool-input-suffix,
+.ctool-input-prepend,
+.ctool-input-prefix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--height) - var(--border-width) * 2) !important;
+}
+
+.ctool-input-append,
+.ctool-input-prepend {
+    background-color: var(--ctool-block-title-bg-color);
+    color: var(--ctool-info-color);
+}
+
+.ctool-input-prepend {
+    padding: 0 var(--ctool-input-prepend-padding);
+    border-right: var(--border-width) solid var(--form-element-border-color);
+}
+
+.ctool-input-append {
+    padding: 0 var(--ctool-input-append-padding);
+    border-left: var(--border-width) solid var(--form-element-border-color);
+}
+
+.ctool-input-prefix {
+    padding-right: 0;
+}
+
+.ctool-input-suffix {
+    padding-left: 0;
+}
+
+.ctool-input-suffix,
+.ctool-input-prefix {
+    color: var(--form-element-placeholder-color);
+    padding: 0 0.4rem;
+}
+
+.ctool-input-left,
+.ctool-input-right {
+    position: absolute;
+    top: 1px;
+}
+
+.ctool-input-left {
+    left: 2px;
+}
+
+.ctool-input-right {
+    right: 2px;
+}
+
+:is(.ctool-input-append, .ctool-input-prepend) :is(.ctool-select, .ctool-button) {
+    --height: calc(var(--ctool-form-item-height) - 2px);
+    --border-width: 0px;
+}
+
+/* components/ui/InputNumber.vue */
+.ctool-input input[type="number"] {
+    text-align: center;
+}
+
+/* components/ui/Link.vue */
+.ctool-link {
+    cursor: pointer;
+}
+
+.ctool-link[data-type="default"] {
+    --primary: var(--ctool-color-primary);
+}
+
+/* components/ui/Radio.vue */
+.ctool-radio {
+    display: inline-block;
+}
+
+.ctool-radio .ctool-button:not(:first-of-type,:last-of-type) button {
+    border-radius: 0;
+}
+
+.ctool-radio .ctool-button:not(:last-child) {
+    margin-right: -1px;
+}
+
+.ctool-radio .ctool-button button:is(:active,:focus,:hover) {
+    z-index: 1;
+}
+
+.ctool-radio .ctool-button:first-of-type button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ctool-radio .ctool-button:last-of-type button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* components/ui/Select.vue */
+.ctool-select {
+    --ctool-select-menu-width: 1px;
+    --form-element-spacing-vertical: 0.0625rem;
+    --form-element-spacing-horizontal: 0.4rem;
+    --text-align: unset;
+    --ctool-select-left-padding: 0px;
+    --ctool-select-menu-top: unset;
+    --ctool-select-menu-right: unset;
+    --ctool-select-menu-left: unset;
+    --ctool-select-menu-bottom: unset;
+
+    position: relative;
+    display: inline-flex;
+    --height: var(--ctool-form-item-height);
+    width: auto;
+    height: var(--height);
+    font-size: var(--ctool-form-font-size);
+}
+
+.ctool-select[data-disabled="y"] {
+    --border-color: var(--form-element-disabled-border-color);
+}
+
+.ctool-select details {
+    width: 100%;
+}
+
+.ctool-select details .ctool-select-summary[role="button"] {
+    height: 100%;
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    text-align: var(--text-align);
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: var(--ctool-form-font-size);
+    padding-left: calc(var(--ctool-select-left-padding) + var(--form-element-spacing-horizontal)) !important;
+    padding-right: var(--form-element-spacing-horizontal);
+}
+
+.ctool-select ul[role="listbox"] {
+    --ctool-form-font-size: 0.875rem;
+    --form-element-spacing-vertical: 0.8rem;
+    --form-element-spacing-horizontal: 0.9rem;
+    z-index: 10010;
+    box-sizing: border-box;
+    font-size: var(--ctool-form-font-size);
+    min-width: calc(var(--ctool-select-menu-width));
+    max-height: 12rem;
+    margin: 4px 0 0;
+    padding: 4px;
+    overflow-y: auto;
+    border: 1px solid var(--ctool-border-color);
+    border-radius: var(--ctool-radius-md);
+    background: var(--ctool-dropdown-background-color);
+    box-shadow: var(--ctool-shadow);
+    position: fixed;
+    top: var(--ctool-select-menu-top);
+    right: var(--ctool-select-menu-right);
+    left: var(--ctool-select-menu-left);
+    bottom: var(--ctool-select-menu-bottom);
+}
+
+.ctool-select ul[role="listbox"] li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ctool-select ul[role="listbox"].ctool-select-option-hidden {
+    right: -100000px;
+}
+
+.ctool-select details[role="list"] .ctool-select-summary + ul li a {
+    overflow: unset;
+    text-overflow: unset;
+    cursor: pointer;
+}
+
+.ctool-select[data-type="general"] details .ctool-select-summary {
+    --background-color: var(--ctool-background-color);
+    --border-color: var(--ctool-border-color);
+    --color: var(--ctool-color-primary);
+}
+
+.ctool-select[data-type="general"] details .ctool-select-summary:is([aria-current], :hover, :active, :focus) {
+    --border-color: var(--ctool-primary);
+    --color: var(--ctool-primary);
+}
+
+.ctool-select[data-type="general"] details .ctool-select-summary[role="button"]::after {
+    background-image: var(--icon-chevron);
+}
+
+.ctool-select details[role="list"] .ctool-select-summary::after {
+    margin-inline-start: 0.2rem;
+}
+
+.ctool-select .ctool-select-left {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+}
+
+.ctool-select .ctool-select-prepend {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.4rem;
+    height: calc(var(--height) - var(--border-width) * 2) !important;
+    background-color: var(--ctool-block-title-bg-color);
+    color: var(--ctool-info-color);
+    border-right: var(--border-width) solid var(--form-element-border-color);
+}
+
+.ctool-select details[role="list"][open] .ctool-select-summary::after {
+    transform: rotate(180deg);
+}
+
+/* components/ui/Table.vue */
+.ctool-table {
+    --ctool-table-border-width: 0;
+    height: auto;
+    width: 100%;
+    border: var(--ctool-table-border-width) solid var(--ctool-border-color);
+    overflow-y: auto;
+    --font-size:.875rem;
+}
+
+.ctool-table table {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.ctool-table th, .ctool-table td {
+    padding: .4rem .8rem;
+}
+
+.ctool-table th {
+    position: sticky;
+    top: 0;
+    background-color: var(--ctool-block-title-bg-color);
+}
+
+.ctool-table table[role=grid] tbody tr:hover {
+    background-color: var(--primary-focus);
+}
+
+.ctool-table table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* components/ui/Tabs.vue */
+.ctool-tabs {
+    background-color: var(--ctool-block-content-bg-color);
+    border: 1px solid var(--ctool-border-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto minmax(0px, 1fr);
+    height: auto;
+}
+
+.ctool-tabs-header {
+    background-color: var(--ctool-block-title-bg-color);
+    height: 2.2rem;
+    display: grid;
+    grid-template-columns: auto minmax(0px, 1fr);
+}
+
+.ctool-tabs-header-fill {
+    height: 100%;
+    border-bottom: 1px solid var(--ctool-border-color);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.ctool-tabs-header-item > span {
+    height: 100%;
+    display: inline-flex;
+    padding: 0 .9rem;
+    border-bottom: 1px solid var(--ctool-border-color);
+    font-size: .875rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--ctool-color-secondary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.ctool-tabs-header-item > span.ctool-tabs-current {
+    border-right: 1px solid var(--ctool-border-color);
+    border-left: 1px solid var(--ctool-border-color);
+    border-bottom: none;
+    color: var(--ctool-primary);
+}
+
+.ctool-tabs-header-item > span.ctool-tabs-current:first-child {
+    border-left: none;
+}
+
+.ctool-tabs-header-item > span:hover {
+    color: var(--ctool-primary);
+}
+
+.ctool-tabs-current-0 > *:not(:nth-child(1)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-1 > *:not(:nth-child(2)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-2 > *:not(:nth-child(3)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-3 > *:not(:nth-child(4)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-4 > *:not(:nth-child(5)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-5 > *:not(:nth-child(6)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-6 > *:not(:nth-child(7)) {
+    display: none !important;
+}
+
+.ctool-tabs-current-7 > *:not(:nth-child(8)) {
+    display: none !important;
+}
+
+/* components/ui/Textarea.vue */
+.ctool-textarea {
+    width: 100%;
+    height: 100%;
+    --form-element-spacing-vertical: 5px;
+    --form-element-spacing-horizontal: 10px;
+}
+
+.ctool-textarea textarea {
+    height: 100%;
+}
+
+/* components/ui/UploadFile.vue */
+.ctool-upload {
+    display: inline-flex;
+}
+
+/* tools/bcrypt/Bcrypt.vue */
+.select-box {
+    width: 100%; /* Ensure it uses full width of the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.select-box {
+    min-width: 0; /* Prevent overflow issues */
+    max-width: 120px; /* Adjust this value to control the size */
+}
+
+/* tools/color/Color.vue */
+.a-color-picker-dot {
+    z-index: unset;
+}
+
+/* tools/ipcalc/Item.vue */
+.ctool-ipcalc-item {
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px 16px;
+    font-size: .875rem;
+}
+.ctool-ipcalc-item:hover{
+    background-color: var(--primary-focus);
+}
+.ctool-ipcalc-item-title {
+    line-height: 14px;
+    font-size: .75rem;
+    color: var(--ctool-placeholder-text-color);
+}
+
+.ctool-ipcalc-item-value {
+    line-height: 18px;
+}
+
+/* tools/unit/Unit.vue */
+.ctool-unit-all {
+    display: grid;
+    grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
+    width: 100%;
+    font-size: .875rem;
+}
+
+.ctool-unit-all > div {
+    cursor: pointer;
+    padding: 7px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ctool-unit-all > div:hover {
+    background-color: var(--primary-focus);
+}
+
+.ctool-unit-all > div > span:last-child {
+    color: var(--ctool-placeholder-text-color);
+    font-size: .75rem;
+}
+
+.ctool-unit-simple-value {
+    font-size: 2rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: #ed4014;
+}
+
+.ctool-unit-simple-title {
+    font-size: 1.2rem;
+    color: var(--ctool-placeholder-text-color);
+}
+
+/* tools/websocket/Websocket.vue */
+.ctool-websocket-status.ctool-websocket-status-close {
+    background-color: var(--ctool-contrast);
+}
+
+.ctool-websocket-status.ctool-websocket-status-open {
+    background-color: var(--ctool-primary);
+}
+
+.ctool-websocket-status.ctool-websocket-status-connecting {
+    background-color: #ff9900;
+}
+
+.ctool-websocket-status {
+    border-radius: 50%;
+    height: 7px;
+    width: 7px;
+    display: inline-block
+}
+
+.ctool-websocket-logs-content {
+    padding: 5px 10px;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.ctool-websocket-logs-item {
+    width: 100%;
+}
+
+.ctool-websocket-logs-top {
+    display: flex;
+    padding: 0 5px;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.5rem;
+}
+
+.ctool-websocket-logs-time {
+    display: inline-flex;
+    font-size: .75rem;
+    color: #8d9095;
+}
+
+.ctool-websocket-logs-type {
+    display: inline-flex;
+    font-size: .75rem;
+    text-align: center;
+}
+
+.ctool-websocket-logs-type-accept {
+    color: var(--ctool-primary);
+}
+
+.ctool-websocket-logs-type-send {
+    color: var(--ctool-contrast);
+}
+
+/* Desktop workspace — macOS native direction */
+.ctool-layout-desktop {
+    grid-template-columns: 260px minmax(0, 1fr);
+    grid-template-rows: 62px minmax(0, 1fr);
+    grid-template-areas:
+        "sidebar toolbar"
+        "sidebar content";
+    background:
+        linear-gradient(180deg, color-mix(in srgb, var(--ctool-elevated-background) 26%, transparent), transparent 160px),
+        var(--ctool-background-color);
+    transition: grid-template-columns 180ms ease;
+}
+
+.ctool-layout-desktop:has(.ctool-sidebar-collapsed) {
+    grid-template-columns: 64px minmax(0, 1fr);
+}
+
+.ctool-layout-desktop > .ctool-content {
+    grid-area: content;
+    min-width: 0;
+    min-height: 0;
+    padding: 14px;
+    background: var(--ctool-background-color);
+}
+
+.ctool-layout-desktop > .ctool-bottom {
+    grid-area: status;
+}
+
+.ctool-sidebar {
+    grid-area: sidebar;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 12px 12px;
+    overflow: hidden;
+    color: var(--ctool-color-primary);
+    background: var(--ctool-sidebar-background);
+    border-right: 1px solid color-mix(in srgb, var(--ctool-border-color) 86%, transparent);
+    backdrop-filter: blur(24px) saturate(1.35);
+    -webkit-backdrop-filter: blur(24px) saturate(1.35);
+}
+
+.ctool-sidebar button,
+.ctool-workbench-toolbar button {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.ctool-sidebar button:focus-visible,
+.ctool-workbench-toolbar button:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+}
+
+.ctool-sidebar-brand {
+    height: 44px;
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) 30px;
+    gap: 10px;
+    align-items: center;
+}
+
+.ctool-sidebar-brand-mark {
+    width: 36px !important;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px !important;
+    background: transparent !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .2) !important;
+}
+
+.ctool-sidebar-brand-mark img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.ctool-sidebar-brand-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.ctool-sidebar-brand-copy strong {
+    font-size: 14px;
+    letter-spacing: 0;
+}
+
+.ctool-sidebar-brand-copy span {
+    margin-top: 3px;
+    color: var(--ctool-color-secondary);
+    font-size: 11px;
+}
+
+.ctool-sidebar-toggle {
+    width: 30px !important;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    padding: 0 !important;
+    border-radius: 7px !important;
+    color: var(--ctool-color-secondary) !important;
+}
+
+.ctool-sidebar-toggle:hover,
+.ctool-sidebar-footer button:hover {
+    background: var(--ctool-hover-background) !important;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-footer button {
+    width: 34px;
+}
+
+.ctool-sidebar-collapsed {
+    align-items: center;
+    padding-inline: 11px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-brand {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-toggle .ctool-icon {
+    transform: rotate(180deg);
+}
+
+.ctool-search {
+    position: relative;
+    width: 100%;
+}
+
+.ctool-search > .ctool-input,
+.ctool-search input {
+    width: 100% !important;
+}
+
+.ctool-search-block {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    width: 100%;
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 6px;
+    border: 1px solid var(--ctool-border-color);
+    border-radius: 12px;
+    background: var(--ctool-dropdown-background-color);
+    box-shadow: var(--ctool-shadow);
+    backdrop-filter: blur(24px);
+}
+
+.ctool-search-block li {
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 7px 9px;
+    line-height: 1.35rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ctool-sidebar-categories,
+.ctool-sidebar-tools,
+.ctool-sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ctool-sidebar-categories button,
+.ctool-sidebar-tools button,
+.ctool-sidebar-footer button {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: var(--ctool-color-secondary);
+    white-space: nowrap;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.ctool-sidebar-categories button > span:last-child,
+.ctool-sidebar-tools button > span:last-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ctool-sidebar-category-dot.is-monogram,
+.ctool-sidebar-tool-monogram {
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: transparent;
+    color: currentColor;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    opacity: 1;
+    box-shadow: none;
+}
+
+.ctool-sidebar-categories button.is-current .ctool-sidebar-category-dot.is-monogram,
+.ctool-sidebar-tools button.is-current .ctool-sidebar-tool-monogram {
+    color: var(--ctool-primary);
+    background: var(--ctool-selected-background);
+    box-shadow: none;
+}
+
+.ctool-sidebar-categories button:hover,
+.ctool-sidebar-tools button:hover {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-hover-background);
+}
+
+.ctool-sidebar-categories button.is-current {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-selected-background);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ctool-primary) 14%, transparent);
+    font-weight: 500;
+}
+
+.ctool-sidebar-tools button {
+    position: relative;
+    flex: 0 0 32px;
+}
+
+.ctool-sidebar-tools button .ctool-icon {
+    flex: 0 0 auto;
+    opacity: .72;
+}
+
+.ctool-sidebar-tools button.is-current {
+    color: var(--ctool-primary);
+    background: color-mix(in srgb, var(--ctool-primary) 12%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ctool-primary) 16%, transparent);
+    font-weight: 500;
+}
+
+.ctool-sidebar-tools button.is-current .ctool-icon {
+    opacity: 1;
+}
+
+.ctool-sidebar-category-dot {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .55;
+}
+
+.ctool-sidebar-categories button.is-current .ctool-sidebar-category-dot {
+    color: var(--ctool-primary);
+    opacity: 1;
+    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+}
+
+.ctool-sidebar-collapsed :is(.ctool-sidebar-categories, .ctool-sidebar-tools, .ctool-sidebar-footer) {
+    width: 100%;
+    align-items: center;
+}
+
+.ctool-sidebar-collapsed :is(.ctool-sidebar-categories, .ctool-sidebar-tools, .ctool-sidebar-footer) button {
+    width: 34px;
+    height: 34px;
+    justify-content: center;
+    padding: 0;
+}
+
+.ctool-sidebar-divider {
+    height: 1px;
+    flex: 0 0 1px;
+    margin: 0 8px;
+    background: color-mix(in srgb, var(--ctool-border-color) 80%, transparent);
+}
+
+.ctool-sidebar-tools {
+    flex: 1;
+    min-height: 0;
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-block: 2px 4px;
+    scroll-padding-block: 2px;
+    scrollbar-width: thin;
+}
+
+.ctool-sidebar-footer {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+    padding-top: 10px;
+    border-top: 1px solid color-mix(in srgb, var(--ctool-border-color) 80%, transparent);
+}
+
+.ctool-sidebar-footer button {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid transparent !important;
+    color: var(--ctool-color-secondary);
+    transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.ctool-sidebar-footer button .ctool-icon {
+    width: 17px;
+    height: 17px;
+}
+
+.ctool-sidebar-footer button:hover {
+    color: var(--ctool-color-primary) !important;
+    border-color: var(--ctool-border-color) !important;
+    transform: translateY(-1px);
+}
+
+.ctool-sidebar-footer button.is-active {
+    color: var(--ctool-primary);
+    border-color: color-mix(in srgb, var(--ctool-primary) 28%, transparent) !important;
+    background: color-mix(in srgb, var(--ctool-primary) 12%, transparent) !important;
+    box-shadow: 0 0 0 2px var(--ctool-primary-focus);
+}
+
+.ctool-sidebar-footer button > span {
+    display: none;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-footer {
+    grid-template-columns: 1fr;
+}
+
+.ctool-sidebar-history-active::after {
+    position: absolute;
+    top: 5px;
+    left: 24px;
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background: var(--ctool-primary);
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-history-active::after {
+    top: 4px;
+    left: 25px;
+}
+
+.ctool-workbench-toolbar {
+    grid-area: toolbar;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 9px 16px 9px 20px;
+    border-bottom: 1px solid color-mix(in srgb, var(--ctool-border-color) 86%, transparent);
+    background: var(--ctool-toolbar-background);
+    backdrop-filter: blur(24px) saturate(1.35);
+    -webkit-backdrop-filter: blur(24px) saturate(1.35);
+}
+
+.ctool-workbench-title {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.ctool-workbench-title strong {
+    overflow: hidden;
+    font-size: 17px;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ctool-workbench-eyebrow {
+    margin-bottom: 3px;
+    color: var(--ctool-color-secondary);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.ctool-feature-tabs {
+    min-width: 0;
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    overflow-x: auto;
+    border: 1px solid var(--ctool-border-color);
+    border-radius: 10px;
+    background: var(--ctool-hover-background);
+}
+
+.ctool-feature-tabs button {
+    flex: 0 0 auto;
+    min-height: 26px;
+    padding: 4px 10px;
+    border-radius: 7px;
+    color: var(--ctool-color-secondary);
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ctool-feature-tabs button:hover {
+    color: var(--ctool-color-primary);
+}
+
+.ctool-feature-tabs button.is-current {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-elevated-background);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .14);
+}
+
+.ctool-layout-desktop .ctool-main-tool {
+    box-sizing: border-box;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--ctool-border-color) 88%, transparent);
+    border-radius: 12px;
+    background: var(--ctool-block-content-bg-color);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .12), inset 0 1px 0 rgba(255, 255, 255, .035);
+}
+
+.ctool-layout-desktop .ctool-main-tool > .ctool-height-resize > .ctool-code-diff {
+    border: 0;
+    border-radius: 12px;
+}
+
+.ctool-layout-desktop .ctool-code-editor,
+.ctool-layout-desktop .ctool-code-diff {
+    border-color: var(--ctool-border-color);
+    border-radius: 10px;
+}
+
+.ctool-layout-desktop :is(input, select, textarea) {
+    border-radius: 8px;
+}
+
+.ctool-layout-desktop button {
+    border-radius: 7px;
+}
+
+.ctool-layout-desktop > .ctool-bottom {
+    display: none;
+}
+
+.ctool-tools-catalog {
+    display: grid !important;
+    align-content: start;
+    gap: 10px !important;
+}
+
+.ctool-tools-catalog .ctool-card {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+@media (min-width: 1200px) {
+    .ctool-tools-catalog {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ctool-tools-catalog > .ctool-card:nth-child(-n + 2) {
+        grid-column: 1 / -1;
+    }
+}
+
+/* 2026 desktop workbench quality pass */
+body:has(.ctool-layout-desktop) {
+    --ctool-sidebar-width: 264px;
+    --ctool-toolbar-height: 72px;
+}
+
+body:has(.ctool-layout-desktop .ctool-sidebar-collapsed) {
+    --ctool-sidebar-width: 72px;
+}
+
+.ctool-skip-link {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    z-index: 10020;
+    padding: 8px 12px;
+    border-radius: var(--ctool-radius-sm);
+    color: #fff;
+    background: var(--ctool-primary);
+    box-shadow: var(--ctool-shadow);
+    transform: translate(-50%, -160%);
+    transition: transform 160ms ease;
+}
+
+.ctool-skip-link:focus-visible {
+    transform: translate(-50%, 0);
+}
+
+.ctool-layout-desktop {
+    grid-template-columns: var(--ctool-sidebar-width) minmax(0, 1fr);
+    grid-template-rows: 72px minmax(0, 1fr);
+    background:
+        radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--ctool-primary) 5%, transparent), transparent 32%),
+        var(--ctool-background-color);
+    transition: grid-template-columns 180ms ease;
+}
+
+.ctool-layout-desktop:has(.ctool-sidebar-collapsed) {
+    grid-template-columns: var(--ctool-sidebar-width) minmax(0, 1fr);
+}
+
+.ctool-layout-desktop > .ctool-content {
+    padding: 18px 20px 20px;
+    outline: 0;
+}
+
+.ctool-layout-desktop .ctool-main-tool {
+    padding: 10px;
+    border-color: color-mix(in srgb, var(--ctool-border-color) 88%, transparent);
+    border-radius: var(--ctool-radius-lg);
+    background: var(--ctool-block-content-bg-color);
+    box-shadow: var(--ctool-panel-shadow);
+}
+
+.ctool-sidebar {
+    gap: 14px;
+    padding: 18px 14px 12px;
+    background: var(--ctool-sidebar-background);
+    border-right-color: color-mix(in srgb, var(--ctool-border-color) 82%, transparent);
+    box-shadow: inset -1px 0 rgba(255, 255, 255, .02);
+}
+
+.ctool-sidebar button,
+.ctool-workbench-toolbar button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ctool-sidebar button:focus,
+.ctool-workbench-toolbar button:focus {
+    box-shadow: none;
+}
+
+.ctool-sidebar button:focus-visible,
+.ctool-workbench-toolbar button:focus-visible,
+.ctool-display-toggle:focus-visible,
+.ctool-diff-navigation button:focus-visible {
+    outline: 2px solid var(--ctool-primary);
+    outline-offset: 2px;
+}
+
+.ctool-sidebar-brand {
+    height: 42px;
+    grid-template-columns: 38px minmax(0, 1fr) 30px;
+    gap: 10px;
+}
+
+.ctool-sidebar-brand-mark {
+    width: 38px !important;
+    height: 38px;
+    border-radius: 11px !important;
+    box-shadow: 0 5px 16px color-mix(in srgb, var(--ctool-primary) 24%, transparent) !important;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.ctool-sidebar-brand-mark:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 20px color-mix(in srgb, var(--ctool-primary) 30%, transparent) !important;
+}
+
+.ctool-sidebar-brand-copy strong {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.ctool-sidebar-brand-copy span {
+    margin-top: 4px;
+    font-size: 11px;
+    letter-spacing: .015em;
+}
+
+.ctool-sidebar-toggle {
+    width: 30px !important;
+    height: 30px;
+    font-size: 18px !important;
+    transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+.ctool-sidebar-toggle:hover {
+    color: var(--ctool-color-primary) !important;
+    transform: translateX(-1px);
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-toggle:hover {
+    transform: translateX(1px);
+}
+
+.ctool-search input {
+    height: 34px !important;
+    padding-inline: 11px 34px !important;
+    border-color: color-mix(in srgb, var(--ctool-border-color) 86%, transparent);
+    border-radius: var(--ctool-radius-md) !important;
+    background: color-mix(in srgb, var(--ctool-form-element-background-color) 88%, transparent);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .02);
+    transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.ctool-search input:focus {
+    border-color: color-mix(in srgb, var(--ctool-primary) 68%, var(--ctool-border-color));
+    background: var(--ctool-form-element-active-background-color);
+    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+}
+
+.ctool-search-block {
+    top: 40px;
+    padding: 6px;
+    border-radius: var(--ctool-radius-md);
+}
+
+.ctool-search-block li {
+    padding: 0;
+}
+
+.ctool-search-block li > button {
+    appearance: none;
+    display: block;
+    width: 100%;
+    min-height: 34px;
+    margin: 0;
+    padding: 7px 9px;
+    border: 0;
+    border-radius: var(--ctool-radius-sm);
+    color: var(--ctool-color-secondary);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+}
+
+.ctool-search-block li > button:hover,
+.ctool-search-block li.ctool-search-active > button {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-dropdown-hover-background-color);
+}
+
+.ctool-sidebar-categories,
+.ctool-sidebar-tools {
+    gap: 4px;
+}
+
+.ctool-sidebar-categories button,
+.ctool-sidebar-tools button {
+    min-height: 36px;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: var(--ctool-radius-sm);
+    font-size: 13px;
+    transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+.ctool-sidebar-categories button:hover,
+.ctool-sidebar-tools button:hover {
+    transform: translateX(1px);
+}
+
+.ctool-sidebar-categories button.is-current {
+    color: var(--ctool-color-primary);
+    background: color-mix(in srgb, var(--ctool-selected-background) 74%, transparent);
+    font-weight: 600;
+}
+
+.ctool-sidebar-category-dot {
+    width: 7px;
+    height: 7px;
+    flex-basis: 7px;
+    opacity: .42;
+}
+
+.ctool-sidebar-categories button.is-current .ctool-sidebar-category-dot {
+    box-shadow: 0 0 0 4px var(--ctool-primary-focus);
+}
+
+.ctool-sidebar-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 18px;
+    padding: 0 10px;
+    color: var(--ctool-color-secondary);
+    font-size: 10px;
+    font-weight: 650;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.ctool-sidebar-section-heading span:last-child {
+    min-width: 20px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--ctool-hover-background);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-section-heading {
+    width: 28px;
+    height: 1px;
+    min-height: 1px;
+    padding: 0;
+    overflow: hidden;
+    background: var(--ctool-border-color);
+}
+
+.ctool-sidebar-tools button {
+    flex-basis: 36px;
+}
+
+.ctool-sidebar-tool-indicator {
+    width: 3px;
+    height: 14px;
+    flex: 0 0 3px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: .26;
+    transform: scaleY(.5);
+    transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.ctool-sidebar-tools button.is-current {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-selected-background);
+    font-weight: 600;
+}
+
+.ctool-sidebar-tools button.is-current .ctool-sidebar-tool-indicator {
+    color: var(--ctool-primary);
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.ctool-sidebar-footer {
+    gap: 5px;
+    padding-top: 10px;
+}
+
+.ctool-sidebar-footer button {
+    height: 38px;
+    border-radius: var(--ctool-radius-sm);
+}
+
+.ctool-sidebar-footer button:hover {
+    transform: translateY(-1px);
+}
+
+.ctool-sidebar-collapsed {
+    padding-inline: 12px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-brand {
+    gap: 10px;
+}
+
+.ctool-sidebar-collapsed :is(.ctool-sidebar-categories, .ctool-sidebar-tools, .ctool-sidebar-footer) button {
+    width: 38px;
+    height: 38px;
+}
+
+.ctool-sidebar-collapsed :is(.ctool-sidebar-category-dot.is-monogram, .ctool-sidebar-tool-monogram) {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-tools button {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-categories {
+    gap: 2px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-categories button {
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-footer {
+    gap: 3px;
+    padding-top: 8px;
+}
+
+.ctool-sidebar-collapsed .ctool-sidebar-footer button {
+    width: 34px;
+    height: 34px;
+    min-height: 34px;
+}
+
+.ctool-workbench-toolbar {
+    gap: 24px;
+    padding: 11px 20px 10px;
+    background: var(--ctool-toolbar-background);
+    border-bottom-color: color-mix(in srgb, var(--ctool-border-color) 82%, transparent);
+}
+
+.ctool-workbench-title {
+    line-height: 1.12;
+}
+
+.ctool-workbench-title h1 {
+    max-width: min(40vw, 520px);
+    margin: 0;
+    overflow: hidden;
+    color: var(--ctool-color-primary);
+    font-size: 20px;
+    font-weight: 720;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    text-wrap: balance;
+    white-space: nowrap;
+}
+
+.ctool-workbench-eyebrow {
+    margin-bottom: 5px;
+    color: var(--ctool-primary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .09em;
+}
+
+.ctool-feature-tabs {
+    gap: 3px;
+    padding: 4px;
+    border-radius: var(--ctool-radius-md);
+    background: color-mix(in srgb, var(--ctool-hover-background) 88%, transparent);
+}
+
+.ctool-feature-tabs button {
+    min-height: 30px;
+    padding: 5px 12px;
+    border-radius: var(--ctool-radius-sm);
+    font-size: 12px;
+}
+
+.ctool-feature-tabs button.is-current {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-elevated-background);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 4px 12px rgba(0, 0, 0, .05);
+}
+
+.ctool-layout-desktop .ctool-code-editor,
+.ctool-layout-desktop .ctool-code-diff {
+    border-color: var(--ctool-border-color);
+    border-radius: var(--ctool-radius-md);
+    background: var(--ctool-block-content-bg-color);
+}
+
+.ctool-layout-desktop .ctool-main-tool > .ctool-height-resize > .ctool-code-diff {
+    border: 1px solid var(--ctool-border-color);
+    border-radius: var(--ctool-radius-md);
+}
+
+.ctool-layout-desktop :is(input, select, textarea) {
+    border-radius: var(--ctool-radius-sm);
+}
+
+.ctool-layout-desktop :is(input, textarea, summary[role="button"]):focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+}
+
+.ctool-code-diff .ctool-display-extra-bottom-right {
+    padding: 5px;
+    border-color: color-mix(in srgb, var(--ctool-border-color) 92%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ctool-elevated-background) 94%, transparent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .16);
+}
+
+.ctool-display-toggle {
+    width: 26px;
+    min-width: 26px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--ctool-radius-sm);
+    color: var(--ctool-color-secondary);
+    background: transparent;
+}
+
+.ctool-display-toggle:hover {
+    color: var(--ctool-color-primary);
+    background: var(--ctool-hover-background);
+}
+
+.ctool-diff-navigation {
+    display: inline-grid;
+    grid-template-columns: 28px auto 28px;
+    align-items: center;
+    height: 28px;
+    overflow: hidden;
+    border: 1px solid var(--ctool-border-color);
+    border-radius: var(--ctool-radius-sm);
+    background: var(--ctool-block-content-bg-color);
+}
+
+.ctool-diff-navigation button {
+    width: 28px;
+    height: 28px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--ctool-color-secondary);
+    background: transparent;
+    box-shadow: none;
+    font-size: 18px;
+}
+
+.ctool-diff-navigation button:hover:not(:disabled) {
+    color: var(--ctool-primary);
+    background: var(--ctool-hover-background);
+}
+
+.ctool-diff-navigation button:disabled {
+    opacity: .38;
+}
+
+.ctool-diff-navigation output {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 58px;
+    height: 100%;
+    padding-inline: 7px;
+    border-inline: 1px solid var(--ctool-border-color);
+    color: var(--ctool-color-secondary);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+.ctool-diff-navigation output strong {
+    color: var(--ctool-color-primary);
+    font-weight: 650;
+}
+
+.ctool-bool[data-border="y"] {
+    border-color: var(--ctool-border-color);
+    border-radius: var(--ctool-radius-sm);
+    background: var(--ctool-block-content-bg-color);
+}
+
+.ctool-bool[data-border="y"]:has(input:focus-visible) {
+    border-color: var(--ctool-primary);
+    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+}
+
+.ctool-bool label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ctool-select details .ctool-select-summary[role="button"] {
+    border-radius: var(--ctool-radius-sm);
+}
+
+.ctool-select ul[role="listbox"] li > button {
+    appearance: none;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: var(--ctool-radius-sm);
+    color: var(--ctool-color-primary);
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.ctool-select ul[role="listbox"] li > button:hover,
+.ctool-select ul[role="listbox"] li > button[aria-selected="true"] {
+    color: var(--ctool-primary);
+    background: var(--ctool-dropdown-hover-background-color);
+}
+
+.ctool-card {
+    border-radius: var(--ctool-radius-md);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .03);
+}
+
+.ctool-card-header {
+    min-height: 40px;
+    height: auto;
+    padding-inline: 12px 8px;
+}
+
+.ctool-card-title {
+    font-weight: 650;
+}
+
+.ctool-textarea textarea {
+    padding: 10px 12px;
+    border-color: var(--ctool-border-color);
+    background: var(--ctool-form-element-background-color);
+    line-height: 1.55;
+    transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.ctool-textarea textarea:focus {
+    border-color: color-mix(in srgb, var(--ctool-primary) 68%, var(--ctool-border-color));
+    background: var(--ctool-form-element-active-background-color);
+    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+}
+
+.ctool-hash-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 10fr) minmax(0, 14fr);
+    gap: 10px;
+}
+
+.ctool-message {
+    top: 20px;
+}
+
+.ctool-message-content {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    max-width: min(520px, calc(100vw - 32px));
+    padding: 10px 14px;
+    border: 1px solid var(--ctool-border-color);
+    border-radius: var(--ctool-radius-md);
+    color: var(--ctool-color-primary);
+    background: var(--ctool-elevated-background);
+    box-shadow: var(--ctool-shadow);
+}
+
+body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
+    top: var(--ctool-toolbar-height) !important;
+    left: var(--ctool-sidebar-width);
+    z-index: 90;
+    width: calc(100vw - var(--ctool-sidebar-width));
+    height: calc(100vh - var(--ctool-toolbar-height)) !important;
+    padding: 54px 20px 20px;
+    background: var(--ctool-background-color);
+}
+
+body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close {
+    top: calc(var(--ctool-toolbar-height) + 12px);
+    right: 20px;
+    bottom: auto;
+    left: auto;
+    z-index: 91;
+    width: auto;
+}
+
+@media (max-width: 1100px) {
+    body:has(.ctool-layout-desktop) {
+        --ctool-sidebar-width: 224px;
+    }
+
+    body:has(.ctool-layout-desktop .ctool-sidebar-collapsed) {
+        --ctool-sidebar-width: 72px;
+    }
+
+    .ctool-layout-desktop > .ctool-content {
+        padding: 12px;
+    }
+
+    .ctool-workbench-toolbar {
+        padding-inline: 14px;
+    }
+
+    .ctool-main-tool {
+        padding: 8px;
+    }
+
+    .ctool-hash-workspace {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    body:has(.ctool-layout-desktop) {
+        --ctool-sidebar-width: 190px;
+    }
+
+    body:has(.ctool-layout-desktop .ctool-sidebar-collapsed) {
+        --ctool-sidebar-width: 72px;
+    }
+
+    .ctool-workbench-toolbar {
+        gap: 10px;
+    }
+
+    .ctool-workbench-title h1 {
+        max-width: 34vw;
+        font-size: 17px;
+    }
+
+    .ctool-feature-tabs button {
+        padding-inline: 9px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctool-layout-desktop,
+    .ctool-skip-link,
+    .ctool-sidebar button,
+    .ctool-sidebar-brand-mark,
+    .ctool-sidebar-toggle,
+    .ctool-sidebar-tool-indicator,
+    .ctool-search input,
+    .ctool-textarea textarea {
+        transition-duration: .01ms !important;
+    }
+}

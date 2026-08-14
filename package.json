@@ -1,0 +1,23 @@
+{
+    "name": "lumiatool",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "packageManager": "pnpm@10.23.0",
+    "engines": {
+        "node": ">=22"
+    },
+    "description": "基于 React 与 Tauri 的跨平台桌面开发工具箱",
+    "homepage": "https://github.com/Lumiaqian/LumiaTool",
+    "repository": "https://github.com/Lumiaqian/LumiaTool",
+    "author": "baiy and contributors",
+    "license": "MIT",
+    "scripts": {
+        "initialize": "pnpm --filter ctool-config run build",
+        "check": "pnpm run initialize && pnpm --filter ctool-desktop run check",
+        "dev": "pnpm run initialize && pnpm --filter ctool-desktop run dev",
+        "build": "pnpm run initialize && pnpm --filter ctool-desktop run build",
+        "release": "node scripts/release.mjs init && pnpm run build && node scripts/release.mjs collect",
+        "clean": "node scripts/clean.mjs"
+    }
+}

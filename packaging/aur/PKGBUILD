@@ -1,0 +1,20 @@
+# Maintainer: lumiaqian
+pkgname=lumiatool-bin
+pkgver=0.0.1
+pkgrel=1
+pkgdesc='基于 React 与 Tauri 的跨平台桌面开发工具箱'
+arch=('x86_64')
+url="https://github.com/Lumiaqian/LumiaTool"
+license=('MIT')
+makedepends=('jq')
+depends=('webkit2gtk-4.1'
+	 'gtk3')
+source=("${url}/releases/latest/download/lumiatool_linux.deb")
+sha256sums=('SKIP')
+pkgver() {
+	curl --silent "https://api.github.com/repos/Lumiaqian/LumiaTool/releases/latest" | jq --raw-output '.tag_name | ltrimstr("v")'
+}
+package() {
+	cd "${pkgdir}"
+	tar -xpf "${srcdir}/data.tar.gz"
+}

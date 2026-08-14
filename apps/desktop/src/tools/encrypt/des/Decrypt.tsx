@@ -1,0 +1,55 @@
+import { useEffect, useMemo } from "react";
+import { Align, Bool, HeightResize, HelpTip, Input, Select, Tabs, TextInput, TextOutput, Tooltip } from "@/components";
+import { createTextInput, createTextOutput } from "@/components/text";
+import Text from "@/lib/text";
+import { initialize, useAction } from "@/store/action";
+import { des, modeLists, paddingLists, tripleDES } from "../cryptoJS";
+import type { Option } from "../cryptoJS";
+
+const option: Omit<Option, "key_size"> = {
+    iv: "",
+    type: "advanced",
+    key: "",
+    fill: true,
+    mode: "CBC",
+    padding: "Pkcs7",
+};
+
+const initial = await initialize({ input: createTextInput("base64"), option, output: createTextOutput("text") });
+
+type DecryptProps = { type?: string };
+
+function Decrypt({ type = "des" }: DecryptProps) {
+    const action = useAction(initial);
+    const { input, option: currentOption } = action.current;
+    const output = useMemo(() => {
+        if (input.text.isEmpty() || currentOption.key === "" || (currentOption.type === "advanced" && currentOption.mode !== "ECB" && currentOption.iv === "")) return Text.empty();
+        if (input.text.isError()) return input.text;
+        try {
+            return Text.fromBase64((type === "des" ? des : tripleDES).decrypt(input.text.toBase64(), currentOption));
+        } catch (caught) {
+            return Text.fromError($error(caught));
+        }
+    }, [input.text, currentOption.fill, currentOption.iv, currentOption.key, currentOption.mode, currentOption.padding, currentOption.type, type]);
+    useEffect(() => { if (!output.isEmpty()) action.save(); }, [action, output]);
+
+    return (
+        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
+            {({ small, large }) => <Align direction="vertical">
+                <TextInput value={input} onChange={(value) => { action.current.input = value; }} allow={["base64", "hex"]} height={small} />
+                <Tabs value={currentOption.type} onChange={(value) => { action.current.option.type = value; }} className="ctool-page-option" lists={[{ name: "advanced", label: $t("main_ui_advanced") }, { name: "simple", label: $t("main_ui_simple") }]} extra={<HelpTip link="https://github.com/brix/crypto-js" />}>
+                    <Align>
+                        <Select value={currentOption.mode} onChange={(value) => { action.current.option.mode = value; }} options={modeLists} />
+                        <Select value={currentOption.padding} onChange={(value) => { action.current.option.padding = value; }} options={paddingLists} />
+                        <Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} width={200} label="key" />
+                        <Input value={currentOption.iv} onChange={(value) => { action.current.option.iv = value; }} width={220} label="iv" disabled={currentOption.mode === "ECB"} append={<Tooltip content={$t("aes_iv_auto_fill")}><Bool value={currentOption.fill} onChange={(value) => { action.current.option.fill = value; }} disabled={currentOption.mode === "ECB"} /></Tooltip>} />
+                    </Align>
+                    <Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} label="key" />
+                </Tabs>
+                <TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["text"]} content={output} height={large} encoding />
+            </Align>}
+        </HeightResize>
+    );
+}
+
+export default Decrypt;
