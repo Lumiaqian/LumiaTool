@@ -17,7 +17,7 @@
     "dependencies": {
         "json5": "^2.2.3",
         "lodash": "catalog:",
-        "pinyin-pro": "^3.13.0",
+        "pinyin-pro": "^3.29.1",
         "svg-path-bounds": "^1.0.2"
     },
     "devDependencies": {

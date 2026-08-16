@@ -3,11 +3,11 @@ packages:
     - 'packages/*'
 
 catalog:
-    '@types/lodash': ^4.17.7
+    '@types/lodash': ^4.17.25
     '@types/node': ^22.0.0
-    lodash: ^4.17.21
+    lodash: ^4.18.1
     typescript: ^5.9.3
     vite: ^5.4.3
-    tsup: ^8.2.4
+    tsup: ^8.5.1
     axios: ^1.7.0
-    dayjs: ^1.11.12
+    dayjs: ^1.11.21
