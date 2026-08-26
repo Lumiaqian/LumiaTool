@@ -1,0 +1,655 @@
+{
+  "namespace": "LumiaDesignSystem_f7d94a",
+  "components": [
+    {
+      "name": "Button",
+      "sourcePath": "components/Button/Button.jsx",
+      "props": [
+        {
+          "name": "variant",
+          "values": [
+            "primary",
+            "secondary",
+            "danger"
+          ]
+        },
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode"
+        },
+        {
+          "name": "onClick",
+          "type": "() => void"
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Panel",
+      "sourcePath": "components/Panel/Panel.jsx",
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "surface",
+          "values": [
+            "paper",
+            "editor"
+          ]
+        },
+        {
+          "name": "actions",
+          "type": "React.ReactNode"
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode"
+        }
+      ]
+    },
+    {
+      "name": "ResultRow",
+      "sourcePath": "components/ResultRow/ResultRow.jsx",
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "state",
+          "values": [
+            "default",
+            "error"
+          ]
+        },
+        {
+          "name": "action",
+          "type": "React.ReactNode"
+        }
+      ]
+    }
+  ],
+  "startingPoints": [
+    {
+      "name": "editor",
+      "path": "ui_kits/lumiatool/editor/index.html",
+      "previewPath": "ui_kits/lumiatool/editor/index.html",
+      "kind": "screen",
+      "section": "Tool pages",
+      "subtitle": "Command bar above one dominant editor or diff surface",
+      "viewport": "1200x720"
+    },
+    {
+      "name": "generator",
+      "path": "ui_kits/lumiatool/generator/index.html",
+      "previewPath": "ui_kits/lumiatool/generator/index.html",
+      "kind": "screen",
+      "section": "Tool pages",
+      "subtitle": "Bounded options beside a dominant preview or result",
+      "viewport": "1200x720"
+    },
+    {
+      "name": "inspector",
+      "path": "ui_kits/lumiatool/inspector/index.html",
+      "previewPath": "ui_kits/lumiatool/inspector/index.html",
+      "kind": "screen",
+      "section": "Tool pages",
+      "subtitle": "Raw source beside structured interpretation",
+      "viewport": "1200x720"
+    },
+    {
+      "name": "tester",
+      "path": "ui_kits/lumiatool/tester/index.html",
+      "previewPath": "ui_kits/lumiatool/tester/index.html",
+      "kind": "screen",
+      "section": "Tool pages",
+      "subtitle": "Configuration, action and a dominant workspace or log",
+      "viewport": "1200x720"
+    },
+    {
+      "name": "transformer",
+      "path": "ui_kits/lumiatool/transformer/index.html",
+      "previewPath": "ui_kits/lumiatool/transformer/index.html",
+      "kind": "screen",
+      "section": "Tool pages",
+      "subtitle": "Source and result panes with a fixed control rack",
+      "viewport": "1200x720"
+    }
+  ],
+  "cards": [
+    {
+      "path": "components/Button/card.html",
+      "group": "Components",
+      "viewport": "700x150",
+      "subtitle": "Primary, secondary, danger and disabled states",
+      "name": "Buttons"
+    },
+    {
+      "path": "components/Panel/card.html",
+      "group": "Components",
+      "viewport": "700x220",
+      "subtitle": "Editor input and paper result surfaces",
+      "name": "Panels"
+    },
+    {
+      "path": "components/ResultRow/card.html",
+      "group": "Components",
+      "viewport": "700x210",
+      "subtitle": "Empty, populated and error result states",
+      "name": "Result rows"
+    },
+    {
+      "path": "guidelines/colors.html",
+      "group": "Foundations",
+      "viewport": "700x240",
+      "subtitle": "Roles stay; values flip with theme",
+      "name": "Semantic colors"
+    },
+    {
+      "path": "guidelines/geometry.html",
+      "group": "Foundations",
+      "viewport": "700x190",
+      "subtitle": "4/8/12/16/24 spacing; 7px controls; 11px panels",
+      "name": "Spacing and geometry"
+    },
+    {
+      "path": "guidelines/theme-dark.html",
+      "group": "Foundations",
+      "viewport": "700x220",
+      "subtitle": "Chrome and workspace are both dark",
+      "name": "Dark theme"
+    },
+    {
+      "path": "guidelines/theme-light.html",
+      "group": "Foundations",
+      "viewport": "700x220",
+      "subtitle": "Chrome and workspace are both light",
+      "name": "Light theme"
+    },
+    {
+      "path": "guidelines/typography.html",
+      "group": "Foundations",
+      "viewport": "700x220",
+      "subtitle": "System UI, restrained display serif, complete monospace values",
+      "name": "Typography"
+    },
+    {
+      "path": "guidelines/avoid.html",
+      "group": "Patterns",
+      "viewport": "700x210",
+      "subtitle": "Patterns prohibited in LumiaTool production UI",
+      "name": "Do not"
+    },
+    {
+      "path": "guidelines/states.html",
+      "group": "Patterns",
+      "viewport": "700x220",
+      "subtitle": "Empty, success, disabled and error are explicit",
+      "name": "States"
+    }
+  ],
+  "globalCssPaths": [
+    "tokens/colors.css",
+    "tokens/typography.css",
+    "tokens/geometry.css",
+    "tokens/motion.css",
+    "components.css",
+    "styles.css"
+  ],
+  "tokens": [
+    {
+      "name": "--lumia-app-bg",
+      "value": "#e8e2d8",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-sidebar-bg",
+      "value": "#ddd5c9",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-raised-bg",
+      "value": "#f3eee6",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-overlay-bg",
+      "value": "#faf6ef",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-paper",
+      "value": "#f7f1e8",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-editor",
+      "value": "#f1ece3",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-controls",
+      "value": "#d5ddd0",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-text",
+      "value": "#362c24",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-muted",
+      "value": "#756759",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-primary",
+      "value": "#6f54d8",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-on-primary",
+      "value": "#f4ecff",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-selection",
+      "value": "#c47a38",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-on-selection",
+      "value": "#2b190b",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-control-selected",
+      "value": "#3d322b",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-success",
+      "value": "#3f6f4c",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-warning",
+      "value": "#b56d32",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-danger",
+      "value": "#c45a50",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-border",
+      "value": "rgba(54, 44, 36, .14)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-border-strong",
+      "value": "rgba(54, 44, 36, .22)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-focus",
+      "value": "#7c63e8",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-shadow-overlay",
+      "value": "0 18px 48px rgba(54, 44, 36, .18)",
+      "kind": "shadow",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-app-bg",
+      "value": "#171410",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-sidebar-bg",
+      "value": "#1e1a16",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-raised-bg",
+      "value": "#29241e",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-overlay-bg",
+      "value": "#302a23",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-paper",
+      "value": "#241f1a",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-editor",
+      "value": "#1c1915",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-controls",
+      "value": "#252922",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-text",
+      "value": "#f4ecdf",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-muted",
+      "value": "#b4a697",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-primary",
+      "value": "#a994ff",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-on-primary",
+      "value": "#1c142e",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-selection",
+      "value": "#efa968",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-on-selection",
+      "value": "#2b190b",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-control-selected",
+      "value": "#4a3d34",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-success",
+      "value": "#5e8f69",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-warning",
+      "value": "#cb874d",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-danger",
+      "value": "#d86b5f",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-border",
+      "value": "rgba(255, 242, 225, .1)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-border-strong",
+      "value": "rgba(255, 242, 225, .18)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-focus",
+      "value": "#b9a5ff",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-shadow-overlay",
+      "value": "0 18px 48px rgba(0, 0, 0, .36)",
+      "kind": "shadow",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--lumia-font-ui",
+      "value": "-apple-system, \"SF Pro Text\", \"PingFang SC\", \"Noto Sans SC\", sans-serif",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--lumia-font-display",
+      "value": "Georgia, \"Songti SC\", \"Noto Serif SC\", serif",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--lumia-font-mono",
+      "value": "ui-monospace, \"SFMono-Regular\", Menlo, Consolas, monospace",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--lumia-font-xs",
+      "value": "10px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lumia-font-sm",
+      "value": "11px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lumia-font-body",
+      "value": "13px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lumia-font-title",
+      "value": "15px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lumia-line-ui",
+      "value": "1.45",
+      "kind": "other",
+      "definedIn": "tokens/typography.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-line-cjk",
+      "value": "1.7",
+      "kind": "other",
+      "definedIn": "tokens/typography.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-line-code",
+      "value": "1.55",
+      "kind": "other",
+      "definedIn": "tokens/typography.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-space-1",
+      "value": "4px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-space-2",
+      "value": "8px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-space-3",
+      "value": "12px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-space-4",
+      "value": "16px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-space-5",
+      "value": "24px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-radius-control",
+      "value": "7px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-radius-panel",
+      "value": "11px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-control-height-compact",
+      "value": "26px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-control-height",
+      "value": "30px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-topbar-height",
+      "value": "52px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-toolbar-height",
+      "value": "50px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-status-height",
+      "value": "30px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-panel-header-height",
+      "value": "44px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-shelf-width",
+      "value": "224px",
+      "kind": "spacing",
+      "definedIn": "tokens/geometry.css"
+    },
+    {
+      "name": "--lumia-duration-fast",
+      "value": "120ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-duration-normal",
+      "value": "180ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-ease-standard",
+      "value": "cubic-bezier(.2, 0, 0, 1)",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-duration-fast",
+      "value": ".01ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--lumia-duration-normal",
+      "value": ".01ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    }
+  ],
+  "themes": [],
+  "fonts": [],
+  "brandFonts": [],
+  "source": "spa"
+}

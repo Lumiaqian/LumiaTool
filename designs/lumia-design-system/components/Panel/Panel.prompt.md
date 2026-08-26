@@ -1,0 +1,1 @@
+Use editor surface for source/input and paper surface for result/document content. Actions belong in the header. A panel must represent a meaningful task region, not merely decorate a section. Ordinary panels use borders, never shadows.

@@ -1,0 +1,48 @@
+:root,
+[data-theme="light"] {
+  --lumia-app-bg: #e8e2d8;
+  --lumia-sidebar-bg: #ddd5c9;
+  --lumia-raised-bg: #f3eee6;
+  --lumia-overlay-bg: #faf6ef;
+  --lumia-paper: #f7f1e8;
+  --lumia-editor: #f1ece3;
+  --lumia-controls: #d5ddd0;
+  --lumia-text: #362c24;
+  --lumia-muted: #756759;
+  --lumia-primary: #6f54d8;
+  --lumia-on-primary: #f4ecff;
+  --lumia-selection: #c47a38;
+  --lumia-on-selection: #2b190b;
+  --lumia-control-selected: #3d322b;
+  --lumia-success: #3f6f4c;
+  --lumia-warning: #b56d32;
+  --lumia-danger: #c45a50;
+  --lumia-border: rgba(54, 44, 36, .14);
+  --lumia-border-strong: rgba(54, 44, 36, .22);
+  --lumia-focus: #7c63e8;
+  --lumia-shadow-overlay: 0 18px 48px rgba(54, 44, 36, .18);
+}
+
+[data-theme="dark"] {
+  --lumia-app-bg: #171410;
+  --lumia-sidebar-bg: #1e1a16;
+  --lumia-raised-bg: #29241e;
+  --lumia-overlay-bg: #302a23;
+  --lumia-paper: #241f1a;
+  --lumia-editor: #1c1915;
+  --lumia-controls: #252922;
+  --lumia-text: #f4ecdf;
+  --lumia-muted: #b4a697;
+  --lumia-primary: #a994ff;
+  --lumia-on-primary: #1c142e;
+  --lumia-selection: #efa968;
+  --lumia-on-selection: #2b190b;
+  --lumia-control-selected: #4a3d34;
+  --lumia-success: #5e8f69;
+  --lumia-warning: #cb874d;
+  --lumia-danger: #d86b5f;
+  --lumia-border: rgba(255, 242, 225, .1);
+  --lumia-border-strong: rgba(255, 242, 225, .18);
+  --lumia-focus: #b9a5ff;
+  --lumia-shadow-overlay: 0 18px 48px rgba(0, 0, 0, .36);
+}

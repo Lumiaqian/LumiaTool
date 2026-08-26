@@ -1,0 +1,12 @@
+:root {
+  --lumia-duration-fast: 120ms; /* @kind other */
+  --lumia-duration-normal: 180ms; /* @kind other */
+  --lumia-ease-standard: cubic-bezier(.2, 0, 0, 1); /* @kind other */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --lumia-duration-fast: .01ms; /* @kind other */
+    --lumia-duration-normal: .01ms; /* @kind other */
+  }
+}

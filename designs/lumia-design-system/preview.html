@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lumia-design-system — Design system</title>
+<style>
+
+:root {
+  color-scheme: light;
+  --ds-bg: #FAF9F5;
+  --ds-surface: #FFFFFF;
+  --ds-text: rgba(15, 12, 8, 0.92);
+  --ds-text-2: rgba(15, 12, 8, 0.62);
+  --ds-text-3: rgba(15, 12, 8, 0.46);
+  --ds-border: rgba(15, 12, 8, 0.10);
+  --ds-border-soft: rgba(15, 12, 8, 0.07);
+  --ds-hover: rgba(15, 12, 8, 0.045);
+  --ds-active: rgba(15, 12, 8, 0.07);
+  --ds-accent: #D97757;
+  --ds-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ds-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  font-family: var(--ds-font);
+  background: var(--ds-bg);
+  color: var(--ds-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+.ds-pane { display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
+
+/* ------------------------------------------------- outline (left nav) */
+.ds-outline {
+  flex: 0 0 248px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--ds-border-soft);
+  background: var(--ds-bg);
+}
+@media (max-width: 1007px) { .ds-outline { display: none; } }
+.ds-outline-head { padding: 18px 16px 12px; }
+.ds-outline-head h1 { margin: 0; font-size: 18px; font-weight: 550; letter-spacing: -0.01em; color: var(--ds-text); }
+.ds-outline-scroll { flex: 1; overflow-y: auto; padding: 4px 8px 16px; scrollbar-width: thin; }
+.ds-pinned { margin: 0 0 4px; padding: 0 0 6px; border-bottom: 1px solid var(--ds-border-soft); }
+.ds-item {
+  display: flex; align-items: center; width: 100%;
+  text-align: left; padding: 5px 8px 5px 24px;
+  font-size: 12px; line-height: 1.35; color: var(--ds-text-2);
+  border-radius: 6px;
+}
+.ds-item:hover { background: var(--ds-hover); color: var(--ds-text); }
+.ds-item.active { font-weight: 550; color: var(--ds-text); background: var(--ds-active); }
+.ds-item .ds-ic { flex: 0 0 auto; width: 13px; height: 13px; margin-left: -19px; margin-right: 6px; opacity: 0.75; }
+.ds-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-group-btn {
+  display: flex; align-items: center; gap: 5px; width: 100%;
+  padding: 6px 8px; margin-top: 6px;
+  font-size: 12px; font-weight: 550; color: var(--ds-text-2);
+  border-radius: 6px;
+}
+.ds-group-btn:hover { background: var(--ds-hover); color: var(--ds-text); }
+.ds-group-btn .ds-caret { width: 9px; height: 9px; flex: 0 0 auto; transition: transform 0.15s ease; opacity: 0.7; }
+.ds-outline-group.collapsed .ds-caret { transform: rotate(-90deg); }
+.ds-outline-group.collapsed .ds-group-items { display: none; }
+.ds-group-btn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ------------------------------------------------------- content column */
+.ds-content { flex: 1 1 auto; min-width: 0; overflow-y: auto; overscroll-behavior: contain; }
+.ds-content-inner {
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 30px 16px 80px;
+  max-width: 760px; margin: 0 auto;
+}
+.ds-group-label { margin: 6px 0 14px; font-size: 13px; font-weight: 550; color: var(--ds-text); }
+.ds-card + .ds-card { margin-top: 26px; }
+.ds-card-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.ds-card-title { margin: 0; font-size: 13.5px; font-weight: 550; line-height: 1.3; color: var(--ds-text); }
+.ds-card-sub { margin: 2px 0 0; font-size: 12px; line-height: 1.45; color: var(--ds-text-3); }
+.ds-prevwrap {
+  position: relative; overflow: hidden;
+  border: 1px solid var(--ds-border-soft); border-radius: 8px;
+  background: #fff;
+}
+/* Outer-tree color-scheme on the shadow host beats the card's own
+   ':host { color-scheme: light dark }' (rewritten from ':root'), so
+   light-dark() tokens resolve LIGHT regardless of the viewer's OS theme —
+   the preview chrome is light-only. Cards opting into dark explicitly
+   (e.g. a '.spectrum-dark' subtree) still render dark. */
+.ds-stage { transform-origin: top left; visibility: hidden; color-scheme: light; }
+.ds-stage[data-ready] { visibility: visible; }
+
+/* ------------------------------------------------------------- readme */
+.ds-readme-body { position: relative; }
+.ds-readme-body.collapsed { max-height: 280px; overflow: hidden; }
+.ds-readme-body.collapsed::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 64px;
+  background: linear-gradient(to bottom, rgba(250, 249, 245, 0), var(--ds-bg));
+  pointer-events: none;
+}
+.ds-readme-toggle { margin-top: 8px; font-size: 12px; font-weight: 500; color: var(--ds-text-2); }
+.ds-readme-toggle:hover { color: var(--ds-text); }
+
+/* -------------------------------------------------------------- prose */
+.ds-prose { font-size: 13px; line-height: 1.6; color: var(--ds-text); }
+.ds-prose > :first-child { margin-top: 0; }
+.ds-prose h1 { font-size: 19px; font-weight: 600; margin: 22px 0 8px; letter-spacing: -0.01em; }
+.ds-prose h2 { font-size: 16px; font-weight: 600; margin: 20px 0 6px; }
+.ds-prose h3 { font-size: 13.5px; font-weight: 600; margin: 16px 0 4px; }
+.ds-prose h4, .ds-prose h5, .ds-prose h6 { font-size: 12.5px; font-weight: 600; margin: 14px 0 4px; }
+.ds-prose p { margin: 0 0 10px; }
+.ds-prose ul, .ds-prose ol { margin: 0 0 10px; padding-left: 22px; }
+.ds-prose li { margin: 2px 0; }
+.ds-prose code {
+  font-family: var(--ds-mono); font-size: 0.92em;
+  background: rgba(15, 12, 8, 0.055); border-radius: 4px; padding: 0.1em 0.35em;
+}
+.ds-prose pre {
+  background: rgba(15, 12, 8, 0.045); border: 1px solid var(--ds-border-soft);
+  border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0 0 12px;
+}
+.ds-prose pre code { background: none; padding: 0; font-size: 11.5px; line-height: 1.55; }
+.ds-prose blockquote {
+  margin: 0 0 10px; padding: 2px 0 2px 12px;
+  border-left: 3px solid rgba(15, 12, 8, 0.14); color: var(--ds-text-2);
+}
+.ds-prose hr { border: 0; border-top: 1px solid var(--ds-border-soft); margin: 16px 0; }
+.ds-prose table { border-collapse: collapse; margin: 0 0 12px; font-size: 12px; width: 100%; }
+.ds-prose th, .ds-prose td { border: 1px solid var(--ds-border); padding: 5px 9px; text-align: left; vertical-align: top; }
+.ds-prose th { background: rgba(15, 12, 8, 0.035); font-weight: 600; }
+.ds-prose img { max-width: 100%; border-radius: 6px; }
+.ds-prose a { color: inherit; text-decoration: underline; text-decoration-color: rgba(15, 12, 8, 0.3); }
+.ds-prose a:hover { text-decoration-color: currentColor; }
+
+.ds-empty { font-size: 13px; color: var(--ds-text-3); padding: 24px 0; }
+
+</style>
+
+</head>
+<body>
+<div class="ds-pane">
+<nav class="ds-outline" aria-label="Design system outline"><div class="ds-outline-head"><h1>Design system</h1></div><div class="ds-outline-scroll"><div class="ds-pinned"><button class="ds-item" data-target="ds-readme"><svg class="ds-ic" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 3.2c0-.66.54-1.2 1.2-1.2h8.6c.66 0 1.2.54 1.2 1.2v9.6c0 .66-.54 1.2-1.2 1.2H3.7a1.2 1.2 0 0 1-1.2-1.2V3.2Z" stroke="currentColor" stroke-width="1.2"/><path d="M5.4 2v12" stroke="currentColor" stroke-width="1.2"/></svg><span>Readme</span></button></div><div class="ds-outline-group"><button class="ds-group-btn" data-group-toggle><svg class="ds-caret" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 3.25 5 6.75l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Components</span></button><div class="ds-group-items"><button class="ds-item" data-target="g-components"><span>Buttons</span></button><button class="ds-item" data-target="card-1-panels"><span>Panels</span></button><button class="ds-item" data-target="card-2-result-rows"><span>Result rows</span></button></div></div><div class="ds-outline-group"><button class="ds-group-btn" data-group-toggle><svg class="ds-caret" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 3.25 5 6.75l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Foundations</span></button><div class="ds-group-items"><button class="ds-item" data-target="g-foundations"><span>Semantic colors</span></button><button class="ds-item" data-target="card-4-spacing-and-geometry"><span>Spacing and geometry</span></button><button class="ds-item" data-target="card-5-dark-theme"><span>Dark theme</span></button><button class="ds-item" data-target="card-6-light-theme"><span>Light theme</span></button><button class="ds-item" data-target="card-7-typography"><span>Typography</span></button></div></div><div class="ds-outline-group"><button class="ds-group-btn" data-group-toggle><svg class="ds-caret" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 3.25 5 6.75l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Patterns</span></button><div class="ds-group-items"><button class="ds-item" data-target="g-patterns"><span>Do not</span></button><button class="ds-item" data-target="card-9-states"><span>States</span></button></div></div><div class="ds-outline-group"><button class="ds-group-btn" data-group-toggle><svg class="ds-caret" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 3.25 5 6.75l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Tool pages</span></button><div class="ds-group-items"><button class="ds-item" data-target="g-tool-pages"><span>editor</span></button><button class="ds-item" data-target="card-11-generator"><span>generator</span></button><button class="ds-item" data-target="card-12-inspector"><span>inspector</span></button><button class="ds-item" data-target="card-13-tester"><span>tester</span></button><button class="ds-item" data-target="card-14-transformer"><span>transformer</span></button></div></div></div></nav>
+<main class="ds-content" data-scroll>
+<div class="ds-content-inner">
+<section class="ds-card" id="ds-readme" data-anchor data-anchor-key="ds-readme"><header class="ds-card-head"><h3 class="ds-card-title">Readme</h3></header><div class="ds-readme-body ds-prose collapsed" data-readme><h1>Lumia Design System</h1>
+<p>Lumia Design System 是 LumiaTool 桌面开发者工具的唯一视觉与交互契约。</p>
+<p>唯一正文：本文件。<code>designs/lumia-design-system/readme.md</code> 必须与本文件保持同一内容。生产实现读本文件；设计预览读 DS 目录。</p>
+<p>设计和实现必须复用这里的 Token、组件和页面模板。工具不得自行发明布局、颜色、圆角、阴影或操作模式。</p>
+<h2>产品语境</h2>
+<p>LumiaTool 是本地优先的跨平台开发者工具箱（React + Tauri）。用户目标是快速完成转换、格式化、解析、生成、验证和调试。界面必须像长期使用的桌面生产力软件，不是营销站或 SaaS Dashboard。</p>
+<p>来源：</p>
+<ul><li>生产：<code>apps/desktop/src/</code></li><li>生产实现目录：<code>apps/desktop/src/design-system/</code></li><li>品牌母版：<code>apps/desktop/src-tauri/icons/app-icon-source.svg</code></li><li>可编译设计系统：<code>designs/lumia-design-system/</code></li><li><code>designs/lumiatool-ui-exploration/</code> 全部作废，不得再当契约。</li></ul>
+<h2>主题模型</h2>
+<p>产品主题是 <strong>真 Light / Dark</strong>。chrome（顶栏、工具架、工具条、状态栏）和 workspace（输入、结果、参数）必须同时换色。</p>
+<table><thead><tr><th>设置</th><th>行为</th></tr></thead><tbody><tr><td>Light</td><td><code>document.documentElement.dataset.theme = "light"</code></td></tr><tr><td>Dark</td><td><code>document.documentElement.dataset.theme = "dark"</code></td></tr><tr><td>Auto</td><td>跟随 <code>prefers-color-scheme</code>，写入同一个 <code>data-theme</code></td></tr></tbody></table>
+<p>禁止：</p>
+<ul><li>深色框架 + 浅色作业面的混合表面。</li><li>只换 chrome、不换 paper/editor。</li><li>在组件或 CSS 里硬编码 <code>rgba(23,20,16)</code> 一类主题色。</li><li>第三套 Studio 主题。</li><li>Pico / 旧 <code>--ctool-*</code> 蓝灰作为绘制色。</li></ul>
+<p>所有可绘制颜色只来自 <code>--lumia-*</code>。Light 定义在 <code>:root, [data-theme="light"]</code>；Dark 定义在 <code>[data-theme="dark"]</code>。绘制属性必须读 token，不得在选择器里再写死 hex。</p>
+<h2>设计原则</h2>
+<ol><li><strong>任务优先</strong>：输入、结果、关键操作高于装饰。</li><li><strong>结构先于容器</strong>：Pane、Toolbar、Rack、Row、Separator。不把每块内容套成独立 Card。</li><li><strong>操作就近</strong>：复制、加载、清空、运行靠近对应值。禁止绝对定位覆盖编辑内容。</li><li><strong>状态明确</strong>：Empty / Populated / Error / Disabled / Loading 必须可区分。</li><li><strong>完整可读</strong>：长值滚动或换行，禁止用 ellipsis 藏核心数据。</li><li><strong>本地优先</strong>：状态栏反映真实处理状态，不造仪表盘指标。</li><li><strong>同类同构</strong>：新工具必须归入既有模板；不适配先改规范再加模式。</li><li><strong>主题完整</strong>：任何表面在 Light 和 Dark 下都必须可读。不得依赖「另一半主题的颜色」。</li></ol>
+<h2>禁止模式</h2>
+<ul><li>渐变背景作页面装饰。品牌 App Icon（Lumia Beam）除外。CSS 假 Beam / glow 不算图标。</li><li><code>rounded-xl/2xl</code>、大面积阴影、浮空 Card 墙。</li><li>参数、Copy、Select 绝对定位覆盖编辑内容。</li><li>无标签图标；只靠 Placeholder 表达字段。</li><li>固定像素平分动态结果高度。</li><li>工具内任意 Hex / 间距 / 字号 / Radius。</li><li>空数据时的可执行 Copy / Download。</li><li>用「路由能打开」代替视觉验收。</li><li><code>--lumia-text-light</code> / <code>--lumia-text-dark</code> 这种按主题命名的文本色。只用 <code>--lumia-text</code> / <code>--lumia-muted</code>。</li><li>2 字母英文切片当作工具图标规范。那是占位，不是契约。</li><li>状态栏写死 <code>READY</code> / <code>LOCAL PROCESSING</code> / <code>UTF-8</code>。</li><li>硬编码 <code>⌘K</code>。快捷键按平台显示。</li></ul>
+<h2>视觉基础</h2>
+<h3>色彩语义</h3>
+<p>角色不可互换，Light 和 Dark 共用同一角色、不同色值。</p>
+<table><thead><tr><th>Token</th><th>角色</th></tr></thead><tbody><tr><td><code>--lumia-app-bg</code></td><td>应用框架底</td></tr><tr><td><code>--lumia-sidebar-bg</code></td><td>工具架</td></tr><tr><td><code>--lumia-raised-bg</code></td><td>顶栏、Panel Header、抬起面</td></tr><tr><td><code>--lumia-overlay-bg</code></td><td>Dropdown / Dialog / ExtendPage</td></tr><tr><td><code>--lumia-paper</code></td><td>结果、文档、普通内容</td></tr><tr><td><code>--lumia-editor</code></td><td>输入、编辑器</td></tr><tr><td><code>--lumia-controls</code></td><td>参数 Rack</td></tr><tr><td><code>--lumia-text</code></td><td>主文本</td></tr><tr><td><code>--lumia-muted</code></td><td>次要文本</td></tr><tr><td><code>--lumia-primary</code></td><td>当前区域唯一主操作</td></tr><tr><td><code>--lumia-on-primary</code></td><td>主操作上的字</td></tr><tr><td><code>--lumia-selection</code></td><td>当前位置 / 当前工具 / 导航选中</td></tr><tr><td><code>--lumia-on-selection</code></td><td>选中项上的字</td></tr><tr><td><code>--lumia-success</code></td><td>Ready / Valid / Generated</td></tr><tr><td><code>--lumia-warning</code></td><td>警告</td></tr><tr><td><code>--lumia-danger</code></td><td>Invalid / Error / Danger</td></tr><tr><td><code>--lumia-border</code></td><td>低对比分割</td></tr><tr><td><code>--lumia-focus</code></td><td>键盘焦点</td></tr></tbody></table>
+<p>橙色不得当普通 Button。紫色不得当导航选中。绿色不得当普通选中。</p>
+<p>Dark 的 <code>--lumia-paper</code> / <code>--lumia-editor</code> 是深色作业面，不是米白。</p>
+<h3>字体</h3>
+<ul><li>UI：系统 Sans，13px，行高 1.45。</li><li>小标签：10–11px。</li><li>工具标题：Georgia / Songti SC，15–18px，只用于产品和工具名。</li><li>代码与值：系统 Mono，12–13px，行高 1.55。</li><li>中文正文行高不低于 1.7。</li><li><code>body</code> 字号必须是 13px，禁止 14px 旧值。</li></ul>
+<h3>密度</h3>
+<ul><li>默认控件：30px。紧凑：26px。</li><li>Topbar 52 / Toolbar 50 / Status 30 / Panel Header 44 / Shelf 224。</li><li>间距只使用 4 / 8 / 12 / 16 / 24。禁止 5、6、9、10、14、15、18。</li></ul>
+<h3>Radius 与阴影</h3>
+<ul><li>控件 7px。Panel 11px。</li><li>普通 Panel 无阴影，用 <code>--lumia-border</code>。</li><li>Dropdown / Dialog / ExtendPage 用 <code>--lumia-shadow-overlay</code>。该 token 随主题变化。</li></ul>
+<h2>组件规范</h2>
+<p>生产必须提供与 DS 同名的 React primitive，而不是给 Pico 旧件贴 class。</p>
+<h3>Button</h3>
+<ul><li><code>primary</code>：<code>--lumia-primary</code>，每区域最多一个。</li><li><code>secondary</code>：raised 中性。</li><li><code>danger</code>：低饱和红底，禁止 <code>#ed4014</code>。</li><li><code>selection</code>：只用于导航，不是普通动作。</li><li>外包一层无语义 <code>div</code> 禁止。高频折叠钮只有 <code>aria-label</code>，不要 <code>title</code> 悬空 tooltip。</li></ul>
+<h3>Panel</h3>
+<p>Header + Body + 可选 Footer。操作在 Header 内。输入用 <code>data-surface="editor"</code>，结果默认 paper，参数用 <code>controls</code>。</p>
+<h3>ResultRow</h3>
+<p>标签 → 完整值 → 就近操作。Empty 为 <code>—</code> 且无 Copy。错误值不可复制。长值内部滚动。</p>
+<h3>Form Control</h3>
+<p>可见 Label。开关用文字。Disabled 说明原因。参数放固定 Rack。</p>
+<h3>Empty / Error / Loading</h3>
+<p>Empty 安静、无空动作。Error 单个 <code>role="alert"</code>。Loading 保持尺寸。</p>
+<h2>页面模板</h2>
+<p>只有 6 种。Diff 是 Editor 的特例，不是第 7 种。Hash、时间、进制等走 Utility，禁止再开 <code>hash.css</code> 私有模板。</p>
+<h3>Transformer</h3>
+<p><code>Source | Result</code>。编码、类型、Key/IV 在 Header 或 Rack。</p>
+<h3>Editor</h3>
+<p><code>Command Bar + Dominant Editor</code>。Monaco 占剩余空间。Diff：<code>Original | Modified</code>，比较区占满，导航不遮挡。</p>
+<h3>Inspector</h3>
+<p><code>Raw Source | Structured Output</code>。解析选项在 Header。</p>
+<h3>Generator</h3>
+<p><code>Options | Preview/Result</code>。预览有最大尺寸。QR 的高级选项是 Rack，不是盖在输入上的 Settings。</p>
+<h3>Tester</h3>
+<p><code>Configuration + Action + Workspace/Log</code>。日志占剩余空间。</p>
+<h3>Utility</h3>
+<p>紧凑表单 + 就近 ResultRow。不得拉成巨大空 Pane。</p>
+<h2>工作台</h2>
+<ul><li>Topbar：品牌、搜索、历史、设置。快捷键按平台。</li><li>Shelf：分类 + 工具列表。工具图标后续替换为 16px stroke 图标；在图标集落地前可用短标记（<code>JWT</code>、<code>{}</code>），同一区域风格必须一致。</li><li>历史和设置只出现一处主入口。Shelf footer 不得再复制一份。</li><li>Toolbar：当前工具名 + feature tabs。</li><li>Status：真实编码 / 特征 / 处理态 / READY|INVALID|EMPTY。文案走 i18n。</li></ul>
+<h2>响应式</h2>
+<p>页面内容用 Container Query：</p>
+<ul><li>&gt; 760px：双栏。</li><li>520–760px：上下排列。</li><li>&lt; 520px：参数换行，结果值独占下一行。</li><li>窗口 &lt; 720px：工具架变抽屉。</li></ul>
+<p>不得用 <code>display:none</code> 删除输入、结果或导航能力。</p>
+<h2>图标</h2>
+<ul><li>App Icon：Lumia Beam，可用橙紫。</li><li>功能图标：20×20 viewBox，默认 16px，1.5px 描边，Round Cap/Join，<code>currentColor</code>。</li><li>单色。颜色只来自状态或 selection。</li><li>禁止 Emoji、装饰图标、英文名 <code>.slice(0,2)</code>。</li></ul>
+<h2>文案</h2>
+<p>短动词：复制、生成、格式化、加载、清空。中英文跟语言设置。组件内不硬编码另一语言。状态短标签可保持 READY / VALID / INVALID，但必须 i18n。</p>
+<h2>Token 清单</h2>
+<p>几何与运动不随主题变化。颜色必须成对存在。权威值在 <code>designs/lumia-design-system/tokens/</code>。</p>
+<p>生产 <code>tokens.css</code> 必须镜像这些语义名。不得保留「只换 chrome」注释。</p>
+<h2>Agent 实现契约</h2>
+<p>改 UI 前：</p>
+<ol><li>确认模板。</li><li>只使用 <code>--lumia-*</code>。</li><li>在 Light 和 Dark 各验收 1568×953 与 700×600。</li><li>检查：控件是否漂浮、标签是否丢失、值是否截断、动作是否远离目标、主题切换后 chrome 与 workspace 是否一起变。</li><li>生产构建后才可声明完成。</li></ol>
+<p>未合并本规范到生产 CSS 之前，不得宣称主题已修好。</p>
+</div><button class="ds-readme-toggle" data-readme-toggle type="button">Show more</button></section><div class="ds-group" id="g-components" data-anchor data-anchor-key="g-components"><h2 class="ds-group-label">Components</h2><section class="ds-card" id="card-0-buttons" data-card data-anchor data-anchor-key="g-components"><header class="ds-card-head"><div><h3 class="ds-card-title">Buttons</h3><p class="ds-card-sub">Primary, secondary, danger and disabled states</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:150px;"><div class="ds-stage" data-stage style="width:700px;height:150px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:150px;display:flex;align-items:center;gap:12px;padding:24px;background:var(--lumia-paper)">
+  <button class="lumia-button" data-variant="primary">运行</button>
+  <button class="lumia-button">复制</button>
+  <button class="lumia-button" data-variant="danger">清空</button>
+  <button class="lumia-button" disabled>不可用</button>
+</div></div></template></div></div></section><section class="ds-card" id="card-1-panels" data-card data-anchor data-anchor-key="card-1-panels"><header class="ds-card-head"><div><h3 class="ds-card-title">Panels</h3><p class="ds-card-sub">Editor input and paper result surfaces</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:220px;"><div class="ds-stage" data-stage style="width:700px;height:220px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:220px;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px;background:var(--lumia-app-bg)">
+  <section class="lumia-panel" data-surface="editor"><div class="lumia-panel__header"><strong>输入</strong></div><div class="lumia-panel__body"><code>{ "name": "LumiaTool" }</code></div></section>
+  <section class="lumia-panel"><div class="lumia-panel__header"><strong>输出</strong></div><div class="lumia-panel__body">格式化结果</div></section>
+</div></div></template></div></div></section><section class="ds-card" id="card-2-result-rows" data-card data-anchor data-anchor-key="card-2-result-rows"><header class="ds-card-head"><div><h3 class="ds-card-title">Result rows</h3><p class="ds-card-sub">Empty, populated and error result states</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:210px;"><div class="ds-stage" data-stage style="width:700px;height:210px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:210px;padding:18px;background:var(--lumia-paper)">
+  <div class="lumia-result-row"><span class="lumia-result-row__label">MD5</span><output class="lumia-result-row__value">900150983cd24fb0d6963f7d28e17f72</output><button class="lumia-button">复制</button></div>
+  <div class="lumia-result-row"><span class="lumia-result-row__label">SHA-256</span><output class="lumia-result-row__value">—</output></div>
+  <div class="lumia-result-row" data-state="error"><span class="lumia-result-row__label">SM3</span><output class="lumia-result-row__value">输入格式错误</output></div>
+</div></div></template></div></div></section></div><div class="ds-group" id="g-foundations" data-anchor data-anchor-key="g-foundations"><h2 class="ds-group-label">Foundations</h2><section class="ds-card" id="card-3-semantic-colors" data-card data-anchor data-anchor-key="g-foundations"><header class="ds-card-head"><div><h3 class="ds-card-title">Semantic colors</h3><p class="ds-card-sub">Roles stay; values flip with theme</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:240px;"><div class="ds-stage" data-stage style="width:700px;height:240px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:240px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px;background:var(--lumia-paper);color:var(--lumia-text)">
+  <div style="padding:12px;background:var(--lumia-app-bg)">App</div>
+  <div style="padding:12px;background:var(--lumia-selection);color:var(--lumia-on-selection)">Selection</div>
+  <div style="padding:12px;background:var(--lumia-primary);color:var(--lumia-on-primary)">Primary</div>
+  <div style="padding:12px;background:var(--lumia-success);color:var(--lumia-on-primary)">Success</div>
+  <div style="padding:12px;background:var(--lumia-editor);border:1px solid var(--lumia-border)">Editor</div>
+  <div style="padding:12px;background:var(--lumia-paper);border:1px solid var(--lumia-border)">Paper</div>
+  <div style="padding:12px;background:var(--lumia-controls)">Controls</div>
+  <div style="padding:12px;background:var(--lumia-danger);color:var(--lumia-on-primary)">Danger</div>
+</div></div></template></div></div></section><section class="ds-card" id="card-4-spacing-and-geometry" data-card data-anchor data-anchor-key="card-4-spacing-and-geometry"><header class="ds-card-head"><div><h3 class="ds-card-title">Spacing and geometry</h3><p class="ds-card-sub">4/8/12/16/24 spacing; 7px controls; 11px panels</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:190px;"><div class="ds-stage" data-stage style="width:700px;height:190px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:190px;padding:22px;background:var(--lumia-paper)">
+  <div style="display:flex;align-items:end;gap:16px;margin-bottom:24px"><i style="width:4px;height:28px;background:var(--lumia-selection)"></i><i style="width:8px;height:28px;background:var(--lumia-selection)"></i><i style="width:12px;height:28px;background:var(--lumia-selection)"></i><i style="width:16px;height:28px;background:var(--lumia-selection)"></i><i style="width:24px;height:28px;background:var(--lumia-selection)"></i></div>
+  <div style="display:flex;gap:14px"><button class="lumia-button">7px control</button><section class="lumia-panel" style="width:220px;height:60px"><div class="lumia-panel__body">11px panel</div></section></div>
+</div></div></template></div></div></section><section class="ds-card" id="card-5-dark-theme" data-card data-anchor data-anchor-key="card-5-dark-theme"><header class="ds-card-head"><div><h3 class="ds-card-title">Dark theme</h3><p class="ds-card-sub">Chrome and workspace are both dark</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:220px;"><div class="ds-stage" data-stage style="width:700px;height:220px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div data-theme="dark" style="height:220px;display:grid;grid-template-columns:120px 1fr;background:var(--lumia-app-bg);color:var(--lumia-text)">
+  <aside class="lumia-chrome__shelf" style="padding:12px">工具架</aside>
+  <div style="display:grid;grid-template-rows:44px 1fr">
+    <div class="lumia-chrome__bar">LumiaTool · Dark</div>
+    <section class="lumia-panel" data-surface="editor" style="margin:12px"><div class="lumia-panel__body">编辑器与结果同为深色作业面</div></section>
+  </div>
+</div></div></template></div></div></section><section class="ds-card" id="card-6-light-theme" data-card data-anchor data-anchor-key="card-6-light-theme"><header class="ds-card-head"><div><h3 class="ds-card-title">Light theme</h3><p class="ds-card-sub">Chrome and workspace are both light</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:220px;"><div class="ds-stage" data-stage style="width:700px;height:220px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div data-theme="light" style="height:220px;display:grid;grid-template-columns:120px 1fr;background:var(--lumia-app-bg);color:var(--lumia-text)">
+  <aside class="lumia-chrome__shelf" style="padding:12px">工具架</aside>
+  <div style="display:grid;grid-template-rows:44px 1fr">
+    <div class="lumia-chrome__bar">LumiaTool · Light</div>
+    <section class="lumia-panel" data-surface="editor" style="margin:12px"><div class="lumia-panel__body">编辑器与结果同为浅色作业面</div></section>
+  </div>
+</div></div></template></div></div></section><section class="ds-card" id="card-7-typography" data-card data-anchor data-anchor-key="card-7-typography"><header class="ds-card-head"><div><h3 class="ds-card-title">Typography</h3><p class="ds-card-sub">System UI, restrained display serif, complete monospace values</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:220px;"><div class="ds-stage" data-stage style="width:700px;height:220px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:220px;padding:20px;background:var(--lumia-paper);color:var(--lumia-text);display:grid;gap:12px">
+  <div style="font:600 22px var(--lumia-font-display)">Hash 工作区</div>
+  <div style="font:var(--lumia-font-body)/var(--lumia-line-cjk) var(--lumia-font-ui)">输入、参数和结果保持清楚的任务层级。</div>
+  <div style="font:var(--lumia-font-sm)/1 var(--lumia-font-ui);color:var(--lumia-muted);letter-spacing:.08em">本地处理 · READY</div>
+  <code style="font:12px/1.55 var(--lumia-font-mono)">900150983cd24fb0d6963f7d28e17f72</code>
+</div></div></template></div></div></section></div><div class="ds-group" id="g-patterns" data-anchor data-anchor-key="g-patterns"><h2 class="ds-group-label">Patterns</h2><section class="ds-card" id="card-8-do-not" data-card data-anchor data-anchor-key="g-patterns"><header class="ds-card-head"><div><h3 class="ds-card-title">Do not</h3><p class="ds-card-sub">Patterns prohibited in LumiaTool production UI</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:210px;"><div class="ds-stage" data-stage style="width:700px;height:210px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:210px;padding:20px;background:var(--lumia-paper);color:var(--lumia-text);display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div><strong style="color:var(--lumia-danger)">禁止</strong><ul><li>只换 chrome 的假主题</li><li>浮层控件覆盖输入</li><li>核心值 ellipsis</li><li>空状态 Copy</li></ul></div>
+  <div><strong style="color:var(--lumia-success)">使用</strong><ul><li>Light/Dark 成对 token</li><li>固定 Toolbar/Rack</li><li>完整可滚动值</li><li>就近操作</li></ul></div>
+</div></div></template></div></div></section><section class="ds-card" id="card-9-states" data-card data-anchor data-anchor-key="card-9-states"><header class="ds-card-head"><div><h3 class="ds-card-title">States</h3><p class="ds-card-sub">Empty, success, disabled and error are explicit</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:700px;height:220px;"><div class="ds-stage" data-stage style="width:700px;height:220px;"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><div style="height:220px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:18px;background:var(--lumia-app-bg)">
+  <section class="lumia-panel"><div class="lumia-panel__header"><strong>Empty</strong></div><div class="lumia-panel__body">—<br><small>无 Copy</small></div></section>
+  <section class="lumia-panel"><div class="lumia-panel__header"><strong>Success</strong></div><div class="lumia-panel__body" style="color:var(--lumia-success)">READY</div></section>
+  <section class="lumia-panel"><div class="lumia-panel__header"><strong>Disabled</strong></div><div class="lumia-panel__body"><button class="lumia-button" disabled>不可用</button></div></section>
+  <section class="lumia-panel"><div class="lumia-panel__header"><strong>Error</strong></div><div class="lumia-panel__body" style="color:var(--lumia-danger)">INVALID</div></section>
+</div></div></template></div></div></section></div><div class="ds-group" id="g-tool-pages" data-anchor data-anchor-key="g-tool-pages"><h2 class="ds-group-label">Tool pages</h2><section class="ds-card" id="card-10-editor" data-card data-anchor data-anchor-key="g-tool-pages"><header class="ds-card-head"><div><h3 class="ds-card-title">editor</h3><p class="ds-card-sub">Command bar above one dominant editor or diff surface</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:728px;height:437px;"><div class="ds-stage" data-stage style="width:1200px;height:720px;transform:scale(0.6066666666666667);"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><!-- @startingPoint section="Tool pages" subtitle="Command bar above one dominant editor or diff surface" viewport="1200x720" -->
+
+<div style="height:720px;padding:16px;background:var(--lumia-app-bg);color:var(--lumia-text);display:grid;grid-template-rows:44px 1fr;gap:8px">
+<div class="lumia-panel__header" style="border:1px solid var(--lumia-border);border-radius:11px;background:var(--lumia-controls)"><strong>命令</strong><span>JSON</span></div>
+<section class="lumia-panel" data-surface="editor"><div class="lumia-panel__body"><pre>{
+  "name": "LumiaTool"
+}</pre></div></section>
+</div></div></template></div></div></section><section class="ds-card" id="card-11-generator" data-card data-anchor data-anchor-key="card-11-generator"><header class="ds-card-head"><div><h3 class="ds-card-title">generator</h3><p class="ds-card-sub">Bounded options beside a dominant preview or result</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:728px;height:437px;"><div class="ds-stage" data-stage style="width:1200px;height:720px;transform:scale(0.6066666666666667);"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><!-- @startingPoint section="Tool pages" subtitle="Bounded options beside a dominant preview or result" viewport="1200x720" -->
+
+<div style="height:720px;padding:16px;background:var(--lumia-app-bg);color:var(--lumia-text);display:grid;grid-template-columns:2fr 5fr;gap:12px">
+<section class="lumia-panel" data-surface="controls"><div class="lumia-panel__header"><strong>配置</strong></div><div class="lumia-panel__body">尺寸<br><br>格式<br><br><button class="lumia-button" data-variant="primary">生成</button></div></section>
+<section class="lumia-panel"><div class="lumia-panel__header"><strong>预览</strong></div><div class="lumia-panel__body" style="display:grid;place-items:center"><div style="width:220px;height:220px;background:var(--lumia-editor);border:1px solid var(--lumia-border)"></div></div></section>
+</div></div></template></div></div></section><section class="ds-card" id="card-12-inspector" data-card data-anchor data-anchor-key="card-12-inspector"><header class="ds-card-head"><div><h3 class="ds-card-title">inspector</h3><p class="ds-card-sub">Raw source beside structured interpretation</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:728px;height:437px;"><div class="ds-stage" data-stage style="width:1200px;height:720px;transform:scale(0.6066666666666667);"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><!-- @startingPoint section="Tool pages" subtitle="Raw source beside structured interpretation" viewport="1200x720" -->
+
+<div style="height:720px;padding:16px;background:var(--lumia-app-bg);color:var(--lumia-text);display:grid;grid-template-columns:5fr 7fr;gap:12px">
+<section class="lumia-panel" data-surface="editor"><div class="lumia-panel__header"><strong>原始输入</strong></div><div class="lumia-panel__body"><code>eyJhbGciOi...</code></div></section>
+<section class="lumia-panel"><div class="lumia-panel__header"><strong>结构化结果</strong><button class="lumia-button">JSON</button></div><div class="lumia-panel__body"><pre>{ "payload": { "name": "LumiaTool" } }</pre></div></section>
+</div></div></template></div></div></section><section class="ds-card" id="card-13-tester" data-card data-anchor data-anchor-key="card-13-tester"><header class="ds-card-head"><div><h3 class="ds-card-title">tester</h3><p class="ds-card-sub">Configuration, action and a dominant workspace or log</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:728px;height:437px;"><div class="ds-stage" data-stage style="width:1200px;height:720px;transform:scale(0.6066666666666667);"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><!-- @startingPoint section="Tool pages" subtitle="Configuration, action and a dominant workspace or log" viewport="1200x720" -->
+
+<div style="height:720px;padding:16px;background:var(--lumia-app-bg);color:var(--lumia-text);display:grid;grid-template-rows:52px 1fr;gap:12px">
+<div class="lumia-panel__header" style="border:1px solid var(--lumia-border);border-radius:11px;background:var(--lumia-controls)"><strong>连接配置</strong><button class="lumia-button" data-variant="primary">连接</button></div>
+<section class="lumia-panel"><div class="lumia-panel__header"><strong>日志</strong><button class="lumia-button">清空</button></div><div class="lumia-panel__body">暂无数据</div></section>
+</div></div></template></div></div></section><section class="ds-card" id="card-14-transformer" data-card data-anchor data-anchor-key="card-14-transformer"><header class="ds-card-head"><div><h3 class="ds-card-title">transformer</h3><p class="ds-card-sub">Source and result panes with a fixed control rack</p></div></header><div class="ds-prevwrap" data-fit style="box-sizing:content-box;width:728px;height:437px;"><div class="ds-stage" data-stage style="width:1200px;height:720px;transform:scale(0.6066666666666667);"><template shadowrootmode="open"><div class="__dsroot" style="margin:0;width:100%;height:100%;overflow:auto;box-sizing:border-box;"><!-- @startingPoint section="Tool pages" subtitle="Source and result panes with a fixed control rack" viewport="1200x720" -->
+
+<div style="height:720px;padding:16px;background:var(--lumia-app-bg);color:var(--lumia-text);display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<section class="lumia-panel" data-surface="editor"><div class="lumia-panel__header"><strong>输入</strong><span>UTF-8 · Text</span></div><div class="lumia-panel__body"><code>Source content</code></div></section>
+<section class="lumia-panel"><div class="lumia-panel__header"><strong>输出</strong><button class="lumia-button">复制</button></div><div class="lumia-panel__body"><code>Converted result</code></div></section>
+</div></div></template></div></div></section></div>
+</div>
+</main>
+</div>
+<script type="application/json" id="ds-data">{"cards":[{"id":"card-0-buttons","w":700,"h":150,"base":"components/Button","css":["qjaliw"],"js":[]},{"id":"card-1-panels","w":700,"h":220,"base":"components/Panel","css":["qjaliw"],"js":[]},{"id":"card-2-result-rows","w":700,"h":210,"base":"components/ResultRow","css":["qjaliw"],"js":[]},{"id":"card-3-semantic-colors","w":700,"h":240,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-4-spacing-and-geometry","w":700,"h":190,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-5-dark-theme","w":700,"h":220,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-6-light-theme","w":700,"h":220,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-7-typography","w":700,"h":220,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-8-do-not","w":700,"h":210,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-9-states","w":700,"h":220,"base":"guidelines","css":["qjaliw"],"js":[]},{"id":"card-10-editor","w":1200,"h":720,"base":"ui_kits/lumiatool/editor","css":["qjaliw"],"js":[]},{"id":"card-11-generator","w":1200,"h":720,"base":"ui_kits/lumiatool/generator","css":["qjaliw"],"js":[]},{"id":"card-12-inspector","w":1200,"h":720,"base":"ui_kits/lumiatool/inspector","css":["qjaliw"],"js":[]},{"id":"card-13-tester","w":1200,"h":720,"base":"ui_kits/lumiatool/tester","css":["qjaliw"],"js":[]},{"id":"card-14-transformer","w":1200,"h":720,"base":"ui_kits/lumiatool/transformer","css":["qjaliw"],"js":[]}],"css":{"qjaliw":":host,\n[data-theme=\"light\"]{\n  --lumia-app-bg: #e8e2d8;\n  --lumia-sidebar-bg: #ddd5c9;\n  --lumia-raised-bg: #f3eee6;\n  --lumia-overlay-bg: #faf6ef;\n  --lumia-paper: #f7f1e8;\n  --lumia-editor: #f1ece3;\n  --lumia-controls: #d5ddd0;\n  --lumia-text: #362c24;\n  --lumia-muted: #756759;\n  --lumia-primary: #6f54d8;\n  --lumia-on-primary: #f4ecff;\n  --lumia-selection: #c47a38;\n  --lumia-on-selection: #2b190b;\n  --lumia-control-selected: #3d322b;\n  --lumia-success: #3f6f4c;\n  --lumia-warning: #b56d32;\n  --lumia-danger: #c45a50;\n  --lumia-border: rgba(54, 44, 36, .14);\n  --lumia-border-strong: rgba(54, 44, 36, .22);\n  --lumia-focus: #7c63e8;\n  --lumia-shadow-overlay: 0 18px 48px rgba(54, 44, 36, .18);\n}\n[data-theme=\"dark\"]{\n  --lumia-app-bg: #171410;\n  --lumia-sidebar-bg: #1e1a16;\n  --lumia-raised-bg: #29241e;\n  --lumia-overlay-bg: #302a23;\n  --lumia-paper: #241f1a;\n  --lumia-editor: #1c1915;\n  --lumia-controls: #252922;\n  --lumia-text: #f4ecdf;\n  --lumia-muted: #b4a697;\n  --lumia-primary: #a994ff;\n  --lumia-on-primary: #1c142e;\n  --lumia-selection: #efa968;\n  --lumia-on-selection: #2b190b;\n  --lumia-control-selected: #4a3d34;\n  --lumia-success: #5e8f69;\n  --lumia-warning: #cb874d;\n  --lumia-danger: #d86b5f;\n  --lumia-border: rgba(255, 242, 225, .1);\n  --lumia-border-strong: rgba(255, 242, 225, .18);\n  --lumia-focus: #b9a5ff;\n  --lumia-shadow-overlay: 0 18px 48px rgba(0, 0, 0, .36);\n}\n:host{\n  --lumia-font-ui: -apple-system, \"SF Pro Text\", \"PingFang SC\", \"Noto Sans SC\", sans-serif; /* @kind font */\n  --lumia-font-display: Georgia, \"Songti SC\", \"Noto Serif SC\", serif; /* @kind font */\n  --lumia-font-mono: ui-monospace, \"SFMono-Regular\", Menlo, Consolas, monospace; /* @kind font */\n  --lumia-font-xs: 10px;\n  --lumia-font-sm: 11px;\n  --lumia-font-body: 13px;\n  --lumia-font-title: 15px;\n  --lumia-line-ui: 1.45; /* @kind other */\n  --lumia-line-cjk: 1.7; /* @kind other */\n  --lumia-line-code: 1.55; /* @kind other */\n}\n:host{\n  --lumia-space-1: 4px;\n  --lumia-space-2: 8px;\n  --lumia-space-3: 12px;\n  --lumia-space-4: 16px;\n  --lumia-space-5: 24px;\n  --lumia-radius-control: 7px;\n  --lumia-radius-panel: 11px;\n  --lumia-control-height-compact: 26px;\n  --lumia-control-height: 30px;\n  --lumia-topbar-height: 52px;\n  --lumia-toolbar-height: 50px;\n  --lumia-status-height: 30px;\n  --lumia-panel-header-height: 44px;\n  --lumia-shelf-width: 224px;\n}\n:host{\n  --lumia-duration-fast: 120ms; /* @kind other */\n  --lumia-duration-normal: 180ms; /* @kind other */\n  --lumia-ease-standard: cubic-bezier(.2, 0, 0, 1); /* @kind other */\n}\n@media (prefers-reduced-motion: reduce){:host{\n    --lumia-duration-fast: .01ms; /* @kind other */\n    --lumia-duration-normal: .01ms; /* @kind other */\n  }\n}\n*{ box-sizing: border-box; }\n.__dsroot{\n  margin: 0;\n  color: var(--lumia-text);\n  background: var(--lumia-paper);\n  font-family: var(--lumia-font-ui);\n}\n.lumia-button{\n  min-height: var(--lumia-control-height);\n  padding: 6px 11px;\n  color: var(--lumia-text);\n  border: 1px solid var(--lumia-border);\n  border-radius: var(--lumia-radius-control);\n  background: var(--lumia-raised-bg);\n  font: 600 var(--lumia-font-sm)/1 var(--lumia-font-ui);\n  cursor: pointer;\n}\n.lumia-button:focus-visible{\n  outline: 2px solid var(--lumia-focus);\n  outline-offset: 2px;\n}\n.lumia-button:disabled{\n  opacity: .45;\n  cursor: not-allowed;\n}\n.lumia-button[data-variant=\"primary\"]{\n  color: var(--lumia-on-primary);\n  border-color: transparent;\n  background: var(--lumia-primary);\n}\n.lumia-button[data-variant=\"danger\"]{\n  color: var(--lumia-danger);\n  border-color: color-mix(in srgb, var(--lumia-danger) 28%, transparent);\n  background: color-mix(in srgb, var(--lumia-danger) 12%, transparent);\n}\n.lumia-button[data-variant=\"selection\"]{\n  color: var(--lumia-on-selection);\n  border-color: transparent;\n  background: var(--lumia-selection);\n}\n.lumia-panel{\n  min-width: 0;\n  overflow: hidden;\n  color: var(--lumia-text);\n  border: 1px solid var(--lumia-border);\n  border-radius: var(--lumia-radius-panel);\n  background: var(--lumia-paper);\n}\n.lumia-panel[data-surface=\"editor\"]{\n  background: var(--lumia-editor);\n}\n.lumia-panel[data-surface=\"controls\"]{\n  background: var(--lumia-controls);\n}\n.lumia-panel__header{\n  min-height: var(--lumia-panel-header-height);\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: var(--lumia-space-2);\n  padding: 0 var(--lumia-space-3);\n  border-bottom: 1px solid var(--lumia-border);\n  background: var(--lumia-raised-bg);\n}\n.lumia-panel__header strong{\n  font-size: var(--lumia-font-body);\n}\n.lumia-panel__header span{\n  color: var(--lumia-muted);\n  font-size: var(--lumia-font-sm);\n}\n.lumia-panel__body{\n  min-height: 0;\n  padding: var(--lumia-space-3);\n}\n.lumia-result-row{\n  min-width: 0;\n  display: grid;\n  grid-template-columns: 80px minmax(0, 1fr) auto;\n  align-items: center;\n  gap: var(--lumia-space-3);\n  padding: 10px var(--lumia-space-3);\n  border-bottom: 1px solid var(--lumia-border);\n}\n.lumia-result-row__label{\n  color: var(--lumia-muted);\n  font: 650 var(--lumia-font-xs)/1 var(--lumia-font-mono);\n  letter-spacing: .06em;\n}\n.lumia-result-row__value{\n  min-width: 0;\n  overflow: auto;\n  font: var(--lumia-font-sm)/var(--lumia-line-code) var(--lumia-font-mono);\n  white-space: pre;\n}\n.lumia-result-row[data-state=\"error\"]{\n  background: color-mix(in srgb, var(--lumia-danger) 7%, transparent);\n}\n.lumia-chrome{\n  color: var(--lumia-text);\n  background: var(--lumia-app-bg);\n}\n.lumia-chrome__bar{\n  min-height: var(--lumia-topbar-height);\n  display: flex;\n  align-items: center;\n  gap: var(--lumia-space-3);\n  padding: 0 var(--lumia-space-4);\n  border-bottom: 1px solid var(--lumia-border);\n  background: var(--lumia-raised-bg);\n}\n.lumia-chrome__shelf{\n  background: var(--lumia-sidebar-bg);\n  border-right: 1px solid var(--lumia-border);\n}\n"}}</script>
+<script>
+(function () {
+  var dataEl = document.getElementById("ds-data");
+  if (!dataEl) return;
+  var DATA = JSON.parse(dataEl.textContent);
+  var ASSETS = DATA.assets || {};
+  var cardById = {};
+  DATA.cards.forEach(function (c) { cardById[c.id] = c; });
+
+  function normPath(p) {
+    var segs = p.split("/");
+    var out = [];
+    for (var i = 0; i < segs.length; i++) {
+      var s = segs[i];
+      if (!s || s === ".") continue;
+      if (s === "..") { if (out.length) out.pop(); continue; }
+      out.push(s);
+    }
+    return out.join("/");
+  }
+
+  var supportsAdopt = (function () {
+    try {
+      var s = new CSSStyleSheet();
+      s.replaceSync(":host{}");
+      return "adoptedStyleSheets" in Document.prototype || "adoptedStyleSheets" in ShadowRoot.prototype;
+    } catch (e) { return false; }
+  })();
+
+  var sheetCache = {};
+  function getSheet(hash) {
+    if (!sheetCache[hash]) {
+      var s = new CSSStyleSheet();
+      try { s.replaceSync(DATA.css[hash] || ""); } catch (e) { console.error("[ds-preview] css error", e); }
+      sheetCache[hash] = s;
+    }
+    return sheetCache[hash];
+  }
+
+  // Cards scroll if their content overflows the declared viewport, but the
+  // scrollbar chrome itself reads as a defect in a scaled-down thumbnail —
+  // hide it (content stays scrollable). Applied last so it wins ties.
+  var BASE_CARD_CSS = ".__dsroot{scrollbar-width:none;-ms-overflow-style:none}.__dsroot::-webkit-scrollbar{display:none}";
+  var baseCardSheet = null;
+  function getBaseCardSheet() {
+    if (!baseCardSheet) {
+      baseCardSheet = new CSSStyleSheet();
+      try { baseCardSheet.replaceSync(BASE_CARD_CSS); } catch (e) {}
+    }
+    return baseCardSheet;
+  }
+
+  function ensureShadow(stage) {
+    var root = stage.shadowRoot;
+    if (!root) {
+      var tpl = stage.querySelector("template");
+      root = stage.attachShadow({ mode: "open" });
+      if (tpl) { root.appendChild(tpl.content); tpl.remove(); }
+    }
+    return root;
+  }
+
+  function applyStyles(root, hashes) {
+    if (supportsAdopt && root.adoptedStyleSheets !== undefined) {
+      try { root.adoptedStyleSheets = hashes.map(getSheet).concat([getBaseCardSheet()]); return; } catch (e) {}
+    }
+    var base = document.createElement("style");
+    base.textContent = BASE_CARD_CSS;
+    root.insertBefore(base, root.firstChild);
+    for (var i = hashes.length - 1; i >= 0; i--) {
+      var st = document.createElement("style");
+      st.textContent = DATA.css[hashes[i]] || "";
+      root.insertBefore(st, root.firstChild);
+    }
+  }
+
+  function appendExports(code) {
+    var names = {};
+    var re = /^(?:async\s+)?(?:function|class)\s+([A-Za-z_$][\w$]*)|^(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=/gm;
+    var m;
+    while ((m = re.exec(code))) names[m[1] || m[2]] = 1;
+    var tail = Object.keys(names).map(function (n) {
+      return "try{__vars." + n + "=" + n + ";}catch(__e){}";
+    }).join("");
+    return tail ? code + "\n;" + tail : code;
+  }
+
+  function makeEnv(card, root, rootEl) {
+    var vars = Object.create(null);
+    var pendingLoad = [];
+    var realDoc = document;
+    var realWin = window;
+    var winProxy, docProxy;
+
+    // Card sources live in subdirectories, but their HTML is re-rooted into
+    // this single file — rebase relative fetch() URLs against the card's
+    // source dir, serving build-time-inlined project assets when available
+    // (which also makes them work over file://).
+    vars.fetch = function (input, init) {
+      var u = null;
+      try { u = typeof input === "string" ? input : null; } catch (e) {}
+      if (u != null && !/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(u) && u.charAt(0) !== "/" && u.charAt(0) !== "#" && u.charAt(0) !== "?") {
+        var m = /^([^?#]*)([\s\S]*)$/.exec(u);
+        var resolved = normPath((card.base ? card.base + "/" : "") + m[1]);
+        if (Object.prototype.hasOwnProperty.call(ASSETS, resolved)) return realWin.fetch(ASSETS[resolved], init);
+        return realWin.fetch(resolved + m[2], init);
+      }
+      return realWin.fetch(input, init);
+    };
+
+    docProxy = new Proxy(realDoc, {
+      get: function (t, k) {
+        switch (k) {
+          case "getElementById":
+            return function (id) {
+              return root.getElementById ? root.getElementById(id) : root.querySelector("#" + (window.CSS && CSS.escape ? CSS.escape(id) : id));
+            };
+          case "querySelector": return root.querySelector.bind(root);
+          case "querySelectorAll": return root.querySelectorAll.bind(root);
+          case "getElementsByClassName": return function (c) { return rootEl.getElementsByClassName(c); };
+          case "getElementsByTagName": return function (s) { return rootEl.getElementsByTagName(s); };
+          case "body": case "documentElement": case "head": return rootEl;
+          case "defaultView": return winProxy;
+          case "readyState": return "complete";
+          case "currentScript": return null;
+          case "activeElement": return root.activeElement || null;
+          case "styleSheets": return root.styleSheets;
+          case "location": return realWin.location;
+          case "addEventListener":
+            return function (type, fn, o) {
+              if (type === "DOMContentLoaded" || type === "load" || type === "readystatechange") pendingLoad.push(fn);
+              else realDoc.addEventListener(type, fn, o);
+            };
+          case "removeEventListener": return realDoc.removeEventListener.bind(realDoc);
+          default: {
+            var v = t[k];
+            return typeof v === "function" ? v.bind(t) : v;
+          }
+        }
+      },
+      set: function (t, k, val) {
+        if (k === "title" || k === "cookie") return true;
+        try { t[k] = val; } catch (e) {}
+        return true;
+      },
+    });
+
+    winProxy = new Proxy(realWin, {
+      get: function (t, k) {
+        switch (k) {
+          case "document": return docProxy;
+          case "window": case "self": case "globalThis": case "top": case "parent": case "frames": return winProxy;
+          case "innerWidth": return card.w;
+          case "innerHeight": return card.h;
+          case "addEventListener":
+            return function (type, fn, o) {
+              if (type === "load" || type === "DOMContentLoaded") pendingLoad.push(fn);
+              else t.addEventListener(type, fn, o);
+            };
+          case "removeEventListener": return t.removeEventListener.bind(t);
+          default:
+            if (k in vars) return vars[k];
+            var v = t[k];
+            if (typeof v === "function" && typeof k === "string" && /^[a-z]/.test(k)) {
+              try { return v.bind(t); } catch (e) { return v; }
+            }
+            return v;
+        }
+      },
+      set: function (t, k, val) {
+        if (k === "onload") { pendingLoad.push(val); return true; }
+        vars[k] = val;
+        return true;
+      },
+      has: function (t, k) { return k in vars || k in t; },
+    });
+
+    var scope = new Proxy(vars, {
+      has: function (t, k) {
+        if (typeof k !== "string") return false;
+        if (k === "window" || k === "document" || k === "globalThis" || k === "self" || k === "__vars" || k === "__scope" || k === "event") return false;
+        return k in t;
+      },
+      get: function (t, k) { return t[k]; },
+      set: function (t, k, v) { t[k] = v; return true; },
+    });
+
+    return { win: winProxy, doc: docProxy, vars: vars, scope: scope, pendingLoad: pendingLoad };
+  }
+
+  function runCode(card, env, code, name) {
+    var body = "with(__scope){\n" + appendExports(code) + "\n}";
+    try {
+      var fn = new Function("window", "document", "globalThis", "self", "__vars", "__scope", body);
+      fn.call(env.win, env.win, env.doc, env.win, env.win, env.vars, env.scope);
+    } catch (err) {
+      console.error("[ds-preview] " + card.id + (name ? " (" + name + ")" : "") + ":", err);
+    }
+  }
+
+  function runScripts(card, env) {
+    for (var i = 0; i < card.js.length; i++) {
+      var s = card.js[i];
+      var code = s.code;
+      if (s.babel) {
+        if (window.Babel) {
+          try {
+            code = Babel.transform(code, { presets: [["react", {}]], filename: s.name || "card.jsx" }).code;
+          } catch (err) {
+            console.error("[ds-preview] babel " + card.id + ":", err);
+            continue;
+          }
+        } else {
+          console.error("[ds-preview] " + card.id + " needs Babel but it is not loaded");
+          continue;
+        }
+      }
+      runCode(card, env, code, s.name);
+    }
+    var flush = env.pendingLoad.splice(0);
+    if (flush.length) {
+      setTimeout(function () {
+        var ev; try { ev = new Event("load"); } catch (e) { ev = { type: "load" }; }
+        flush.forEach(function (fn) {
+          try { typeof fn === "function" && fn.call(env.win, ev); } catch (err) { console.error("[ds-preview]", err); }
+        });
+      }, 0);
+    }
+  }
+
+  function bindInlineHandlers(card, env, rootEl) {
+    var all = rootEl.querySelectorAll("*");
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      for (var j = 0; j < el.attributes.length; j++) {
+        var at = el.attributes[j];
+        if (at.name.indexOf("data-ds-on") !== 0) continue;
+        (function (el, evt, code) {
+          el.addEventListener(evt, function (event) {
+            try {
+              var fn = new Function("window", "document", "globalThis", "self", "__scope", "event", "with(__scope){\n" + code + "\n}");
+              fn.call(el, env.win, env.doc, env.win, env.win, env.scope, event);
+            } catch (err) { console.error("[ds-preview] inline handler:", err); }
+          });
+        })(el, at.name.slice(10), at.value);
+      }
+    }
+  }
+
+  function fit(section) {
+    var card = cardById[section.id];
+    var wrap = section.querySelector("[data-fit]");
+    var stage = section.querySelector("[data-stage]");
+    if (!card || !wrap || !stage) return;
+    // Measure the available width on the SECTION, not the wrap: the wrap is
+    // shrink-wrapped to the scaled stage below, so reading it back would feed
+    // the previous scale into the next one.
+    var cw = section.clientWidth || wrap.clientWidth;
+    if (!cw) return;
+    // The declared viewport height is a MINIMUM: content that ends up taller
+    // (React mounts, fetched icons, wrapped rows) grows the stage instead of
+    // getting clipped. Monotonic with a 1px tolerance so repeated measures
+    // never jitter the layout back down.
+    var rootEl = stage.shadowRoot && stage.shadowRoot.querySelector(".__dsroot");
+    if (rootEl) {
+      // Cap growth so content sized relative to the container (height:100%
+      // plus a fixed extra) can never ratchet the stage upward forever.
+      var contentH = Math.min(rootEl.scrollHeight, Math.max(card.h, 4000));
+      if (contentH > (card.eh || card.h) + 1) card.eh = contentH;
+    }
+    var h = Math.max(card.eh || 0, card.h);
+    stage.style.height = h + "px";
+    // Width-only scaling: height never shrinks the card (it would leave blank
+    // bands beside the narrower stage). The wrap shrink-wraps the scaled stage
+    // so its frame always hugs the visible pixels.
+    var scale = Math.min(cw / card.w, 1);
+    stage.style.transform = scale === 1 ? "none" : "scale(" + scale + ")";
+    wrap.style.width = Math.ceil(card.w * scale) + "px";
+    wrap.style.height = Math.ceil(h * scale) + "px";
+  }
+
+  var sections = [].slice.call(document.querySelectorAll("[data-card]"));
+  function fitAll() { sections.forEach(fit); }
+
+  // ---- mount all cards
+  sections.forEach(function (section) {
+    var card = cardById[section.id];
+    if (!card) return;
+    var stage = section.querySelector("[data-stage]");
+    try {
+      var root = ensureShadow(stage);
+      var rootEl = root.querySelector(".__dsroot");
+      applyStyles(root, card.css);
+      var env = makeEnv(card, root, rootEl);
+      if (card.js.length) runScripts(card, env);
+      bindInlineHandlers(card, env, rootEl);
+      // Card content keeps changing after mount (React commits async, icon
+      // fetches resolve, images decode) — re-measure on every DOM change and
+      // resource load inside the shadow tree.
+      if (window.MutationObserver) {
+        new MutationObserver(function () { fit(section); }).observe(root, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          characterData: true,
+        });
+      }
+      root.addEventListener("load", function () { fit(section); }, true);
+    } catch (err) {
+      console.error("[ds-preview] mount " + card.id + ":", err);
+    }
+    stage.setAttribute("data-ready", "1");
+    fit(section);
+  });
+
+  // ---- scaling
+  var scroller = document.querySelector("[data-scroll]");
+  var inner = document.querySelector(".ds-content-inner");
+  if (window.ResizeObserver && inner) {
+    var raf = 0;
+    new ResizeObserver(function () {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(fitAll);
+    }).observe(inner);
+  } else {
+    window.addEventListener("resize", fitAll);
+  }
+  // Web fonts swap and late resources settle without DOM mutations —
+  // re-measure once fonts are ready plus a few fallback ticks.
+  if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+    document.fonts.ready.then(function () { fitAll(); });
+  }
+  [250, 750, 1500, 3000].forEach(function (ms) { setTimeout(fitAll, ms); });
+
+  // ---- outline interactions
+  var items = [].slice.call(document.querySelectorAll(".ds-item[data-target]"));
+  var itemByTarget = {};
+  items.forEach(function (it) { itemByTarget[it.getAttribute("data-target")] = it; });
+  var anchors = [].slice.call(document.querySelectorAll("[data-anchor]"));
+  var suppressUntil = 0;
+
+  function setActive(it) {
+    items.forEach(function (x) { x.classList.toggle("active", x === it); });
+    if (it) {
+      var g = it.closest(".ds-outline-group");
+      if (g) g.classList.remove("collapsed");
+    }
+  }
+
+  items.forEach(function (it) {
+    it.addEventListener("click", function () {
+      var target = document.getElementById(it.getAttribute("data-target"));
+      if (!target || !scroller) return;
+      var top = scroller.scrollTop + target.getBoundingClientRect().top - scroller.getBoundingClientRect().top - 20;
+      suppressUntil = Date.now() + 900;
+      setActive(it);
+      scroller.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    });
+  });
+
+  [].slice.call(document.querySelectorAll("[data-group-toggle]")).forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      btn.closest(".ds-outline-group").classList.toggle("collapsed");
+    });
+  });
+
+  function spy() {
+    if (Date.now() < suppressUntil || !scroller) return;
+    var cTop = scroller.getBoundingClientRect().top;
+    var best = null;
+    for (var i = 0; i < anchors.length; i++) {
+      var r = anchors[i].getBoundingClientRect();
+      if (r.top - cTop <= 90) best = anchors[i];
+      else break;
+    }
+    if (!best && anchors.length) best = anchors[0];
+    if (best) {
+      var key = best.getAttribute("data-anchor-key") || best.id;
+      setActive(itemByTarget[key] || itemByTarget[best.id] || null);
+    }
+  }
+  if (scroller) {
+    var sraf = 0;
+    scroller.addEventListener("scroll", function () {
+      cancelAnimationFrame(sraf);
+      sraf = requestAnimationFrame(spy);
+    }, { passive: true });
+    spy();
+  }
+
+  // ---- readme collapse
+  var readme = document.querySelector("[data-readme]");
+  var toggle = document.querySelector("[data-readme-toggle]");
+  if (readme && toggle) {
+    var update = function () {
+      var collapsed = readme.classList.contains("collapsed");
+      toggle.textContent = collapsed ? "Show more" : "Show less";
+    };
+    if (readme.scrollHeight <= 300) {
+      readme.classList.remove("collapsed");
+      toggle.style.display = "none";
+    }
+    toggle.addEventListener("click", function () {
+      readme.classList.toggle("collapsed");
+      update();
+      fitAll();
+    });
+    update();
+  }
+
+  window.addEventListener("load", fitAll);
+})();
+
+</script>
+</body>
+</html>

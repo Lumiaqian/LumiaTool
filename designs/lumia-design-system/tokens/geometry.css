@@ -1,0 +1,16 @@
+:root {
+  --lumia-space-1: 4px;
+  --lumia-space-2: 8px;
+  --lumia-space-3: 12px;
+  --lumia-space-4: 16px;
+  --lumia-space-5: 24px;
+  --lumia-radius-control: 7px;
+  --lumia-radius-panel: 11px;
+  --lumia-control-height-compact: 26px;
+  --lumia-control-height: 30px;
+  --lumia-topbar-height: 52px;
+  --lumia-toolbar-height: 50px;
+  --lumia-status-height: 30px;
+  --lumia-panel-header-height: 44px;
+  --lumia-shelf-width: 224px;
+}

@@ -1,0 +1,1 @@
+Use Primary only for the single main action in the current region. Secondary is the default. Danger is reserved for destructive actions. Icon-only buttons require ariaLabel. Never use orange for an action button; orange means current navigation or selection.

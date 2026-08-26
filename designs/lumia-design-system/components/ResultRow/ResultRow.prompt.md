@@ -1,0 +1,1 @@
+DOM and visual order is label, complete value, nearby action. Empty values render an em dash and no action. Error values use one shared alert at page level and cannot be copied. Long values scroll or wrap inside the value region; never ellipsize core data.

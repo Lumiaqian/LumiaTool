@@ -1,0 +1,211 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/Button/**",
+              "components/Panel/**",
+              "components/ResultRow/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|disabled|children|onClick|ariaLabel|key|ref|className|style)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, disabled, children, onClick, ariaLabel."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|secondary|danger)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'secondary' | 'danger'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Panel'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|surface|actions|children|key|ref|className|style)$/]",
+        "message": "<Panel> doesn't accept that prop. Declared props: title, surface, actions, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Panel'] > JSXAttribute[name.name='surface'] > Literal[value!=/^(?:paper|editor)$/]",
+        "message": "<Panel> surface must be one of 'paper' | 'editor'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ResultRow'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|value|state|action|key|ref|className|style|children)$/]",
+        "message": "<ResultRow> doesn't accept that prop. Declared props: label, value, state, action."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ResultRow'] > JSXAttribute[name.name='state'] > Literal[value!=/^(?:default|error)$/]",
+        "message": "<ResultRow> state must be one of 'default' | 'error'."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Button": {
+        "replaces": []
+      },
+      "Panel": {
+        "replaces": []
+      },
+      "ResultRow": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--lumia-app-bg",
+      "--lumia-app-bg",
+      "--lumia-border",
+      "--lumia-border",
+      "--lumia-border-strong",
+      "--lumia-border-strong",
+      "--lumia-control-height",
+      "--lumia-control-height-compact",
+      "--lumia-control-selected",
+      "--lumia-control-selected",
+      "--lumia-controls",
+      "--lumia-controls",
+      "--lumia-danger",
+      "--lumia-danger",
+      "--lumia-duration-fast",
+      "--lumia-duration-fast",
+      "--lumia-duration-normal",
+      "--lumia-duration-normal",
+      "--lumia-ease-standard",
+      "--lumia-editor",
+      "--lumia-editor",
+      "--lumia-focus",
+      "--lumia-focus",
+      "--lumia-font-body",
+      "--lumia-font-display",
+      "--lumia-font-mono",
+      "--lumia-font-sm",
+      "--lumia-font-title",
+      "--lumia-font-ui",
+      "--lumia-font-xs",
+      "--lumia-line-cjk",
+      "--lumia-line-code",
+      "--lumia-line-ui",
+      "--lumia-muted",
+      "--lumia-muted",
+      "--lumia-on-primary",
+      "--lumia-on-primary",
+      "--lumia-on-selection",
+      "--lumia-on-selection",
+      "--lumia-overlay-bg",
+      "--lumia-overlay-bg",
+      "--lumia-panel-header-height",
+      "--lumia-paper",
+      "--lumia-paper",
+      "--lumia-primary",
+      "--lumia-primary",
+      "--lumia-radius-control",
+      "--lumia-radius-panel",
+      "--lumia-raised-bg",
+      "--lumia-raised-bg",
+      "--lumia-selection",
+      "--lumia-selection",
+      "--lumia-shadow-overlay",
+      "--lumia-shadow-overlay",
+      "--lumia-shelf-width",
+      "--lumia-sidebar-bg",
+      "--lumia-sidebar-bg",
+      "--lumia-space-1",
+      "--lumia-space-2",
+      "--lumia-space-3",
+      "--lumia-space-4",
+      "--lumia-space-5",
+      "--lumia-status-height",
+      "--lumia-success",
+      "--lumia-success",
+      "--lumia-text",
+      "--lumia-text",
+      "--lumia-toolbar-height",
+      "--lumia-topbar-height",
+      "--lumia-warning",
+      "--lumia-warning"
+    ],
+    "tokenKinds": {
+      "--lumia-app-bg": "color",
+      "--lumia-sidebar-bg": "color",
+      "--lumia-raised-bg": "color",
+      "--lumia-overlay-bg": "color",
+      "--lumia-paper": "color",
+      "--lumia-editor": "color",
+      "--lumia-controls": "color",
+      "--lumia-text": "color",
+      "--lumia-muted": "color",
+      "--lumia-primary": "color",
+      "--lumia-on-primary": "color",
+      "--lumia-selection": "color",
+      "--lumia-on-selection": "color",
+      "--lumia-control-selected": "color",
+      "--lumia-success": "color",
+      "--lumia-warning": "color",
+      "--lumia-danger": "color",
+      "--lumia-border": "color",
+      "--lumia-border-strong": "color",
+      "--lumia-focus": "color",
+      "--lumia-shadow-overlay": "shadow",
+      "--lumia-font-ui": "font",
+      "--lumia-font-display": "font",
+      "--lumia-font-mono": "font",
+      "--lumia-font-xs": "spacing",
+      "--lumia-font-sm": "spacing",
+      "--lumia-font-body": "spacing",
+      "--lumia-font-title": "spacing",
+      "--lumia-line-ui": "other",
+      "--lumia-line-cjk": "other",
+      "--lumia-line-code": "other",
+      "--lumia-space-1": "spacing",
+      "--lumia-space-2": "spacing",
+      "--lumia-space-3": "spacing",
+      "--lumia-space-4": "spacing",
+      "--lumia-space-5": "spacing",
+      "--lumia-radius-control": "spacing",
+      "--lumia-radius-panel": "spacing",
+      "--lumia-control-height-compact": "spacing",
+      "--lumia-control-height": "spacing",
+      "--lumia-topbar-height": "spacing",
+      "--lumia-toolbar-height": "spacing",
+      "--lumia-status-height": "spacing",
+      "--lumia-panel-header-height": "spacing",
+      "--lumia-shelf-width": "spacing",
+      "--lumia-duration-fast": "other",
+      "--lumia-duration-normal": "other",
+      "--lumia-ease-standard": "other"
+    },
+    "fontFamilies": []
+  }
+}

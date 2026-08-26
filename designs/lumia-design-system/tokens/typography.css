@@ -1,0 +1,12 @@
+:root {
+  --lumia-font-ui: -apple-system, "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif; /* @kind font */
+  --lumia-font-display: Georgia, "Songti SC", "Noto Serif SC", serif; /* @kind font */
+  --lumia-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; /* @kind font */
+  --lumia-font-xs: 10px;
+  --lumia-font-sm: 11px;
+  --lumia-font-body: 13px;
+  --lumia-font-title: 15px;
+  --lumia-line-ui: 1.45; /* @kind other */
+  --lumia-line-cjk: 1.7; /* @kind other */
+  --lumia-line-code: 1.55; /* @kind other */
+}
