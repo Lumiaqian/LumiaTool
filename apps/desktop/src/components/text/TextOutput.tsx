@@ -5,7 +5,6 @@ import {
     Bool,
     Button,
     Card,
-    Display,
     Exception,
     InputNumber,
     Select,
@@ -181,13 +180,9 @@ export default function TextOutput({
         error !== "" ? (
             <Textarea value={error} readOnly />
         ) : result === "" ? (
-            <Display
-                position="center"
-                style={{ height: "100%" }}
-                extra={<Exception />}
-            >
-                <Textarea readOnly />
-            </Display>
+            <div className="ctool-text-output-empty">
+                <Exception />
+            </div>
         ) : ["text", "base64", "hex", "hex_dump"].includes(current.type) ? (
             <Textarea value={result} readOnly placeholder={placeholder} />
         ) : (
@@ -197,9 +192,10 @@ export default function TextOutput({
                         <img
                             onClick={() => copyImage(result)}
                             src={result}
+                            alt={content.name() || $t("main_ui_output")}
                             style={{
                                 cursor: "pointer",
-                                border: "1px dashed #666",
+                                border: "1px dashed color-mix(in srgb, var(--lumia-text) 28%, transparent)",
                                 maxWidth: "80%",
                                 maxHeight: "80%",
                             }}
@@ -209,8 +205,8 @@ export default function TextOutput({
                         <>
                             <span
                                 style={{
-                                    fontSize: "0.75rem",
-                                    color: "var(--ctool-placeholder-text-color)",
+                                    fontSize: "var(--lumia-font-sm)",
+                                    color: "var(--lumia-muted)",
                                 }}
                             >
                                 {content.name()} {content.imageSizeString ? `(${content.imageSizeString})` : ""}
@@ -343,9 +339,21 @@ export default function TextOutput({
         </Align>
     );
 
+    const hasTypeSelect = typeLists.length > 1;
+    const hasResultOptions = result !== "" && (
+        current.type === "base64"
+        || (current.type === "text" && encoding)
+        || current.type === "hex"
+    );
+    const hasFooter = hasTypeSelect || hasResultOptions;
+
     return (
-        <Display position="bottom-right" style={style} toggle extra={extra}>
-            {mainContent}
-        </Display>
+        <div
+            className={["ctool-text-output-frame", hasFooter ? "" : "ctool-text-output-frame--bare"].filter(Boolean).join(" ")}
+            style={style}
+        >
+            <div className="ctool-text-output-content">{mainContent}</div>
+            {hasFooter ? <div className="ctool-text-output-toolbar">{extra}</div> : null}
+        </div>
     );
 }

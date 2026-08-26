@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Align, HeightResize, TextInput, Textarea } from "@/components";
+import { TextInput } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { createTextInput } from "@/components/text";
 import { bcc, result } from "./util";
@@ -33,15 +33,42 @@ export default function Bcc() {
     const getResult = (type: string) => error !== "" ? error : output === null ? "" : result(output, type);
 
     return (
-        <HeightResize style={{ display: "grid", gridTemplateColumns: "10fr 14fr" }}>
-            {({ height }) => (
-                <>
-                    <TextInput value={action.current.input} onChange={(value: typeof action.current.input) => { action.current.input = value; }} upload="file" height={height} />
-                    <Align direction="vertical">
-                        {outputTypes.map((key) => <Textarea key={key} value={getResult(key)} height={(height - 15) / 4} placeholder={`${$t("main_ui_output")} ${key}`} copy={key} />)}
-                    </Align>
-                </>
-            )}
-        </HeightResize>
+        <div className="ctool-validation-page ctool-validation-bcc-page">
+            <section className="ctool-tester-panel ctool-validation-input-panel" aria-labelledby="ctool-bcc-input-title">
+                <header className="ctool-tester-panel-header">
+                    <strong id="ctool-bcc-input-title">{$t("main_ui_input")}</strong>
+                </header>
+                <div className="ctool-validation-input">
+                    <TextInput
+                        value={action.current.input}
+                        onChange={(value: typeof action.current.input) => { action.current.input = value; }}
+                        upload="file"
+                        height="100%"
+                    />
+                </div>
+            </section>
+            <section className="ctool-tester-panel ctool-validation-results-panel" aria-labelledby="ctool-bcc-output-title">
+                <header className="ctool-tester-panel-header">
+                    <strong id="ctool-bcc-output-title">{$t("main_ui_output")}</strong>
+                </header>
+                {error !== "" && <p className="ctool-tester-error" role="alert">{error}</p>}
+                <div className="ctool-tester-results">
+                    {outputTypes.map((type) => {
+                        const value = error === "" ? getResult(type) : "";
+                        return (
+                            <article className="ctool-tester-result" key={type}>
+                                <h3 className="ctool-tester-result-name">{type}</h3>
+                                <output className="ctool-tester-result-value"><code>{value || "—"}</code></output>
+                                {value !== "" && (
+                                    <button className="ctool-tester-copy" type="button" onClick={() => $copy(value)}>
+                                        {$t("main_ui_copy")}
+                                    </button>
+                                )}
+                            </article>
+                        );
+                    })}
+                </div>
+            </section>
+        </div>
     );
 }

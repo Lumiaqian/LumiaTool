@@ -94,53 +94,57 @@ export default function Code() {
     }, [action]);
 
     return (
-        <HeightResize>
-            {({ height }) => (
-                <Editor
-                    value={action.current.input}
-                    onChange={(value: string) => { action.current.input = value; }}
-                    langCallback={editorLanguage}
-                    reload={editorReload}
-                    lang={action.current.language}
-                    height={`${height}px`}
-                >
-                    <Align>
+        <div className="ctool-generator-editor-family ctool-editor-page ctool-code-formatter-page">
+            <header className="ctool-editor-command-toolbar" aria-label={$t("main_ui_setting")}>
+                <Align>
+                    <Select
+                        size="small"
+                        dialog
+                        value={action.current.language}
+                        onChange={(value: Languages) => { action.current.language = value; }}
+                        options={languageLists.map((name) => ({ value: name, label: getDisplayName(name) }))}
+                    />
+                    <Select
+                        size="small"
+                        value={action.current.option[action.current.language].tab}
+                        onChange={(value: number) => { action.current.option[action.current.language].tab = value; }}
+                        options={tabOptions}
+                    />
+                    {action.current.language === "sql" && (
                         <Select
                             size="small"
-                            dialog
-                            value={action.current.language}
-                            onChange={(value: Languages) => { action.current.language = value; }}
-                            options={languageLists.map((name) => ({ value: name, label: getDisplayName(name) }))}
+                            value={action.current.option.sql.language}
+                            onChange={(value: OptionMap["sql"]["language"]) => { action.current.option.sql.language = value; }}
+                            options={sqlLanguages}
                         />
-                        <Select
+                    )}
+                    {action.current.language === "xml" && (
+                        <Bool
                             size="small"
-                            value={action.current.option[action.current.language].tab}
-                            onChange={(value: number) => { action.current.option[action.current.language].tab = value; }}
-                            options={tabOptions}
+                            value={action.current.option.xml.collapse_content}
+                            onChange={(value: boolean) => { action.current.option.xml.collapse_content = value; }}
+                            label={$t("code_xml_collapse_content")}
                         />
-                        {action.current.language === "sql" && (
-                            <Select
-                                size="small"
-                                value={action.current.option.sql.language}
-                                onChange={(value: OptionMap["sql"]["language"]) => { action.current.option.sql.language = value; }}
-                                options={sqlLanguages}
-                            />
-                        )}
-                        {action.current.language === "xml" && (
-                            <Bool
-                                size="small"
-                                value={action.current.option.xml.collapse_content}
-                                onChange={(value: boolean) => { action.current.option.xml.collapse_content = value; }}
-                                label={$t("code_xml_collapse_content")}
-                            />
-                        )}
-                        {isEnableBeautify && <Button type="primary" size="small" onClick={() => void handle("beautify")}>{$t("code_beautify")}</Button>}
-                        {isEnableCompress && <span>|</span>}
-                        {isEnableCompress && <Button type="primary" size="small" onClick={() => void handle("compress")}>{$t("code_compress")}</Button>}
-                    </Align>
-                </Editor>
-            )}
-        </HeightResize>
+                    )}
+                    {isEnableBeautify && <Button type="primary" size="small" onClick={() => void handle("beautify")}>{$t("code_beautify")}</Button>}
+                    {isEnableCompress && <Button size="small" onClick={() => void handle("compress")}>{$t("code_compress")}</Button>}
+                </Align>
+            </header>
+            <section className="ctool-editor-surface">
+                <HeightResize>
+                    {({ height }) => (
+                        <Editor
+                            value={action.current.input}
+                            onChange={(value: string) => { action.current.input = value; }}
+                            langCallback={editorLanguage}
+                            reload={editorReload}
+                            lang={action.current.language}
+                            height={`${height}px`}
+                        />
+                    )}
+                </HeightResize>
+            </section>
+        </div>
     );
 }
 

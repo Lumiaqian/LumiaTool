@@ -43,9 +43,9 @@ export default function HexToArm() {
     };
 
     return (
-        <>
+        <div className="ctool-transformer-page ctool-transformer-page--arm">
             <Input
-                className="ctool-page-option"
+                className="ctool-page-option ctool-transformer-rack"
                 label="Offset (hex) 0x"
                 value={action.current.offset}
                 onChange={(value) => { action.current.offset = value; }}
@@ -53,25 +53,25 @@ export default function HexToArm() {
                 style={{ marginBottom: 5 }}
                 append={<HelpTip link="https://armconverter.com/" />}
             />
-            <div>
-                <HeightResize append={[".ctool-page-option"]} style={{ display: "grid", gridTemplateColumns: "10fr 14fr", columnGap: 5 }}>
+            <div className="ctool-transformer-panes ctool-transformer-panes--multiple">
+                <HeightResize append={[".ctool-page-option"]}>
                     {({ height }) => (
-                        <>
-                            <Align direction="vertical">
+                        <div className="ctool-transformer-arm-layout">
+                            <Align className="ctool-transformer-pane ctool-transformer-pane--source" direction="vertical" role="region" aria-label={$t("main_ui_input")}>
                                 <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height={height - 37} placeholder={inputPlaceholder} />
                                 <Button type="primary" loading={loading} onClick={convert} long>{$t("arm_convert")}</Button>
                             </Align>
-                            <Align direction="vertical">
+                            <Align className="ctool-transformer-pane ctool-transformer-pane--result ctool-transformer-multiple-results" direction="vertical" role="region" aria-label={$t("main_ui_output")}>
                                 <Textarea value={result.arm64} placeholder="ARM64" copy="ARM64" height={(height - 20) / 5} />
                                 <Textarea value={result.arm} placeholder="ARM" copy="ARM" height={(height - 20) / 5} />
                                 <Textarea value={result.armbe} placeholder="ARM Big Endian" copy="ARM Big Endian" height={(height - 20) / 5} />
                                 <Textarea value={result.thumb} placeholder="THUMB" copy="THUMB" height={(height - 20) / 5} />
                                 <Textarea value={result.thumbbe} placeholder="THUMB Big Endian" copy="THUMB Big Endian" height={(height - 20) / 5} />
                             </Align>
-                        </>
+                        </div>
                     )}
                 </HeightResize>
             </div>
-        </>
+        </div>
     );
 }

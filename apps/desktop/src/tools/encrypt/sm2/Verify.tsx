@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Align, Card, HeightResize, HelpTip, Input, TextInput, TextOutput } from "@/components";
+import { HelpTip, Input, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
@@ -59,52 +59,62 @@ export default function Verify() {
     }, [action, output]);
 
     return (
-        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-                        <TextInput
-                            value={action.current.sourceData}
-                            onChange={(value) => { action.current.sourceData = value; }}
-                            height={large}
-                            placeholder={$t("sm2_source_data")}
-                            upload="file"
+        <div className="ctool-transformer-page ctool-transformer-page--configured">
+            <div className="ctool-transformer-layout">
+                <div className="ctool-transformer-stage ctool-transformer-stage--verify">
+                    <div className="ctool-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
+                        <Input
+                            value={action.current.option.public_key}
+                            onChange={(value) => { action.current.option.public_key = value; }}
+                            label={$t("sm2_public_key")}
                         />
-                        <TextInput
-                            value={action.current.signValue}
-                            onChange={(value) => { action.current.signValue = value; }}
-                            height={large}
-                            placeholder={$t("sm2_sign_value")}
-                            allow={["hex", "base64"]}
+                        <Input
+                            value={action.current.option.user_id}
+                            onChange={(value) => { action.current.option.user_id = value; }}
+                            label={$t("sm2_userId")}
                         />
+                        <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
                     </div>
-                    <Card
-                        title={$t("main_ui_config")}
-                        className="ctool-page-option"
-                        extra={<Align><HelpTip link="https://github.com/JuneAndGreen/sm-crypto" /></Align>}
-                    >
-                        <Align horizontal="center">
-                            <Input
-                                value={action.current.option.public_key}
-                                onChange={(value) => { action.current.option.public_key = value; }}
-                                label={$t("sm2_public_key")}
+                    <div className="ctool-transformer-panes">
+                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("sm2_source_data")}>
+                            <header className="ctool-transformer-pane-header"><strong>{$t("sm2_source_data")}</strong></header>
+                            <div className="ctool-transformer-pane-body">
+                                <TextInput
+                                    value={action.current.sourceData}
+                                    onChange={(value) => { action.current.sourceData = value; }}
+                                    height="100%"
+                                    placeholder={$t("sm2_source_data")}
+                                    upload="file"
+                                />
+                            </div>
+                        </section>
+                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("sm2_sign_value")}>
+                            <header className="ctool-transformer-pane-header"><strong>{$t("sm2_sign_value")}</strong></header>
+                            <div className="ctool-transformer-pane-body">
+                                <TextInput
+                                    value={action.current.signValue}
+                                    onChange={(value) => { action.current.signValue = value; }}
+                                    height="100%"
+                                    placeholder={$t("sm2_sign_value")}
+                                    allow={["hex", "base64"]}
+                                />
+                            </div>
+                        </section>
+                    </div>
+                    <section className="ctool-transformer-pane ctool-transformer-pane--result ctool-transformer-result-band" aria-label={$t("main_ui_output")}>
+                        <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                        <div className="ctool-transformer-pane-body">
+                            <TextOutput
+                                value={action.current.output}
+                                onChange={(value) => { action.current.output = value; }}
+                                allow={["hex"]}
+                                content={output}
+                                height="100%"
                             />
-                            <Input
-                                value={action.current.option.user_id}
-                                onChange={(value) => { action.current.option.user_id = value; }}
-                                label={$t("sm2_userId")}
-                            />
-                        </Align>
-                    </Card>
-                    <TextOutput
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; }}
-                        allow={["hex"]}
-                        content={output}
-                        height={small}
-                    />
-                </Align>
-            )}
-        </HeightResize>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
     );
 }

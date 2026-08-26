@@ -37,5 +37,5 @@ export default function Reference() {
         { title: $t("ascii_description"), key: "explain" },
     ], []);
 
-    return <HeightResize>{({ height }) => <Table columns={columns} lists={lists} height={height} />}</HeightResize>;
+    return <div className="ctool-inspector-utility-family ctool-ascii-reference"><HeightResize>{({ height }) => <Table columns={columns} lists={lists} height={height} />}</HeightResize></div>;
 }

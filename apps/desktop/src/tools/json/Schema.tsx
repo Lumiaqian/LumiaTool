@@ -51,27 +51,25 @@ export default function Schema({
     }, [ajv, json, value.exp, value.option, onSuccess]);
 
     return (
-        <HeightResize fatherHeight={height} ignore reduce={5}>
-            {({ small, large }) => (
-                <Align direction="horizontal" width="100%">
-                    <Editor
-                        value={value.exp}
-                        onChange={(exp) => onChange?.({ ...value, exp })}
-                        disableLineNumbers
-                        placeholder={`JSON schema ${$t("main_ui_input")}`}
-                        lang="json"
-                        height={small}
-                    />
-                    <Editor
-                        value={output}
-                        disableLineNumbers
-                        placeholder={`JSON schema validator ${$t("main_ui_output")}`}
-                        height={large}
-                    >
-                        <HelpTip link="https://github.com/ajv-validator/ajv" />
-                    </Editor>
-                </Align>
-            )}
-        </HeightResize>
+        <HeightResize fatherHeight={height} ignore reduce={5} className="ctool-json-schema-workspace">{({ small, large }) => (
+            <Align direction="horizontal" width="100%">
+                <Editor
+                    value={value.exp}
+                    onChange={(exp) => onChange?.({ ...value, exp })}
+                    disableLineNumbers
+                    placeholder={`JSON schema ${$t("main_ui_input")}`}
+                    lang="json"
+                    height={small}
+                />
+                <Editor
+                    value={output}
+                    disableLineNumbers
+                    placeholder={`JSON schema validator ${$t("main_ui_output")}`}
+                    height={large}
+                >
+                    <HelpTip link="https://github.com/ajv-validator/ajv" />
+                </Editor>
+            </Align>
+        )}</HeightResize>
     );
 }

@@ -1,0 +1,192 @@
+:root,
+[data-theme="light"],
+#root,
+html {
+    --lumia-app-bg: #e8e2d8;
+    --lumia-sidebar-bg: #ddd5c9;
+    --lumia-raised-bg: #f3eee6;
+    --lumia-overlay-bg: #faf6ef;
+    --lumia-paper: #f7f1e8;
+    --lumia-editor: #f1ece3;
+    --lumia-controls: #d5ddd0;
+    --lumia-text: #362c24;
+    --lumia-muted: #756759;
+    --lumia-primary: #6f54d8;
+    --lumia-on-primary: #f4ecff;
+    --lumia-selection: #c47a38;
+    --lumia-on-selection: #2b190b;
+    --lumia-control-selected: #3d322b;
+    --lumia-success: #3f6f4c;
+    --lumia-warning: #b56d32;
+    --lumia-danger: #c45a50;
+    --lumia-border: rgba(54, 44, 36, .14);
+    --lumia-border-strong: rgba(54, 44, 36, .22);
+    --lumia-focus: #7c63e8;
+    --lumia-shadow-overlay: 0 18px 48px rgba(54, 44, 36, .18);
+    --lumia-radius-control: 7px;
+    --lumia-radius-panel: 11px;
+    --lumia-control-height: 30px;
+    --lumia-control-height-compact: 26px;
+    --lumia-toolbar-height: 50px;
+    --lumia-status-height: 30px;
+    --lumia-topbar-height: 52px;
+    --lumia-panel-header-height: 44px;
+    --lumia-space-1: 4px;
+    --lumia-space-2: 8px;
+    --lumia-space-3: 12px;
+    --lumia-space-4: 16px;
+    --lumia-space-5: 24px;
+    --lumia-font-ui: -apple-system, "SF Pro Text", "PingFang SC", "Noto Sans SC", sans-serif;
+    --lumia-font-display: Georgia, "Songti SC", "Noto Serif SC", serif;
+    --lumia-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --lumia-font-xs: 10px;
+    --lumia-font-sm: 11px;
+    --lumia-font-body: 13px;
+    --lumia-font-title: 15px;
+    --lumia-line-ui: 1.45;
+    --lumia-line-cjk: 1.7;
+    --lumia-line-code: 1.55;
+    --lumia-duration-fast: 120ms;
+    --lumia-duration-normal: 180ms;
+    --lumia-ease-standard: cubic-bezier(.2, 0, 0, 1);
+
+    --ctool-primary: var(--lumia-primary);
+    --ctool-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --ctool-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --ctool-color-primary-theme: var(--lumia-text);
+    --ctool-color-secondary-theme: var(--lumia-muted);
+    --ctool-border-color-theme: var(--lumia-border);
+    --ctool-placeholder-text-color-theme: var(--lumia-muted);
+    --ctool-background-color: var(--lumia-app-bg);
+    --ctool-block-title-bg-color: var(--lumia-raised-bg);
+    --ctool-block-content-bg-color: var(--lumia-paper);
+    --ctool-dropdown-background-color: var(--lumia-overlay-bg);
+    --ctool-dropdown-hover-background-color: color-mix(in srgb, var(--lumia-selection) 14%, transparent);
+    --ctool-form-element-background-color: var(--lumia-editor);
+    --ctool-form-element-active-background-color: var(--lumia-paper);
+    --ctool-sidebar-background: var(--lumia-sidebar-bg);
+    --ctool-toolbar-background: var(--lumia-raised-bg);
+    --ctool-elevated-background: var(--lumia-raised-bg);
+    --ctool-hover-background: color-mix(in srgb, var(--lumia-text) 7%, transparent);
+    --ctool-selected-background: var(--lumia-selection);
+    --ctool-panel-shadow: none;
+    --ctool-shadow: var(--lumia-shadow-overlay);
+    --ctool-radius-sm: var(--lumia-radius-control);
+    --ctool-radius-md: var(--lumia-radius-control);
+    --ctool-radius-lg: var(--lumia-radius-panel);
+    --ctool-form-item-height: var(--lumia-control-height);
+    --ctool-form-font-size: .8125rem;
+    --primary: var(--lumia-primary);
+    --primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --primary-inverse: var(--lumia-on-primary);
+    --background-color: var(--lumia-app-bg);
+    --color: var(--lumia-text);
+    color-scheme: light;
+}
+
+[data-theme="dark"],
+[data-theme="dark"] #root {
+    --lumia-app-bg: #171410;
+    --lumia-sidebar-bg: #1e1a16;
+    --lumia-raised-bg: #29241e;
+    --lumia-overlay-bg: #302a23;
+    --lumia-paper: #241f1a;
+    --lumia-editor: #1c1915;
+    --lumia-controls: #252922;
+    --lumia-text: #f4ecdf;
+    --lumia-muted: #b4a697;
+    --lumia-primary: #a994ff;
+    --lumia-on-primary: #1c142e;
+    --lumia-selection: #efa968;
+    --lumia-on-selection: #2b190b;
+    --lumia-control-selected: #4a3d34;
+    --lumia-success: #5e8f69;
+    --lumia-warning: #cb874d;
+    --lumia-danger: #d86b5f;
+    --lumia-border: rgba(255, 242, 225, .1);
+    --lumia-border-strong: rgba(255, 242, 225, .18);
+    --lumia-focus: #b9a5ff;
+    --lumia-shadow-overlay: 0 18px 48px rgba(0, 0, 0, .36);
+
+    --ctool-primary: var(--lumia-primary);
+    --ctool-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --ctool-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --ctool-color-primary-theme: var(--lumia-text);
+    --ctool-color-secondary-theme: var(--lumia-muted);
+    --ctool-border-color-theme: var(--lumia-border);
+    --ctool-placeholder-text-color-theme: var(--lumia-muted);
+    --ctool-background-color: var(--lumia-app-bg);
+    --ctool-block-title-bg-color: var(--lumia-raised-bg);
+    --ctool-block-content-bg-color: var(--lumia-paper);
+    --ctool-dropdown-background-color: var(--lumia-overlay-bg);
+    --ctool-dropdown-hover-background-color: color-mix(in srgb, var(--lumia-selection) 14%, transparent);
+    --ctool-form-element-background-color: var(--lumia-editor);
+    --ctool-form-element-active-background-color: var(--lumia-paper);
+    --ctool-sidebar-background: var(--lumia-sidebar-bg);
+    --ctool-toolbar-background: var(--lumia-raised-bg);
+    --ctool-elevated-background: var(--lumia-raised-bg);
+    --ctool-hover-background: color-mix(in srgb, var(--lumia-text) 7%, transparent);
+    --ctool-selected-background: var(--lumia-selection);
+    --ctool-shadow: var(--lumia-shadow-overlay);
+    --primary: var(--lumia-primary);
+    --primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --primary-inverse: var(--lumia-on-primary);
+    --background-color: var(--lumia-app-bg);
+    --color: var(--lumia-text);
+    color-scheme: dark;
+}
+
+.ctool-layout-desktop .ctool-main-tool,
+body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
+    --background-color: var(--lumia-paper);
+    --color: var(--lumia-text);
+    --h1-color: var(--lumia-text);
+    --h2-color: var(--lumia-text);
+    --h3-color: var(--lumia-text);
+    --h4-color: var(--lumia-text);
+    --h5-color: var(--lumia-text);
+    --h6-color: var(--lumia-text);
+    --muted-color: var(--lumia-muted);
+    --muted-border-color: var(--lumia-border);
+    --card-background-color: var(--lumia-paper);
+    --card-border-color: var(--lumia-border);
+    --card-sectionning-background-color: var(--lumia-raised-bg);
+    --card-box-shadow: none;
+    --code-background-color: transparent;
+    --code-color: var(--lumia-text);
+    --form-element-background-color: var(--lumia-editor);
+    --form-element-color: var(--lumia-text);
+    --form-element-placeholder-color: var(--lumia-muted);
+    --form-element-border-color: var(--lumia-border);
+    --form-element-active-background-color: var(--lumia-paper);
+    --form-element-active-border-color: var(--lumia-primary);
+    --table-border-color: var(--lumia-border);
+    --table-row-stripped-background-color: color-mix(in srgb, var(--lumia-controls) 40%, var(--lumia-paper));
+    --ctool-color-primary-theme: var(--lumia-text);
+    --ctool-color-secondary-theme: var(--lumia-muted);
+    --ctool-placeholder-text-color-theme: var(--lumia-muted);
+    --ctool-border-color-theme: var(--lumia-border);
+    --ctool-block-content-bg-color: var(--lumia-paper);
+    --ctool-block-title-bg-color: var(--lumia-raised-bg);
+    --ctool-form-element-background-color: var(--lumia-editor);
+    --ctool-form-element-active-background-color: var(--lumia-paper);
+    --ctool-elevated-background: var(--lumia-paper);
+    color: var(--lumia-text);
+    background: var(--lumia-paper);
+}
+
+.ctool-layout-desktop :is(button, input, textarea, select, a):focus-visible {
+    outline: 2px solid var(--lumia-focus);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root,
+    #root,
+    html {
+        --lumia-duration-fast: .01ms;
+        --lumia-duration-normal: .01ms;
+    }
+}

@@ -37,6 +37,7 @@ function Diffs() {
     }, [action, original, modified, lang]);
 
     return (
+        <div className="ctool-generator-editor-family ctool-diff-editor-page">
         <HeightResize>
             {({ height }) => (
                 <Diff
@@ -62,6 +63,7 @@ function Diffs() {
                 </Diff>
             )}
         </HeightResize>
+        </div>
     );
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { range } from "lodash";
-import { Button, HeightResize, Select, Textarea } from "@/components";
+import { Button, Select, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 
 type InitializeType = {
@@ -98,24 +98,89 @@ export default function Bcrypt() {
         : `${$t("bcrypt_check")} (${action.current.check_result ? $t("bcrypt_check_result_success") : $t("bcrypt_check_result_error")})`;
 
     return (
-        <>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 5px 1fr", columnGap: 10, marginBottom: 5 }} className="ctool-page-option">
-                <div style={{ display: "grid", gridTemplateColumns: "120px 120px 1fr", columnGap: 5 }}>
-                    <Select value={action.current.rounds} onChange={(value) => { action.current.rounds = value; }} options={rounds} className="select-box" />
-                    <Select value={action.current.version} onChange={(value) => { action.current.version = value; }} options={versionOptions} className="select-box" />
-                    <Button loading={generateLoading} onClick={generate} type="primary" long text={$t("bcrypt_generate")} />
+        <div className="ctool-bcrypt-page">
+            <section className="ctool-bcrypt-toolbar" aria-label={$t("main_ui_setting")}>
+                <div className="ctool-bcrypt-config">
+                    <Select
+                        value={action.current.rounds}
+                        onChange={(value) => { action.current.rounds = value; }}
+                        options={rounds}
+                        className="select-box"
+                    />
+                    <Select
+                        value={action.current.version}
+                        onChange={(value) => { action.current.version = value; }}
+                        options={versionOptions}
+                        className="select-box"
+                    />
+                    <Button
+                        loading={generateLoading}
+                        disabled={generateLoading || action.current.input === ""}
+                        onClick={generate}
+                        type="primary"
+                        text={$t("bcrypt_generate")}
+                    />
                 </div>
-                <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>|</span>
-                <Button loading={checkLoading} onClick={check} type="primary" long text={checkButtonText} />
-            </div>
-            <HeightResize append={[".ctool-page-option"]}>
-                {({ height }) => (
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 5 }}>
-                        <Textarea height={height} value={action.current.input} onChange={(value) => { action.current.input = value; }} floatText={$t("bcrypt_password")} placeholder={$t("bcrypt_password")} onClickFloatText={() => $copy(action.current.input)} />
-                        <Textarea height={height} value={action.current.hash} onChange={(value) => { action.current.hash = value; }} floatText={$t("bcrypt_hash")} placeholder={$t("bcrypt_hash")} onClickFloatText={() => $copy(action.current.hash)} />
+                <div className="ctool-bcrypt-check">
+                    <Button
+                        loading={checkLoading}
+                        disabled={checkLoading || action.current.input === "" || action.current.hash === ""}
+                        onClick={check}
+                        text={checkButtonText}
+                    />
+                    <output
+                        className={[
+                            "ctool-bcrypt-status",
+                            action.current.check_result === null
+                                ? ""
+                                : action.current.check_result
+                                  ? "is-success"
+                                  : "is-error",
+                        ].filter(Boolean).join(" ")}
+                        aria-live="polite"
+                    >
+                        {action.current.check_result === null
+                            ? "—"
+                            : action.current.check_result
+                              ? $t("bcrypt_check_result_success")
+                              : $t("bcrypt_check_result_error")}
+                    </output>
+                </div>
+            </section>
+            <div className="ctool-bcrypt-workspace">
+                <section className="ctool-tester-panel" aria-labelledby="ctool-bcrypt-password-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-bcrypt-password-title">{$t("bcrypt_password")}</strong>
+                        {action.current.input !== "" && (
+                            <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.input)} />
+                        )}
+                    </header>
+                    <div className="ctool-bcrypt-editor">
+                        <Textarea
+                            height="100%"
+                            value={action.current.input}
+                            onChange={(value) => { action.current.input = value; }}
+                            placeholder={$t("bcrypt_password")}
+                        />
                     </div>
-                )}
-            </HeightResize>
-        </>
+                </section>
+                <section className="ctool-tester-panel" aria-labelledby="ctool-bcrypt-hash-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-bcrypt-hash-title">{$t("bcrypt_hash")}</strong>
+                        {action.current.hash !== "" && (
+                            <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.hash)} />
+                        )}
+                    </header>
+                    <div className="ctool-bcrypt-editor">
+                        <Textarea
+                            height="100%"
+                            value={action.current.hash}
+                            onChange={(value) => { action.current.hash = value; }}
+                            placeholder={$t("bcrypt_hash")}
+                        />
+                    </div>
+                </section>
+            </div>
+        </div>
     );
 }

@@ -1,0 +1,349 @@
+.ctool-transformer-page {
+    width: 100%;
+    height: 100% !important;
+    min-width: 0;
+    min-height: 0;
+    container-type: inline-size;
+    color: var(--lumia-text);
+}
+
+.ctool-transformer-page .ctool-transformer-layout,
+.ctool-transformer-page .ctool-transformer-stage,
+.ctool-transformer-page .ctool-transformer-panes,
+.ctool-transformer-page .ctool-transformer-arm-layout {
+    width: 100%;
+    height: 100% !important;
+    min-width: 0;
+    min-height: 0;
+}
+
+.ctool-transformer-stage,
+.ctool-transformer-page--arm {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--lumia-space-3);
+}
+
+.ctool-transformer-panes,
+.ctool-transformer-arm-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    gap: var(--lumia-space-3);
+}
+
+.ctool-transformer-pane {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    color: var(--lumia-text);
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-paper);
+}
+
+section.ctool-transformer-pane {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.ctool-transformer-pane--source {
+    background: var(--lumia-editor);
+}
+
+.ctool-transformer-pane-header {
+    min-height: calc(var(--lumia-control-height) + var(--lumia-space-3));
+    display: flex;
+    align-items: center;
+    padding: 0 var(--lumia-space-4);
+    color: var(--lumia-text);
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+    background: color-mix(in srgb, var(--lumia-paper) 88%, var(--lumia-control-selected));
+}
+
+.ctool-transformer-pane--source > .ctool-transformer-pane-header {
+    background: color-mix(in srgb, var(--lumia-editor) 88%, var(--lumia-control-selected));
+}
+
+.ctool-transformer-pane-header strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: var(--lumia-font-body);
+    font-weight: 680;
+}
+
+.ctool-transformer-pane-body {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    overflow: hidden;
+}
+
+.ctool-transformer-page :is(
+    .ctool-transformer-pane-body,
+    .ctool-transformer-pane-body > *,
+    .ctool-transformer-pane-body > .ctool-display > :first-child,
+    .ctool-transformer-pane-body .ctool-textarea,
+    .ctool-transformer-pane-body .ctool-textarea > .ctool-display,
+    .ctool-transformer-pane-body .ctool-text-input-frame,
+    .ctool-transformer-pane-body .ctool-text-output-frame,
+    .ctool-transformer-pane-body textarea
+) {
+    min-width: 0;
+    min-height: 0;
+    height: 100% !important;
+}
+
+.ctool-transformer-page .ctool-text-input-frame {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.ctool-transformer-page .ctool-text-input-toolbar {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--lumia-space-2);
+    overflow-x: auto;
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
+    background: var(--lumia-controls);
+}
+
+.ctool-transformer-page .ctool-display {
+    min-width: 0;
+    min-height: 0;
+}
+
+.ctool-transformer-page .ctool-transformer-pane-body > .ctool-display {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.ctool-transformer-page .ctool-transformer-pane-body > .ctool-display > div:last-child {
+    position: static !important;
+    min-width: 0;
+    overflow-x: auto;
+    border-top: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
+    background: var(--lumia-controls);
+}
+
+.ctool-transformer-page .ctool-transformer-pane-body > .ctool-display > div:last-child > .ctool-display-extra {
+    position: static !important;
+    width: max-content;
+    min-width: 100%;
+    min-height: var(--lumia-control-height);
+    justify-content: flex-end;
+    padding: var(--lumia-space-2);
+    color: var(--lumia-text);
+    background: transparent !important;
+}
+
+.ctool-transformer-rack .ctool-tabs {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+}
+
+.ctool-transformer-rack .ctool-tabs-body {
+    padding: 0 !important;
+}
+
+.ctool-transformer-rack .ctool-text-input-inline {
+    flex: 1 1 12rem;
+}
+
+.ctool-transformer-rack:has(.ctool-transformer-rack-key) {
+    flex-wrap: wrap;
+    max-height: 12rem;
+    align-items: stretch;
+}
+
+.ctool-transformer-rack-key {
+    flex: 1 1 100%;
+    min-height: 5rem;
+}
+
+.ctool-transformer-stage--verify {
+    grid-template-rows: auto minmax(0, 1fr) minmax(7rem, .4fr);
+}
+
+.ctool-transformer-rack,
+.ctool-transformer-page.ctool-transformer-page--legacy .ctool-page-option {
+    min-width: 0;
+    max-height: 14rem;
+    display: flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+    margin: 0 !important;
+    padding: var(--lumia-space-2) var(--lumia-space-3) !important;
+    overflow: auto;
+    color: var(--lumia-text);
+    border: 1px solid color-mix(in srgb, var(--lumia-control-selected) 16%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-controls);
+}
+
+.ctool-transformer-rack > .ctool-align,
+.ctool-transformer-page.ctool-transformer-page--legacy .ctool-page-option > .ctool-align,
+.ctool-transformer-page.ctool-transformer-page--legacy .ctool-card-body > .ctool-align {
+    min-width: 0;
+    display: flex !important;
+    flex: 1;
+    align-items: center !important;
+    gap: var(--lumia-space-2) !important;
+}
+
+.ctool-transformer-page :is(.ctool-input-label, .ctool-card-title, label, output, code) {
+    overflow-wrap: anywhere;
+}
+
+.ctool-transformer-page textarea {
+    max-width: 100%;
+    overflow: auto;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0;
+    min-height: 0;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: var(--lumia-space-3) !important;
+    flex-flow: initial !important;
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align > * {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-paper);
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align > :first-child {
+    background: var(--lumia-editor);
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align > .ctool-page-option {
+    overflow: auto;
+    border-color: color-mix(in srgb, var(--lumia-control-selected) 16%, transparent);
+    background: var(--lumia-controls);
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align:not(:has(> :nth-child(3))) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align :is(.ctool-textarea, textarea, .ctool-display) {
+    min-width: 0;
+    min-height: 0;
+    height: 100% !important;
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy:has(> :nth-child(2):last-child),
+.ctool-transformer-page.ctool-transformer-page--legacy > div:has(> :nth-child(2):last-child) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1fr);
+    gap: var(--lumia-space-3) !important;
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy:has(> :nth-child(4):last-child) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: var(--lumia-space-3) !important;
+}
+
+.ctool-transformer-page.ctool-transformer-page--legacy > :is(.ctool-serialize-input, .ctool-serialize-output, .ctool-textarea),
+.ctool-transformer-page.ctool-transformer-page--legacy > div:has(> :nth-child(2):last-child) > * {
+    min-width: 0;
+    min-height: 0;
+    height: 100% !important;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-paper);
+}
+
+.ctool-transformer-arm-layout > .ctool-transformer-pane {
+    display: flex !important;
+    gap: var(--lumia-space-2) !important;
+    padding: var(--lumia-space-2);
+}
+
+.ctool-transformer-arm-layout > .ctool-transformer-pane--source {
+    flex-direction: column;
+}
+
+.ctool-transformer-arm-layout > .ctool-transformer-pane--source > .ctool-textarea {
+    min-height: 0;
+    flex: 1;
+}
+
+.ctool-transformer-arm-layout > .ctool-transformer-pane--source > .ctool-button {
+    flex: 0 0 auto;
+}
+
+.ctool-transformer-multiple-results {
+    min-height: 0;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: minmax(7rem, 1fr);
+    align-content: stretch;
+    overflow-y: auto;
+}
+
+.ctool-transformer-multiple-results > .ctool-textarea,
+.ctool-transformer-multiple-results > .ctool-textarea > .ctool-display,
+.ctool-transformer-multiple-results textarea {
+    min-height: 7rem;
+    height: 100% !important;
+}
+
+@container (max-width: 48rem) {
+    .ctool-transformer-panes,
+    .ctool-transformer-arm-layout,
+    .ctool-transformer-page.ctool-transformer-page--legacy:has(> :nth-child(2):last-child),
+    .ctool-transformer-page.ctool-transformer-page--legacy > div:has(> :nth-child(2):last-child),
+    .ctool-transformer-page.ctool-transformer-page--legacy > .ctool-align:not(:has(> :nth-child(3))) {
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-rows: repeat(2, minmax(16rem, 1fr));
+        overflow-y: auto;
+    }
+
+    .ctool-transformer-stage,
+    .ctool-transformer-page--arm {
+        overflow-y: auto;
+    }
+}
+
+@container (max-width: 34rem) {
+    .ctool-transformer-rack,
+    .ctool-transformer-page.ctool-transformer-page--legacy .ctool-page-option {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .ctool-transformer-rack > .ctool-align,
+    .ctool-transformer-page.ctool-transformer-page--legacy .ctool-page-option > .ctool-align,
+    .ctool-transformer-page.ctool-transformer-page--legacy .ctool-card-body > .ctool-align {
+        width: 100% !important;
+        align-items: stretch !important;
+        flex-direction: column !important;
+    }
+
+    .ctool-transformer-page.ctool-transformer-page--legacy:has(> :nth-child(4):last-child) {
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-rows: repeat(4, minmax(12rem, 1fr));
+        overflow-y: auto;
+    }
+}

@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { Align, Bool, Display, HeightResize, Textarea, TextInput, Tooltip } from "@/components";
+import { useEffect, useMemo } from "react";
+import { TextInput } from "@/components";
 import { createTextInput } from "@/components/text";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
@@ -26,7 +26,7 @@ export default function Hmac() {
     const action = useAction(initial);
     const isAllowMultiple = ["text"].includes(action.current.input.type);
 
-    const result = useMemo<Record<methodType, string>>(() => {
+    const calculation = useMemo(() => {
         const values: Record<methodType, string> = {
             md5: "",
             sha1: "",
@@ -35,11 +35,11 @@ export default function Hmac() {
             sm3: "",
             ripemd160: "",
         };
+        const errors: Partial<Record<methodType, string>> = {};
         if (action.current.input.text.isEmpty() || action.current.secret.text.isEmpty()) {
-            return values;
+            return { values, errors, firstError: "", shouldSave: false };
         }
 
-        let isError = false;
         for (const type of methods) {
             try {
                 if (action.current.input.text.isError()) {
@@ -56,16 +56,12 @@ export default function Hmac() {
                 );
                 values[type] = action.current.is_uppercase ? temporary.toUpperCase() : temporary.toLowerCase();
             } catch (error: unknown) {
-                isError = true;
-                values[type] = $error(error);
+                errors[type] = $error(error);
             }
         }
-        if (!isError) {
-            action.save();
-        }
-        return values;
+        const firstError = Object.values(errors)[0] ?? "";
+        return { values, errors, firstError, shouldSave: firstError === "" };
     }, [
-        action,
         action.current.input.text,
         action.current.secret.text,
         action.current.is_uppercase,
@@ -73,67 +69,107 @@ export default function Hmac() {
         isAllowMultiple,
     ]);
 
+    useEffect(() => {
+        if (calculation.shouldSave) {
+            action.save();
+        }
+    }, [action, calculation]);
+
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "10fr 14fr" }}>
-            <Align direction="vertical">
-                <TextInput
-                    className="ctool-page-option"
-                    value={action.current.secret}
-                    onChange={(value) => { action.current.secret = value; }}
-                    useInput={$t("hmac_secret")}
-                    allow={["text", "hex", "base64"]}
-                />
-                <Display
-                    extra={(
-                        <Align>
-                            <Bool
-                                size="small"
-                                value={action.current.is_uppercase}
-                                onChange={(value) => { action.current.is_uppercase = value; }}
-                                border
-                                label={$t("hmac_uppercase")}
+        <div className="ctool-hmac-page">
+            <section className="ctool-tester-panel ctool-hmac-input-panel" aria-labelledby="ctool-hmac-input-title">
+                <header className="ctool-tester-panel-header">
+                    <strong id="ctool-hmac-input-title">{$t("main_ui_input")}</strong>
+                </header>
+                <div className="ctool-hmac-inputs">
+                    <section className="ctool-tester-editor-group" aria-labelledby="ctool-hmac-secret-title">
+                        <header className="ctool-tester-editor-header">
+                            <strong id="ctool-hmac-secret-title">{$t("hmac_secret")}</strong>
+                        </header>
+                        <div className="ctool-tester-editor-body">
+                            <TextInput
+                                value={action.current.secret}
+                                onChange={(value) => { action.current.secret = value; }}
+                                height="100%"
+                                allow={["text", "hex", "base64"]}
                             />
-                            <Tooltip content={$t("hmac_multiple_tooltip")}>
-                                <Bool
-                                    disabled={!isAllowMultiple}
-                                    size="small"
-                                    value={action.current.multiple}
-                                    onChange={(value) => { action.current.multiple = value; }}
-                                    border
-                                    label={$t("hmac_multiple")}
-                                />
-                            </Tooltip>
-                        </Align>
-                    )}
-                >
-                    <HeightResize append={[".ctool-page-option"]} reduce={5}>
-                        {({ height }) => (
+                        </div>
+                    </section>
+                    <section className="ctool-tester-editor-group" aria-labelledby="ctool-hmac-content-title">
+                        <header className="ctool-tester-editor-header">
+                            <strong id="ctool-hmac-content-title">{$t("main_ui_input")}</strong>
+                        </header>
+                        <div className="ctool-tester-editor-body">
                             <TextInput
                                 value={action.current.input}
                                 onChange={(value) => { action.current.input = value; }}
-                                height={height}
+                                height="100%"
                                 upload="file"
                                 encoding
                             />
-                        )}
-                    </HeightResize>
-                </Display>
-            </Align>
-            <HeightResize>
-                {({ height }) => (
-                    <Align direction="vertical">
-                        {methods.map((item) => (
-                            <Textarea
-                                key={item}
-                                value={result[item]}
-                                height={(height - 20) / methods.length}
-                                placeholder={`HMAC-${item}`}
-                                copy={`HMAC-${item}`}
-                            />
-                        ))}
-                    </Align>
+                        </div>
+                    </section>
+                </div>
+                <fieldset className="ctool-tester-options" aria-label={$t("main_ui_setting")}>
+                    <label className="ctool-tester-check">
+                        <input
+                            type="checkbox"
+                            checked={action.current.is_uppercase}
+                            onChange={(event) => { action.current.is_uppercase = event.target.checked; }}
+                        />
+                        <span>{$t("hmac_uppercase")}</span>
+                    </label>
+                    <label className="ctool-tester-check" title={$t("hmac_multiple_tooltip")}>
+                        <input
+                            type="checkbox"
+                            checked={action.current.multiple}
+                            disabled={!isAllowMultiple}
+                            onChange={(event) => { action.current.multiple = event.target.checked; }}
+                        />
+                        <span>{$t("hmac_multiple")}</span>
+                    </label>
+                </fieldset>
+            </section>
+
+            <section className="ctool-tester-panel ctool-hmac-results-panel" aria-labelledby="ctool-hmac-results-title">
+                <header className="ctool-tester-panel-header">
+                    <strong id="ctool-hmac-results-title">{$t("main_ui_output")}</strong>
+                </header>
+                {calculation.firstError !== "" && (
+                    <p className="ctool-tester-error" role="alert">{calculation.firstError}</p>
                 )}
-            </HeightResize>
+                <div className="ctool-tester-results">
+                    {methods.map((method) => {
+                        const value = calculation.values[method];
+                        const error = calculation.errors[method];
+                        const labelId = `ctool-hmac-${method}-label`;
+                        return (
+                            <article
+                                className={`ctool-tester-result${error ? " is-error" : ""}`}
+                                key={method}
+                                aria-labelledby={labelId}
+                            >
+                                <h3 className="ctool-tester-result-name" id={labelId}>
+                                    HMAC-{method.toUpperCase()}
+                                </h3>
+                                <output className="ctool-tester-result-value" aria-labelledby={labelId}>
+                                    <code>{error || value || "—"}</code>
+                                </output>
+                                {value !== "" && !error && (
+                                    <button
+                                        className="ctool-tester-copy"
+                                        type="button"
+                                        onClick={() => $copy(value)}
+                                        aria-label={`${$t("main_ui_copy")} HMAC-${method}`}
+                                    >
+                                        {$t("main_ui_copy")}
+                                    </button>
+                                )}
+                            </article>
+                        );
+                    })}
+                </div>
+            </section>
         </div>
     );
 }

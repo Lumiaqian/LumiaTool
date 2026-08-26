@@ -6,6 +6,15 @@ import { copy } from "@/lib/clipboard";
 import { initPermission } from "@/lib/clipboard";
 import "@/assets/style.css";
 import "@/assets/react-migrated.css";
+import "@/design-system/tokens.css";
+import "@/design-system/workbench.css";
+import "@/design-system/tool-layouts.css";
+import "@/design-system/all-tools.css";
+import "@/design-system/transformer-family.css";
+import "@/design-system/tester-family.css";
+import "@/design-system/inspector-utility-family.css";
+import "@/design-system/generator-editor-family.css";
+import "@/design-system/polish.css";
 
 Object.assign(globalThis, {
     $t,

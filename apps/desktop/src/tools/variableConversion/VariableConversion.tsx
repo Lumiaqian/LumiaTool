@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { HeightResize, Textarea } from "@/components";
+import { Button, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { convent, typeLists } from "@/lib/nameConvert";
 import type { TypeLists } from "@/lib/nameConvert";
@@ -25,28 +25,35 @@ export default function VariableConversion() {
     }, [action, action.current.input]);
 
     return (
-        <HeightResize ignore reduce={5} row="1-1-1-1">
-            {({ height }: { height: number }) => (
-                <>
+        <div className="ctool-inspector-utility-family ctool-variable-page">
+            <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                <header className="ctool-inspector-family-panel-header">
+                    <strong>{$t("variableConversion_input")}</strong>
+                </header>
+                <div className="ctool-inspector-family-panel-body">
                     <Textarea
-                        height={height / 2}
+                        height="100%"
                         value={action.current.input}
                         onChange={value => { action.current.input = value; }}
                         placeholder={$t("variableConversion_input_placeholder")}
-                        floatText={$t("variableConversion_input")}
                     />
-                    {output.map(item => (
-                        <Textarea
-                            key={item.key}
-                            value={item.value}
-                            copy={item.label}
-                            height={height / 2}
-                            floatType="general"
-                            placeholder={item.label}
-                        />
-                    ))}
-                </>
-            )}
-        </HeightResize>
+                </div>
+            </section>
+            <div className="ctool-variable-grid">
+                {output.map(item => (
+                    <section className="ctool-inspector-family-panel" key={item.key}>
+                        <header className="ctool-inspector-family-panel-header">
+                            <strong>{item.label}</strong>
+                            {item.value !== "" ? (
+                                <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(item.value)} />
+                            ) : null}
+                        </header>
+                        <div className="ctool-inspector-family-panel-body">
+                            <Textarea height="100%" value={item.value} placeholder={item.label} readOnly />
+                        </div>
+                    </section>
+                ))}
+            </div>
+        </div>
     );
 }

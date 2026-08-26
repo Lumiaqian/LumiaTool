@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Align, Bool, Display, HeightResize, TextInput, TextOutput } from "@/components";
+import { Bool, HeightResize, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
@@ -33,36 +33,47 @@ export default function Encoder() {
     }, [inputText, deflate]);
 
     return (
-        <HeightResize reduce={5}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <Display
-                        extra={(
+        <div className="ctool-transformer-page ctool-transformer-page--configured">
+            <HeightResize className="ctool-transformer-layout" reduce={5}>
+                {({ small, large }) => (
+                    <div className="ctool-transformer-stage">
+                        <div className="ctool-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
                             <Bool
                                 value={action.current.deflate}
                                 onChange={(value) => { action.current.deflate = value; }}
                                 label="Deflate"
                             />
-                        )}
-                    >
-                        <TextInput
-                            value={action.current.input}
-                            onChange={(value) => { action.current.input = value; }}
-                            height={small}
-                            upload="file"
-                            encoding
-                        />
-                    </Display>
-                    <TextOutput
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; }}
-                        allow={["base64", "hex", "down"]}
-                        content={output}
-                        height={large}
-                        onSuccess={() => { action.save(); }}
-                    />
-                </Align>
-            )}
-        </HeightResize>
+                        </div>
+                        <div className="ctool-transformer-panes">
+                            <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("main_ui_input")}>
+                                <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
+                                <div className="ctool-transformer-pane-body">
+                                    <TextInput
+                                        value={action.current.input}
+                                        onChange={(value) => { action.current.input = value; }}
+                                        height={small}
+                                        upload="file"
+                                        encoding
+                                    />
+                                </div>
+                            </section>
+                            <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={$t("main_ui_output")}>
+                                <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                                <div className="ctool-transformer-pane-body">
+                                    <TextOutput
+                                        value={action.current.output}
+                                        onChange={(value) => { action.current.output = value; }}
+                                        allow={["base64", "hex", "down"]}
+                                        content={output}
+                                        height={large}
+                                        onSuccess={() => { action.save(); }}
+                                    />
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }

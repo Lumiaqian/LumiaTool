@@ -45,7 +45,7 @@ export default function Ipv4() {
         } catch (caught: unknown) {
             setError($error(caught));
         }
-    }, [action, action.current.input, action.current.mask]);
+    }, [action.current.input, action.current.mask]);
 
     const subnet = useMemo(() => {
         const lists: string[] = [];
@@ -65,7 +65,15 @@ export default function Ipv4() {
 
     return (
         <>
-            <Align horizontal="center" className="ctool-page-option" bottom="default">
+            <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-ipcalc-page ctool-ipcalc-v4-page">
+                <div className="ctool-ipcalc-workspace">
+                    <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                        <header className="ctool-inspector-family-panel-header">
+                            <strong>{$t("ipcalc_ip")}</strong>
+                            <HelpTip link="https://www.npmjs.com/package/netmask" />
+                        </header>
+                        <div className="ctool-inspector-family-panel-body ctool-ipcalc-form">
+                            <Align horizontal="center" className="ctool-page-option" direction="vertical">
                 <Input
                     size="large"
                     width={300}
@@ -87,8 +95,10 @@ export default function Ipv4() {
                     )}
                     suffix={<HelpTip onClick={() => { setHelp(true); }} icon="info" text={$t("ipcalc_format")} />}
                 />
-                <HelpTip link="https://www.npmjs.com/package/netmask" />
             </Align>
+                        </div>
+                    </section>
+                    <div className="ctool-ipcalc-results">
 
             {error === "" && (
                 <Align direction="vertical">
@@ -129,6 +139,9 @@ export default function Ipv4() {
                 </Align>
             )}
             {error !== "" && <HeightResize append={[".ctool-page-option"]}><Exception content={error} /></HeightResize>}
+                    </div>
+                </div>
+            </div>
 
             <Modal title={$t("ipcalc_format")} value={help} onChange={setHelp} width="98%" footerType="normal">
                 <Align direction="vertical">
@@ -154,7 +167,7 @@ export default function Ipv4() {
                 </Align>
             </Modal>
 
-            <ExtendPage value={showSubnet} onChange={setShowSubnet}>
+            <ExtendPage className="ctool-inspector-utility-extend ctool-ipcalc-subnet-page" value={showSubnet} onChange={setShowSubnet}>
                 <Card
                     title={`${action.current.input} ${$t("ipcalc_subnet")}`}
                     padding="0"

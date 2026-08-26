@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import axios from "axios";
 import { isArray } from "lodash";
-import { Align, Button, Display, Input, Link, SerializeOutput } from "@/components";
+import { Align, Button, Input, Link, SerializeOutput } from "@/components";
 import { createSerializeOutput } from "@/components/serialize";
 import type { SerializeOutput as SerializeOutputType } from "@/components/serialize";
 import Serialize from "@/lib/serialize";
@@ -25,7 +25,6 @@ export default function Ip() {
         () => action.current.result === "" ? Serialize.empty() : Serialize.formObject(action.current.result),
         [action.current.result],
     );
-    const isResult = !outputSerialize.isEmpty() || outputSerialize.isError();
 
     const query = (): void => {
         setIsLoading(true);
@@ -49,42 +48,49 @@ export default function Ip() {
     };
 
     return (
-        <div style={{ height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Align width={600} direction="vertical">
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 80px", columnGap: 5 }}>
-                    <Display
-                        type="general"
-                        text={action.current.input === "" ? $t("ip_local") : ""}
-                        onClick={local}
-                        position="right-center"
-                    >
+        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-ip-page">
+            <div className="ctool-inspector-family-split">
+                <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                    <header className="ctool-inspector-family-panel-header">
+                        <strong>{$t("main_ui_input")}</strong>
+                        <Align>
+                            <Button type="general" size="small" onClick={local}>
+                                {$t("ip_local")}
+                            </Button>
+                            <Button type="primary" loading={isLoading} size="small" onClick={query}>
+                                {$t("ip_query")}
+                            </Button>
+                        </Align>
+                    </header>
+                    <div className="ctool-inspector-family-panel-body ctool-ip-query-form">
                         <Input
                             value={action.current.input}
                             onChange={(value) => { action.current.input = value; }}
                             size="large"
                             placeholder={$t("ip_input")}
                         />
-                    </Display>
-                    <Button type="primary" loading={isLoading} size="large" onClick={query}>
-                        {$t("ip_query")}
-                    </Button>
-                </div>
-                {!isResult && (
-                    <div style={{ textAlign: "center" }}>
-                        <Link href="https://geojs.io/">{$t("ip_info_source")}: https://geojs.io/</Link>
                     </div>
-                )}
-                {isResult && (
-                    <SerializeOutput
-                        allow={["json", "xml", "yaml", "toml", "php_array", "properties", "http_query_string"]}
-                        content={outputSerialize}
-                        height={300}
-                        value={action.current.option}
-                        onChange={(value) => { action.current.option = value; }}
-                        onSuccess={() => { action.save(); }}
-                    />
-                )}
-            </Align>
+                    <footer className="ctool-inspector-family-panel-footer">
+                        <Link href="https://geojs.io/">{$t("ip_info_source")}: https://geojs.io/</Link>
+                    </footer>
+                </section>
+                <section className="ctool-inspector-family-panel ctool-inspector-family-result">
+                    <header className="ctool-inspector-family-panel-header">
+                        <strong>{$t("main_ui_output")}</strong>
+                    </header>
+                    <div className="ctool-inspector-family-panel-body">
+                        <SerializeOutput
+                            allow={["json", "xml", "yaml", "toml", "php_array", "properties", "http_query_string"]}
+                            content={outputSerialize}
+                            disabledBorder
+                            height="100%"
+                            value={action.current.option}
+                            onChange={(value) => { action.current.option = value; }}
+                            onSuccess={() => { action.save(); }}
+                        />
+                    </div>
+                </section>
+            </div>
         </div>
     );
 }

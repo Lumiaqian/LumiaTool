@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Align, Button, HeightResize, Modal, Select, Textarea } from "@/components";
+import { Button, Modal, Select, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import rs from "jsrsasign";
 
@@ -141,32 +141,102 @@ export default function Sign() {
     ), [generateKeypair, generateKeypairExecute]);
 
     return (
-        <>
-            <HeightResize reduce={15} ignore append={[".ctool-page-option"]}>
-                {({ small, large }: { small: number; large: number }) => (
-                    <Align direction="vertical">
-                        <div className="ctool-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
-                            <Textarea height={small} value={action.current.signData} onChange={(value: string) => { action.current.signData = value; }} placeholder={$t("sign_sign_data")} copy={$t("sign_sign_data")} />
-                            <Textarea height={small} value={action.current.verifyCode} onChange={(value: string) => { action.current.verifyCode = value; }} placeholder={$t("sign_verify_code")} copy={$t("sign_verify_code")} />
-                        </div>
-                        <div className="ctool-row ctool-page-option" style={{ gridTemplateColumns: "1fr 1fr" }}>
-                            <Align horizontal="right">
-                                <Select options={algorithm} value={action.current.algorithm} onChange={(value: string) => { action.current.algorithm = value; }} />
-                                <Button type="primary" text={$t("sign_sign")} onClick={sign} />
-                            </Align>
-                            <Align>
-                                <Button type="primary" text={$t("sign_verify")} onClick={verify} />
-                                <Button text={$t("sign_generate_keypair")} onClick={() => setGenerateKeypair(current => ({ ...current, show: true }))} />
-                            </Align>
-                        </div>
-                        <div className="ctool-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
-                            <Textarea height={large} value={action.current.publicKey} onChange={(value: string) => { action.current.publicKey = value; }} placeholder={$t("sign_public_key")} copy={$t("sign_public_key")} />
-                            <Textarea height={large} value={action.current.privateKey} onChange={(value: string) => { action.current.privateKey = value; }} placeholder={$t("sign_private_key")} copy={$t("sign_private_key")} />
-                        </div>
-                    </Align>
-                )}
-            </HeightResize>
+        <div className="ctool-sign-page">
+            <section className="ctool-sign-toolbar" aria-label={$t("main_ui_setting")}>
+                <Select
+                    label={$t("main_ui_setting")}
+                    options={algorithm}
+                    value={action.current.algorithm}
+                    onChange={(value: string) => { action.current.algorithm = value; }}
+                />
+                <Button
+                    text={$t("sign_generate_keypair")}
+                    onClick={() => setGenerateKeypair(current => ({ ...current, show: true }))}
+                />
+            </section>
+            <div className="ctool-sign-workspace">
+                <section className="ctool-tester-panel ctool-sign-data-panel" aria-labelledby="ctool-sign-data-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-sign-data-title">{$t("sign_sign_data")}</strong>
+                        {action.current.signData !== "" && (
+                            <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.signData)} />
+                        )}
+                    </header>
+                    <div className="ctool-sign-editor">
+                        <Textarea
+                            height="100%"
+                            value={action.current.signData}
+                            onChange={(value: string) => { action.current.signData = value; }}
+                            placeholder={$t("sign_sign_data")}
+                        />
+                    </div>
+                    <footer className="ctool-sign-actions">
+                        <Button
+                            type="primary"
+                            text={$t("sign_sign")}
+                            disabled={!action.current.signData || !action.current.privateKey}
+                            onClick={sign}
+                        />
+                    </footer>
+                </section>
+                <section className="ctool-tester-panel ctool-sign-result-panel" aria-labelledby="ctool-sign-result-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-sign-result-title">{$t("sign_verify_code")}</strong>
+                        {action.current.verifyCode !== "" && (
+                            <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.verifyCode)} />
+                        )}
+                    </header>
+                    <div className="ctool-sign-editor">
+                        <Textarea
+                            height="100%"
+                            value={action.current.verifyCode}
+                            onChange={(value: string) => { action.current.verifyCode = value; }}
+                            placeholder={$t("sign_verify_code")}
+                        />
+                    </div>
+                    <footer className="ctool-sign-actions">
+                        <Button
+                            type="primary"
+                            text={$t("sign_verify")}
+                            disabled={!action.current.verifyCode || !action.current.publicKey}
+                            onClick={verify}
+                        />
+                    </footer>
+                </section>
+                <section className="ctool-tester-panel ctool-sign-key-panel" aria-labelledby="ctool-sign-public-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-sign-public-title">{$t("sign_public_key")}</strong>
+                        {action.current.publicKey !== "" && (
+                            <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.publicKey)} />
+                        )}
+                    </header>
+                    <div className="ctool-sign-editor">
+                        <Textarea
+                            height="100%"
+                            value={action.current.publicKey}
+                            onChange={(value: string) => { action.current.publicKey = value; }}
+                            placeholder={$t("sign_public_key")}
+                        />
+                    </div>
+                </section>
+                <section className="ctool-tester-panel ctool-sign-key-panel" aria-labelledby="ctool-sign-private-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-sign-private-title">{$t("sign_private_key")}</strong>
+                        {action.current.privateKey !== "" && (
+                            <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.privateKey)} />
+                        )}
+                    </header>
+                    <div className="ctool-sign-editor">
+                        <Textarea
+                            height="100%"
+                            value={action.current.privateKey}
+                            onChange={(value: string) => { action.current.privateKey = value; }}
+                            placeholder={$t("sign_private_key")}
+                        />
+                    </div>
+                </section>
+            </div>
             {keypairModal}
-        </>
+        </div>
     );
 }

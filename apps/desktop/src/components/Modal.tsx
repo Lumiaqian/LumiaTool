@@ -179,7 +179,7 @@ function Modal({
                         <header>
                             <span>{title}</span>
                             <Link
-                                aria-label="Close"
+                                aria-label={$t("main_ui_close")}
                                 className="close"
                                 onClick={() => onChangeRef.current?.(false)}
                             />

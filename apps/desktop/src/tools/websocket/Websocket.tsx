@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-    Align,
-    Bool,
     Button,
-    Card,
-    Exception,
-    HeightResize,
     HelpTip,
     Icon,
     Input,
@@ -42,6 +37,7 @@ export default function Websocket() {
     const [logs, setLogs] = useState<WebsocketLog[]>([]);
 
     const websocketRef = useRef<WebSocket | null>(null);
+    const logListRef = useRef<HTMLDivElement | null>(null);
     const retryRef = useRef(retry);
     const statusRef = useRef<WebsocketStatus>(status);
     const retryTimesRef = useRef(0);
@@ -64,14 +60,8 @@ export default function Websocket() {
     }, []);
 
     useEffect(() => {
-        if (!action.current.keepScroll) {
-            return;
-        }
-        const container = document.querySelector<HTMLElement>(
-            ".ctool-websocket-logs .ctool-card-body",
-        );
-        if (container) {
-            container.scrollTop = container.scrollHeight;
+        if (action.current.keepScroll && logListRef.current) {
+            logListRef.current.scrollTop = logListRef.current.scrollHeight;
         }
     }, [action.current.keepScroll, logs]);
 
@@ -159,6 +149,9 @@ export default function Websocket() {
 
             websocketRef.current = websocket;
         } catch (error: unknown) {
+            websocketRef.current = null;
+            statusRef.current = "close";
+            setStatus("close");
             log($error(error));
         }
     }, [action, log, resetRetry]);
@@ -204,31 +197,24 @@ export default function Websocket() {
     }, []);
 
     return (
-        <Align direction="vertical">
-            <div
-                className="ctool-page-option"
-                style={{ display: "grid", gridTemplateColumns: "16fr 8fr auto" }}
-            >
+        <div className="ctool-websocket-page" data-status={status}>
+            <section className="ctool-websocket-toolbar" aria-label={$t("websocket_connect")}>
+                <div className="ctool-websocket-connection-status" role="status" aria-live="polite">
+                    <span className={`ctool-websocket-status ctool-websocket-status-${status}`} aria-hidden="true" />
+                    <span>
+                        {status === "open"
+                            ? $t("websocket_connect_ok")
+                            : status === "connecting"
+                              ? $t("websocket_connect_start", [action.current.input])
+                              : $t("websocket_close")}
+                    </span>
+                </div>
                 <Input
                     value={action.current.input}
+                    aria-label="WebSocket URL"
                     onChange={(value: string) => {
                         action.current.input = value;
                     }}
-                    prepend={
-                        <Align horizontal="center" vertical="center" width={20}>
-                            <div
-                                className={`ctool-websocket-status ctool-websocket-status-${status}`}
-                            />
-                        </Align>
-                    }
-                    suffix={
-                        <Bool
-                            size="small"
-                            value={retry}
-                            label={$t("websocket_reconnect")}
-                            onChange={setRetry}
-                        />
-                    }
                 />
                 <Input
                     value={action.current.protocols}
@@ -238,103 +224,111 @@ export default function Websocket() {
                     label={$t("websocket_protocols")}
                     suffix={<HelpTip text={$t("websocket_protocols_tip")} />}
                 />
+                <label className="ctool-tester-check">
+                    <input type="checkbox" checked={retry} onChange={event => setRetry(event.target.checked)} />
+                    <span>{$t("websocket_reconnect")}</span>
+                </label>
                 {status === "close" ? (
-                    <Button onClick={connect} text={$t("websocket_connect")} />
+                    <Button type="primary" onClick={connect} text={$t("websocket_connect")} />
                 ) : (
-                    <Button onClick={close} text={$t("websocket_close")} />
+                    <Button
+                        type="danger"
+                        loading={status === "connecting"}
+                        onClick={close}
+                        text={$t("websocket_close")}
+                    />
                 )}
-            </div>
-            <HeightResize
-                ignore
-                reduce={5}
-                append={[".ctool-page-option"]}
-                style={{ display: "grid", gridTemplateColumns: "40fr 60fr" }}
-            >
-                {({ height }) => (
-                    <>
+            </section>
+            <div className="ctool-websocket-workspace">
+                <section className="ctool-tester-panel ctool-websocket-composer" aria-labelledby="ctool-websocket-composer-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-websocket-composer-title">{$t("websocket_send_content")}</strong>
+                        <Button
+                            type="primary"
+                            text={$t("websocket_send")}
+                            disabled={status !== "open" || sendContent === ""}
+                            onClick={send}
+                        />
+                    </header>
+                    <div className="ctool-websocket-composer-body">
                         <Textarea
-                            height={height}
+                            height="100%"
                             value={sendContent}
                             onChange={setSendContent}
-                            floatText={$t("websocket_send")}
-                            floatPosition="top-right"
-                            onClickFloatText={send}
                             placeholder={`${$t("main_ui_input")}${$t("websocket_send_content")}`}
                         />
-                        <Card
-                            title={$t("websocket_log_content")}
-                            height={height}
-                            className="ctool-websocket-logs"
-                            extra={
-                                <Align>
-                                    <Button
-                                        size="small"
-                                        type="primary"
-                                        text={$t("main_ui_copy")}
-                                        onClick={() => $copy(JSON.stringify(logs))}
-                                    />
-                                    <Button
-                                        size="small"
-                                        type="danger"
-                                        text={$t("main_ui_clear")}
-                                        onClick={() => setLogs([])}
-                                    />
-                                    <Bool
-                                        size="small"
-                                        value={action.current.keepScroll}
-                                        border
-                                        label={$t("websocket_keep_scroll")}
-                                        onChange={(value: boolean) => {
-                                            action.current.keepScroll = value;
-                                            action.save();
-                                        }}
-                                    />
-                                </Align>
-                            }
-                        >
-                            {logs.length < 1 ? (
-                                <Align horizontal="center" vertical="center">
-                                    <Exception />
-                                </Align>
-                            ) : (
-                                <Align direction="vertical">
-                                    {logs.map((item, index) => (
-                                        <div
-                                            key={`${item.time}-${item.type}-${index}`}
-                                            className="ctool-websocket-logs-item"
-                                        >
-                                            <div className="ctool-websocket-logs-top">
-                                                <div
-                                                    className={`ctool-websocket-logs-type ctool-websocket-logs-type-${item.type}`}
-                                                >
-                                                    {item.type === "send"
-                                                        ? `${$t("websocket_client")}：`
-                                                        : item.type === "accept"
-                                                          ? `${$t("websocket_server")}：`
-                                                          : `${$t("websocket_tips")}：`}
-                                                </div>
-                                                <div className="ctool-websocket-logs-time">
-                                                    {item.time}
-                                                </div>
-                                                <Icon
-                                                    size={12}
-                                                    name="copy"
-                                                    tooltip={$t("main_ui_copy")}
-                                                    hover
-                                                    onClick={() => $copy(item.content)}
-                                                />
-                                            </div>
-                                            <pre className="ctool-websocket-logs-content">
-                                                <code>{item.content}</code>
-                                            </pre>
-                                        </div>
-                                    ))}
-                                </Align>
-                            )}
-                        </Card>
-                    </>
-                )}
-            </HeightResize>
-        </Align>
+                    </div>
+                </section>
+                <section className="ctool-tester-panel ctool-websocket-logs" aria-labelledby="ctool-websocket-log-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-websocket-log-title">{$t("websocket_log_content")}</strong>
+                        <div className="ctool-websocket-log-actions">
+                            <Button
+                                size="small"
+                                text={$t("main_ui_copy")}
+                                disabled={logs.length === 0}
+                                onClick={() => $copy(JSON.stringify(logs))}
+                            />
+                            <Button
+                                size="small"
+                                type="danger"
+                                text={$t("main_ui_clear")}
+                                disabled={logs.length === 0}
+                                onClick={() => setLogs([])}
+                            />
+                            <label className="ctool-tester-check">
+                                <input
+                                    type="checkbox"
+                                    checked={action.current.keepScroll}
+                                    onChange={(event) => {
+                                        action.current.keepScroll = event.target.checked;
+                                        action.save();
+                                    }}
+                                />
+                                <span>{$t("websocket_keep_scroll")}</span>
+                            </label>
+                        </div>
+                    </header>
+                    <div
+                        className="ctool-websocket-log-list"
+                        ref={logListRef}
+                        role="log"
+                        aria-live="polite"
+                    >
+                        {logs.length < 1 ? (
+                            <p className="ctool-tester-empty">
+                                {status === "open" ? $t("websocket_send_content") : $t("websocket_connect")}
+                            </p>
+                        ) : (
+                            logs.map((item, index) => (
+                                <article
+                                    key={`${item.time}-${item.type}-${index}`}
+                                    className={`ctool-websocket-log-item is-${item.type}`}
+                                >
+                                    <header className="ctool-websocket-log-meta">
+                                        <strong>
+                                            {item.type === "send"
+                                                ? $t("websocket_client")
+                                                : item.type === "accept"
+                                                  ? $t("websocket_server")
+                                                  : $t("websocket_tips")}
+                                        </strong>
+                                        <time>{item.time}</time>
+                                        <Icon
+                                            size={12}
+                                            name="copy"
+                                            tooltip={$t("main_ui_copy")}
+                                            hover
+                                            onClick={() => $copy(item.content)}
+                                        />
+                                    </header>
+                                    <pre><code>{item.content}</code></pre>
+                                </article>
+                            ))
+                        )}
+                    </div>
+                </section>
+            </div>
+        </div>
     );
 }

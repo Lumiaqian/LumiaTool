@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Align, Bool, Display, HeightResize, Select, Textarea, TextInput } from "@/components";
+import { Align, Bool, HeightResize, Select, Textarea, TextInput } from "@/components";
 import { useAction, initialize } from "@/store/action";
 import { createTextInput } from "@/components/text";
 import Unicode, { _typeLists } from "./util";
@@ -37,32 +37,45 @@ export default function Encoder() {
     }, [action, isEmpty, text, action.current.type, action.current.ignore_ascii]);
 
     return (
-        <HeightResize reduce={5}>
-            {({ small, large }: { small: number; large: number }) => (
-                <Align direction="vertical">
-                    <Display extra={
-                        <Align>
-                            <Select
-                                size="small"
-                                value={action.current.type}
-                                onChange={value => { action.current.type = value; }}
-                                options={_typeLists.map(item => ({ value: item, label: $t(`unicode_mode_${item}`) }))}
-                            />
-                            <Bool
-                                border
-                                size="small"
-                                value={action.current.ignore_ascii}
-                                onChange={value => { action.current.ignore_ascii = value; }}
-                                label={$t("unicode_ignore_ascii")}
-                                disabled={disableIgnoreAsciiSelect.includes(action.current.type)}
-                            />
-                        </Align>
-                    }>
-                        <TextInput allow={["text", "base64", "hex"]} value={action.current.input} onChange={value => { action.current.input = value; }} height={small} />
-                    </Display>
-                    <Textarea value={output} placeholder={$t("main_ui_output")} height={large} copy />
-                </Align>
-            )}
-        </HeightResize>
+        <div className="ctool-transformer-page ctool-transformer-page--configured">
+            <HeightResize className="ctool-transformer-layout" reduce={5}>
+                {({ small, large }: { small: number; large: number }) => (
+                    <div className="ctool-transformer-stage">
+                        <div className="ctool-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
+                            <Align>
+                                <Select
+                                    size="small"
+                                    value={action.current.type}
+                                    onChange={value => { action.current.type = value; }}
+                                    options={_typeLists.map(item => ({ value: item, label: $t(`unicode_mode_${item}`) }))}
+                                />
+                                <Bool
+                                    border
+                                    size="small"
+                                    value={action.current.ignore_ascii}
+                                    onChange={value => { action.current.ignore_ascii = value; }}
+                                    label={$t("unicode_ignore_ascii")}
+                                    disabled={disableIgnoreAsciiSelect.includes(action.current.type)}
+                                />
+                            </Align>
+                        </div>
+                        <div className="ctool-transformer-panes">
+                            <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("main_ui_input")}>
+                                <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
+                                <div className="ctool-transformer-pane-body">
+                                    <TextInput allow={["text", "base64", "hex"]} value={action.current.input} onChange={value => { action.current.input = value; }} height={small} />
+                                </div>
+                            </section>
+                            <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={$t("main_ui_output")}>
+                                <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                                <div className="ctool-transformer-pane-body">
+                                    <Textarea value={output} placeholder={$t("main_ui_output")} height={large} copy />
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }

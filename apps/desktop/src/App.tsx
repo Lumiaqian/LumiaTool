@@ -42,7 +42,7 @@ export default function App() {
     return (
         <div className="ctool-global ctool-layout-desktop">
             <a className="ctool-skip-link" href="#ctool-main-content">
-                跳到主内容
+                {$t("main_workbench_skip")}
             </a>
             <ComplexHeader />
             <Content />

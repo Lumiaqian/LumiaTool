@@ -36,35 +36,33 @@ export default function Parse() {
     }, [action, text]);
 
     return (
-        <HeightResize reduce={5} ignore style={{ gridTemplateColumns: "1fr 300px" }}>
-            {({ height, small, large }) => (
-                <>
-                    <Align direction="vertical">
-                        <TextInput
-                            allow={["base64", "hex", "upload", "url"]}
-                            value={action.current.input}
-                            onChange={value => {
-                                action.current.input = value;
-                            }}
-                            height={small}
-                            upload="image"
-                        />
-                        <Textarea value={output} placeholder={$t("main_ui_output")} height={large} />
+        <HeightResize reduce={5} ignore className="ctool-generator-editor-family ctool-qr-parser-page">{({ height, small, large }) => (
+            <>
+                <Align direction="vertical">
+                    <TextInput
+                        allow={["base64", "hex", "upload", "url"]}
+                        value={action.current.input}
+                        onChange={value => {
+                            action.current.input = value;
+                        }}
+                        height={small}
+                        upload="image"
+                    />
+                    <Textarea value={output} placeholder={$t("main_ui_output")} height={large} />
+                </Align>
+                <Card height={height + 5}>
+                    <Align horizontal="center" vertical="center">
+                        {text.isImage() ? (
+                            <img
+                                style={{ maxWidth: "90%", maxHeight: "90%" }}
+                                src={text.toDataUrl()}
+                            />
+                        ) : (
+                            <Exception />
+                        )}
                     </Align>
-                    <Card height={height + 5}>
-                        <Align horizontal="center" vertical="center">
-                            {text.isImage() ? (
-                                <img
-                                    style={{ maxWidth: "90%", maxHeight: "90%" }}
-                                    src={text.toDataUrl()}
-                                />
-                            ) : (
-                                <Exception />
-                            )}
-                        </Align>
-                    </Card>
-                </>
-            )}
-        </HeightResize>
+                </Card>
+            </>
+        )}</HeightResize>
     );
 }

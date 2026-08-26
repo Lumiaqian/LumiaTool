@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, Card, HeightResize, HelpTip, Input, TextInput, TextOutput } from "@/components";
+import { HelpTip, Input, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import { sm2 } from "sm-crypto";
@@ -46,42 +47,24 @@ export default function Sign() {
     }, [action, output]);
 
     return (
-        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <TextInput
-                        value={action.current.input}
-                        onChange={(value) => { action.current.input = value; }}
-                        height={small}
-                        upload="file"
+        <TransformerPage
+            rack={(
+                <>
+                    <Input
+                        value={action.current.option.private_key}
+                        onChange={(value) => { action.current.option.private_key = value; }}
+                        label={$t("sm2_private_key")}
                     />
-                    <Card
-                        title={$t("main_ui_config")}
-                        className="ctool-page-option"
-                        extra={<Align><HelpTip link="https://github.com/JuneAndGreen/sm-crypto" /></Align>}
-                    >
-                        <Align horizontal="center">
-                            <Input
-                                value={action.current.option.private_key}
-                                onChange={(value) => { action.current.option.private_key = value; }}
-                                label={$t("sm2_private_key")}
-                            />
-                            <Input
-                                value={action.current.option.user_id}
-                                onChange={(value) => { action.current.option.user_id = value; }}
-                                label={$t("sm2_userId")}
-                            />
-                        </Align>
-                    </Card>
-                    <TextOutput
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; }}
-                        allow={["base64", "hex"]}
-                        content={output}
-                        height={large}
+                    <Input
+                        value={action.current.option.user_id}
+                        onChange={(value) => { action.current.option.user_id = value; }}
+                        label={$t("sm2_userId")}
                     />
-                </Align>
+                    <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
+                </>
             )}
-        </HeightResize>
+            source={<TextInput value={action.current.input} onChange={(value) => { action.current.input = value; }} height="100%" upload="file" />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex"]} content={output} height="100%" />}
+        />
     );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Align, HeightResize, HelpTip, Select, TextInput, Textarea } from "@/components";
+import { HelpTip, Select, TextInput } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { createTextInput } from "@/components/text";
 import { crc, result, crcTypeLists } from "./util";
@@ -41,20 +41,51 @@ export default function Crc() {
     const getResult = (type: string) => error !== "" ? error : output === null ? "" : result(output, type);
 
     return (
-        <HeightResize style={{ display: "grid", gridTemplateColumns: "10fr 14fr" }}>
-            {({ height }) => (
-                <>
-                    <TextInput value={action.current.input} onChange={(value: Input) => { action.current.input = value; }} upload="file" height={height}>
-                        <Align>
-                            <Select size="small" options={crcTypeLists} value={action.current.type} onChange={(value: CrcType) => { action.current.type = value; }} />
-                            <HelpTip link="https://www.npmjs.com/package/crc" />
-                        </Align>
-                    </TextInput>
-                    <Align direction="vertical">
-                        {outputTypes.map((key) => <Textarea key={key} value={getResult(key)} height={(height - 15) / 4} placeholder={`${$t("main_ui_output")} ${key}`} copy={key} />)}
-                    </Align>
-                </>
-            )}
-        </HeightResize>
+        <div className="ctool-validation-page ctool-validation-crc-page">
+            <section className="ctool-tester-panel ctool-validation-input-panel" aria-labelledby="ctool-crc-input-title">
+                <header className="ctool-tester-panel-header">
+                    <strong id="ctool-crc-input-title">{$t("main_ui_input")}</strong>
+                    <div className="ctool-validation-config">
+                        <Select
+                            size="small"
+                            options={crcTypeLists}
+                            value={action.current.type}
+                            onChange={(value: CrcType) => { action.current.type = value; }}
+                        />
+                        <HelpTip link="https://www.npmjs.com/package/crc" />
+                    </div>
+                </header>
+                <div className="ctool-validation-input">
+                    <TextInput
+                        value={action.current.input}
+                        onChange={(value: Input) => { action.current.input = value; }}
+                        upload="file"
+                        height="100%"
+                    />
+                </div>
+            </section>
+            <section className="ctool-tester-panel ctool-validation-results-panel" aria-labelledby="ctool-crc-output-title">
+                <header className="ctool-tester-panel-header">
+                    <strong id="ctool-crc-output-title">{$t("main_ui_output")}</strong>
+                </header>
+                {error !== "" && <p className="ctool-tester-error" role="alert">{error}</p>}
+                <div className="ctool-tester-results">
+                    {outputTypes.map((type) => {
+                        const value = error === "" ? getResult(type) : "";
+                        return (
+                            <article className="ctool-tester-result" key={type}>
+                                <h3 className="ctool-tester-result-name">{type}</h3>
+                                <output className="ctool-tester-result-value"><code>{value || "—"}</code></output>
+                                {value !== "" && (
+                                    <button className="ctool-tester-copy" type="button" onClick={() => $copy(value)}>
+                                        {$t("main_ui_copy")}
+                                    </button>
+                                )}
+                            </article>
+                        );
+                    })}
+                </div>
+            </section>
+        </div>
     );
 }

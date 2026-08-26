@@ -33,21 +33,18 @@ export default function Button({
 }: ButtonProps) {
     return (
         <Tooltip content={tooltip}>
-            <div
-                className="ctool-button"
+            <button
+                {...buttonProps}
+                className={["ctool-button", buttonProps.className].filter(Boolean).join(" ")}
                 data-size={size}
                 data-type={type}
-                style={long ? { width: "100%" } : {}}
+                style={long ? { width: "100%", ...buttonProps.style } : buttonProps.style}
+                onClick={onClick}
+                disabled={disabled}
+                aria-busy={loading ? "true" : "false"}
             >
-                <button
-                    {...buttonProps}
-                    onClick={onClick}
-                    disabled={disabled}
-                    aria-busy={loading ? "true" : "false"}
-                >
-                    {children ?? text}
-                </button>
-            </div>
+                {children ?? text}
+            </button>
         </Tooltip>
     );
 }

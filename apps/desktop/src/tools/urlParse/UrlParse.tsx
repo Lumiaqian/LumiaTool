@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Align, HeightResize, Input, SerializeOutput, Textarea } from "@/components";
+import { HeightResize, Input, SerializeOutput, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { createSerializeOutput } from "@/components/serialize";
 import Serialize from "@/lib/serialize";
@@ -14,7 +14,7 @@ export default function UrlParse() {
     const output = useMemo(() => {
         const input = action.current.input.trim();
         if (input === "") {
-            return { base: "", path: "", query: Serialize.formQueryString(""), hash: "" };
+            return { base: "", path: "", query: Serialize.formQueryString(""), hash: "", error: "" };
         }
         try {
             const url = new URL(action.current.input);
@@ -23,9 +23,10 @@ export default function UrlParse() {
                 path: url.pathname,
                 query: Serialize.formQueryString((url.search.startsWith("?") ? url.search.substring(1) : url.search) || ""),
                 hash: url.hash,
+                error: "",
             };
         } catch (error) {
-            return { base: $error(error), path: "", query: Serialize.formQueryString(""), hash: "" };
+            return { base: "", path: "", query: Serialize.formQueryString(""), hash: "", error: $error(error) };
         }
     }, [action.current.input]);
 
@@ -39,26 +40,43 @@ export default function UrlParse() {
     }, [action, action.current.input]);
 
     return (
-        <HeightResize reduce={5} ignore>
-            {({ small, large }: { small: number; large: number }) => (
-                <Align direction="vertical">
-                    <Textarea height={small} placeholder={$t("main_ui_input")} value={action.current.input} onChange={value => { action.current.input = value; }} />
-                    <div style={{ height: `${large}px`, display: "grid", gridTemplateRows: "auto minmax(0,1fr)", gap: "5px" }}>
-                        <Align direction="vertical">
-                            <Input label="Base" value={output.base} />
-                            <Input label="Path" value={output.path} />
-                            <Input label="Hash" value={output.hash} />
-                        </Align>
-                        <SerializeOutput
-                            placeholder="Query"
-                            content={output.query}
-                            value={action.current.querySerializeOption}
-                            onChange={value => { action.current.querySerializeOption = value; }}
-                            onSuccess={() => action.save()}
-                        />
+        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-url-parse-page">
+            <HeightResize className="ctool-inspector-family-fill" ignore>
+                {() => (
+                    <div className="ctool-inspector-family-split">
+                        <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                            <header className="ctool-inspector-family-panel-header">
+                                <strong>{$t("main_ui_input")}</strong>
+                            </header>
+                            <div className="ctool-inspector-family-panel-body">
+                                <Textarea height="100%" placeholder={$t("main_ui_input")} value={action.current.input} onChange={value => { action.current.input = value; }} />
+                            </div>
+                        </section>
+                        <section className="ctool-inspector-family-panel ctool-inspector-family-result">
+                            <header className="ctool-inspector-family-panel-header">
+                                <strong>{$t("main_ui_output")}</strong>
+                            </header>
+                            <div className="ctool-inspector-family-panel-body ctool-url-parse-result">
+                                {output.error !== "" && <p className="ctool-inspector-family-error">{output.error}</p>}
+                                <div className="ctool-url-parse-parts">
+                                    <Input readOnly label="Base" value={output.base} />
+                                    <Input readOnly label="Path" value={output.path} />
+                                    <Input readOnly label="Hash" value={output.hash} />
+                                </div>
+                                <SerializeOutput
+                                    placeholder="Query"
+                                    content={output.query}
+                                    disabledBorder
+                                    height="100%"
+                                    value={action.current.querySerializeOption}
+                                    onChange={value => { action.current.querySerializeOption = value; }}
+                                    onSuccess={() => action.save()}
+                                />
+                            </div>
+                        </section>
                     </div>
-                </Align>
-            )}
-        </HeightResize>
+                )}
+            </HeightResize>
+        </div>
     );
 }

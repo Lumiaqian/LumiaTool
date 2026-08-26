@@ -2,14 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import {
     Align,
     Bool,
-    HeightResize,
     InputNumber,
     Select,
     Tabs,
     TextInput,
     TextOutput,
     UploadFile,
-    Display,
 } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
 import Text from "@/lib/text";
@@ -35,6 +33,7 @@ export default function Generate() {
 
     const optionDependency = JSON.stringify(action.current.option);
     const inputText = action.current.input.text;
+    const inputDependency = `${inputText.isError()}:${inputText.encoding()}:${inputText.toString()}`;
 
     useEffect(() => {
         const update = async () => {
@@ -42,7 +41,7 @@ export default function Generate() {
                 setOutput(Text.fromError(inputText.toString()));
                 return;
             }
-            setOutput(Text.empty());
+            setOutput(current => current.isEmpty() ? current : Text.empty());
             if (inputText.isEmpty()) {
                 return;
             }
@@ -61,7 +60,7 @@ export default function Generate() {
         };
 
         void update();
-    }, [action, image, inputText, optionDependency]);
+    }, [image, inputDependency, optionDependency]);
 
     const uploadHandle = async (value: File) => {
         setImage((await Text.fromBlob(value)).setFileName(value.name));
@@ -78,172 +77,158 @@ export default function Generate() {
         [],
     );
 
-    return (
-        <>
-            <HeightResize append={[".ctool-page-option"]} style={{ gridTemplateColumns: "1fr 320px" }}>
-                {({ height }) => (
-                    <>
-                        <Display
-                            position="bottom-right"
-                            extra={
-                                !(output.isEmpty() || output.isError()) ? (
-                                    <Bool
-                                        size="small"
-                                        value={action.current.option.is_show}
-                                        onChange={value => {
-                                            action.current.option.is_show = value;
-                                        }}
-                                        label={$t("main_ui_setting")}
-                                        border
-                                    />
-                                ) : undefined
-                            }
-                        >
-                            <TextInput
-                                value={action.current.input}
-                                onChange={value => {
-                                    action.current.input = value;
-                                }}
-                                height={height}
-                                upload="file"
-                            />
-                        </Display>
-                        <TextOutput
-                            value={action.current.output}
-                            onChange={value => {
-                                action.current.output = value;
-                            }}
-                            allow={["image", "hex", "base64"]}
-                            content={output}
-                            height={height}
-                            onSuccess={() => action.save()}
-                        />
-                    </>
-                )}
-            </HeightResize>
-            {action.current.option.is_show ? (
-                <div className="ctool-page-option" style={{ marginTop: 5 }}>
-                    <Tabs
-                        value={action.current.option.tab}
+    return (<div className="ctool-generator-editor-family ctool-generator-page ctool-qr-generator-page ctool-qr-workspace"><div className="ctool-qr-primary">
+        <section className="ctool-qr-source">
+            <header className="ctool-qr-source-header">
+                <Bool
+                    size="small"
+                    value={action.current.option.is_show}
+                    onChange={value => {
+                        action.current.option.is_show = value;
+                    }}
+                    label={$t("main_ui_setting")}
+                    border
+                />
+            </header>
+            <TextInput
+                value={action.current.input}
+                onChange={value => {
+                    action.current.input = value;
+                }}
+                upload="file"
+            />
+        </section>
+        <TextOutput
+            value={action.current.output}
+            onChange={value => {
+                action.current.output = value;
+            }}
+            allow={["image", "hex", "base64"]}
+            content={output}
+            onSuccess={() => action.save()}
+        />
+    </div>
+    {action.current.option.is_show ? (
+        <div className="ctool-page-option" style={{ marginTop: 5 }}>
+            <Tabs
+                value={action.current.option.tab}
+                onChange={value => {
+                    action.current.option.tab = value;
+                }}
+                lists={tabs}
+            >
+                <Align>
+                    <InputNumber
+                        size={generateOptionSize}
+                        width={120}
+                        value={action.current.option.margin}
                         onChange={value => {
-                            action.current.option.tab = value;
+                            action.current.option.margin = value;
                         }}
-                        lists={tabs}
-                    >
-                        <Align>
-                            <InputNumber
-                                size={generateOptionSize}
-                                width={120}
-                                value={action.current.option.margin}
-                                onChange={value => {
-                                    action.current.option.margin = value;
-                                }}
-                                max={1000}
-                                prepend={$t("qrCode_generate_option_margin")}
-                            />
-                            <Select
-                                size={generateOptionSize}
-                                options={["L", "M", "Q", "H"]}
-                                value={action.current.option.error_correction_level}
-                                onChange={value => {
-                                    action.current.option.error_correction_level = value;
-                                }}
-                                label={$t("qrCode_generate_option_correction")}
-                            />
-                            <UploadFile
-                                size={generateOptionSize}
-                                onSuccess={uploadHandle}
-                                buttonType="text"
-                                type="image"
-                            />
-                            <InputNumber
-                                size={generateOptionSize}
-                                width={100}
-                                value={action.current.option.image_options.size}
-                                onChange={value => {
-                                    action.current.option.image_options.size = value;
-                                }}
-                                max={10}
-                                prepend={$t("qrCode_generate_option_size")}
-                            />
-                            <InputNumber
-                                size={generateOptionSize}
-                                width={120}
-                                value={action.current.option.image_options.margin}
-                                onChange={value => {
-                                    action.current.option.image_options.margin = value;
-                                }}
-                                max={1000}
-                                prepend={$t("qrCode_generate_option_margin")}
-                            />
-                        </Align>
-                        <GenerateOptionColor
-                            value={action.current.option.dots_options.color}
-                            onChange={value => {
-                                action.current.option.dots_options.color = value;
-                            }}
-                            size={generateOptionSize}
-                        >
-                            <Select
-                                value={action.current.option.dots_options.type}
-                                onChange={value => {
-                                    action.current.option.dots_options.type = value;
-                                }}
-                                options={optionMap(
-                                    ["square", "dots", "rounded", "classy", "extra-rounded", "classy-rounded"],
-                                    "qrCode_generate_option_",
-                                )}
-                                size={generateOptionSize}
-                                label={$t("qrCode_generate_option_style")}
-                            />
-                        </GenerateOptionColor>
-                        <GenerateOptionColor
-                            value={action.current.option.corners_square_options.color}
-                            onChange={value => {
-                                action.current.option.corners_square_options.color = value;
-                            }}
-                            size={generateOptionSize}
-                        >
-                            <Select
-                                value={action.current.option.corners_square_options.type}
-                                onChange={value => {
-                                    action.current.option.corners_square_options.type = value;
-                                }}
-                                options={optionMap(
-                                    ["dot", "square", "extra-rounded"],
-                                    "qrCode_generate_option_",
-                                )}
-                                size={generateOptionSize}
-                                label={$t("qrCode_generate_option_style")}
-                            />
-                        </GenerateOptionColor>
-                        <GenerateOptionColor
-                            value={action.current.option.corners_dot_options.color}
-                            onChange={value => {
-                                action.current.option.corners_dot_options.color = value;
-                            }}
-                            size={generateOptionSize}
-                        >
-                            <Select
-                                value={action.current.option.corners_dot_options.type}
-                                onChange={value => {
-                                    action.current.option.corners_dot_options.type = value;
-                                }}
-                                options={optionMap(["dot", "square"], "qrCode_generate_option_")}
-                                size={generateOptionSize}
-                                label={$t("qrCode_generate_option_style")}
-                            />
-                        </GenerateOptionColor>
-                        <GenerateOptionColor
-                            value={action.current.option.background_options.color}
-                            onChange={value => {
-                                action.current.option.background_options.color = value;
-                            }}
-                            size={generateOptionSize}
-                        />
-                    </Tabs>
-                </div>
-            ) : null}
-        </>
-    );
+                        max={1000}
+                        prepend={$t("qrCode_generate_option_margin")}
+                    />
+                    <Select
+                        size={generateOptionSize}
+                        options={["L", "M", "Q", "H"]}
+                        value={action.current.option.error_correction_level}
+                        onChange={value => {
+                            action.current.option.error_correction_level = value;
+                        }}
+                        label={$t("qrCode_generate_option_correction")}
+                    />
+                    <UploadFile
+                        size={generateOptionSize}
+                        onSuccess={uploadHandle}
+                        buttonType="text"
+                        type="image"
+                    />
+                    <InputNumber
+                        size={generateOptionSize}
+                        width={100}
+                        value={action.current.option.image_options.size}
+                        onChange={value => {
+                            action.current.option.image_options.size = value;
+                        }}
+                        max={10}
+                        prepend={$t("qrCode_generate_option_size")}
+                    />
+                    <InputNumber
+                        size={generateOptionSize}
+                        width={120}
+                        value={action.current.option.image_options.margin}
+                        onChange={value => {
+                            action.current.option.image_options.margin = value;
+                        }}
+                        max={1000}
+                        prepend={$t("qrCode_generate_option_margin")}
+                    />
+                </Align>
+                <GenerateOptionColor
+                    value={action.current.option.dots_options.color}
+                    onChange={value => {
+                        action.current.option.dots_options.color = value;
+                    }}
+                    size={generateOptionSize}
+                >
+                    <Select
+                        value={action.current.option.dots_options.type}
+                        onChange={value => {
+                            action.current.option.dots_options.type = value;
+                        }}
+                        options={optionMap(
+                            ["square", "dots", "rounded", "classy", "extra-rounded", "classy-rounded"],
+                            "qrCode_generate_option_",
+                        )}
+                        size={generateOptionSize}
+                        label={$t("qrCode_generate_option_style")}
+                    />
+                </GenerateOptionColor>
+                <GenerateOptionColor
+                    value={action.current.option.corners_square_options.color}
+                    onChange={value => {
+                        action.current.option.corners_square_options.color = value;
+                    }}
+                    size={generateOptionSize}
+                >
+                    <Select
+                        value={action.current.option.corners_square_options.type}
+                        onChange={value => {
+                            action.current.option.corners_square_options.type = value;
+                        }}
+                        options={optionMap(
+                            ["dot", "square", "extra-rounded"],
+                            "qrCode_generate_option_",
+                        )}
+                        size={generateOptionSize}
+                        label={$t("qrCode_generate_option_style")}
+                    />
+                </GenerateOptionColor>
+                <GenerateOptionColor
+                    value={action.current.option.corners_dot_options.color}
+                    onChange={value => {
+                        action.current.option.corners_dot_options.color = value;
+                    }}
+                    size={generateOptionSize}
+                >
+                    <Select
+                        value={action.current.option.corners_dot_options.type}
+                        onChange={value => {
+                            action.current.option.corners_dot_options.type = value;
+                        }}
+                        options={optionMap(["dot", "square"], "qrCode_generate_option_")}
+                        size={generateOptionSize}
+                        label={$t("qrCode_generate_option_style")}
+                    />
+                </GenerateOptionColor>
+                <GenerateOptionColor
+                    value={action.current.option.background_options.color}
+                    onChange={value => {
+                        action.current.option.background_options.color = value;
+                    }}
+                    size={generateOptionSize}
+                />
+            </Tabs>
+        </div>
+    ) : null}</div>)
 }

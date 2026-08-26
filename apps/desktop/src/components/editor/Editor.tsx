@@ -6,20 +6,16 @@ import {
     useRef,
 } from "react";
 import type { ReactNode } from "react";
-import { Display } from "@/components";
 import event from "@/event";
 import { getEditorLanguage } from "@/lib/code";
-import { useTheme } from "@/store/setting";
-import type { DisplayPosition } from "@/types";
 import { sizeConvert } from "../util";
-import { ContextMenu, lineInfo as configureLineInfo, monacoInit, monacoInstance } from "./monaco";
+import { ContextMenu, lineInfo as configureLineInfo, monacoInit, monacoInstance, applyMonacoTheme } from "./monaco";
 import type { monacoEditor } from "./monaco";
 import PlaceholderContentWidget from "./placeholderContentWidget";
 
 export interface EditorProps {
     value?: string;
     onChange?: (value: string) => void;
-    toolbar?: DisplayPosition;
     lang?: string;
     placeholder?: string;
     langCallback?: (() => string | undefined) | false;
@@ -42,7 +38,6 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
     {
         value = "",
         onChange,
-        toolbar = "bottom-right",
         lang = "text",
         placeholder = $t("main_ui_input"),
         langCallback = false,
@@ -57,8 +52,6 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
     },
     forwardedRef,
 ) {
-    const storeTheme = useTheme();
-    const theme = storeTheme.theme.raw;
     const containerRef = useRef<HTMLDivElement | null>(null);
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
     const valueRef = useRef(value);
@@ -66,7 +59,6 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
     const langRef = useRef(lang);
     const langCallbackRef = useRef(langCallback);
     const lineInfoRef = useRef(lineInfo);
-    const themeRef = useRef(theme);
     const updateConfigRef = useRef<() => void>(() => undefined);
 
     valueRef.current = value;
@@ -74,7 +66,6 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
     langRef.current = lang;
     langCallbackRef.current = langCallback;
     lineInfoRef.current = lineInfo;
-    themeRef.current = theme;
 
     const updateEditor = useCallback((text = "") => {
         const editor = editorRef.current;
@@ -98,7 +89,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
         if (model) {
             monacoInstance()?.editor.setModelLanguage(model, getEditorLanguage(selectedLanguage).id);
         }
-        monacoInstance()?.editor.setTheme(themeRef.current === "dark" ? "vs-dark" : "vs");
+        applyMonacoTheme();
         editor.render(true);
     }, []);
 
@@ -121,6 +112,8 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
         }
 
         const clearHandler = () => updateEditor("");
+        const themeHandler = () => applyMonacoTheme();
+        event.addListener("theme_change", themeHandler);
         if (!disableClear) {
             event.addListener("content_clear", clearHandler);
         }
@@ -142,6 +135,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
                 language: getEditorLanguage(langRef.current).id,
                 scrollbar: { verticalScrollbarSize: 5 },
                 automaticLayout: true,
+                theme: applyMonacoTheme(),
             });
 
             if (!active) {
@@ -169,6 +163,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
 
         return () => {
             active = false;
+            event.removeListener("theme_change", themeHandler);
             if (!disableClear) {
                 event.removeListener("content_clear", clearHandler);
             }
@@ -183,22 +178,17 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
 
     useEffect(() => {
         updateEditorConfig();
-    }, [theme, lang, reload, lineInfo, updateEditorConfig]);
+    }, [lang, reload, lineInfo, updateEditorConfig]);
 
     const className = disableBorder
         ? "ctool-code-editor ctool-code-editor-disable-border"
         : "ctool-code-editor";
 
     return (
-        <Display
-            position={toolbar}
-            className={className}
-            style={{ height: sizeConvert(height), width: "100%" }}
-            toggle
-            extra={children}
-        >
-            <div ref={containerRef} style={{ height: "100%", width: "100%" }} />
-        </Display>
+        <div className={className} style={{ height: sizeConvert(height), width: "100%" }}>
+            {children ? <div className="ctool-editor-surface-toolbar">{children}</div> : null}
+            <div ref={containerRef} style={{ minHeight: 0, height: "100%", width: "100%" }} />
+        </div>
     );
 });
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { Align, Bool, Display, Editor, Input, Select, Textarea } from "@/components";
+import { Align, Bool, Editor, Input, Select, Textarea } from "@/components";
 import { sizeConvert } from "@/components/util";
 import { getDisplayName } from "@/lib/code";
 import Serialize from "@/lib/serialize";
@@ -233,10 +233,12 @@ export default function SerializeOutput({
     const className = disabledBorder
         ? "ctool-serialize-output ctool-serialize-output-disabled-border"
         : "ctool-serialize-output";
+    const hasInner = ["csv", "html_table", "xml", "text"].includes(current.type);
 
     return (
-        <Display position="top-right" toggle style={style} className={className} extra={outerExtra}>
-            <Display position="bottom-right" style={{ height: "100%" }} toggle extra={innerExtra}>
+        <div className={className} style={style}>
+            <div className="ctool-serialize-toolbar ctool-serialize-toolbar--top">{outerExtra}</div>
+            <div className="ctool-serialize-body">
                 {["http_query_string", "csv"].includes(current.type) ? (
                     <Textarea value={result} placeholder={getPlaceholder} />
                 ) : (
@@ -248,7 +250,8 @@ export default function SerializeOutput({
                         placeholder={getPlaceholder}
                     />
                 )}
-            </Display>
-        </Display>
+            </div>
+            {hasInner ? <div className="ctool-serialize-toolbar ctool-serialize-toolbar--bottom">{innerExtra}</div> : null}
+        </div>
     );
 }

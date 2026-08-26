@@ -32,9 +32,13 @@ const monacoInstance = () => {
     return loader.__getMonacoInstance();
 };
 
+const applyMonacoTheme = () => {
+    const theme = document.documentElement.dataset.theme === "dark" ? "vs-dark" : "vs";
+    monacoInstance()?.editor.setTheme(theme);
+    return theme;
+};
+
 const monacoInit = (params: Parameters<typeof loader.config>[0] = {}) => {
-    // 暂时无法设置 i18n
-    // https://github.com/suren-atoyan/monaco-loader/issues/40
     loader.config({
         monaco,
         ...params
@@ -42,4 +46,5 @@ const monacoInit = (params: Parameters<typeof loader.config>[0] = {}) => {
     return loader.init();
 };
 
-export { monacoInit, ContextMenu, monacoInstance, monacoEditor, lineInfo };
+export { monacoInit, ContextMenu, monacoInstance, monacoEditor, lineInfo, applyMonacoTheme };
+

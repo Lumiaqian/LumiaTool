@@ -73,39 +73,40 @@ export default function Run() {
 
     return (
         <>
-            <Align direction="vertical">
-                <HeightResize reduce={205}>
-                    {({ height }) => (
-                        <Editor
-                            value={action.current.input}
-                            onChange={(value: string) => { action.current.input = value; }}
-                            lang={action.current.language}
-                            height={`${height}px`}
-                        />
-                    )}
-                </HeightResize>
-                <Card
-                    title={$t("main_ui_output")}
-                    height={200}
-                    padding="0"
-                    extra={(
-                        <Align>
-                            <span>{$t("code_run_used_times", [used])}</span>
-                            <Select dialog size="small" value={action.current.language} onChange={(value: string) => { action.current.language = value; }} options={languageLists.map((name) => ({ value: name, label: getDisplayName(name) }))} />
-                            <Select size="small" value={action.current.version[action.current.language]} onChange={(value: string) => { action.current.version[action.current.language] = value; }} options={languageVersionLists} />
-                            <Button type="primary" text={isRunning ? $t("code_running") : $t("code_run")} disabled={isRunning || !isEnable || action.current.input === ""} size="small" onClick={run} />
-                            <span>|</span>
-                            <Button type="primary" size="small" onClick={() => setShowSetting((value) => !value)}>{$t("main_ui_setting")}</Button>
-                        </Align>
-                    )}
-                >
-                    <Editor lang="shell" value={action.current.result.error !== "" ? action.current.result.error : action.current.result.output}>
-                        {action.current.result.output !== "" && action.current.result.error === "" && (
-                            <Button type="dotted" size="small" text={`Memory:${action.current.result.memory} Cpu Time:${action.current.result.cpuTime}`} />
-                        )}
-                    </Editor>
-                </Card>
-            </Align>
+            <div className="ctool-generator-editor-family ctool-editor-page ctool-code-runner-page">
+                <header className="ctool-editor-command-toolbar" aria-label={$t("main_ui_setting")}>
+                    <Align>
+                        <span>{$t("code_run_used_times", [used])}</span>
+                        <Select dialog size="small" value={action.current.language} onChange={(value: string) => { action.current.language = value; }} options={languageLists.map((name) => ({ value: name, label: getDisplayName(name) }))} />
+                        <Select size="small" value={action.current.version[action.current.language]} onChange={(value: string) => { action.current.version[action.current.language] = value; }} options={languageVersionLists} />
+                        <Button type="primary" text={isRunning ? $t("code_running") : $t("code_run")} disabled={isRunning || !isEnable || action.current.input === ""} loading={isRunning} size="small" onClick={run} />
+                        <Button size="small" onClick={() => setShowSetting((value) => !value)}>{$t("main_ui_setting")}</Button>
+                    </Align>
+                </header>
+                <div className="ctool-editor-result-workspace">
+                    <section className="ctool-editor-surface" aria-label={$t("main_ui_input")}>
+                        <HeightResize>
+                            {({ height }) => (
+                                <Editor
+                                    value={action.current.input}
+                                    onChange={(value: string) => { action.current.input = value; }}
+                                    lang={action.current.language}
+                                    height={`${height}px`}
+                                />
+                            )}
+                        </HeightResize>
+                    </section>
+                    <section className="ctool-editor-result" aria-label={$t("main_ui_output")}>
+                        <Card title={$t("main_ui_output")} padding="0">
+                            <Editor lang="shell" value={action.current.result.error !== "" ? action.current.result.error : action.current.result.output}>
+                                {action.current.result.output !== "" && action.current.result.error === "" && (
+                                    <Button type="dotted" size="small" text={`Memory:${action.current.result.memory} Cpu Time:${action.current.result.cpuTime}`} />
+                                )}
+                            </Editor>
+                        </Card>
+                    </section>
+                </div>
+            </div>
             <ExtendPage value={showSetting} onChange={setShowSetting}>
                 <Card title={$t("main_ui_setting")} padding="20px">
                     <Align direction="vertical" style={{ marginBottom: 20 }}>

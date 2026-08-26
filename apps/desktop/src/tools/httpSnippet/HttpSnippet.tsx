@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Align, Display, Editor, HeightResize, HelpTip, Select } from "@/components";
+import { Align, Editor, HeightResize, HelpTip, Select } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { range } from "lodash";
 import { generate, getTarget, targets } from "./util";
@@ -40,75 +40,63 @@ export default function HttpSnippet() {
     const selectedOutput = output[selected] ?? output[0];
 
     return (
-        <HeightResize>
-            {({ height }) => (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-                    <Display
-                        position="bottom-right"
-                        extra={(
-                            <Align>
-                                <HelpTip
-                                    link={action.current.source === "cURL"
-                                        ? "https://everything.curl.dev/usingcurl/copyas"
-                                        : "http://www.softwareishard.com/blog/har-12-spec/#request"}
-                                />
-                                <Select
-                                    size="small"
-                                    options={["cURL", "HAR"]}
-                                    value={action.current.source}
-                                    onChange={(value) => { action.current.source = value; }}
-                                />
-                            </Align>
-                        )}
-                    >
+        <div className="ctool-generator-editor-family ctool-editor-page ctool-http-snippet-page">
+            <header className="ctool-editor-command-toolbar ctool-http-snippet-toolbar" aria-label={$t("main_ui_setting")}>
+                <Align>
+                    <HelpTip
+                        link={action.current.source === "cURL"
+                            ? "https://everything.curl.dev/usingcurl/copyas"
+                            : "http://www.softwareishard.com/blog/har-12-spec/#request"}
+                    />
+                    <Select
+                        size="small"
+                        options={["cURL", "HAR"]}
+                        value={action.current.source}
+                        onChange={(value) => { action.current.source = value; }}
+                    />
+                </Align>
+                <Align>
+                    {targetInfo.url !== "" && <HelpTip link={targetInfo.url} />}
+                    <Select
+                        dialog
+                        size="small"
+                        options={targets}
+                        value={action.current.target}
+                        onChange={(value) => { action.current.target = value; }}
+                    />
+                    {output.length > 1 && (
+                        <Select
+                            size="small"
+                            options={range(0, output.length).map((index) => ({
+                                value: index,
+                                label: `Entry ${index + 1}`,
+                                description: output[index].url,
+                            }))}
+                            value={selected}
+                            onChange={(value) => setSelected(Number(value))}
+                        />
+                    )}
+                </Align>
+            </header>
+            <HeightResize>
+                {({ height }) => (
+                    <div className="ctool-editor-pair">
                         <Editor
                             lang={action.current.source === "cURL" ? "shell" : "json"}
                             value={action.current.input}
                             onChange={(value) => { action.current.input = value; }}
                             height={height}
+                            placeholder={$t("main_ui_input")}
+                        />
+                        <Editor
+                            lang={targetInfo.targetId}
+                            value={selectedOutput.value}
+                            height={height}
                             placeholder={$t("main_ui_output")}
                         />
-                    </Display>
-                    <Display
-                        position="bottom-right"
-                        extra={(
-                            <Align>
-                                {targetInfo.url !== "" && <HelpTip link={targetInfo.url} />}
-                                <Select
-                                    dialog
-                                    size="small"
-                                    options={targets}
-                                    value={action.current.target}
-                                    onChange={(value) => { action.current.target = value; }}
-                                />
-                            </Align>
-                        )}
-                    >
-                        <Display
-                            position="top-right"
-                            extra={output.length > 1 ? (
-                                <Select
-                                    size="small"
-                                    options={range(0, output.length).map((index) => ({
-                                        value: index,
-                                        label: `Entry ${index + 1}`,
-                                        description: output[index].url,
-                                    }))}
-                                    value={selected}
-                                    onChange={(value) => setSelected(Number(value))}
-                                />
-                            ) : undefined}
-                        >
-                            <Editor
-                                lang={targetInfo.targetId}
-                                value={selectedOutput.value}
-                                height={height}
-                                placeholder={$t("main_ui_output")}
-                            />
-                        </Display>
-                    </Display>
-                </div>
-            )}
-        </HeightResize>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }

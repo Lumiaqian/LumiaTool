@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Align, Editor, HeightResize, TextInput } from "@/components";
+import { Editor, HeightResize, TextInput } from "@/components";
 import { createTextInput } from "@/components/text";
 import { initialize, useAction } from "@/store/action";
 import formatter from "../code/formatter";
@@ -42,20 +42,42 @@ export default function Asn1() {
     };
 
     return (
-        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <TextInput value={action.current.input} onChange={(value) => { action.current.input = value; }} height={small} placeholder={$t("asn1_input_der_text")} allow={["hex", "base64"]} />
-                    <Editor
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; void format(); }}
-                        lang={action.current.language}
-                        disableLineNumbers
-                        height={large}
-                        placeholder={$t("asn1_output_result")}
-                    />
-                </Align>
-            )}
-        </HeightResize>
+        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-asn1-page">
+            <HeightResize className="ctool-inspector-family-fill" ignore>
+                {() => (
+                    <div className="ctool-inspector-family-split">
+                        <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                            <header className="ctool-inspector-family-panel-header">
+                                <strong>{$t("asn1_input_der_text")}</strong>
+                            </header>
+                            <div className="ctool-inspector-family-panel-body">
+                                <TextInput
+                                    value={action.current.input}
+                                    onChange={(value) => { action.current.input = value; }}
+                                    height="100%"
+                                    placeholder={$t("asn1_input_der_text")}
+                                    allow={["hex", "base64"]}
+                                />
+                            </div>
+                        </section>
+                        <section className="ctool-inspector-family-panel ctool-inspector-family-result">
+                            <header className="ctool-inspector-family-panel-header">
+                                <strong>{$t("asn1_output_result")}</strong>
+                            </header>
+                            <div className="ctool-inspector-family-panel-body">
+                                <Editor
+                                    value={action.current.output}
+                                    onChange={(value) => { action.current.output = value; void format(); }}
+                                    lang={action.current.language}
+                                    disableLineNumbers
+                                    height="100%"
+                                    placeholder={$t("asn1_output_result")}
+                                />
+                            </div>
+                        </section>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }

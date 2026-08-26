@@ -1,4 +1,4 @@
-import { Align, HeightResize, TextInput, TextOutput } from "@/components";
+import { HeightResize, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
 import { initialize, useAction } from "@/store/action";
 
@@ -11,27 +11,39 @@ export default function HexToString() {
     const action = useAction(initial);
 
     return (
-        <HeightResize reduce={5}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <TextInput
-                        allow={["hex"]}
-                        value={action.current.input}
-                        onChange={(value) => { action.current.input = value; }}
-                        height={small}
-                        upload="file"
-                    />
-                    <TextOutput
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; }}
-                        allow={["text", "base64"]}
-                        content={action.current.input.text}
-                        height={large}
-                        onSuccess={() => { action.save(); }}
-                        encoding
-                    />
-                </Align>
-            )}
-        </HeightResize>
+        <div className="ctool-transformer-page ctool-transformer-page--paired">
+            <HeightResize className="ctool-transformer-layout" reduce={5}>
+                {({ small, large }) => (
+                    <div className="ctool-transformer-panes">
+                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("main_ui_input")}>
+                            <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
+                            <div className="ctool-transformer-pane-body">
+                                <TextInput
+                                    allow={["hex"]}
+                                    value={action.current.input}
+                                    onChange={(value) => { action.current.input = value; }}
+                                    height={small}
+                                    upload="file"
+                                />
+                            </div>
+                        </section>
+                        <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={$t("main_ui_output")}>
+                            <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                            <div className="ctool-transformer-pane-body">
+                                <TextOutput
+                                    value={action.current.output}
+                                    onChange={(value) => { action.current.output = value; }}
+                                    allow={["text", "base64"]}
+                                    content={action.current.input.text}
+                                    height={large}
+                                    onSuccess={() => { action.save(); }}
+                                    encoding
+                                />
+                            </div>
+                        </section>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }

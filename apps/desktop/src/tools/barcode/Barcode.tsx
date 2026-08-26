@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import JsBarcode from "jsbarcode";
-import { Align, Bool, Card, Color, Exception, HeightResize, Input, InputNumber, Select } from "@/components";
+import { Align, Bool, Card, Color, Exception, Input, InputNumber, Select } from "@/components";
 import { initialize, useAction } from "@/store/action";
 
 const initial = await initialize({
@@ -62,34 +62,42 @@ export default function Barcode() {
     };
 
     return (
-        <Align direction="vertical">
-            <HeightResize append={[".ctool-barcode-option"]} reduce={5}>
-                {({ height }) => (
-                    <Card height={height}>
-                        <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
-                            <canvas onClick={copy} ref={container} style={{ border: "1px dashed #666", verticalAlign: "middle", cursor: "pointer", display: valid ? undefined : "none" }} />
-                            {!valid && <Exception content={$t("barcode_generate_fail")} />}
-                        </div>
-                    </Card>
-                )}
-            </HeightResize>
-            <Card className="ctool-barcode-option">
-                <Align horizontal="center">
-                    <Input value={action.current.input} onChange={(value) => { action.current.input = value; }} width={260} placeholder={$t("main_ui_input")} append={<Select value={action.current.format} onChange={(value) => { action.current.format = value; }} options={barcodeFormat} />} />
-                    <Color value={action.current.background} onChange={(value) => { action.current.background = value; }} label={$t("barcode_background")} />
-                    <Color value={action.current.line_color} onChange={(value) => { action.current.line_color = value; }} label={$t("barcode_line_color")} />
-                    <InputNumber width={100} value={action.current.width} onChange={(value) => { action.current.width = value; }} min={1} max={4} label={$t("barcode_bar_width")} />
-                    <InputNumber width={100} value={action.current.height} onChange={(value) => { action.current.height = value; }} min={10} max={150} label={$t("barcode_height")} />
-                    <InputNumber width={100} value={action.current.margin} onChange={(value) => { action.current.margin = value; }} max={25} label={$t("barcode_margin")} />
-                    <Select label={$t("barcode_text")} value={action.current.text_position} onChange={(value) => { action.current.text_position = value; }} options={textPositionOptions} />
-                    <InputNumber width={100} disabled={!showText} value={action.current.text_margin} onChange={(value) => { action.current.text_margin = value; }} min={-15} max={40} label={$t("barcode_margin")} />
-                    <Select label={$t("barcode_text_align")} disabled={!showText} value={action.current.text_align} onChange={(value) => { action.current.text_align = value; }} options={textAlignOptions} />
-                    <Select disabled={!showText} value={action.current.font} onChange={(value) => { action.current.font = value; }} options={fontFamily} label={$t("barcode_font")} />
-                    <InputNumber width={100} disabled={!showText} value={action.current.font_size} onChange={(value) => { action.current.font_size = value; }} min={8} max={36} label={$t("barcode_font_size")} />
-                    <Bool border disabled={!showText} value={action.current.font_bold} onChange={(value) => { action.current.font_bold = value; }} label={$t("barcode_bold")} />
-                    <Bool border disabled={!showText} value={action.current.font_italic} onChange={(value) => { action.current.font_italic = value; }} label={$t("barcode_italic")} />
-                </Align>
-            </Card>
-        </Align>
+        <div className="ctool-generator-editor-family ctool-generator-page ctool-barcode-generator-page">
+            <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
+                <Card className="ctool-barcode-options">
+                    <Align className="ctool-generator-option-grid">
+                        <Input value={action.current.input} onChange={(value) => { action.current.input = value; }} width={260} placeholder={$t("main_ui_input")} append={<Select value={action.current.format} onChange={(value) => { action.current.format = value; }} options={barcodeFormat} />} />
+                        <Color value={action.current.background} onChange={(value) => { action.current.background = value; }} label={$t("barcode_background")} />
+                        <Color value={action.current.line_color} onChange={(value) => { action.current.line_color = value; }} label={$t("barcode_line_color")} />
+                        <InputNumber width={100} value={action.current.width} onChange={(value) => { action.current.width = value; }} min={1} max={4} label={$t("barcode_bar_width")} />
+                        <InputNumber width={100} value={action.current.height} onChange={(value) => { action.current.height = value; }} min={10} max={150} label={$t("barcode_height")} />
+                        <InputNumber width={100} value={action.current.margin} onChange={(value) => { action.current.margin = value; }} max={25} label={$t("barcode_margin")} />
+                        <Select label={$t("barcode_text")} value={action.current.text_position} onChange={(value) => { action.current.text_position = value; }} options={textPositionOptions} />
+                        <InputNumber width={100} disabled={!showText} value={action.current.text_margin} onChange={(value) => { action.current.text_margin = value; }} min={-15} max={40} label={$t("barcode_margin")} />
+                        <Select label={$t("barcode_text_align")} disabled={!showText} value={action.current.text_align} onChange={(value) => { action.current.text_align = value; }} options={textAlignOptions} />
+                        <Select disabled={!showText} value={action.current.font} onChange={(value) => { action.current.font = value; }} options={fontFamily} label={$t("barcode_font")} />
+                        <InputNumber width={100} disabled={!showText} value={action.current.font_size} onChange={(value) => { action.current.font_size = value; }} min={8} max={36} label={$t("barcode_font_size")} />
+                        <Bool border disabled={!showText} value={action.current.font_bold} onChange={(value) => { action.current.font_bold = value; }} label={$t("barcode_bold")} />
+                        <Bool border disabled={!showText} value={action.current.font_italic} onChange={(value) => { action.current.font_italic = value; }} label={$t("barcode_italic")} />
+                    </Align>
+                </Card>
+            </aside>
+            <section className="ctool-generator-preview" aria-label={$t("main_ui_output")}>
+                <Card className="ctool-preview-panel">
+                    <div className="ctool-preview-stage">
+                        <button
+                            type="button"
+                            className="ctool-preview-action"
+                            onClick={copy}
+                            disabled={!valid}
+                            aria-label={$t("main_ui_copy")}
+                        >
+                            <canvas ref={container} hidden={!valid} />
+                        </button>
+                        {!valid && <Exception content={$t("barcode_generate_fail")} />}
+                    </div>
+                </Card>
+            </section>
+        </div>
     );
 }

@@ -126,6 +126,7 @@ export default function SqlFillParameter() {
     }, [action, input, params]);
 
     return (
+        <div className="ctool-generator-editor-family ctool-editor-page ctool-sql-parameter-page">
         <HeightResize ignore reduce={5}>
             {({ height }: { height: number }) => (
                 <Align direction="vertical">
@@ -137,5 +138,6 @@ export default function SqlFillParameter() {
                 </Align>
             )}
         </HeightResize>
+        </div>
     );
 }

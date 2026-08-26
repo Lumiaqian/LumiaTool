@@ -7,13 +7,11 @@ import {
     useState,
 } from "react";
 import type { ReactNode } from "react";
-import { Align, Bool, Display } from "@/components";
+import { Align, Bool } from "@/components";
 import event from "@/event";
 import { getEditorLanguage } from "@/lib/code";
-import { useTheme } from "@/store/setting";
-import type { DisplayPosition } from "@/types";
 import { sizeConvert } from "../util";
-import { ContextMenu, monacoInit, monacoInstance } from "./monaco";
+import { ContextMenu, monacoInit, monacoInstance, applyMonacoTheme } from "./monaco";
 import type { monacoEditor } from "./monaco";
 import PlaceholderContentWidget from "./placeholderContentWidget";
 
@@ -28,7 +26,6 @@ export interface DiffProps {
     onOriginalChange?: (value: string) => void;
     modified?: string;
     onModifiedChange?: (value: string) => void;
-    toolbar?: DisplayPosition;
     lang?: string;
     height?: string | number;
     disableLineWrapping?: boolean;
@@ -50,7 +47,6 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
         onOriginalChange,
         modified = "",
         onModifiedChange,
-        toolbar = "bottom-right",
         lang = "text",
         height = "100%",
         disableLineWrapping = false,
@@ -61,8 +57,6 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
     },
     forwardedRef,
 ) {
-    const storeTheme = useTheme();
-    const theme = storeTheme.theme.raw;
     const containerRef = useRef<HTMLDivElement | null>(null);
     const editorRef = useRef<monacoEditor.editor.IDiffEditor | null>(null);
     const originalModelRef = useRef<monacoEditor.editor.ITextModel | null>(null);
@@ -73,7 +67,6 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
     const onModifiedChangeRef = useRef(onModifiedChange);
     const langRef = useRef(lang);
     const inlineRef = useRef(false);
-    const themeRef = useRef(theme);
     const updateConfigRef = useRef<() => void>(() => undefined);
     const [changes, setChanges] = useState(0);
     const [currentChange, setCurrentChange] = useState(1);
@@ -85,7 +78,6 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
     onModifiedChangeRef.current = onModifiedChange;
     langRef.current = lang;
     inlineRef.current = inline;
-    themeRef.current = theme;
 
     const updateEditor = useCallback((nextOriginal = "", nextModified = "") => {
         const editor = editorRef.current;
@@ -115,7 +107,7 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
             }
         });
         editor.updateOptions({ renderSideBySide: !inlineRef.current });
-        monacoInstance()?.editor.setTheme(themeRef.current === "dark" ? "vs-dark" : "vs");
+        applyMonacoTheme();
     }, []);
 
     updateConfigRef.current = updateEditorConfig;
@@ -150,10 +142,11 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
         }
 
         const clearHandler = () => updateEditor("", "");
+        const themeHandler = () => applyMonacoTheme();
+        event.addListener("theme_change", themeHandler);
         if (!disableClear) {
             event.addListener("content_clear", clearHandler);
         }
-
         void monacoInit({
             "vs/nls": {
                 availableLanguages: { "*": $t("main_locale") === "zh_CN" ? "zh-cn" : "en" },
@@ -179,13 +172,14 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
                 hideCursorInOverviewRuler: true,
                 renderLineHighlight: "line",
                 renderLineHighlightOnlyWhenFocus: true,
-                padding: { top: 10, bottom: 44 },
+                padding: { top: 10, bottom: 10 },
                 automaticLayout: true,
                 originalEditable: true,
                 scrollBeyondLastLine: false,
                 renderSideBySide: !inlineRef.current,
                 useInlineViewWhenSpaceIsLimited: false,
                 enableSplitViewResizing: false,
+                theme: applyMonacoTheme(),
                 scrollbar: {
                     verticalScrollbarSize: 8,
                     horizontalScrollbarSize: 8,
@@ -237,6 +231,7 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
 
         return () => {
             active = false;
+            event.removeListener("theme_change", themeHandler);
             if (!disableClear) {
                 event.removeListener("content_clear", clearHandler);
             }
@@ -259,7 +254,7 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
 
     useEffect(() => {
         updateEditorConfig();
-    }, [theme, lang, inline, updateEditorConfig]);
+    }, [lang, inline, updateEditorConfig]);
 
     const navigation = (
         <div className="ctool-diff-navigation" role="group" aria-label={$t("component_editor_change_navigation")}>
@@ -308,16 +303,10 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
         : "ctool-code-diff";
 
     return (
-        <Display
-            position={toolbar}
-            right={35}
-            className={className}
-            style={{ height: sizeConvert(height), width: "100%" }}
-            toggle
-            extra={extra}
-        >
-            <div ref={containerRef} style={{ height: "100%", width: "100%" }} />
-        </Display>
+        <div className={className} style={{ height: sizeConvert(height), width: "100%" }}>
+            <div className="ctool-editor-surface-toolbar">{extra}</div>
+            <div ref={containerRef} style={{ minHeight: 0, height: "100%", width: "100%" }} />
+        </div>
     );
 });
 

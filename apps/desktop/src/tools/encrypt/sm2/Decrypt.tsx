@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, HeightResize, HelpTip, Input, Select, TextInput, TextOutput } from "@/components";
+import { HelpTip, Input, Select, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import { sm2 } from "sm-crypto";
@@ -52,37 +53,24 @@ export default function Decrypt() {
     }, [action, output]);
 
     return (
-        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <TextInput
-                        value={action.current.input}
-                        onChange={(value) => { action.current.input = value; }}
-                        allow={["base64", "hex"]}
-                        height={small}
+        <TransformerPage
+            rack={(
+                <>
+                    <Input
+                        value={action.current.option.private_key}
+                        onChange={(value) => { action.current.option.private_key = value; }}
+                        label={$t("sm2_private_key")}
                     />
-                    <Align row="1-auto-auto" className="ctool-page-option">
-                        <Input
-                            value={action.current.option.private_key}
-                            onChange={(value) => { action.current.option.private_key = value; }}
-                            label={$t("sm2_private_key")}
-                        />
-                        <Select
-                            options={[{ value: 1, label: "C1-C3-C2" }, { value: 0, label: "C1-C2-C3" }]}
-                            value={action.current.option.cipher_mode}
-                            onChange={(value) => { action.current.option.cipher_mode = value; }}
-                        />
-                        <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
-                    </Align>
-                    <TextOutput
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; }}
-                        allow={["text", "hex", "base64", "image", "down"]}
-                        content={output}
-                        height={large}
+                    <Select
+                        options={[{ value: 1, label: "C1-C3-C2" }, { value: 0, label: "C1-C2-C3" }]}
+                        value={action.current.option.cipher_mode}
+                        onChange={(value) => { action.current.option.cipher_mode = value; }}
                     />
-                </Align>
+                    <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
+                </>
             )}
-        </HeightResize>
+            source={<TextInput value={action.current.input} onChange={(value) => { action.current.input = value; }} allow={["base64", "hex"]} height="100%" />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["text", "hex", "base64", "image", "down"]} content={output} height="100%" />}
+        />
     );
 }

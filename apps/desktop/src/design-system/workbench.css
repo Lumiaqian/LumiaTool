@@ -1,0 +1,573 @@
+body:has(.ctool-layout-desktop) {
+    --lumia-shelf-width: 224px;
+    --lumia-topbar-height: 52px;
+    margin: 0;
+    overflow: hidden;
+    background: var(--lumia-app-bg);
+}
+
+.ctool-skip-link {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    z-index: 10020;
+    padding: 8px 12px;
+    color: var(--lumia-control-selected);
+    border-radius: var(--lumia-radius-control);
+    background: var(--lumia-primary);
+    box-shadow: var(--ctool-shadow);
+    transform: translate(-50%, -160%);
+    transition: transform var(--lumia-duration-normal) var(--lumia-ease-standard);
+}
+
+.ctool-skip-link:focus-visible {
+    transform: translate(-50%, 0);
+}
+
+.ctool-tools-catalog {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: 10px !important;
+}
+
+.ctool-tools-catalog > .ctool-card:nth-child(-n + 2) {
+    grid-column: 1 / -1;
+}
+
+.ctool-tools-catalog .ctool-card {
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--lumia-radius-panel);
+}
+
+body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
+    top: var(--lumia-topbar-height) !important;
+    left: var(--lumia-shelf-width);
+    z-index: 90;
+    width: calc(100vw - var(--lumia-shelf-width));
+    height: calc(100vh - var(--lumia-topbar-height)) !important;
+    padding: 54px 20px 20px;
+    background: var(--ctool-background-color);
+}
+
+body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close {
+    top: calc(var(--lumia-topbar-height) + 12px);
+    right: 20px;
+    bottom: auto;
+    left: auto;
+    z-index: 91;
+    width: auto;
+}
+
+.ctool-layout-desktop {
+    grid-template-columns: 224px minmax(0, 1fr) !important;
+    grid-template-rows: 52px 50px minmax(0, 1fr) 30px !important;
+    grid-template-areas:
+        "topbar topbar"
+        "shelf toolbar"
+        "shelf content"
+        "shelf status" !important;
+    color: var(--lumia-text);
+    background: var(--lumia-app-bg) !important;
+}
+
+.ctool-workbench-topbar {
+    grid-area: topbar;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 var(--lumia-space-4) 0 80px;
+    border-bottom: 1px solid var(--lumia-border);
+    background: var(--lumia-raised-bg);
+}
+
+.ctool-workbench-topbar button,
+.ctool-workbench-topbar .ctool-search,
+.ctool-workbench-topbar input {
+    -webkit-app-region: no-drag;
+}
+
+.ctool-workbench-topbar button,
+.ctool-tool-shelf button,
+.ctool-workbench-toolbar button,
+.ctool-workbench-status button {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    font: inherit;
+}
+
+.ctool-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+    color: var(--lumia-text);
+    background: transparent;
+    cursor: pointer;
+}
+
+.ctool-brand-mark {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    border-radius: var(--lumia-radius-control);
+    background: var(--lumia-raised-bg);
+}
+
+.ctool-brand-mark::before {
+    position: absolute;
+    top: 12px;
+    left: 6px;
+    width: 16px;
+    height: 4px;
+    content: "";
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--lumia-selection), var(--lumia-primary));
+    box-shadow: 0 0 12px rgba(239, 169, 104, .42);
+    transform: rotate(-52deg);
+}
+
+.ctool-brand strong {
+    font-size: 13px;
+    letter-spacing: -.02em;
+}
+
+.ctool-global-search {
+    position: relative;
+    width: min(360px, 38vw);
+    margin-left: auto;
+}
+
+.ctool-global-search .ctool-search input {
+    height: var(--lumia-control-height) !important;
+    padding-right: 44px !important;
+    color: var(--lumia-text);
+    border-color: var(--lumia-border) !important;
+    background: var(--lumia-editor) !important;
+}
+
+.ctool-global-search kbd {
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    color: var(--lumia-muted);
+    font: 10px ui-monospace, "SFMono-Regular", Menlo, monospace;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.ctool-search {
+    position: relative;
+    width: 100%;
+}
+
+.ctool-search-block {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 10020;
+    width: max(100%, 280px);
+    max-height: 360px;
+    margin: 0;
+    padding: 4px;
+    overflow: auto;
+    list-style: none;
+    color: var(--lumia-text);
+    border: 1px solid var(--lumia-border);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-overlay-bg);
+    box-shadow: var(--lumia-shadow-overlay);
+}
+
+.ctool-search-block li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ctool-search-block button {
+    display: flex;
+    width: 100%;
+    min-height: var(--lumia-control-height);
+    height: auto;
+    padding: 6px 10px;
+    color: var(--lumia-text) !important;
+    border: 0 !important;
+    border-radius: var(--lumia-radius-control);
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.ctool-search-block .ctool-search-active button,
+.ctool-search-block button:hover {
+    color: var(--lumia-text) !important;
+    background: var(--ctool-hover-background) !important;
+}
+
+.monaco-editor textarea {
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+.ctool-topbar-action,
+.ctool-mobile-tools {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 9px;
+    color: var(--lumia-muted);
+    border-radius: var(--lumia-radius-control);
+    background: transparent;
+    cursor: pointer;
+}
+
+.ctool-topbar-action:hover,
+.ctool-topbar-action.is-active {
+    color: var(--lumia-text);
+    background: var(--ctool-hover-background);
+}
+
+.ctool-mobile-tools {
+    display: none;
+}
+
+.ctool-tool-shelf {
+    grid-area: shelf;
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: var(--lumia-space-3);
+    padding: var(--lumia-space-4) var(--lumia-space-3) var(--lumia-space-2);
+    color: var(--lumia-text);
+    border-right: 1px solid var(--lumia-border);
+    background: var(--lumia-sidebar-bg);
+}
+
+
+
+.ctool-mobile-close {
+    display: none;
+}
+
+.ctool-category-strip {
+    display: flex;
+    gap: 4px;
+    padding: 3px;
+    overflow-x: auto;
+    border: 1px solid var(--lumia-border);
+    border-radius: var(--lumia-radius-panel);
+    background: color-mix(in srgb, var(--lumia-text) 4%, transparent);
+    scrollbar-width: none;
+}
+
+.ctool-category-strip::-webkit-scrollbar {
+    display: none;
+}
+
+.ctool-category-strip button {
+    flex: 0 0 auto;
+    min-height: 26px;
+    padding: 4px 8px;
+    color: var(--lumia-muted);
+    border-radius: var(--lumia-radius-control);
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ctool-category-strip button.is-current {
+    color: var(--lumia-on-selection);
+    background: var(--lumia-selection);
+}
+
+.ctool-tool-grid {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: 6px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.ctool-tool-grid button {
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 9px;
+    overflow: hidden;
+    color: var(--lumia-muted);
+    border: 1px solid var(--lumia-border);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-raised-bg);
+    cursor: pointer;
+    text-align: left;
+}
+
+.ctool-tool-grid button:hover {
+    color: var(--lumia-text);
+    border-color: var(--lumia-border-strong);
+}
+
+.ctool-tool-grid button.is-current {
+    color: var(--lumia-on-selection);
+    border-color: transparent;
+    background: var(--lumia-selection);
+}
+
+.ctool-tool-grid button > span:last-child {
+    width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    line-height: var(--lumia-line-ui);
+    white-space: normal;
+}
+
+.ctool-tool-glyph {
+    display: inline-grid;
+    place-items: center;
+    min-width: 17px;
+    height: 17px;
+    color: currentColor;
+    font: 700 9px ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+.ctool-shelf-footer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding-top: 9px;
+    border-top: 1px solid var(--lumia-border);
+}
+
+.ctool-shelf-footer button {
+    position: relative;
+    height: 31px;
+    display: grid;
+    place-items: center;
+    color: var(--lumia-muted);
+    border-radius: 7px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.ctool-shelf-footer button:hover {
+    color: var(--lumia-text);
+    background: var(--ctool-hover-background);
+}
+
+.ctool-shelf-footer button.has-history::after {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    width: 5px;
+    height: 5px;
+    content: "";
+    border-radius: 50%;
+    background: var(--lumia-success);
+}
+
+.ctool-workbench-toolbar {
+    grid-area: toolbar;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 16px;
+    color: var(--lumia-text);
+    border-bottom: 1px solid var(--lumia-border);
+    background: var(--lumia-raised-bg);
+}
+
+.ctool-workbench-title {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+}
+
+.ctool-workbench-title strong {
+    overflow: hidden;
+    font-family: Georgia, "Songti SC", serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ctool-workbench-title span {
+    color: var(--lumia-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.ctool-feature-tabs {
+    min-width: 0;
+    display: flex;
+    gap: 3px;
+    margin-left: auto;
+    padding: 3px;
+    overflow-x: auto;
+    border: 1px solid var(--lumia-border);
+    border-radius: var(--lumia-radius-panel);
+    background: color-mix(in srgb, var(--lumia-text) 4%, transparent);
+}
+
+.ctool-feature-tabs button {
+    min-height: 26px;
+    padding: 4px 9px;
+    color: var(--lumia-muted);
+    border-radius: var(--lumia-radius-control);
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ctool-feature-tabs button.is-current {
+    color: var(--lumia-on-selection);
+    background: var(--lumia-selection);
+}
+
+.ctool-layout-desktop > .ctool-content {
+    grid-area: content;
+    min-width: 0;
+    min-height: 0;
+    padding: var(--lumia-space-2) var(--lumia-space-4) var(--lumia-space-3) !important;
+    background: transparent !important;
+    outline: 0;
+}
+
+.ctool-layout-desktop .ctool-main-tool {
+    min-height: 0;
+    padding: 10px !important;
+    overflow: hidden;
+    color: var(--lumia-text);
+    border: 0 !important;
+    border-radius: var(--lumia-radius-panel) !important;
+    background: var(--lumia-paper) !important;
+    box-shadow: none !important;
+}
+
+.ctool-workbench-status {
+    grid-area: status;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 var(--lumia-space-4);
+    color: var(--lumia-muted);
+    border-top: 1px solid var(--lumia-border);
+    background: var(--lumia-sidebar-bg);
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.ctool-workbench-status span:last-child {
+    margin-left: auto;
+    color: var(--lumia-success);
+}
+
+.ctool-shelf-mask {
+    display: none;
+}
+
+@media (max-width: 960px) {
+    body:has(.ctool-layout-desktop) {
+        --lumia-shelf-width: 170px;
+    }
+    .ctool-layout-desktop {
+        grid-template-columns: 170px minmax(0, 1fr) !important;
+    }
+
+    .ctool-tool-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ctool-global-search {
+        width: min(280px, 38vw);
+    }
+}
+
+@media (max-width: 720px) {
+    body:has(.ctool-layout-desktop) {
+        --lumia-shelf-width: 0px;
+    }
+    .ctool-layout-desktop {
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-areas:
+            "topbar"
+            "toolbar"
+            "content"
+            "status" !important;
+    }
+
+    .ctool-mobile-tools,
+    .ctool-mobile-close {
+        display: inline-flex;
+    }
+
+    .ctool-brand strong,
+    .ctool-topbar-action span,
+    .ctool-global-search kbd {
+        display: none;
+    }
+
+    .ctool-global-search {
+        width: auto;
+        flex: 1;
+    }
+
+    .ctool-tool-shelf {
+        position: fixed;
+        z-index: 10010;
+        top: 52px;
+        bottom: 0;
+        left: 0;
+        width: 240px;
+        display: none;
+        box-shadow: 18px 0 50px rgba(0, 0, 0, .46);
+    }
+
+    .ctool-tool-shelf.is-mobile-open {
+        display: grid;
+    }
+
+    .ctool-mobile-close {
+        width: 28px !important;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
+        color: var(--lumia-muted);
+        border-radius: 7px;
+        background: var(--ctool-hover-background);
+        cursor: pointer;
+    }
+
+    .ctool-shelf-mask {
+        position: fixed;
+        z-index: 10000;
+        inset: 52px 0 0;
+        display: block;
+        padding: 0;
+        border: 0;
+        background: rgba(0, 0, 0, .56);
+    }
+
+    .ctool-workbench-title span {
+        display: none;
+    }
+}

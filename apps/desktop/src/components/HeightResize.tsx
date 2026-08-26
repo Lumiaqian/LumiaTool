@@ -67,10 +67,16 @@ function HeightResize({
     ...rest
 }: HeightResizeProps) {
     const [height, setHeight] = useState("auto");
-    const [metrics, setMetrics] = useState<SlotMetrics>({
-        height: 0,
-        small: 100,
-        large: 100,
+    const [metrics, setMetrics] = useState<SlotMetrics>(() => {
+        const initialHeight = Number.isFinite(mainToolHeight) && mainToolHeight > 0
+            ? mainToolHeight
+            : window.innerHeight;
+        const small = Math.min(160, Math.ceil(initialHeight * 0.4));
+        return {
+            height: initialHeight,
+            small,
+            large: initialHeight - small,
+        };
     });
     const inputsRef = useRef<ResizeInputs>({
         append,

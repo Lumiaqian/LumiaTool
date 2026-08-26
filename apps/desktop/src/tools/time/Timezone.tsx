@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Align, Button, Display, ExtendPage, Input, Select } from "@/components";
+import { Button, ExtendPage, Input, Select } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import type { ComponentSizeType } from "@/types";
 import dayjs from "dayjs";
@@ -39,6 +39,7 @@ export default function Timezone() {
     const action = useAction(initial);
     const [isMore, setIsMore] = useState(false);
     const isValid = useMemo(() => check(action.current.input.trim()), [action.current.input]);
+    const timezoneDependency = JSON.stringify(action.current.timezone);
 
     const getHandle = (target: string) => {
         if (!action.current.type || action.current.input.trim() === "") return "";
@@ -58,7 +59,7 @@ export default function Timezone() {
 
     useEffect(() => {
         if (check(action.current.input) && action.current.type !== "") action.save();
-    }, [action, action.current.input, action.current.type, ...action.current.timezone]);
+    }, [action.current.input, action.current.type, timezoneDependency]);
 
     const setCurrent = () => {
         action.current.type = action.current.timezone[0];
@@ -67,13 +68,11 @@ export default function Timezone() {
 
     return (
         <>
-            <Align direction="vertical">
-                {Array.from({ length: 7 }, (_, i) => (
-                    <Display
-                        key={i}
-                        position="right-center"
-                        extra={
-                            <Align>
+            <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-timezone-page">
+                <div className="ctool-utility-family-form">
+                    {Array.from({ length: 7 }, (_, i) => (
+                        <section className="ctool-utility-family-value" key={i}>
+                            <header className="ctool-utility-family-value-header">
                                 <Select
                                     value={action.current.timezone[i]}
                                     onChange={value => { action.current.timezone[i] = value; }}
@@ -84,40 +83,42 @@ export default function Timezone() {
                                 {isValid && (
                                     <Button text={$t("main_ui_copy")} onClick={() => $copy(getHandle(action.current.timezone[i]))} size="small" type="primary" />
                                 )}
-                            </Align>
-                        }
-                    >
-                        <Input
-                            value={getHandle(action.current.timezone[i])}
-                            onChange={value => setHandle(action.current.timezone[i], value)}
-                            placeholder={$t("time_timezone_input_placeholder")}
-                            size={size}
-                        />
-                    </Display>
-                ))}
-                {!isValid ? (
-                    <Button size={size} text={$t("time_current_time")} onClick={setCurrent} />
-                ) : (
-                    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 100px" }}>
-                        <Button size={size} onClick={() => setIsMore(true)} text={$t("main_ui_more")} />
-                        <Button size={size} onClick={() => { action.current.input = ""; }} text={$t("main_ui_clear")} />
-                    </div>
-                )}
-            </Align>
-            <ExtendPage value={isMore} onChange={setIsMore}>
-                <Align direction="vertical">
-                    {timezoneOptions.map(item => (
-                        <Display
-                            key={item.value}
-                            position="right-center"
-                            text={item.label}
-                            type={item.value === action.current.type ? "danger" : "general"}
-                            onClick={() => $copy(convert(action.current.input, action.current.type, item.value))}
-                        >
-                            <Input value={convert(action.current.input, action.current.type, item.value)} size={size} />
-                        </Display>
+                            </header>
+                            <Input
+                                value={getHandle(action.current.timezone[i])}
+                                onChange={value => setHandle(action.current.timezone[i], value)}
+                                placeholder={$t("time_timezone_input_placeholder")}
+                                size={size}
+                            />
+                        </section>
                     ))}
-                </Align>
+                    {!isValid ? (
+                        <Button size={size} text={$t("time_current_time")} onClick={setCurrent} />
+                    ) : (
+                        <div className="ctool-utility-family-actions">
+                            <Button size={size} onClick={() => setIsMore(true)} text={$t("main_ui_more")} />
+                            <Button size={size} onClick={() => { action.current.input = ""; }} text={$t("main_ui_clear")} />
+                        </div>
+                    )}
+                </div>
+            </div>
+            <ExtendPage className="ctool-inspector-utility-extend ctool-timezone-more-page" value={isMore} onChange={setIsMore}>
+                <div className="ctool-timezone-more-grid">
+                    {timezoneOptions.map(item => (
+                        <section className="ctool-utility-family-value" key={item.value}>
+                            <header className="ctool-utility-family-value-header">
+                                <strong>{item.label}</strong>
+                                <Button
+                                    size="small"
+                                    type={item.value === action.current.type ? "danger" : "general"}
+                                    text={$t("main_ui_copy")}
+                                    onClick={() => $copy(getHandle(item.value))}
+                                />
+                            </header>
+                            <Input readOnly value={getHandle(item.value)} size={size} />
+                        </section>
+                    ))}
+                </div>
             </ExtendPage>
         </>
     );

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Align, Bool, Display, HeightResize, SerializeOutput, Textarea } from "@/components";
+import { Align, Bool, HeightResize, SerializeOutput, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { jwtDecode } from "jwt-decode";
 import Serialize from "@/lib/serialize";
@@ -28,29 +28,41 @@ export default function Jwt(): React.ReactElement {
     }, [action.current.input, action.current.header, action.current.payload]);
 
     return (
-        <HeightResize reduce={5}>
-            {({ small, large }: { small: number; large: number }) => (
-                <Align direction="vertical">
-                    <Display
-                        extra={(
-                            <Align>
-                                <Bool border size="small" value={action.current.header} onChange={(value) => { action.current.header = value; }} label="header" />
-                                <Bool border size="small" value={action.current.payload} onChange={(value) => { action.current.payload = value; }} label="payload" />
-                            </Align>
-                        )}
-                    >
-                        <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height={small} placeholder={$t("main_ui_input")} />
-                    </Display>
-                    <SerializeOutput
-                        allow={["json", "xml", "yaml", "toml", "php_array", "properties", "http_query_string"]}
-                        content={outputSerialize}
-                        height={large}
-                        value={action.current.outputOption}
-                        onChange={(value) => { action.current.outputOption = value; }}
-                        onSuccess={() => action.save()}
-                    />
-                </Align>
-            )}
-        </HeightResize>
+        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-jwt-page">
+            <HeightResize className="ctool-inspector-family-fill">
+                {() => (
+                    <div className="ctool-inspector-family-split">
+                        <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                            <header className="ctool-inspector-family-panel-header">
+                                <strong>{$t("main_ui_input")}</strong>
+                                <Align>
+                                    <Bool border size="small" value={action.current.header} onChange={(value) => { action.current.header = value; }} label="header" />
+                                    <Bool border size="small" value={action.current.payload} onChange={(value) => { action.current.payload = value; }} label="payload" />
+                                </Align>
+                            </header>
+                            <div className="ctool-inspector-family-panel-body">
+                                <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height="100%" placeholder={$t("main_ui_input")} />
+                            </div>
+                        </section>
+                        <section className="ctool-inspector-family-panel ctool-inspector-family-result">
+                            <header className="ctool-inspector-family-panel-header">
+                                <strong>{$t("main_ui_output")}</strong>
+                            </header>
+                            <div className="ctool-inspector-family-panel-body">
+                                <SerializeOutput
+                                    allow={["json", "xml", "yaml", "toml", "php_array", "properties", "http_query_string"]}
+                                    content={outputSerialize}
+                                    disabledBorder
+                                    height="100%"
+                                    value={action.current.outputOption}
+                                    onChange={(value) => { action.current.outputOption = value; }}
+                                    onSuccess={() => action.save()}
+                                />
+                            </div>
+                        </section>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }

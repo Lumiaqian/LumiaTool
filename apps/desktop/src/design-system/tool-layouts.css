@@ -1,0 +1,166 @@
+.ctool-json-workspace,
+.ctool-qr-workspace {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    color: var(--lumia-text);
+}
+
+.ctool-json-workspace,
+.ctool-qr-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ctool-json-workspace > div:first-child,
+.ctool-json-workspace .ctool-page-option,
+.ctool-qr-workspace .ctool-page-option {
+    flex: 0 0 auto;
+}
+
+.ctool-json-workspace > .ctool-height-resize,
+.ctool-qr-primary {
+    min-height: 0;
+    flex: 1;
+}
+
+.ctool-json-workspace .ctool-code-editor,
+.ctool-json-workspace .monaco-editor,
+.ctool-json-workspace textarea,
+.ctool-json-workspace input {
+    border-color: var(--lumia-border);
+    background-color: var(--lumia-editor);
+}
+
+.ctool-json-workspace .ctool-page-option,
+.ctool-qr-workspace .ctool-page-option {
+    padding: 8px 10px;
+    border: 1px solid rgba(83, 97, 79, .14);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-controls);
+}
+
+.ctool-json-workspace .ctool-page-option :is(button, input, select),
+.ctool-qr-workspace .ctool-page-option :is(button, input, select) {
+    min-height: 28px;
+}
+
+.ctool-qr-primary {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+    gap: 10px;
+    overflow: hidden;
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-paper);
+}
+
+.ctool-qr-primary > * {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid var(--lumia-border);
+    border-radius: var(--lumia-radius-panel);
+}
+.ctool-qr-primary .ctool-textarea,
+.ctool-qr-primary textarea {
+    height: 100% !important;
+}
+
+
+.ctool-qr-workspace img {
+    max-width: min(78%, 360px);
+    max-height: 78%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 18px rgba(54, 44, 36, .14));
+}
+
+.ctool-layout-desktop .ctool-main-tool :is(textarea, input, select) {
+    color: var(--lumia-text);
+}
+
+.ctool-layout-desktop .ctool-main-tool textarea {
+    line-height: 1.7;
+}
+
+.ctool-layout-desktop .ctool-main-tool :is(button, input, select, textarea) {
+    border-radius: var(--lumia-radius-control);
+}
+
+.ctool-transformer-workspace,
+.ctool-inspector-workspace {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.ctool-transformer-workspace > .ctool-height-resize,
+.ctool-inspector-workspace > .ctool-height-resize {
+    height: 100% !important;
+}
+
+.ctool-transformer-workspace > .ctool-height-resize > .ctool-align,
+.ctool-inspector-workspace > .ctool-height-resize > .ctool-align {
+    height: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    gap: 10px !important;
+    flex-flow: initial !important;
+}
+.ctool-transformer-workspace > .ctool-height-resize > .ctool-align > *,
+.ctool-inspector-workspace > .ctool-height-resize > .ctool-align > * {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid var(--lumia-border);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-paper);
+    height: 100% !important;
+}
+
+.ctool-transformer-workspace > .ctool-height-resize > .ctool-align > *:first-child,
+.ctool-inspector-workspace > .ctool-height-resize > .ctool-align > *:first-child {
+    background: var(--lumia-editor);
+}
+
+.ctool-transformer-workspace .ctool-textarea,
+.ctool-transformer-workspace textarea,
+.ctool-inspector-workspace .ctool-textarea,
+.ctool-inspector-workspace textarea {
+    height: 100% !important;
+}
+
+.ctool-inspector-workspace .ctool-display-extra {
+    color: var(--lumia-muted);
+    background: var(--lumia-controls);
+}
+
+.ctool-inspector-workspace [aria-checked="true"] {
+    color: var(--lumia-text);
+    background: var(--lumia-control-selected);
+}
+
+.ctool-layout-desktop .ctool-main-tool button[type="button"],
+.ctool-layout-desktop .ctool-main-tool button:not([type]) {
+    min-height: 28px;
+}
+
+@media (max-width: 960px) {
+
+    .ctool-transformer-workspace > .ctool-height-resize > .ctool-align,
+    .ctool-inspector-workspace > .ctool-height-resize > .ctool-align {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, minmax(220px, 1fr));
+        overflow-y: auto;
+    }
+
+    .ctool-qr-primary {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(220px, 1fr) minmax(220px, 1fr);
+        overflow-y: auto;
+    }
+}

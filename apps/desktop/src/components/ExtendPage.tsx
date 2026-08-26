@@ -19,6 +19,7 @@ interface ExtendPageOwnProps {
     disableReplace?: boolean;
     offset?: number;
     closeText?: string;
+    hideClose?: boolean;
 }
 
 type ExtendPageProps = ExtendPageOwnProps &
@@ -96,6 +97,7 @@ function ExtendPage({
     disableReplace = false,
     offset = 0,
     closeText = "",
+    hideClose = false,
     className,
     style: fallthroughStyle,
     ...rest
@@ -179,7 +181,7 @@ function ExtendPage({
                     {children}
                 </div>
             ) : null}
-            {transition.present ? (
+            {transition.present && !hideClose ? (
                 <div
                     className={[
                         "ctool-extend-page-close",

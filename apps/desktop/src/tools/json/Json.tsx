@@ -4,7 +4,6 @@ import {
     Align,
     Bool,
     Button,
-    Display,
     Dropdown,
     Editor,
     ExtendPage,
@@ -150,191 +149,178 @@ export default function Json(): React.ReactElement {
         if (value === "zh2unicode") transformInput(util.zh2unicode);
     };
 
-    return (
-        <>
-            <div>
-                <Display
-                    position="top-right"
-                    className="ctool-page-option"
-                    style={{ marginBottom: "5px" }}
-                    extra={(
-                        <Align>
-                            <Bool
-                                size="small"
-                                border
-                                value={action.current.option.info.line}
-                                onChange={(value) => { action.current.option.info.line = value; }}
-                                label={$t("json_line_info")}
-                            />
-                            <Button onClick={repair} type="primary" size="small" text={$t("json_repair")} />
-                            <HelpTip link="https://www.npmjs.com/package/jsonrepair" />
-                        </Align>
-                    )}
-                >
-                    <Tabs
-                        value={action.current.tabs}
-                        onChange={(value) => { action.current.tabs = value; }}
-                        lists={[
-                            { label: $t("json_common"), name: "common" },
-                            { label: "Path", name: "path" },
-                            { label: $t("json_object"), name: "object" },
-                            { label: $t("json_from"), name: "from" },
-                            { label: $t("json_to"), name: "to" },
+    return (<div className="ctool-generator-editor-family ctool-editor-page ctool-json-editor-page ctool-json-workspace"><div>
+            <Tabs
+                value={action.current.tabs}
+                onChange={(value) => { action.current.tabs = value; }}
+                lists={[
+                    { label: $t("json_common"), name: "common" },
+                    { label: "Path", name: "path" },
+                    { label: $t("json_object"), name: "object" },
+                    { label: $t("json_from"), name: "from" },
+                    { label: $t("json_to"), name: "to" },
+                ]}
+            >
+                <Align>
+                    <Bool
+                        size="small"
+                        border
+                        value={action.current.option.info.line}
+                        onChange={(value) => { action.current.option.info.line = value; }}
+                        label={$t("json_line_info")}
+                    />
+                    <Button onClick={repair} type="primary" size="small" text={$t("json_repair")} />
+                    <HelpTip link="https://www.npmjs.com/package/jsonrepair" />
+                    <span>|</span>
+                    <Button onClick={() => { void beautify(); }}>{$t("json_format")}</Button>
+                    <Select
+                        value={action.current.option.tab}
+                        onChange={(value: TabsType) => {
+                            action.current.option.tab = value;
+                            void beautify();
+                        }}
+                        placeholder={$t("json_format")}
+                        options={tabOptions}
+                    />
+                    <Button onClick={() => { void compress(); }}>{$t("json_compress")}</Button>
+                    <span>|</span>
+                    <Dropdown
+                        onSelect={selectGeneralTransform}
+                        placeholder={$t("json_escape")}
+                        options={[
+                            { label: $t("json_add_escape"), value: "escape" },
+                            { label: $t("json_clear_escape"), value: "clearEscape" },
                         ]}
-                    >
-                        <Align>
-                            <Button onClick={() => { void beautify(); }}>{$t("json_format")}</Button>
-                            <Select
-                                value={action.current.option.tab}
-                                onChange={(value: TabsType) => {
-                                    action.current.option.tab = value;
-                                    void beautify();
-                                }}
-                                placeholder={$t("json_format")}
-                                options={tabOptions}
-                            />
-                            <Button onClick={() => { void compress(); }}>{$t("json_compress")}</Button>
-                            <span>|</span>
-                            <Dropdown
-                                onSelect={selectGeneralTransform}
-                                placeholder={$t("json_escape")}
-                                options={[
-                                    { label: $t("json_add_escape"), value: "escape" },
-                                    { label: $t("json_clear_escape"), value: "clearEscape" },
-                                ]}
-                            />
-                            <Dropdown
-                                onSelect={selectGeneralTransform}
-                                placeholder="Unicode"
-                                options={[
-                                    { label: $t("json_unicode_to_zh"), value: "unicode2zh" },
-                                    { label: $t("json_zh_to_unicode"), value: "zh2unicode" },
-                                ]}
-                            />
-                            <span>|</span>
-                            <Dropdown
-                                onSelect={(value: "asc" | "desc") => sort(value)}
-                                placeholder={$t("json_key_sort")}
-                                options={[
-                                    { label: $t("json_asc"), value: "asc" },
-                                    { label: $t("json_desc"), value: "desc" },
-                                ]}
-                            />
-                            <Dropdown onSelect={(value: RenameType) => rename(value)} placeholder={$t("json_key_rename")} options={renameTypeLists} />
-                            <span>|</span>
-                            <Button onClick={() => setExpandType("json_schema")}>Schema</Button>
-                        </Align>
-                        <Align>
-                            {pathLists.map((item) => (
-                                <Button
-                                    key={item.value}
-                                    size={size}
-                                    text={item.label}
-                                    type={item.value === action.current.option.path.type ? "primary" : "general"}
-                                    onClick={() => { action.current.option.path.type = item.value; }}
-                                />
-                            ))}
-                        </Align>
-                        <Align>
-                            {[...toObjectLangLists].sort().map((item) => (
-                                <Button
-                                    key={item}
-                                    size={size}
-                                    text={getDisplayName(item)}
-                                    type={item === action.current.option.to_object.lang ? "primary" : "general"}
-                                    onClick={() => {
-                                        action.current.option.to_object.lang = item;
-                                        setToObjectOpen(true);
-                                    }}
-                                />
-                            ))}
-                        </Align>
-                        <Align>
-                            {serializeInputEncoderLists.filter((item) => item !== "json").map((item) => (
-                                <Button
-                                    key={item}
-                                    size={size}
-                                    type={item === action.current.option.from.type ? "primary" : "general"}
-                                    text={getDisplayName(item)}
-                                    onClick={() => {
-                                        action.current.option.from.value = "";
-                                        action.current.option.from.type = item;
-                                    }}
-                                />
-                            ))}
-                        </Align>
-                        <Align>
-                            {serializeOutputEncoderLists.filter((item) => item !== "json").map((item) => (
-                                <Button
-                                    key={item}
-                                    size={size}
-                                    type={item === action.current.option.to.type ? "primary" : "general"}
-                                    text={getDisplayName(item)}
-                                    onClick={() => { action.current.option.to.type = item; }}
-                                />
-                            ))}
-                        </Align>
-                    </Tabs>
-                </Display>
-                <HeightResize append={[".ctool-page-option"]}>
-                    {({ height }: { height: number }) => (
-                        <div style={layoutStyle}>
-                            {action.current.expand_type === "from" && (
-                                <SerializeInput
-                                    allow={[action.current.option.from.type]}
-                                    height={height}
-                                    value={action.current.option.from}
-                                    onChange={(value) => { action.current.option.from = value; }}
-                                />
-                            )}
-                            <Editor
-                                value={action.current.input}
-                                onChange={(value) => { action.current.input = value; }}
-                                lineInfo={action.current.option.info.line}
-                                placeholder={`Json ${$t("main_ui_input")}`}
-                                lang="json"
-                                height={`${height}px`}
-                            />
-                            {action.current.expand_type === "to" && (
-                                <SerializeOutput
-                                    allow={[action.current.option.to.type]}
-                                    content={inputSerialize}
-                                    height={height}
-                                    onSuccess={() => action.save()}
-                                    value={action.current.option.to}
-                                    onChange={(value) => { action.current.option.to = value; }}
-                                />
-                            )}
-                            {action.current.expand_type === "path" && (
-                                <Path
-                                    height={height}
-                                    json={inputSerialize}
-                                    value={action.current.option.path}
-                                    onChange={(value) => { action.current.option.path = value; }}
-                                    onSuccess={() => action.save()}
-                                />
-                            )}
-                            {action.current.expand_type === "json_schema" && (
-                                <Schema
-                                    height={height}
-                                    json={inputSerialize}
-                                    value={action.current.option.schema}
-                                    onChange={(value) => { action.current.option.schema = value; }}
-                                    onSuccess={() => action.save()}
-                                />
-                            )}
-                        </div>
+                    />
+                    <Dropdown
+                        onSelect={selectGeneralTransform}
+                        placeholder="Unicode"
+                        options={[
+                            { label: $t("json_unicode_to_zh"), value: "unicode2zh" },
+                            { label: $t("json_zh_to_unicode"), value: "zh2unicode" },
+                        ]}
+                    />
+                    <span>|</span>
+                    <Dropdown
+                        onSelect={(value: "asc" | "desc") => sort(value)}
+                        placeholder={$t("json_key_sort")}
+                        options={[
+                            { label: $t("json_asc"), value: "asc" },
+                            { label: $t("json_desc"), value: "desc" },
+                        ]}
+                    />
+                    <Dropdown onSelect={(value: RenameType) => rename(value)} placeholder={$t("json_key_rename")} options={renameTypeLists} />
+                    <span>|</span>
+                    <Button onClick={() => setExpandType("json_schema")}>Schema</Button>
+                </Align>
+                <Align>
+                    {pathLists.map((item) => (
+                        <Button
+                            key={item.value}
+                            size={size}
+                            text={item.label}
+                            type={item.value === action.current.option.path.type ? "primary" : "general"}
+                            onClick={() => { action.current.option.path.type = item.value; }}
+                        />
+                    ))}
+                </Align>
+                <Align>
+                    {[...toObjectLangLists].sort().map((item) => (
+                        <Button
+                            key={item}
+                            size={size}
+                            text={getDisplayName(item)}
+                            type={item === action.current.option.to_object.lang ? "primary" : "general"}
+                            onClick={() => {
+                                action.current.option.to_object.lang = item;
+                                setToObjectOpen(true);
+                            }}
+                        />
+                    ))}
+                </Align>
+                <Align>
+                    {serializeInputEncoderLists.filter((item) => item !== "json").map((item) => (
+                        <Button
+                            key={item}
+                            size={size}
+                            type={item === action.current.option.from.type ? "primary" : "general"}
+                            text={getDisplayName(item)}
+                            onClick={() => {
+                                action.current.option.from.value = "";
+                                action.current.option.from.type = item;
+                            }}
+                        />
+                    ))}
+                </Align>
+                <Align>
+                    {serializeOutputEncoderLists.filter((item) => item !== "json").map((item) => (
+                        <Button
+                            key={item}
+                            size={size}
+                            type={item === action.current.option.to.type ? "primary" : "general"}
+                            text={getDisplayName(item)}
+                            onClick={() => { action.current.option.to.type = item; }}
+                        />
+                    ))}
+                </Align>
+            </Tabs>
+        <HeightResize append={[".ctool-page-option"]}>
+            {({ height }: { height: number }) => (
+                <div style={layoutStyle}>
+                    {action.current.expand_type === "from" && (
+                        <SerializeInput
+                            allow={[action.current.option.from.type]}
+                            height={height}
+                            value={action.current.option.from}
+                            onChange={(value) => { action.current.option.from = value; }}
+                        />
                     )}
-                </HeightResize>
-            </div>
-            <ExtendPage value={toObjectOpen} onChange={setToObjectOpen}>
-                <ToObject
-                    value={action.current.option.to_object}
-                    onChange={(value) => { action.current.option.to_object = value; }}
-                    json={inputSerialize}
-                    onSuccess={() => action.save()}
-                />
-            </ExtendPage>
-        </>
-    );
+                    <Editor
+                        value={action.current.input}
+                        onChange={(value) => { action.current.input = value; }}
+                        lineInfo={action.current.option.info.line}
+                        placeholder={`Json ${$t("main_ui_input")}`}
+                        lang="json"
+                        height={`${height}px`}
+                    />
+                    {action.current.expand_type === "to" && (
+                        <SerializeOutput
+                            allow={[action.current.option.to.type]}
+                            content={inputSerialize}
+                            height={height}
+                            onSuccess={() => action.save()}
+                            value={action.current.option.to}
+                            onChange={(value) => { action.current.option.to = value; }}
+                        />
+                    )}
+                    {action.current.expand_type === "path" && (
+                        <Path
+                            height={height}
+                            json={inputSerialize}
+                            value={action.current.option.path}
+                            onChange={(value) => { action.current.option.path = value; }}
+                            onSuccess={() => action.save()}
+                        />
+                    )}
+                    {action.current.expand_type === "json_schema" && (
+                        <Schema
+                            height={height}
+                            json={inputSerialize}
+                            value={action.current.option.schema}
+                            onChange={(value) => { action.current.option.schema = value; }}
+                            onSuccess={() => action.save()}
+                        />
+                    )}
+                </div>
+            )}
+        </HeightResize>
+    </div>
+    <ExtendPage value={toObjectOpen} onChange={setToObjectOpen}>
+        <ToObject
+            value={action.current.option.to_object}
+            onChange={(value) => { action.current.option.to_object = value; }}
+            json={inputSerialize}
+            onSuccess={() => action.save()}
+        />
+    </ExtendPage></div>)
 }

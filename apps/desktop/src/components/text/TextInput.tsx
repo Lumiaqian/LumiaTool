@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { Align, Card, Display, Icon, Input, Select, Textarea, UploadFile } from "@/components";
+import { Align, Card, Icon, Input, Select, Textarea, UploadFile } from "@/components";
 import { sizeConvert } from "@/components/util";
 import Bool from "@/components/ui/Bool";
 import Text, { encodings } from "@/lib/text";
@@ -177,11 +177,11 @@ export default function TextInput({
                     />
                     <div
                         style={{
-                            fontSize: "0.75rem",
-                            color: "var(--ctool-placeholder-text-color)",
+                            fontSize: "var(--lumia-font-sm)",
+                            color: "var(--lumia-muted)",
                             display: "inline-flex",
                             alignItems: "center",
-                            gap: 5,
+                            gap: "var(--lumia-space-2)",
                         }}
                     >
                         {current.type === "upload" && !current.text.isEmpty() ? (
@@ -254,16 +254,31 @@ export default function TextInput({
         </Align>
     );
 
+    const hasEncoding = encoding && current.type === "text";
+    const hasHexBreaks = current.type === "hex" && isString(current.value) && current.value.includes("\n");
+    const hasTypeSelect = typeLists.length > 1;
+    const hasToolbar = hasEncoding || hasHexBreaks || hasTypeSelect || Boolean(children);
+
+    if (useInput) {
+        return (
+            <div className={["ctool-text-input-inline", className].filter(Boolean).join(" ")} style={style}>
+                {content}
+                {hasToolbar ? extra : null}
+            </div>
+        );
+    }
+
+
     return (
-        <Display
-            className={className}
-            position={useInput ? "right-center" : "top-right"}
-            toggle={!useInput}
+        <div
+            className={["ctool-text-input-frame", hasToolbar ? "" : "ctool-text-input-frame--bare", className]
+                .filter(Boolean)
+                .join(" ")}
             style={style}
-            extra={extra}
         >
-            {content}
-        </Display>
+            {hasToolbar ? <div className="ctool-text-input-toolbar">{extra}</div> : null}
+            <div className="ctool-text-input-content">{content}</div>
+        </div>
     );
 }
 

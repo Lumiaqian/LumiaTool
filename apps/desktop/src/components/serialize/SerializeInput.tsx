@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { Align, Bool, Display, Editor, Input, Select, Textarea } from "@/components";
+import { Align, Bool, Editor, Input, Select, Textarea } from "@/components";
 import { sizeConvert } from "@/components/util";
 import { getDisplayName } from "@/lib/code";
 import Serialize from "@/lib/serialize";
@@ -288,8 +288,9 @@ export default function SerializeInput({
         ) : null;
 
     return (
-        <Display position="top-right" toggle extra={typeSelector}>
-            <Display position="bottom-right" style={style} toggle extra={inputExtra}>
+        <div className="ctool-serialize-input" style={style}>
+            {typeSelector ? <div className="ctool-serialize-toolbar ctool-serialize-toolbar--top">{typeSelector}</div> : null}
+            <div className="ctool-serialize-body">
                 {["http_query_string", "csv"].includes(current.type) ? (
                     <Textarea
                         value={current.value}
@@ -306,7 +307,10 @@ export default function SerializeInput({
                         placeholder={getPlaceholder}
                     />
                 )}
-            </Display>
-        </Display>
+            </div>
+            {["csv", "html_table", "properties", "xml"].includes(current.type) ? (
+                <div className="ctool-serialize-toolbar ctool-serialize-toolbar--bottom">{inputExtra}</div>
+            ) : null}
+        </div>
     );
 }

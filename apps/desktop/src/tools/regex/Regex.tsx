@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-    Align,
-    Bool,
     Button,
-    Display,
     Dropdown,
     Editor,
     ExtendPage,
-    HeightResize,
     Textarea,
 } from "@/components";
 import { initialize, useAction } from "@/store/action";
@@ -78,18 +74,12 @@ export default function Regex() {
     ]);
 
     return (
-        <>
-            <div
-                className="ctool-page-option"
-                style={{
-                    marginBottom: 5,
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                }}
-            >
-                <Display
-                    extra={
-                        <Align>
+        <div className="ctool-regex-page">
+            <section className="ctool-regex-toolbar" aria-label={$t("main_ui_setting")}>
+                <div className="ctool-regex-control">
+                    <header className="ctool-regex-control-header">
+                        <strong>{$t("regex_expression")}</strong>
+                        <div className="ctool-regex-control-actions">
                             <Dropdown
                                 size="small"
                                 options={getCommonExpression()}
@@ -104,85 +94,92 @@ export default function Regex() {
                                 onClick={() => setShowReference(current => !current)}
                                 text={$t("main_ui_reference")}
                             />
-                        </Align>
-                    }
-                >
+                        </div>
+                    </header>
                     <Textarea
-                        height={80}
+                        height="100%"
                         value={action.current.input}
                         onChange={value => {
                             action.current.input = value;
                         }}
                         placeholder={$t("regex_expression")}
                     />
-                </Display>
-                <Display
-                    extra={
-                        <Bool
-                            border
-                            size="small"
-                            value={action.current.is_delete}
-                            onChange={value => {
-                                action.current.is_delete = value;
-                            }}
-                            label={$t("regex_delete")}
-                        />
-                    }
-                >
+                </div>
+                <div className="ctool-regex-control">
+                    <header className="ctool-regex-control-header">
+                        <strong>{$t("regex_replace_content")}</strong>
+                        <label className="ctool-tester-check">
+                            <input
+                                type="checkbox"
+                                checked={action.current.is_delete}
+                                onChange={event => {
+                                    action.current.is_delete = event.target.checked;
+                                }}
+                            />
+                            <span>{$t("regex_delete")}</span>
+                        </label>
+                    </header>
                     <Textarea
                         disabled={action.current.is_delete}
-                        height={80}
+                        height="100%"
                         value={action.current.replace}
                         onChange={value => {
                             action.current.replace = value;
                         }}
                         placeholder={$t("regex_replace_content")}
                     />
-                </Display>
+                </div>
+            </section>
+            <div className="ctool-regex-workspace">
+                <section className="ctool-tester-panel ctool-regex-editor-panel" aria-labelledby="ctool-regex-input-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-regex-input-title">{$t("regex_input")}</strong>
+                        <div className="ctool-tester-checks">
+                            <label className="ctool-tester-check">
+                                <input
+                                    type="checkbox"
+                                    checked={action.current.is_global}
+                                    onChange={event => {
+                                        action.current.is_global = event.target.checked;
+                                    }}
+                                />
+                                <span>{$t("regex_global")}</span>
+                            </label>
+                            <label className="ctool-tester-check">
+                                <input
+                                    type="checkbox"
+                                    checked={action.current.is_ignore_case}
+                                    onChange={event => {
+                                        action.current.is_ignore_case = event.target.checked;
+                                    }}
+                                />
+                                <span>{$t("regex_ignore_case")}</span>
+                            </label>
+                        </div>
+                    </header>
+                    <div className="ctool-regex-editor">
+                        <Editor
+                            height="100%"
+                            value={action.current.content}
+                            onChange={value => {
+                                action.current.content = value;
+                            }}
+                            placeholder={$t("regex_input")}
+                        />
+                    </div>
+                </section>
+                <section className="ctool-tester-panel ctool-regex-editor-panel" aria-labelledby="ctool-regex-output-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-regex-output-title">{$t("main_ui_output")}</strong>
+                    </header>
+                    <div className="ctool-regex-editor">
+                        <Editor height="100%" value={output} placeholder={$t("main_ui_output")} />
+                    </div>
+                </section>
             </div>
-            <HeightResize append={[".ctool-page-option"]} style={{ gridTemplateColumns: "1fr 1fr" }}>
-                {({ height }) => (
-                    <>
-                        <Display
-                            extra={
-                                <Align>
-                                    <Bool
-                                        border
-                                        size="small"
-                                        value={action.current.is_global}
-                                        onChange={value => {
-                                            action.current.is_global = value;
-                                        }}
-                                        label={$t("regex_global")}
-                                    />
-                                    <Bool
-                                        border
-                                        size="small"
-                                        value={action.current.is_ignore_case}
-                                        onChange={value => {
-                                            action.current.is_ignore_case = value;
-                                        }}
-                                        label={$t("regex_ignore_case")}
-                                    />
-                                </Align>
-                            }
-                        >
-                            <Editor
-                                height={height}
-                                value={action.current.content}
-                                onChange={value => {
-                                    action.current.content = value;
-                                }}
-                                placeholder={$t("regex_input")}
-                            />
-                        </Display>
-                        <Editor height={height} value={output} placeholder={$t("main_ui_output")} />
-                    </>
-                )}
-            </HeightResize>
             <ExtendPage value={showReference} onChange={setShowReference}>
                 <Reference />
             </ExtendPage>
-        </>
+        </div>
     );
 }

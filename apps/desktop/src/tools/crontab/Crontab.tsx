@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Align, Button, HeightResize, HelpTip, Input, Link, Table, Tabs, Textarea } from "@/components";
+import { Button, HelpTip, Input, Link, Table, Tabs } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import cronstrue from "cronstrue/i18n";
 import parser from "cron-parser";
@@ -20,31 +20,39 @@ const example = [
 export default function Crontab() {
     const action = useAction(initial);
     const [isGenerate, setIsGenerate] = useState(false);
-    const [output, setOutput] = useState("");
+    const [description, setDescription] = useState("");
+    const [schedule, setSchedule] = useState<string[]>([]);
+    const [isError, setIsError] = useState(false);
     const locale = $t("main_locale");
     const conversion = (exp: string) => cronstrue.toString(exp, { locale, use24HourTimeFormat: true });
 
     useEffect(() => {
-        let input = action.current.input.trim();
+        const input = action.current.input.trim();
+        setDescription("");
+        setSchedule([]);
+        setIsError(false);
         if (input === "") {
-            setOutput("");
             return;
         }
-        const list: string[] = [];
+
+        const descriptionLines: string[] = [];
         try {
-            const message = conversion(input);
-            if (input.includes("L")) list.push($t("crontab_l_prompt"), "");
-            if (input.split(" ").length > 5) list.push($t("crontab_second_prompt"), "");
-            list.push(message, "", $t("crontab_execute_time_list"));
+            if (input.includes("L")) descriptionLines.push($t("crontab_l_prompt"));
+            if (input.split(" ").length > 5) descriptionLines.push($t("crontab_second_prompt"));
+            descriptionLines.push(conversion(input));
+
             const interval = parser.parseExpression(input);
+            const nextSchedule: string[] = [];
             for (let i = 1; i <= 10; i++) {
-                list.push($t("crontab_no", [i, dayjs(interval.next().toString()).format("YYYY-MM-DD HH:mm:ss")]));
+                nextSchedule.push($t("crontab_no", [i, dayjs(interval.next().toString()).format("YYYY-MM-DD HH:mm:ss")]));
             }
+            setDescription(descriptionLines.join("\n\n"));
+            setSchedule(nextSchedule);
             action.save();
         } catch (error) {
-            list.push($error(error));
+            setIsError(true);
+            setDescription($error(error));
         }
-        setOutput(list.join("\n"));
     }, [action.current.input]);
 
     const changeInput = useCallback((value: string) => { action.current.input = value; }, [action]);
@@ -56,34 +64,82 @@ export default function Crontab() {
     ];
 
     return (
-        <Align direction="vertical">
-            <Input
-                value={action.current.input}
-                onChange={changeInput}
-                className="ctool-crontab-input"
-                label={$t("crontab_expression")}
-                suffix={<Align><HelpTip link="https://www.npmjs.com/package/cron-parser" /><Button size="small" type="primary" text={$t("crontab_generate")} onClick={() => setIsGenerate((value) => !value)} /></Align>}
-            />
-            <HeightResize append={[".ctool-crontab-input"]} reduce={5} style={{ display: "grid", gridTemplateColumns: "10fr 14fr" }}>
-                {({ height }) => (
-                    <>
-                        <Textarea value={output} height={height} placeholder={$t("crontab_execute_time")} />
+        <div className="ctool-crontab-page">
+            <section className="ctool-crontab-toolbar" aria-label={$t("crontab_expression")}>
+                <Input
+                    value={action.current.input}
+                    onChange={changeInput}
+                    label={$t("crontab_expression")}
+                />
+                <div className="ctool-crontab-actions">
+                    <HelpTip link="https://www.npmjs.com/package/cron-parser" />
+                    <Button
+                        type="primary"
+                        text={$t("crontab_generate")}
+                        onClick={() => setIsGenerate((value) => !value)}
+                    />
+                </div>
+            </section>
+            <div className="ctool-crontab-workspace">
+                <div className="ctool-crontab-summary">
+                    <section className="ctool-tester-panel ctool-crontab-description" aria-labelledby="ctool-crontab-description-title">
+                        <header className="ctool-tester-panel-header">
+                            <strong id="ctool-crontab-description-title">{$t("crontab_description")}</strong>
+                        </header>
+                        <output className={isError ? "ctool-crontab-output is-error" : "ctool-crontab-output"}>
+                            <pre>{description || "—"}</pre>
+                        </output>
+                    </section>
+                    <section className="ctool-tester-panel ctool-crontab-schedule" aria-labelledby="ctool-crontab-schedule-title">
+                        <header className="ctool-tester-panel-header">
+                            <strong id="ctool-crontab-schedule-title">{$t("crontab_execute_time_list")}</strong>
+                        </header>
+                        {schedule.length === 0 ? (
+                            <div className="ctool-tester-empty">—</div>
+                        ) : (
+                            <ol className="ctool-crontab-schedule-list">
+                                {schedule.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}
+                            </ol>
+                        )}
+                    </section>
+                </div>
+                <section className="ctool-tester-panel ctool-crontab-reference" aria-labelledby="ctool-crontab-reference-title">
+                    <header className="ctool-tester-panel-header">
+                        <strong id="ctool-crontab-reference-title">
+                            {isGenerate ? $t("crontab_generate") : $t("main_ui_reference")}
+                        </strong>
+                    </header>
+                    <div className="ctool-crontab-reference-body">
                         {!isGenerate ? (
                             <Tabs value="example" lists={[
                                 { name: "example", label: $t("crontab_example") },
                                 { name: "format", label: $t("crontab_format") },
                                 { name: "symbol", label: $t("crontab_symbol") },
-                            ]} height={height} padding="0">
-                                <Table columns={[{ key: "exp", title: $t("crontab_example"), width: 150 }, { key: "text", title: $t("crontab_description") }]} lists={example.map((item) => ({ exp: item, text: conversion(item) }))} />
-                                <Link href="https://www.npmjs.com/package/cron-parser" style={{ height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <img src={crontabImage} style={{ maxWidth: "95%", maxHeight: "95%" }} alt="crontab" />
+                            ]} padding="0">
+                                <Table
+                                    columns={[
+                                        { key: "exp", title: $t("crontab_example"), width: 150 },
+                                        { key: "text", title: $t("crontab_description") },
+                                    ]}
+                                    lists={example.map((item) => ({ exp: item, text: conversion(item) }))}
+                                />
+                                <Link href="https://www.npmjs.com/package/cron-parser" className="ctool-crontab-format-link">
+                                    <img src={crontabImage} alt="crontab" />
                                 </Link>
-                                <Table height={height - 40} columns={[{ key: "name", title: $t("crontab_symbol"), width: 100 }, { key: "text", title: $t("crontab_description") }]} lists={symbol} />
+                                <Table
+                                    columns={[
+                                        { key: "name", title: $t("crontab_symbol"), width: 100 },
+                                        { key: "text", title: $t("crontab_description") },
+                                    ]}
+                                    lists={symbol}
+                                />
                             </Tabs>
-                        ) : <Generate height={height} value={action.current.input} onChange={changeInput} />}
-                    </>
-                )}
-            </HeightResize>
-        </Align>
+                        ) : (
+                            <Generate value={action.current.input} onChange={changeInput} />
+                        )}
+                    </div>
+                </section>
+            </div>
+        </div>
     );
 }

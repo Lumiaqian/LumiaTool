@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Align, Button, Display, Input, Link, Select, Table } from "@/components";
+import { Align, Button, Input, Link, Select, Table } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -62,19 +62,17 @@ export default function Timestamp() {
     }, [current, action.current.timezone]);
 
     return (
-        <Align direction="vertical">
-            <Select
-                size="large"
-                width="100%"
-                center={false}
-                label={$t("time_timezone")}
-                value={action.current.timezone}
-                options={timezoneOptions}
-                onChange={value => { action.current.timezone = value; }}
-            />
-            <Display
-                position="right-center"
-                extra={
+        <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-timestamp-page">
+            <section className="ctool-utility-family-value ctool-timestamp-input">
+                <header className="ctool-utility-family-value-header">
+                    <Select
+                        size="small"
+                        center={false}
+                        label={$t("time_timezone")}
+                        value={action.current.timezone}
+                        options={timezoneOptions}
+                        onChange={value => { action.current.timezone = value; }}
+                    />
                     <Align>
                         {output.type === InputType.unix && (
                             <Select
@@ -93,8 +91,7 @@ export default function Timestamp() {
                             <Button text={$t("main_ui_clear")} onClick={() => { action.current.input = ""; }} size="small" />
                         )}
                     </Align>
-                }
-            >
+                </header>
                 <Input
                     size="large"
                     value={action.current.input}
@@ -102,19 +99,22 @@ export default function Timestamp() {
                     label={$t("main_ui_input")}
                     placeholder={$t("time_timestamp_input_placeholder")}
                 />
-            </Display>
-            <Display position="right-center" text={output.isValid ? $t("main_ui_copy") : ""} onClick={() => $copy(output.second)}>
-                <Input readOnly size="large" value={output.second} label={$t("time_second")} />
-            </Display>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)" }}>
-                <Display position="right-center" text={output.isValid ? $t("main_ui_copy") : ""} onClick={() => $copy(output.millisecond)}>
+            </section>
+            <section className="ctool-timestamp-results">
+                <div className="ctool-timestamp-value">
+                    <Input readOnly size="large" value={output.second} label={$t("time_second")} />
+                    {output.isValid && <Button size="small" type="primary" text={$t("main_ui_copy")} onClick={() => $copy(output.second)} />}
+                </div>
+                <div className="ctool-timestamp-value">
                     <Input readOnly size="large" value={output.millisecond} label={$t("time_millisecond")} />
-                </Display>
-                <Display position="right-center" text={output.isValid ? $t("main_ui_copy") : ""} onClick={() => $copy(output.nanosecond)}>
+                    {output.isValid && <Button size="small" type="primary" text={$t("main_ui_copy")} onClick={() => $copy(output.millisecond)} />}
+                </div>
+                <div className="ctool-timestamp-value">
                     <Input readOnly size="large" value={output.nanosecond} label={$t("time_nanosecond")} />
-                </Display>
-            </div>
-            <div>
+                    {output.isValid && <Button size="small" type="primary" text={$t("main_ui_copy")} onClick={() => $copy(output.nanosecond)} />}
+                </div>
+            </section>
+            <div className="ctool-timestamp-examples">
                 <Table
                     columns={[{ title: $t("time_format"), key: "format" }, { title: $t("time_value"), key: "value" }]}
                     lists={example}
@@ -132,6 +132,6 @@ export default function Timestamp() {
                     )}
                 </Table>
             </div>
-        </Align>
+        </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Align, Bool, Button, Display, Input } from "@/components";
+import { Bool, Button, Input } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { convert, convertType } from "./util.ts";
 import type { ConvertType } from "./util.ts";
@@ -58,21 +58,30 @@ export default function ZhNumber() {
     };
 
     return (
-        <Align direction="vertical">
-            <Align direction="vertical">
+        <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-zh-number-page">
+            <div className="ctool-utility-family-form">
+                <div className="ctool-utility-family-options">
+                    <Bool
+                        border
+                        label={$t("zhNumber_traditional")}
+                        value={action.current.traditional}
+                        onChange={(value: boolean) => {
+                            action.current.traditional = value;
+                        }}
+                    />
+                </div>
                 {action.current.map.map((item: ConvertType) => (
-                    <Display
-                        key={item}
-                        position="right-center"
-                        extra={
-                            <Button
-                                text={$t(`zhNumber_${item}`)}
-                                onClick={() => $copy(values[item])}
-                                size="small"
-                                type="primary"
-                            />
-                        }
-                    >
+                    <section className="ctool-utility-family-value" key={item}>
+                        <header className="ctool-utility-family-value-header">
+                            <strong>{$t(`zhNumber_${item}`)}</strong>
+                            {values[item] !== "" ? (
+                                <Button
+                                    text={$t("main_ui_copy")}
+                                    onClick={() => $copy(values[item])}
+                                    size="small"
+                                />
+                            ) : null}
+                        </header>
                         <Input
                             value={values[item]}
                             onChange={(value: string) => setHandle(item, value)}
@@ -81,19 +90,9 @@ export default function ZhNumber() {
                             ])}
                             size="large"
                         />
-                    </Display>
+                    </section>
                 ))}
-            </Align>
-            <Align horizontal="center">
-                <Bool
-                    border
-                    label={$t("zhNumber_traditional")}
-                    value={action.current.traditional}
-                    onChange={(value: boolean) => {
-                        action.current.traditional = value;
-                    }}
-                />
-            </Align>
-        </Align>
+            </div>
+        </div>
     );
 }

@@ -61,45 +61,43 @@ export default function ToObject({
     };
 
     return (
-        <HeightResize row="1-250px">
-            {({ height }: { height: number }) => (
-                <>
-                    <Editor value={output} height={height} lang={lang} />
-                    <Card height={height} title={getDisplayName(lang)} padding="5px 10px">
-                        <Align direction="vertical">
-                            {optionDefine.map((item) => (
-                                <div key={item.name}>
-                                    {item.type === "boolean" ? (
-                                        <Bool
-                                            value={Boolean(value.option[lang][item.name])}
-                                            onChange={(nextValue) => updateOption(item.name, nextValue)}
-                                            label={item.description}
-                                        />
-                                    ) : (
-                                        <>
-                                            <div style={{ fontSize: "14px" }}>{item.description}</div>
-                                            {item.type === "select" ? (
-                                                <Select
-                                                    center={false}
-                                                    width="100%"
-                                                    value={value.option[lang][item.name]}
-                                                    onChange={(nextValue: string) => updateOption(item.name, nextValue)}
-                                                    options={item.value}
-                                                />
-                                            ) : (
-                                                <Input
-                                                    value={String(value.option[lang][item.name] ?? "")}
-                                                    onChange={(nextValue) => updateOption(item.name, nextValue)}
-                                                />
-                                            )}
-                                        </>
-                                    )}
-                                </div>
-                            ))}
-                        </Align>
-                    </Card>
-                </>
-            )}
-        </HeightResize>
+        <HeightResize row="1-250px" className="ctool-json-object-workspace">{({ height }: { height: number }) => (
+            <>
+                <Editor value={output} height={height} lang={lang} />
+                <Card height={height} title={getDisplayName(lang)} padding="5px 10px">
+                    <Align direction="vertical">
+                        {optionDefine.map((item) => (
+                            <div key={item.name}>
+                                {item.type === "boolean" ? (
+                                    <Bool
+                                        value={Boolean(value.option[lang][item.name])}
+                                        onChange={(nextValue) => updateOption(item.name, nextValue)}
+                                        label={item.description}
+                                    />
+                                ) : (
+                                    <>
+                                        <div style={{ fontSize: "14px" }}>{item.description}</div>
+                                        {item.type === "select" ? (
+                                            <Select
+                                                center={false}
+                                                width="100%"
+                                                value={value.option[lang][item.name]}
+                                                onChange={(nextValue: string) => updateOption(item.name, nextValue)}
+                                                options={item.value}
+                                            />
+                                        ) : (
+                                            <Input
+                                                value={String(value.option[lang][item.name] ?? "")}
+                                                onChange={(nextValue) => updateOption(item.name, nextValue)}
+                                            />
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                    </Align>
+                </Card>
+            </>
+        )}</HeightResize>
     );
 }

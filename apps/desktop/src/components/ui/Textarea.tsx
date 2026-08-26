@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo } from "react";
 import type { HTMLAttributes } from "react";
-import type { ButtonType, DisplayPosition } from "@/types";
+import type { ButtonType } from "@/types";
 import { sizeConvert } from "@/components/util";
 import event from "@/event";
-import Display from "../Display";
+import Button from "./Button";
 
 type NativeContainerProps = Omit<HTMLAttributes<HTMLDivElement>, "children" | "onChange">;
 
@@ -13,7 +13,6 @@ export interface TextareaProps extends NativeContainerProps {
     height?: number | string;
     copy?: boolean | string;
     floatText?: string;
-    floatPosition?: DisplayPosition;
     floatType?: ButtonType;
     disabled?: boolean;
     readonly?: boolean;
@@ -29,7 +28,6 @@ function Textarea({
     height = "",
     copy = false,
     floatText = "",
-    floatPosition = "bottom-right",
     floatType = "primary",
     disabled = false,
     readonly = false,
@@ -73,30 +71,36 @@ function Textarea({
         }
     }, [copy, floatText, onClickFloatText, value]);
 
+    const canCopy = floatButtonText !== "" && value !== "";
+
     return (
         <div
             {...containerProps}
-            className={["ctool-textarea", className].filter(Boolean).join(" ")}
+            className={["ctool-textarea", floatButtonText !== "" ? "ctool-textarea--with-action" : "", className]
+                .filter(Boolean)
+                .join(" ")}
             style={{ height: sizeConvert(height), ...style }}
             data-disabled={disabled ? "y" : "n"}
         >
-            <Display
-                enable={floatButtonText !== ""}
-                position={floatPosition}
-                type={floatType}
-                text={floatButtonText}
-                onClick={clickFloatText}
-                style={{ height: "100%" }}
-            >
-                <textarea
-                    style={{ resize: "none" }}
-                    disabled={disabled}
-                    readOnly={readOnly ?? readonly}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={changeEvent => onChange?.(changeEvent.target.value)}
-                />
-            </Display>
+            <textarea
+                style={{ resize: "none" }}
+                disabled={disabled}
+                readOnly={readOnly ?? readonly}
+                placeholder={placeholder}
+                value={value}
+                onChange={changeEvent => onChange?.(changeEvent.target.value)}
+            />
+            {floatButtonText !== "" ? (
+                <div className="ctool-textarea-action">
+                    <Button
+                        size="small"
+                        type={floatType}
+                        text={floatButtonText}
+                        disabled={!canCopy}
+                        onClick={clickFloatText}
+                    />
+                </div>
+            ) : null}
         </div>
     );
 }

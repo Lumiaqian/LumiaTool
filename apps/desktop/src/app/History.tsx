@@ -42,7 +42,7 @@ const tableDataHandle = (item: unknown): string => {
     return JSON.stringify(item);
 };
 
-export default function History() {
+export default function History({ onClose }: { onClose?: () => void }) {
     const storeOperate = useOperate();
     const history = getHistoryInstance(storeOperate.items.tool, storeOperate.items.feature);
     const lists = history.all() as HistoryRow[];
@@ -61,19 +61,27 @@ export default function History() {
             storeOperate.items.category,
             index,
         );
+        onClose?.();
     };
 
     return (
         <>
             <Card
-                title={`${$t("main_history")} - ${$t(`tool_${storeOperate.items.tool}`)}`}
+                title={`${$t("main_history")} · ${$t(`tool_${storeOperate.items.tool}`)}`}
                 height="100%"
                 padding="0"
-                extra={length > 0 ? (
-                    <Button size="small" type="danger" onClick={clear}>
-                        {$t("main_history_clear")}
-                    </Button>
-                ) : undefined}
+                extra={(
+                    <Align>
+                        {length > 0 ? (
+                            <Button size="small" type="danger" onClick={clear}>
+                                {$t("main_history_clear")}
+                            </Button>
+                        ) : null}
+                        <Button size="small" onClick={() => onClose?.()}>
+                            {$t("main_ui_close")}
+                        </Button>
+                    </Align>
+                )}
             >
                 {length > 0 ? (
                     <HistoryTable

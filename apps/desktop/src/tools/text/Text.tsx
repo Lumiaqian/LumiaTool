@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { Align, Bool, Button, Card, Checkbox, Display, Dropdown, Editor, HeightResize, Modal, Table, Tabs, Textarea } from "@/components";
+import { Align, Bool, Button, Card, Checkbox, Dropdown, Editor, HeightResize, Modal, Table, Tabs, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import type { CheckboxOption, ComponentSizeType } from "@/types";
 import { typeLists as renameTypeLists } from "@/lib/nameConvert";
@@ -65,6 +65,7 @@ export default function Text() {
 
     return (
         <>
+            <div className="ctool-generator-editor-family ctool-editor-page ctool-text-editor-page">
             <Card className="ctool-page-option" style={{ marginBottom: 5 }}>
                 <Align horizontal="center">
                     <Dropdown size={size} placeholder={$t("text_case_conversion")} options={caseOptions} onSelect={(value: TransformMethod) => handle(value)} />
@@ -88,11 +89,16 @@ export default function Text() {
                     </Editor>
                 )}
             </HeightResize>
+            </div>
             <Modal value={replaceShow} onChange={setReplaceShow} width={600} title={$t("text_replace")} footerType="long" onOk={replace}>
                 <div className="ctool-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
-                    <Display extra={<Align><Dropdown size="small" options={getCommonExpression()} placeholder={$t("regex_common")} onSelect={selectReplaceExplain} /><Bool border size="small" value={action.current.replace.regular} onChange={(value: boolean) => { action.current.replace.regular = value; }} label={$t("text_replace_regular")} /></Align>}>
+                    <div>
+                        <Align>
+                            <Dropdown size="small" options={getCommonExpression()} placeholder={$t("regex_common")} onSelect={selectReplaceExplain} />
+                            <Bool border size="small" value={action.current.replace.regular} onChange={(value: boolean) => { action.current.replace.regular = value; }} label={$t("text_replace_regular")} />
+                        </Align>
                         <Textarea height={200} value={action.current.replace.search} onChange={(value: string) => { action.current.replace.search = value; }} placeholder={`${$t("text_replace_search")}${!action.current.replace.regular ? `\n${$t("text_replace_explain")}` : ""}`} />
-                    </Display>
+                    </div>
                     <Textarea height={200} value={action.current.replace.replace} onChange={(value: string) => { action.current.replace.replace = value; }} placeholder={`${$t("text_replace_replace")}${!action.current.replace.regular ? `\n${$t("text_replace_explain")}` : ""}`} />
                 </div>
             </Modal>

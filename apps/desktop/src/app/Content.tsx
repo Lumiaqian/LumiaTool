@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { ComponentType } from "react";
 import { Align, Exception, ExtendPage, Loading } from "@/components";
 import { categoryExists, getTool } from "@/config";
+import { getToolLayout } from "@/design-system/tool-layout";
 import event from "@/event";
 import { matchRoute, useRoute } from "@/lib/router";
 import useOperate from "@/store/operate";
@@ -101,11 +102,16 @@ export default function Content() {
     }, [routeKey]);
 
     const RouteComponent = routeView.Component;
+    const toolLayout = getToolLayout(operate.items.tool);
 
     return (
         <>
             <main className="ctool-content" id="ctool-main-content" tabIndex={-1}>
-                <div className="ctool-main-tool">
+                <div
+                    className={`ctool-main-tool ctool-tool-layout-${toolLayout}`}
+                    data-tool={operate.items.tool}
+                    data-feature={operate.items.feature}
+                >
                     {routeView.loading && <Loading />}
                     {!routeView.loading && routeView.error && (
                         <Align horizontal="center" vertical="center">

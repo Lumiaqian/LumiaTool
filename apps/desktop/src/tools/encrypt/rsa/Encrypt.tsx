@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, Display, HeightResize, Select, Textarea, TextInput, TextOutput } from "@/components";
+import { Select, Textarea, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import jsrsasign from "jsrsasign";
@@ -27,17 +28,18 @@ function Encrypt() {
     }, [algName, input.text, key]);
     useEffect(() => { if (!output.isEmpty()) action.save(); }, [action, output]);
 
-    return <HeightResize ignore reduce={5}>
-        {({ small, large }) => <Align direction="vertical">
-            <div data-row="1-1">
-                <Textarea height={small} value={key} onChange={(value) => { action.current.key = value; }} placeholder={$t("rsa_public")} />
-                <TextInput value={input} onChange={(value) => { action.current.input = value; }} placeholder={$t("rsa_encrypt_input")} height={small} />
-            </div>
-            <Display position="top-right" toggle extra={<Select size="small" value={algName} onChange={(value) => { action.current.algName = value; }} options={algNames} />}>
-                <TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex"]} content={output} height={large} />
-            </Display>
-        </Align>}
-    </HeightResize>;
+    return (
+        <TransformerPage
+            rack={(
+                <>
+                    <Select size="small" value={algName} onChange={(value) => { action.current.algName = value; }} options={algNames} />
+                    <Textarea className="ctool-transformer-rack-key" height="100%" value={key} onChange={(value) => { action.current.key = value; }} placeholder={$t("rsa_public")} />
+                </>
+            )}
+            source={<TextInput value={input} onChange={(value) => { action.current.input = value; }} placeholder={$t("rsa_encrypt_input")} height="100%" />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex"]} content={output} height="100%" />}
+        />
+    );
 }
 
 export default Encrypt;

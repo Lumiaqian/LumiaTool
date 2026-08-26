@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, Button, Card, HeightResize, HelpTip, Input, Select, TextInput, TextOutput } from "@/components";
+import { Align, Button, HelpTip, Input, Select, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import { sm2 } from "sm-crypto";
@@ -56,53 +57,33 @@ export default function Encrypt() {
     };
 
     return (
-        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <TextInput
-                        value={action.current.input}
-                        onChange={(value) => { action.current.input = value; }}
-                        height={small}
-                        upload="file"
+        <TransformerPage
+            rack={(
+                <>
+                    <Input
+                        value={action.current.option.public_key}
+                        onChange={(value) => { action.current.option.public_key = value; }}
+                        label={$t("sm2_public_key")}
                     />
-                    <Card
-                        title={$t("main_ui_config")}
-                        className="ctool-page-option"
-                        extra={(
-                            <Align>
-                                <Select
-                                    size="small"
-                                    options={[{ value: 1, label: "C1-C3-C2" }, { value: 0, label: "C1-C2-C3" }]}
-                                    value={action.current.option.cipher_mode}
-                                    onChange={(value) => { action.current.option.cipher_mode = value; }}
-                                />
-                                <Button type="primary" size="small" text={$t("sm2_generate_keypair")} onClick={generateKeypair} />
-                                <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
-                            </Align>
-                        )}
-                    >
-                        <Align horizontal="center">
-                            <Input
-                                value={action.current.option.public_key}
-                                onChange={(value) => { action.current.option.public_key = value; }}
-                                label={$t("sm2_public_key")}
-                            />
-                            <Input
-                                value={action.current.option.private_key}
-                                onChange={(value) => { action.current.option.private_key = value; }}
-                                label={$t("sm2_private_key")}
-                            />
-                        </Align>
-                    </Card>
-                    <TextOutput
-                        value={action.current.output}
-                        onChange={(value) => { action.current.output = value; }}
-                        allow={["base64", "hex"]}
-                        content={output}
-                        height={large}
+                    <Input
+                        value={action.current.option.private_key}
+                        onChange={(value) => { action.current.option.private_key = value; }}
+                        label={$t("sm2_private_key")}
                     />
-                </Align>
+                    <Align>
+                        <Select
+                            size="small"
+                            options={[{ value: 1, label: "C1-C3-C2" }, { value: 0, label: "C1-C2-C3" }]}
+                            value={action.current.option.cipher_mode}
+                            onChange={(value) => { action.current.option.cipher_mode = value; }}
+                        />
+                        <Button type="primary" size="small" text={$t("sm2_generate_keypair")} onClick={generateKeypair} />
+                        <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
+                    </Align>
+                </>
             )}
-        </HeightResize>
+            source={<TextInput value={action.current.input} onChange={(value) => { action.current.input = value; }} height="100%" upload="file" />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex"]} content={output} height="100%" />}
+        />
     );
 }

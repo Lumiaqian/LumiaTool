@@ -1,5 +1,4 @@
 export { default as Align } from "./Align";
-export { default as Display } from "./Display";
 export { default as Exception } from "./Exception";
 export { default as ExtendPage } from "./ExtendPage";
 export { default as HeightResize } from "./HeightResize";

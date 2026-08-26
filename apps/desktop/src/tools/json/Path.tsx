@@ -66,33 +66,26 @@ export default function Path({
     }, [json, value.type, value.json_path, value.jmes_path, onSuccess]);
 
     return (
-        <div>
-            <Align direction="vertical" className="ctool-json-path" bottom="default">
-                {value.type === "json_path" && (
-                    <Input
-                        value={value.json_path}
-                        onChange={(json_path) => onChange?.({ ...value, json_path })}
-                        label={$t("json_json_path")}
-                        append={<HelpTip link="https://www.npmjs.com/package/jsonpath-plus" />}
-                    />
-                )}
-                {value.type === "jmes_path" && (
-                    <Input
-                        value={value.jmes_path}
-                        onChange={(jmes_path) => onChange?.({ ...value, jmes_path })}
-                        label={$t("json_jmes_path")}
-                        append={<HelpTip link="https://www.npmjs.com/package/jmespath" />}
-                    />
-                )}
-            </Align>
-            <HeightResize fatherHeight={height} append={[".ctool-json-path"]} onResize={setEditorHeight}>
-                <Editor
-                    value={output}
-                    placeholder={`${$t(`json_${value.type}`)} ${$t("main_ui_output")}`}
-                    lang="json"
-                    height={`${editorHeight}px`}
-                />
-            </HeightResize>
-        </div>
+        <div className="ctool-json-path-workspace"><Align direction="vertical" className="ctool-json-path" bottom="default">{value.type === "json_path" && (
+            <Input
+                value={value.json_path}
+                onChange={(json_path) => onChange?.({ ...value, json_path })}
+                label={$t("json_json_path")}
+                append={<HelpTip link="https://www.npmjs.com/package/jsonpath-plus" />}
+            />
+        )}
+        {value.type === "jmes_path" && (
+            <Input
+                value={value.jmes_path}
+                onChange={(jmes_path) => onChange?.({ ...value, jmes_path })}
+                label={$t("json_jmes_path")}
+                append={<HelpTip link="https://www.npmjs.com/package/jmespath" />}
+            />
+        )}</Align><HeightResize fatherHeight={height} append={[".ctool-json-path"]} onResize={setEditorHeight}><Editor
+            value={output}
+            placeholder={`${$t(`json_${value.type}`)} ${$t("main_ui_output")}`}
+            lang="json"
+            height={`${editorHeight}px`}
+        /></HeightResize></div>
     );
 }

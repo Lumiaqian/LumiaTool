@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Align, Display, Input } from "@/components";
+import { Align, Button, Input } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { colord, extend } from "colord";
 import type { ComponentSizeType } from "@/types";
@@ -96,15 +96,20 @@ export default function Color() {
     }, [rgb]);
 
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
-            <div ref={container} />
-            <Align direction="vertical">
-                {typeLists.map((type) => (
-                    <Display key={type} position="right-center" text={type} onClick={() => $copy(getHandle(type))}>
-                        <Input value={getHandle(type)} onChange={(value: string) => setHandle(type, value)} placeholder={$t("color_input_placeholder", [type, example[type]])} size={size} />
-                    </Display>
-                ))}
-            </Align>
+        <div className="ctool-generator-editor-family ctool-generator-page ctool-color-generator-page">
+            <section className="ctool-generator-preview ctool-color-picker-panel" aria-label={$t("main_ui_input")}>
+                <div className="ctool-color-picker-stage" ref={container} />
+            </section>
+            <section className="ctool-generator-result ctool-color-results" aria-label={$t("main_ui_output")}>
+                <Align direction="vertical">
+                    {typeLists.map((type) => (
+                        <Align key={type} className="ctool-color-result-row">
+                            <Input value={getHandle(type)} onChange={(value: string) => setHandle(type, value)} placeholder={$t("color_input_placeholder", [type, example[type]])} size={size} />
+                            <Button size="small" text={type} onClick={() => $copy(getHandle(type))} />
+                        </Align>
+                    ))}
+                </Align>
+            </section>
         </div>
     );
 }

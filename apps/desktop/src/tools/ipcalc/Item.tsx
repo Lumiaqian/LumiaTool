@@ -5,13 +5,14 @@ export interface ItemProps {
 
 export default function Item({ title = "", value = "" }: ItemProps) {
     return (
-        <div
-            style={{ cursor: "pointer" }}
+        <button
+            type="button"
             onClick={() => { $copy(`${value}`); }}
             className="ctool-ipcalc-item"
+            title={`${value}`}
         >
-            <div className="ctool-ipcalc-item-value">{value}</div>
-            {title !== "" && <div className="ctool-ipcalc-item-title">{title}</div>}
-        </div>
+            <span className="ctool-ipcalc-item-value">{value}</span>
+            {title !== "" && <span className="ctool-ipcalc-item-title">{title}</span>}
+        </button>
     );
 }

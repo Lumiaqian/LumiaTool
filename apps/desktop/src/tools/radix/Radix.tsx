@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Align, Button, Display, ExtendPage, Input, Select } from "@/components";
+import { Button, ExtendPage, Input, Select } from "@/components";
 import convert, { defaultAlphabet } from "@/lib/radix";
 import { initialize, useAction } from "@/store/action";
 import type { ComponentSizeType, SelectOption } from "@/types";
@@ -77,16 +77,14 @@ export default function Radix() {
 
     return (
         <>
-            <Align direction="vertical">
-                {range(0, 6).map(i => {
-                    const currentBase = action.current.map[i];
-                    const numberValue = getHandle(currentBase);
-                    return (
-                        <Display
-                            key={i}
-                            position="right-center"
-                            extra={
-                                <Align>
+            <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-radix-page">
+                <div className="ctool-utility-family-form">
+                    {range(0, 6).map(i => {
+                        const currentBase = action.current.map[i];
+                        const numberValue = getHandle(currentBase);
+                        return (
+                            <section className="ctool-utility-family-value" key={i}>
+                                <header className="ctool-utility-family-value-header">
                                     <Select
                                         value={currentBase}
                                         onChange={value => {
@@ -104,73 +102,62 @@ export default function Radix() {
                                             type="primary"
                                         />
                                     ) : null}
-                                </Align>
-                            }
-                        >
+                                </header>
+                                <Input
+                                    value={numberValue}
+                                    onChange={value => setHandle(currentBase, value)}
+                                    placeholder={$t("radix_input_placeholder")}
+                                    size={size}
+                                />
+                            </section>
+                        );
+                    })}
+                    {isValid ? (
+                        <div className="ctool-utility-family-actions">
+                            <Button size={size} onClick={() => setIsMore(true)} text={$t("main_ui_more")} />
+                            <Button
+                                size={size}
+                                onClick={() => {
+                                    action.current.input = "";
+                                }}
+                                text={$t("main_ui_clear")}
+                            />
+                        </div>
+                    ) : (
+                        <section className="ctool-utility-family-value ctool-radix-alphabet">
+                            <header className="ctool-utility-family-value-header">
+                                <strong>{$t("radix_alphabet")}</strong>
+                                {alphabet !== defaultAlphabet ? (
+                                    <Button size="small" type="danger" onClick={() => setAlphabet(defaultAlphabet)} text={$t("radix_reset")} />
+                                ) : null}
+                            </header>
                             <Input
-                                value={numberValue}
-                                onChange={value => setHandle(currentBase, value)}
-                                placeholder={$t("radix_input_placeholder")}
+                                value={alphabet}
+                                onChange={setAlphabet}
+                                placeholder={$t("radix_alphabet")}
                                 size={size}
                             />
-                        </Display>
-                    );
-                })}
-                {isValid ? (
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 100px" }}>
-                        <Button size={size} onClick={() => setIsMore(true)} text={$t("main_ui_more")} />
-                        <Button
-                            size={size}
-                            onClick={() => {
-                                action.current.input = "";
-                            }}
-                            text={$t("main_ui_clear")}
-                        />
-                    </div>
-                ) : (
-                    <Display
-                        position="right-center"
-                        text={alphabet !== defaultAlphabet ? $t("radix_reset") : ""}
-                        type="danger"
-                        onClick={() => setAlphabet(defaultAlphabet)}
-                    >
-                        <Input
-                            value={alphabet}
-                            onChange={setAlphabet}
-                            placeholder={$t("radix_alphabet")}
-                            size={size}
-                            label={$t("radix_alphabet")}
-                        />
-                    </Display>
-                )}
-            </Align>
-            <ExtendPage value={isMore} onChange={setIsMore}>
-                <div
-                    style={{
-                        width: "100%",
-                        rowGap: 5,
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr 1fr",
-                    }}
-                >
+                        </section>
+                    )}
+                </div>
+            </div>
+            <ExtendPage className="ctool-inspector-utility-extend ctool-radix-more-page" value={isMore} onChange={setIsMore}>
+                <div className="ctool-radix-more-grid">
                     {range(2, 65).map(i => {
                         const value = getHandle(i);
                         return (
                             <Input
                                 key={i}
                                 value={value}
-                                prepend={
-                                    <span
-                                        style={{
-                                            ...(i === action.current.type ? { color: "red" } : {}),
-                                            width: 20,
-                                            cursor: "pointer",
-                                        }}
+                                prepend={(
+                                    <button
+                                        type="button"
+                                        className={i === action.current.type ? "ctool-radix-base is-current" : "ctool-radix-base"}
                                         onClick={() => $copy(value)}
                                     >
                                         {i}
-                                    </span>
-                                }
+                                    </button>
+                                )}
                             />
                         );
                     })}

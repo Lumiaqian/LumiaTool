@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, HeightResize, HelpTip, Input, TextInput, TextOutput } from "@/components";
+import { HelpTip, Input, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import { rc4 } from "../cryptoJS";
@@ -23,13 +24,13 @@ function Decrypt() {
     }, [input.text, currentOption.key]);
     useEffect(() => { if (!output.isEmpty()) action.save(); }, [action, output]);
 
-    return <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-        {({ small, large }) => <Align direction="vertical">
-            <TextInput value={input} onChange={(value) => { action.current.input = value; }} allow={["base64", "hex"]} height={small} />
-            <Input className="ctool-page-option" value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} label="key" suffix={<HelpTip link="https://github.com/brix/crypto-js" />} />
-            <TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["text"]} content={output} height={large} encoding />
-        </Align>}
-    </HeightResize>;
+    return (
+        <TransformerPage
+            rack={<Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} label="key" suffix={<HelpTip link="https://github.com/brix/crypto-js" />} />}
+            source={<TextInput value={input} onChange={(value) => { action.current.input = value; }} allow={["base64", "hex"]} height="100%" />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["text"]} content={output} height="100%" encoding />}
+        />
+    );
 }
 
 export default Decrypt;

@@ -1,0 +1,815 @@
+:is(
+    .ctool-hmac-page,
+    .ctool-sign-page,
+    .ctool-bcrypt-page,
+    .ctool-regex-page,
+    .ctool-crontab-page,
+    .ctool-websocket-page,
+    .ctool-validation-page
+) {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    color: var(--lumia-text);
+}
+
+:is(
+    .ctool-hmac-page,
+    .ctool-sign-page,
+    .ctool-bcrypt-page,
+    .ctool-regex-page,
+    .ctool-crontab-page,
+    .ctool-websocket-page,
+    .ctool-validation-page
+) :is(.ctool-textarea, .ctool-textarea > .ctool-display, .ctool-textarea textarea) {
+    min-height: 0;
+    height: 100% !important;
+}
+
+:is(
+    .ctool-hmac-page,
+    .ctool-sign-page,
+    .ctool-bcrypt-page,
+    .ctool-regex-page,
+    .ctool-crontab-page,
+    .ctool-websocket-page,
+    .ctool-validation-page
+) .ctool-textarea textarea {
+    padding: var(--lumia-space-3);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    line-height: 1.65;
+}
+
+.ctool-tester-panel {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    color: var(--lumia-text);
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-paper);
+}
+
+.ctool-tester-panel-header,
+.ctool-tester-editor-header,
+.ctool-regex-control-header {
+    min-width: 0;
+    min-height: calc(var(--lumia-control-height) + var(--lumia-space-3));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--lumia-space-2);
+    padding: var(--lumia-space-2) var(--lumia-space-3);
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+    background: color-mix(in srgb, var(--lumia-paper) 88%, var(--lumia-control-selected));
+}
+
+.ctool-tester-panel-header strong,
+.ctool-tester-editor-header strong,
+.ctool-regex-control-header strong {
+    min-width: 0;
+    overflow: hidden;
+    font-size: var(--lumia-font-body);
+    font-weight: 680;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ctool-tester-options,
+.ctool-tester-checks,
+.ctool-regex-control-actions,
+.ctool-sign-actions,
+.ctool-crontab-actions,
+.ctool-websocket-log-actions,
+.ctool-validation-config {
+    display: flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+}
+
+.ctool-tester-options {
+    min-width: 0;
+    min-height: calc(var(--lumia-control-height) + var(--lumia-space-3));
+    flex-wrap: wrap;
+    margin: 0;
+    padding: var(--lumia-space-2) var(--lumia-space-3);
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--lumia-control-selected) 14%, transparent);
+    background: var(--lumia-controls);
+}
+
+.ctool-tester-check {
+    min-height: var(--lumia-control-height);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+    padding: var(--lumia-space-1) var(--lumia-space-2);
+    color: color-mix(in srgb, var(--lumia-control-selected) 88%, var(--lumia-text));
+    border: 1px solid color-mix(in srgb, var(--lumia-control-selected) 18%, transparent);
+    border-radius: var(--lumia-radius-control);
+    background: color-mix(in srgb, var(--lumia-paper) 68%, transparent);
+    cursor: pointer;
+    user-select: none;
+}
+
+.ctool-tester-check:hover {
+    border-color: color-mix(in srgb, var(--lumia-control-selected) 36%, transparent);
+    background: color-mix(in srgb, var(--lumia-paper) 88%, transparent);
+}
+
+.ctool-tester-check:has(input:checked) {
+    color: var(--lumia-paper);
+    border-color: transparent;
+    background: var(--lumia-control-selected);
+}
+
+.ctool-tester-check:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: .48;
+}
+
+.ctool-tester-check input {
+    width: calc(var(--lumia-space-3) + var(--lumia-space-1));
+    height: calc(var(--lumia-space-3) + var(--lumia-space-1));
+    flex: 0 0 auto;
+    margin: 0;
+    accent-color: var(--lumia-primary);
+}
+
+.ctool-tester-check span {
+    font-size: var(--lumia-font-sm);
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.ctool-tester-error {
+    margin: 0;
+    padding: var(--lumia-space-2) var(--lumia-space-3);
+    color: color-mix(in srgb, var(--lumia-danger) 72%, var(--lumia-text));
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-danger) 20%, transparent);
+    background: color-mix(in srgb, var(--lumia-danger) 10%, transparent);
+    font-size: var(--lumia-font-sm);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.ctool-tester-results {
+    min-height: 0;
+    display: grid;
+    flex: 1;
+    grid-auto-rows: minmax(4.5rem, auto);
+    align-content: start;
+    overflow: auto;
+}
+
+.ctool-tester-result {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(5rem, auto) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--lumia-space-3);
+    margin: 0;
+    padding: var(--lumia-space-2) var(--lumia-space-3);
+    color: var(--lumia-text);
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
+    background: var(--lumia-paper);
+    box-shadow: none;
+}
+
+.ctool-tester-result:last-child {
+    border-bottom: 0;
+}
+
+.ctool-tester-result:hover {
+    background: color-mix(in srgb, var(--lumia-paper) 90%, var(--lumia-control-selected));
+}
+
+.ctool-tester-result.is-error {
+    background: color-mix(in srgb, var(--lumia-danger) 7%, transparent);
+}
+
+.ctool-tester-result-name {
+    min-width: 0;
+    margin: 0;
+    color: var(--lumia-muted);
+    font: 650 var(--lumia-font-xs)/1.4 ui-monospace, "SFMono-Regular", Menlo, monospace;
+    letter-spacing: .06em;
+}
+
+.ctool-tester-result-value {
+    min-width: 0;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+}
+
+.ctool-tester-result-value code {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    padding: 0;
+    overflow-wrap: anywhere;
+    color: var(--lumia-text);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font: var(--lumia-font-body)/var(--lumia-line-code) var(--lumia-font-mono, ui-monospace, Menlo, monospace);
+    white-space: pre-wrap;
+}
+
+.ctool-tester-copy {
+    min-height: var(--lumia-control-height);
+    padding: var(--lumia-space-1) var(--lumia-space-2);
+    color: var(--lumia-text);
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
+    border-radius: var(--lumia-radius-control);
+    background: color-mix(in srgb, var(--lumia-paper) 92%, var(--lumia-editor));
+    cursor: pointer;
+}
+
+.ctool-tester-copy:hover {
+    color: color-mix(in srgb, var(--lumia-selection) 38%, var(--lumia-text));
+    border-color: color-mix(in srgb, var(--lumia-selection) 55%, transparent);
+    background: color-mix(in srgb, var(--lumia-selection) 24%, transparent);
+}
+
+.ctool-tester-empty {
+    min-height: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: var(--lumia-space-4);
+    color: var(--lumia-muted);
+    font-size: var(--lumia-font-body);
+}
+
+/* HMAC */
+.ctool-hmac-page {
+    display: grid;
+    grid-template-columns: minmax(20rem, 5fr) minmax(26rem, 7fr);
+    gap: var(--lumia-space-3);
+}
+
+.ctool-hmac-input-panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    background: var(--lumia-editor);
+}
+
+.ctool-hmac-inputs {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(8rem, 2fr) minmax(14rem, 5fr);
+    gap: var(--lumia-space-2);
+    padding: var(--lumia-space-2);
+}
+
+.ctool-tester-editor-group {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-editor);
+}
+
+.ctool-tester-editor-body {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    padding: var(--lumia-space-2);
+}
+
+.ctool-hmac-page .ctool-text-input-frame,
+.ctool-validation-page .ctool-text-input-frame {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+    border-radius: var(--lumia-radius-control);
+    background: var(--lumia-editor);
+}
+
+:is(.ctool-hmac-page, .ctool-validation-page) .ctool-text-input-toolbar {
+    min-height: var(--lumia-control-height);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 var(--lumia-space-2);
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
+    background: color-mix(in srgb, var(--lumia-editor) 92%, var(--lumia-control-selected));
+}
+
+:is(.ctool-hmac-page, .ctool-validation-page) .ctool-text-input-content,
+:is(.ctool-hmac-page, .ctool-validation-page) .ctool-text-input-content > .ctool-textarea {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+}
+
+:is(.ctool-hmac-page, .ctool-validation-page) .ctool-text-input-content textarea {
+    min-width: 0;
+    min-height: 0;
+    height: 100% !important;
+    margin: 0 !important;
+    background: transparent;
+}
+
+.ctool-hmac-results-panel,
+.ctool-validation-results-panel {
+    display: flex;
+    flex-direction: column;
+    background: var(--lumia-paper);
+}
+
+/* Sign */
+.ctool-sign-page,
+.ctool-bcrypt-page,
+.ctool-regex-page,
+.ctool-crontab-page,
+.ctool-websocket-page {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--lumia-space-2);
+}
+
+.ctool-sign-toolbar,
+.ctool-bcrypt-toolbar,
+.ctool-regex-toolbar,
+.ctool-crontab-toolbar,
+.ctool-websocket-toolbar {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+    padding: var(--lumia-space-2);
+    color: var(--lumia-text);
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    background: var(--lumia-controls);
+}
+
+.ctool-sign-toolbar .ctool-select {
+    min-width: 15rem;
+}
+
+.ctool-sign-workspace {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(15rem, 1.15fr) minmax(12rem, .85fr);
+    gap: var(--lumia-space-2);
+}
+
+.ctool-sign-workspace .ctool-tester-panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.ctool-sign-data-panel,
+.ctool-sign-result-panel {
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+}
+
+.ctool-sign-editor,
+.ctool-bcrypt-editor,
+.ctool-regex-editor,
+.ctool-websocket-composer-body,
+.ctool-validation-input {
+    min-height: 0;
+    padding: var(--lumia-space-2);
+    background: var(--lumia-editor);
+}
+
+.ctool-sign-actions {
+    min-height: calc(var(--lumia-control-height) + var(--lumia-space-3));
+    justify-content: flex-end;
+    padding: var(--lumia-space-2) var(--lumia-space-3);
+    border-top: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
+    background: var(--lumia-controls);
+}
+
+/* Bcrypt */
+.ctool-bcrypt-toolbar {
+    justify-content: space-between;
+}
+
+.ctool-bcrypt-config,
+.ctool-bcrypt-check {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+}
+
+.ctool-bcrypt-config .ctool-select {
+    min-width: 8rem;
+}
+
+.ctool-bcrypt-status {
+    min-width: 4rem;
+    color: var(--lumia-muted);
+    font-size: var(--lumia-font-sm);
+    font-weight: 650;
+    text-align: center;
+}
+
+.ctool-bcrypt-status.is-success {
+    color: var(--lumia-success);
+}
+
+.ctool-bcrypt-status.is-error {
+    color: var(--lumia-danger);
+}
+
+.ctool-bcrypt-workspace {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--lumia-space-2);
+}
+
+.ctool-bcrypt-workspace .ctool-tester-panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* Regex */
+.ctool-regex-toolbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ctool-regex-control {
+    min-width: 0;
+    min-height: 7.5rem;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    background: var(--lumia-editor);
+}
+
+.ctool-regex-control + .ctool-regex-control {
+    border-left: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+}
+
+.ctool-regex-control > .ctool-textarea {
+    min-height: 0;
+}
+
+.ctool-regex-control > .ctool-textarea[data-disabled="y"] {
+    color: var(--lumia-muted);
+    background: color-mix(in srgb, var(--lumia-controls) 76%, transparent);
+}
+
+.ctool-regex-workspace {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--lumia-space-2);
+}
+
+.ctool-regex-editor-panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.ctool-regex-editor .ctool-code-editor {
+    min-height: 0;
+    height: 100% !important;
+    overflow: hidden;
+    border-radius: var(--lumia-radius-control);
+}
+
+/* Crontab */
+.ctool-crontab-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.ctool-crontab-workspace {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(20rem, 5fr) minmax(26rem, 7fr);
+    gap: var(--lumia-space-2);
+}
+
+.ctool-crontab-summary {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(8rem, auto) minmax(0, 1fr);
+    gap: var(--lumia-space-2);
+}
+
+.ctool-crontab-description,
+.ctool-crontab-schedule,
+.ctool-crontab-reference {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.ctool-crontab-output {
+    min-height: 0;
+    display: block;
+    overflow: auto;
+    padding: var(--lumia-space-3);
+    background: var(--lumia-editor);
+}
+
+.ctool-crontab-output.is-error {
+    color: var(--lumia-danger);
+    background: color-mix(in srgb, var(--lumia-danger) 8%, var(--lumia-editor));
+}
+
+.ctool-crontab-output pre,
+.ctool-websocket-log-item pre,
+.ctool-websocket-log-item code {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    font: var(--lumia-font-body)/1.65 var(--lumia-font-mono, ui-monospace, Menlo, monospace);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.ctool-crontab-schedule-list {
+    min-height: 0;
+    margin: 0;
+    padding: var(--lumia-space-3) var(--lumia-space-3) var(--lumia-space-3) var(--lumia-space-5);
+    overflow: auto;
+    background: var(--lumia-paper);
+    font: var(--lumia-font-body)/1.65 ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+.ctool-crontab-reference-body {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.ctool-crontab-reference-body > :is(.ctool-tabs, .ctool-tabs-card),
+.ctool-crontab-reference-body .ctool-tabs {
+    min-height: 0;
+    height: 100% !important;
+}
+
+.ctool-crontab-format-link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctool-crontab-format-link img {
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+}
+
+/* WebSocket */
+.ctool-websocket-toolbar {
+    display: grid;
+    grid-template-columns: auto minmax(14rem, 1.4fr) minmax(10rem, 1fr) auto auto;
+}
+
+.ctool-websocket-connection-status {
+    min-width: 7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+    color: var(--lumia-muted);
+    font-size: var(--lumia-font-sm);
+}
+
+.ctool-websocket-connection-status > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ctool-websocket-status {
+    width: var(--lumia-space-2);
+    height: var(--lumia-space-2);
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--lumia-muted);
+}
+
+.ctool-websocket-status-connecting {
+    background: var(--lumia-warning);
+}
+
+.ctool-websocket-status-open {
+    background: var(--lumia-success);
+}
+
+.ctool-websocket-workspace {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(18rem, 4fr) minmax(26rem, 6fr);
+    gap: var(--lumia-space-2);
+}
+
+.ctool-websocket-composer,
+.ctool-websocket-logs {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.ctool-websocket-log-actions {
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.ctool-websocket-log-list {
+    min-height: 0;
+    overflow: auto;
+    background: var(--lumia-paper);
+}
+
+.ctool-websocket-log-list > .ctool-tester-empty {
+    height: 100%;
+}
+
+.ctool-websocket-log-item {
+    margin: 0;
+    padding: var(--lumia-space-3);
+    color: var(--lumia-text);
+    border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
+    background: var(--lumia-paper);
+    box-shadow: none;
+}
+
+.ctool-websocket-log-item:last-child {
+    border-bottom: 0;
+}
+
+.ctool-websocket-log-item.is-send {
+    background: color-mix(in srgb, var(--lumia-primary) 6%, transparent);
+}
+
+.ctool-websocket-log-item.is-accept {
+    background: color-mix(in srgb, var(--lumia-success) 6%, transparent);
+}
+
+.ctool-websocket-log-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--lumia-space-2);
+    margin-bottom: var(--lumia-space-2);
+    color: var(--lumia-muted);
+    font-size: var(--lumia-font-xs);
+}
+
+.ctool-websocket-log-meta strong {
+    color: var(--lumia-text);
+    font-size: var(--lumia-font-sm);
+}
+
+.ctool-websocket-log-meta time {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Data validation */
+.ctool-validation-page {
+    display: grid;
+    grid-template-columns: minmax(20rem, 5fr) minmax(24rem, 7fr);
+    gap: var(--lumia-space-3);
+}
+
+.ctool-validation-input-panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    background: var(--lumia-editor);
+}
+
+.ctool-validation-input {
+    background: var(--lumia-editor);
+}
+
+@container (max-width: 760px) {
+    .ctool-hmac-page,
+    .ctool-validation-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(24rem, 1fr) minmax(22rem, 1fr);
+        overflow-y: auto;
+    }
+
+    .ctool-sign-page,
+    .ctool-bcrypt-page,
+    .ctool-regex-page,
+    .ctool-crontab-page,
+    .ctool-websocket-page {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+    }
+
+    .ctool-sign-workspace,
+    .ctool-bcrypt-workspace,
+    .ctool-regex-workspace,
+    .ctool-crontab-workspace,
+    .ctool-websocket-workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .ctool-sign-workspace > .ctool-tester-panel,
+    .ctool-bcrypt-workspace > .ctool-tester-panel,
+    .ctool-regex-workspace > .ctool-tester-panel,
+    .ctool-websocket-workspace > .ctool-tester-panel {
+        min-height: 22rem;
+    }
+
+    .ctool-sign-toolbar,
+    .ctool-bcrypt-toolbar,
+    .ctool-websocket-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .ctool-websocket-toolbar > .ctool-input {
+        min-width: 14rem;
+        flex: 1;
+    }
+
+    .ctool-crontab-summary,
+    .ctool-crontab-reference {
+        min-height: 24rem;
+    }
+}
+
+@container (max-width: 520px) {
+    .ctool-regex-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .ctool-regex-control + .ctool-regex-control {
+        border-top: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+        border-left: 0;
+    }
+
+    .ctool-tester-panel-header,
+    .ctool-regex-control-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .ctool-tester-result {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--lumia-space-2);
+    }
+
+    .ctool-tester-result-name {
+        grid-column: 1;
+    }
+
+    .ctool-tester-copy {
+        grid-column: 2;
+    }
+
+    .ctool-tester-result-value {
+        grid-column: 1 / -1;
+    }
+
+    .ctool-sign-toolbar .ctool-select,
+    .ctool-bcrypt-config .ctool-select,
+    .ctool-websocket-toolbar > .ctool-input {
+        min-width: 100%;
+    }
+
+    .ctool-bcrypt-config,
+    .ctool-bcrypt-check,
+    .ctool-tester-checks,
+    .ctool-websocket-log-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .ctool-crontab-toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .ctool-crontab-actions {
+        justify-content: flex-end;
+    }
+}

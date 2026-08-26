@@ -32,11 +32,12 @@ export default function Unit() {
         value: calculate(action.current.type, `${action.current.input}`, action.current.from, unit.key),
         name: unitName(unit.key, action.current.type, getGroupByUnit(action.current.type, unit.key)),
     })), [action.current.type, action.current.input, action.current.from]);
-    const simple = useMemo(() => {
-        const item = result.find(candidate => action.current.to === candidate.key);
-        if (item) return item;
-        throw $error("null");
-    }, [result, action.current.to]);
+    const simple = useMemo(
+        () => action.current.to === "all"
+            ? null
+            : result.find(candidate => action.current.to === candidate.key) ?? null,
+        [result, action.current.to],
+    );
 
     useEffect(() => {
         action.current.from = getType(action.current.type).main;
@@ -55,45 +56,45 @@ export default function Unit() {
     };
 
     return (
-        <>
-            <Align className="ctool-page-option" bottom="default" direction="vertical" horizontal="center">
+        <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-unit-page">
+            <Align className="ctool-page-option ctool-unit-controls" direction="vertical">
                 <Radio
                     value={action.current.type}
                     onChange={value => { action.current.type = value; }}
                     options={config.map(item => ({ value: item.key, label: $t("unit_" + item.key) }))}
                 />
-                <Align>
+                <Align className="ctool-unit-conversion">
                     <InputNumber label={$t("main_ui_input")} min={false} width={170} center value={action.current.input} onChange={value => { action.current.input = value; }} />
                     <Select options={units} value={action.current.from} onChange={value => { action.current.from = value; }} />
                     <Button text="<->" disabled={action.current.to === "all"} onClick={exchange} />
                     <Select options={[{ value: "all", label: $t("unit_all") }, ...units]} value={action.current.to} onChange={value => { action.current.to = value; }} />
                 </Align>
             </Align>
-            <HeightResize append={[".ctool-page-option"]}>
+            <HeightResize className="ctool-unit-results" append={[".ctool-page-option"]}>
                 {({ height }: { height: number }) => (
                     <Card height={height}>
                         {action.current.to === "all" ? (
                             <div className="ctool-unit-all">
                                 {result.map(item => (
-                                    <div key={item.key} onClick={() => $copy(item.value)}><span>{item.value}</span><span>{item.name}</span></div>
+                                    <button type="button" key={item.key} onClick={() => $copy(item.value)}><span>{item.value}</span><span>{item.name}</span></button>
                                 ))}
                             </div>
-                        ) : (
+                        ) : simple ? (
                             <Align horizontal="center" vertical="center">
                                 <div className="ctool-unit-simple">
                                     <Align>
-                                        <span className="ctool-unit-simple-value" onClick={() => $copy(`${action.current.input}`)}>{action.current.input}</span>
+                                        <button type="button" className="ctool-unit-simple-value" onClick={() => $copy(`${action.current.input}`)}>{action.current.input}</button>
                                         <span className="ctool-unit-simple-title">{currentUnitName}</span>
-                                        <span style={{ fontSize: "1.5rem", padding: "0 .6rem" }}>=</span>
-                                        <span className="ctool-unit-simple-value" onClick={() => $copy(simple.value)}>{simple.value}</span>
+                                        <span className="ctool-unit-equals">=</span>
+                                        <button type="button" className="ctool-unit-simple-value" onClick={() => $copy(simple.value)}>{simple.value}</button>
                                         <span className="ctool-unit-simple-title">{simple.name}</span>
                                     </Align>
                                 </div>
                             </Align>
-                        )}
+                        ) : null}
                     </Card>
                 )}
             </HeightResize>
-        </>
+        </div>
     );
 }

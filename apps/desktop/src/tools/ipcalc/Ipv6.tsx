@@ -47,6 +47,7 @@ export default function Ipv6() {
     const action = useAction(initial);
     const [error, setError] = useState("");
     const [showSubnet, setShowSubnet] = useState(false);
+    const subnetOptionDependency = JSON.stringify(action.current.subnetOption);
 
     useEffect(() => {
         setError("");
@@ -66,7 +67,6 @@ export default function Ipv6() {
         }
         action.save();
     }, [
-        action,
         action.current.input,
         action.current.mask0,
         action.current.mask1,
@@ -74,7 +74,7 @@ export default function Ipv6() {
         action.current.abbr,
         action.current.random,
         action.current.maskPtr,
-        action.current.subnetOption,
+        subnetOptionDependency,
     ]);
 
     const trimmedInput = action.current.input.trim();
@@ -102,7 +102,15 @@ export default function Ipv6() {
 
     return (
         <>
-            <Align horizontal="center" className="ctool-page-option" bottom="default">
+            <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-ipcalc-page ctool-ipcalc-v6-page">
+                <div className="ctool-ipcalc-workspace">
+                    <section className="ctool-inspector-family-panel ctool-inspector-family-source">
+                        <header className="ctool-inspector-family-panel-header">
+                            <strong>{$t("ipcalc_ip")}</strong>
+                            <HelpTip link="https://www.npmjs.com/package/ip6" />
+                        </header>
+                        <div className="ctool-inspector-family-panel-body ctool-ipcalc-form">
+                            <Align horizontal="center" className="ctool-page-option" direction="vertical">
                 <Input
                     size="large"
                     width={400}
@@ -110,8 +118,10 @@ export default function Ipv6() {
                     onChange={(value) => { action.current.input = value; }}
                     label={$t("ipcalc_ip")}
                 />
-                <HelpTip link="https://www.npmjs.com/package/ip6" />
             </Align>
+                        </div>
+                    </section>
+                    <div className="ctool-ipcalc-results">
 
             {error === "" && (
                 <Align direction="vertical">
@@ -148,8 +158,11 @@ export default function Ipv6() {
                 </Align>
             )}
             {error !== "" && <HeightResize append={[".ctool-page-option"]}><Exception content={error} /></HeightResize>}
+                    </div>
+                </div>
+            </div>
 
-            <ExtendPage value={showSubnet} onChange={setShowSubnet}>
+            <ExtendPage className="ctool-inspector-utility-extend ctool-ipcalc-subnet-page" value={showSubnet} onChange={setShowSubnet}>
                 <Card
                     title={`${action.current.input} ${$t("ipcalc_subnet")}`}
                     padding="0"

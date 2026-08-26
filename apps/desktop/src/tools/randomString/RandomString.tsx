@@ -128,60 +128,69 @@ export default function RandomString() {
 
     return (
         <>
-            <Align direction="vertical">
-                <Card className="ctool-page-option">
-                    <Align horizontal="center">
-                        <Input
-                            value={action.current.base}
-                            onChange={value => {
-                                action.current.base = value;
-                            }}
-                            width={300}
-                            append={
-                                <Button
-                                    onClick={() =>
-                                        setBaseSetting({ base: action.current.base, show: true })
-                                    }
-                                >
-                                    <Icon hover name="setting" tooltip={$t("main_ui_setting")} size={12} />
-                                </Button>
-                            }
-                        />
-                        <InputNumber
-                            value={action.current.length}
-                            onChange={value => {
-                                action.current.length = value;
-                            }}
-                            width={100}
-                            label={$t("randomString_length")}
-                        />
-                        <InputNumber
-                            value={action.current.amount}
-                            onChange={value => {
-                                action.current.amount = value;
-                            }}
-                            width={100}
-                            label={$t("randomString_amount")}
-                        />
-                        <Button onClick={generate}>
-                            <Icon name="refresh" />
-                        </Button>
-                    </Align>
-                </Card>
-                <HeightResize reduce={5} append={[".ctool-page-option"]}>
-                    {({ height }) => (
-                        <SerializeOutput
-                            value={action.current.outputOption}
-                            onChange={value => {
-                                action.current.outputOption = value;
-                            }}
-                            allow={["json", "xml", "yaml", "toml", "properties", "php_array", "text"]}
-                            height={height}
-                            content={serializeOutput}
-                        />
-                    )}
-                </HeightResize>
-            </Align>
+            <div className="ctool-generator-editor-family ctool-generator-page ctool-random-string-generator-page">
+                <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
+                    <Card className="ctool-page-option">
+                        <Align className="ctool-generator-option-grid">
+                            <Input
+                                value={action.current.base}
+                                onChange={value => {
+                                    action.current.base = value;
+                                }}
+                                width={300}
+                                append={
+                                    <Button
+                                        aria-label={$t("main_ui_setting")}
+                                        onClick={() =>
+                                            setBaseSetting({ base: action.current.base, show: true })
+                                        }
+                                    >
+                                        <Icon hover name="setting" tooltip={$t("main_ui_setting")} size={12} />
+                                    </Button>
+                                }
+                            />
+                            <InputNumber
+                                value={action.current.length}
+                                onChange={value => {
+                                    action.current.length = value;
+                                }}
+                                width={100}
+                                label={$t("randomString_length")}
+                            />
+                            <InputNumber
+                                value={action.current.amount}
+                                onChange={value => {
+                                    action.current.amount = value;
+                                }}
+                                width={100}
+                                label={$t("randomString_amount")}
+                            />
+                            <Button
+                                aria-label={$t("main_ui_reset")}
+                                tooltip={$t("main_ui_reset")}
+                                onClick={generate}
+                            >
+                                <Icon name="refresh" />
+                            </Button>
+                        </Align>
+                    </Card>
+                </aside>
+                <section className="ctool-generator-result" aria-label={$t("main_ui_output")}>
+                    <HeightResize>
+                        {({ height }) => (
+                            <SerializeOutput
+                                value={action.current.outputOption}
+                                onChange={value => {
+                                    action.current.outputOption = value;
+                                }}
+                                allow={["json", "xml", "yaml", "toml", "properties", "php_array", "text"]}
+                                height={height}
+                                content={serializeOutput}
+                            />
+                        )}
+                    </HeightResize>
+                </section>
+            </div>
             <Modal
                 title={`${$t("main_ui_setting")} ${$t("randomString_chars")}`}
                 value={baseSetting.show}

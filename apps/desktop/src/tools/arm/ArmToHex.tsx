@@ -53,9 +53,9 @@ export default function ArmToHex() {
     };
 
     return (
-        <>
+        <div className="ctool-transformer-page ctool-transformer-page--arm">
             <Input
-                className="ctool-page-option"
+                className="ctool-page-option ctool-transformer-rack"
                 label="Offset (hex) 0x"
                 value={action.current.offset}
                 onChange={(value) => { action.current.offset = value; }}
@@ -69,15 +69,15 @@ export default function ArmToHex() {
                     </Align>
                 )}
             />
-            <div>
+            <div className="ctool-transformer-panes ctool-transformer-panes--multiple">
                 <HeightResize append={[".ctool-page-option"]}>
                     {({ height }) => (
-                        <div style={{ display: "grid", gridTemplateColumns: "10fr 14fr", columnGap: 5 }}>
-                            <Align direction="vertical">
+                        <div className="ctool-transformer-arm-layout">
+                            <Align className="ctool-transformer-pane ctool-transformer-pane--source" direction="vertical" role="region" aria-label={$t("main_ui_input")}>
                                 <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height={height - 37} placeholder={inputPlaceholder} />
                                 <Button type="primary" loading={loading} onClick={convert} long text={$t("arm_convert")} />
                             </Align>
-                            <Align direction="vertical">
+                            <Align className="ctool-transformer-pane ctool-transformer-pane--result ctool-transformer-multiple-results" direction="vertical" role="region" aria-label={$t("main_ui_output")}>
                                 <Textarea value={result.arm64} placeholder={outputPlaceholder("ARM64")} height={(height - 10) / 3} copy={outputPlaceholder("ARM64")} />
                                 <Textarea value={result.arm} placeholder={outputPlaceholder("ARM")} height={(height - 10) / 3} copy={outputPlaceholder("ARM")} />
                                 <Textarea value={result.thumb} placeholder={outputPlaceholder("THUMB")} height={(height - 10) / 3} copy={outputPlaceholder("THUMB")} />
@@ -86,6 +86,6 @@ export default function ArmToHex() {
                     )}
                 </HeightResize>
             </div>
-        </>
+        </div>
     );
 }

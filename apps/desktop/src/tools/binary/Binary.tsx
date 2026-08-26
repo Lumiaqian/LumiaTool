@@ -1,4 +1,4 @@
-import { Align, Display, HeightResize, Select, Textarea } from "@/components";
+import { HeightResize, Select, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import { generate, lengthLists } from "./util";
 import type { GenerateType } from "./util";
@@ -29,19 +29,24 @@ export default function Binary() {
     };
 
     return (
-        <HeightResize>
-            {({ height }) => (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 5 }}>
-                    <Display position="top-right" extra={<Select size="small" value={action.current.length} onChange={(value) => { action.current.length = value; }} options={lengthOptions} />}>
-                        <Textarea height={height} value={action.current.input} onChange={(value) => { action.current.input = value; }} placeholder={$t("binary_input")} />
-                    </Display>
-                    <Align direction="vertical">
-                        <Textarea height={(height - 10) / 3} value={result("trueForm")} placeholder={$t("binary_true_form")} copy={$t("binary_true_form")} />
-                        <Textarea height={(height - 10) / 3} value={result("inverse")} placeholder={$t("binary_inverse")} copy={$t("binary_inverse")} />
-                        <Textarea height={(height - 10) / 3} value={result("complement")} placeholder={$t("binary_complement")} copy={$t("binary_complement")} />
-                    </Align>
-                </div>
-            )}
-        </HeightResize>
+        <div className="ctool-generator-editor-family ctool-generator-page ctool-binary-generator-page">
+            <HeightResize className="ctool-binary-workspace">
+                {({ height }) => (
+                    <>
+                        <section className="ctool-generator-options" aria-label={$t("main_ui_input")}>
+                            <div className="ctool-page-option">
+                                <Select size="small" value={action.current.length} onChange={(value) => { action.current.length = value; }} options={lengthOptions} />
+                            </div>
+                            <Textarea height={height} value={action.current.input} onChange={(value) => { action.current.input = value; }} placeholder={$t("binary_input")} />
+                        </section>
+                        <section className="ctool-generator-result ctool-binary-results" aria-label={$t("main_ui_output")}>
+                            <Textarea value={result("trueForm")} placeholder={$t("binary_true_form")} copy={$t("binary_true_form")} />
+                            <Textarea value={result("inverse")} placeholder={$t("binary_inverse")} copy={$t("binary_inverse")} />
+                            <Textarea value={result("complement")} placeholder={$t("binary_complement")} copy={$t("binary_complement")} />
+                        </section>
+                    </>
+                )}
+            </HeightResize>
+        </div>
     );
 }

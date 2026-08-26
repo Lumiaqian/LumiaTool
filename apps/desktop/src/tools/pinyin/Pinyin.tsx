@@ -58,29 +58,27 @@ export default function Pinyin(): React.ReactElement {
     }, [output]);
 
     return (
-        <HeightResize reduce={10} ignore append={[".ctool-page-option"]}>
-            {({ small, large }: { small: number; large: number }) => (
-                <Align direction="vertical">
-                    <Textarea height={small} placeholder={$t("main_ui_input")} value={action.current.input} onChange={(value) => { action.current.input = value; }} />
-                    <Card className="ctool-page-option">
-                        <Align horizontal="center">
-                            <Radio
-                                value={action.current.type}
-                                onChange={(value) => { action.current.type = value; }}
-                                options={typeLists.map((value) => ({ value, label: $t(`pinyin_${value}`) }))}
-                            />
-                            <Select value={action.current.delimiter} onChange={(value) => { action.current.delimiter = value; }} options={delimiter} width={120} />
-                            <Bool border value={action.current.multiple_flag} onChange={(value) => { action.current.multiple_flag = value; }} label={$t("pinyin_multiple_flag")} />
-                            <Bool border value={action.current.replace_v} onChange={(value) => { action.current.replace_v = value; }} label="ü=>v" />
-                            <Bool border value={action.current.upper} onChange={(value) => { action.current.upper = value; }} label={$t("pinyin_upper")} />
-                            {action.current.type === "tone" && (
-                                <Bool border value={action.current.tone_is_number} onChange={(value) => { action.current.tone_is_number = value; }} label={$t("pinyin_tone_is_number")} />
-                            )}
-                        </Align>
-                    </Card>
-                    <Textarea height={large} placeholder={$t("main_ui_output")} value={output} />
-                </Align>
-            )}
-        </HeightResize>
+        <HeightResize className="ctool-transformer-page ctool-transformer-page--legacy" reduce={10} ignore append={[".ctool-page-option"]}>{({ small, large }: { small: number; large: number }) => (
+            <Align direction="vertical">
+                <Textarea height={small} placeholder={$t("main_ui_input")} value={action.current.input} onChange={(value) => { action.current.input = value; }} />
+                <Card className="ctool-page-option">
+                    <Align horizontal="center">
+                        <Radio
+                            value={action.current.type}
+                            onChange={(value) => { action.current.type = value; }}
+                            options={typeLists.map((value) => ({ value, label: $t(`pinyin_${value}`) }))}
+                        />
+                        <Select value={action.current.delimiter} onChange={(value) => { action.current.delimiter = value; }} options={delimiter} width={120} />
+                        <Bool border value={action.current.multiple_flag} onChange={(value) => { action.current.multiple_flag = value; }} label={$t("pinyin_multiple_flag")} />
+                        <Bool border value={action.current.replace_v} onChange={(value) => { action.current.replace_v = value; }} label="ü=>v" />
+                        <Bool border value={action.current.upper} onChange={(value) => { action.current.upper = value; }} label={$t("pinyin_upper")} />
+                        {action.current.type === "tone" && (
+                            <Bool border value={action.current.tone_is_number} onChange={(value) => { action.current.tone_is_number = value; }} label={$t("pinyin_tone_is_number")} />
+                        )}
+                    </Align>
+                </Card>
+                <Textarea height={large} placeholder={$t("main_ui_output")} value={output} />
+            </Align>
+        )}</HeightResize>
     );
 }

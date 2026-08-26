@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, Bool, HeightResize, HelpTip, TextInput, TextOutput } from "@/components";
+import { Bool, HelpTip, TextInput, TextOutput } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import { sm4 } from "sm-crypto";
@@ -49,20 +50,18 @@ export default function Decrypt() {
     }, [action, output]);
 
     return (
-        <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-            {({ small, large }) => (
-                <Align direction="vertical">
-                    <TextInput value={action.current.input} onChange={(value) => { action.current.input = value; }} height={small} allow={["hex", "base64"]} />
-                    <Align row="1-auto-auto-1-auto" className="ctool-page-option">
-                        <TextInput value={action.current.option.key} onChange={(value) => { action.current.option.key = value; }} useInput="Key" allow={["text", "hex", "base64"]} />
-                        <Bool value={action.current.option.padding} onChange={(value) => { action.current.option.padding = value; }} label="Padding" border />
-                        <Bool value={action.current.option.is_cbc} onChange={(value) => { action.current.option.is_cbc = value; }} label="CBC" border />
-                        <TextInput disabled={!action.current.option.is_cbc} value={action.current.option.iv} onChange={(value) => { action.current.option.iv = value; }} useInput="IV" allow={["text", "hex", "base64"]} />
-                        <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
-                    </Align>
-                    <TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex", "text"]} content={output} height={large} />
-                </Align>
+        <TransformerPage
+            rack={(
+                <>
+                    <TextInput value={action.current.option.key} onChange={(value) => { action.current.option.key = value; }} useInput="Key" allow={["text", "hex", "base64"]} />
+                    <Bool value={action.current.option.padding} onChange={(value) => { action.current.option.padding = value; }} label="Padding" border />
+                    <Bool value={action.current.option.is_cbc} onChange={(value) => { action.current.option.is_cbc = value; }} label="CBC" border />
+                    <TextInput disabled={!action.current.option.is_cbc} value={action.current.option.iv} onChange={(value) => { action.current.option.iv = value; }} useInput="IV" allow={["text", "hex", "base64"]} />
+                    <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
+                </>
             )}
-        </HeightResize>
+            source={<TextInput value={action.current.input} onChange={(value) => { action.current.input = value; }} height="100%" allow={["hex", "base64"]} />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex", "text"]} content={output} height="100%" />}
+        />
     );
 }

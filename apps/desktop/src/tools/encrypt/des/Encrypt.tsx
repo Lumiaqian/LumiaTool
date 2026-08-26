@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { Align, Bool, HeightResize, HelpTip, Input, Select, Tabs, TextInput, TextOutput, Tooltip } from "@/components";
+import { Align, Bool, HelpTip, Input, Select, Tabs, TextInput, TextOutput, Tooltip } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
+import TransformerPage from "@/design-system/TransformerPage";
 import Text from "@/lib/text";
 import { initialize, useAction } from "@/store/action";
 import { des, modeLists, paddingLists, tripleDES } from "../cryptoJS";
@@ -24,21 +25,29 @@ function Encrypt({ type = "des" }: EncryptProps) {
     }, [input.text, currentOption.fill, currentOption.iv, currentOption.key, currentOption.mode, currentOption.padding, currentOption.type, type]);
     useEffect(() => { if (!output.isEmpty()) action.save(); }, [action, output]);
 
-    return <HeightResize ignore append={[".ctool-page-option"]} reduce={10}>
-        {({ small, large }) => <Align direction="vertical">
-            <TextInput value={input} onChange={(value) => { action.current.input = value; }} height={small} upload="file" encoding />
-            <Tabs value={currentOption.type} onChange={(value) => { action.current.option.type = value; }} className="ctool-page-option" lists={[{ name: "advanced", label: $t("main_ui_advanced") }, { name: "simple", label: $t("main_ui_simple") }]} extra={<HelpTip link="https://github.com/brix/crypto-js" />}>
-                <Align>
-                    <Select value={currentOption.mode} onChange={(value) => { action.current.option.mode = value; }} options={modeLists} />
-                    <Select value={currentOption.padding} onChange={(value) => { action.current.option.padding = value; }} options={paddingLists} />
-                    <Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} width={200} label="key" />
-                    <Input value={currentOption.iv} onChange={(value) => { action.current.option.iv = value; }} width={220} label="iv" disabled={currentOption.mode === "ECB"} append={<Tooltip content={$t("aes_iv_auto_fill")}><Bool value={currentOption.fill} onChange={(value) => { action.current.option.fill = value; }} disabled={currentOption.mode === "ECB"} /></Tooltip>} />
-                </Align>
-                <Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} label="key" />
-            </Tabs>
-            <TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex"]} content={output} height={large} />
-        </Align>}
-    </HeightResize>;
+    return (
+        <TransformerPage
+            rack={(
+                <Tabs
+                    value={currentOption.type}
+                    onChange={(value) => { action.current.option.type = value; }}
+                    lists={[{ name: "advanced", label: $t("main_ui_advanced") }, { name: "simple", label: $t("main_ui_simple") }]}
+                    extra={<HelpTip link="https://github.com/brix/crypto-js" />}
+                    padding="0"
+                >
+                    <Align>
+                        <Select value={currentOption.mode} onChange={(value) => { action.current.option.mode = value; }} options={modeLists} />
+                        <Select value={currentOption.padding} onChange={(value) => { action.current.option.padding = value; }} options={paddingLists} />
+                        <Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} width={200} label="key" />
+                        <Input value={currentOption.iv} onChange={(value) => { action.current.option.iv = value; }} width={220} label="iv" disabled={currentOption.mode === "ECB"} append={<Tooltip content={$t("aes_iv_auto_fill")}><Bool value={currentOption.fill} onChange={(value) => { action.current.option.fill = value; }} disabled={currentOption.mode === "ECB"} /></Tooltip>} />
+                    </Align>
+                    <Input value={currentOption.key} onChange={(value) => { action.current.option.key = value; }} label="key" />
+                </Tabs>
+            )}
+            source={<TextInput value={input} onChange={(value) => { action.current.input = value; }} height="100%" upload="file" encoding />}
+            result={<TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64", "hex"]} content={output} height="100%" />}
+        />
+    );
 }
 
 export default Encrypt;

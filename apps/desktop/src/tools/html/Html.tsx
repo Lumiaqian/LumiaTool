@@ -38,25 +38,23 @@ export default function Html() {
     };
 
     return (
-        <HeightResize>
-            {({ height }) => (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-                    <Textarea
-                        value={getHandle("encode")}
-                        onChange={(value) => { setHandle("encode", value); }}
-                        placeholder={$t("html_input_encode")}
-                        height={height}
-                        copy
-                    />
-                    <Textarea
-                        value={getHandle("decode")}
-                        onChange={(value) => { setHandle("decode", value); }}
-                        placeholder={$t("html_input_decode")}
-                        height={height}
-                        copy
-                    />
-                </div>
-            )}
-        </HeightResize>
+        <HeightResize className="ctool-transformer-page ctool-transformer-page--legacy" >{({ height }) => (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                <Textarea
+                    value={getHandle("encode")}
+                    onChange={(value) => { setHandle("encode", value); }}
+                    placeholder={$t("html_input_encode")}
+                    height={height}
+                    copy
+                />
+                <Textarea
+                    value={getHandle("decode")}
+                    onChange={(value) => { setHandle("decode", value); }}
+                    placeholder={$t("html_input_decode")}
+                    height={height}
+                    copy
+                />
+            </div>
+        )}</HeightResize>
     );
 }

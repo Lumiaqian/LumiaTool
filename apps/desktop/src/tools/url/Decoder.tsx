@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Align, HeightResize, Textarea } from "@/components";
+import { HeightResize, Textarea } from "@/components";
 import decodeUriComponent from "decode-uri-component";
 import { useAction, initialize } from "@/store/action";
 
@@ -21,13 +21,25 @@ export default function Decoder() {
     }, [action, action.current.input]);
 
     return (
-        <HeightResize reduce={5}>
-            {({ small, large }: { small: number; large: number }) => (
-                <Align direction="vertical">
-                    <Textarea value={action.current.input} onChange={value => { action.current.input = value; }} height={small} placeholder={$t("main_ui_input")} />
-                    <Textarea value={output} height={large} placeholder={$t("main_ui_output")} copy={!!output} />
-                </Align>
-            )}
-        </HeightResize>
+        <div className="ctool-transformer-page ctool-transformer-page--paired">
+            <HeightResize className="ctool-transformer-layout" reduce={5}>
+                {({ small, large }: { small: number; large: number }) => (
+                    <div className="ctool-transformer-panes">
+                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("main_ui_input")}>
+                            <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
+                            <div className="ctool-transformer-pane-body">
+                                <Textarea value={action.current.input} onChange={value => { action.current.input = value; }} height={small} placeholder={$t("main_ui_input")} />
+                            </div>
+                        </section>
+                        <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={$t("main_ui_output")}>
+                            <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                            <div className="ctool-transformer-pane-body">
+                                <Textarea value={output} height={large} placeholder={$t("main_ui_output")} copy={!!output} />
+                            </div>
+                        </section>
+                    </div>
+                )}
+            </HeightResize>
+        </div>
     );
 }
