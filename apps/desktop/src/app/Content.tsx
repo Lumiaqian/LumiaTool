@@ -76,7 +76,7 @@ export default function Content() {
         const meta = matched.meta;
         if (meta.type === "tool") {
             const requestedCategory = queryCategory(currentRoute.query);
-            const category = categoryExists(requestedCategory)
+            const category = requestedCategory === "common" || categoryExists(requestedCategory)
                 ? requestedCategory
                 : getTool(meta.tool).firstCategory().name;
             if (!operate.access(meta.tool, meta.feature, category)) {

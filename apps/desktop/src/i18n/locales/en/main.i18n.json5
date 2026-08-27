@@ -51,7 +51,7 @@
     "setting_language": "Language",
     "tools_lists": "All Tool Lists",
     "common_tool": "Common Tool",
-    "common_drag": "Drag The Corresponding Tool Button To Operate",
+    "common_drag": "Click to add or remove. Drag to reorder.",
     "unselected_tool": "Unselected Tool",
     "display_mode": "Theme",
     "display_mode_light": "Light",

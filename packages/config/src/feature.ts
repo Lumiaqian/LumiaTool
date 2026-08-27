@@ -28,7 +28,7 @@ export default class Feature<T extends ToolType = ToolType> implements FeatureIn
     }
 
     getQuery(category: string = "", other: Record<string, any> = {}) {
-        if (!this.tool.inCategory(category)) {
+        if (category !== "common" && !this.tool.inCategory(category)) {
             category = this.tool.firstCategory().name
         }
         return {

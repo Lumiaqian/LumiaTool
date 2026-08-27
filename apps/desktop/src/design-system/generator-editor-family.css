@@ -649,3 +649,107 @@
         }
     }
 }
+
+.ctool-live-photo-page .ctool-live-photo-options {
+    gap: 10px;
+}
+
+.ctool-live-photo-path,
+.ctool-live-photo-hint,
+.ctool-live-photo-status,
+.ctool-live-photo-error {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--lumia-muted);
+    word-break: break-all;
+}
+
+.ctool-live-photo-error {
+    color: var(--lumia-danger);
+}
+
+.ctool-live-photo-status {
+    color: var(--lumia-text);
+}
+
+.ctool-live-photo-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--lumia-editor);
+}
+
+.ctool-x-media-page .ctool-x-media-options {
+    gap: 10px;
+}
+
+.ctool-x-media-page .ctool-input,
+.ctool-x-media-page .ctool-input input {
+    width: 100%;
+    max-width: 100%;
+}
+
+.ctool-x-media-meta {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--lumia-text);
+}
+
+.ctool-x-media-meta p {
+    margin: 8px 0 0;
+    color: var(--lumia-muted);
+    white-space: pre-wrap;
+}
+
+.ctool-x-media-status,
+.ctool-x-media-error {
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.ctool-x-media-error {
+    color: var(--lumia-danger);
+}
+
+.ctool-x-media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    align-content: start;
+    gap: 12px;
+    padding: 12px;
+    height: 100%;
+    overflow: auto;
+}
+
+.ctool-x-media-item {
+    margin: 0;
+    min-width: 0;
+    align-self: start;
+    cursor: pointer;
+    border: 1px solid color-mix(in srgb, var(--lumia-text) 12%, transparent);
+    border-radius: var(--lumia-radius-panel);
+    overflow: hidden;
+    background: var(--lumia-editor);
+}
+
+.ctool-x-media-item[data-selected="y"] {
+    border-color: var(--lumia-primary);
+    box-shadow: 0 0 0 1px var(--lumia-primary);
+}
+
+.ctool-x-media-item img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    background: var(--lumia-editor);
+}
+
+.ctool-x-media-item figcaption {
+    padding: 8px 10px;
+    font-size: 12px;
+    color: var(--lumia-muted);
+    overflow-wrap: anywhere;
+}

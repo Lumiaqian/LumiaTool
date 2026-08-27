@@ -60,6 +60,10 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close {
     width: auto;
 }
 
+body:has(.ctool-layout-desktop):has(.ctool-common-tool-draggable) #ctool-append .ctool-extend-page-close {
+    display: none !important;
+}
+
 .ctool-layout-desktop {
     grid-template-columns: 224px minmax(0, 1fr) !important;
     grid-template-rows: 52px 50px minmax(0, 1fr) 30px !important;

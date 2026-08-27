@@ -39,7 +39,9 @@ const redirectTool = (
     keyword = "",
 ) => {
     const tool = getTool(toolExists(requestedTool) ? requestedTool : tools[0].name);
-    const category = getCategory(tool.inCategory(requestedCategory) ? requestedCategory : tool.firstCategory().name);
+    const categoryName = requestedCategory === "common" || tool.inCategory(requestedCategory)
+        ? (requestedCategory || tool.firstCategory().name)
+        : tool.firstCategory().name;
     const feature = tool.getFeature(tool.existFeature(requestedFeature) ? requestedFeature : tool.firstFeature().name);
     const query: Record<string, string | number> = {};
     if (history !== "") {
@@ -51,24 +53,28 @@ const redirectTool = (
     event.dispatch("extend_page_close");
     navigate({
         path: feature.getRouter(),
-        query: feature.getQuery(category.name, query),
+        query: feature.getQuery(categoryName, query),
     });
 };
 
 const access = (toolName: string, featureName: string, categoryName: string): boolean => {
-    if (!toolExists(toolName) || !categoryExists(categoryName)) {
+    if (!toolExists(toolName)) {
         return false;
     }
     const tool = getTool(toolName);
-    const category = getCategory(categoryName);
-    if (!tool.inCategory(category.name) || !tool.existFeature(featureName)) {
+    if (!tool.existFeature(featureName)) {
         return false;
+    }
+    if (categoryName !== "common") {
+        if (!categoryExists(categoryName) || !tool.inCategory(categoryName)) {
+            return false;
+        }
     }
     const feature = tool.getFeature(featureName);
     items.tool = tool.name;
     items.feature = feature.name;
-    items.category = category.name;
-    items.category_last_tool = { ...items.category_last_tool, [category.name]: tool.name };
+    items.category = categoryName;
+    items.category_last_tool = { ...items.category_last_tool, [categoryName]: tool.name };
     items.tool_last_feature = { ...items.tool_last_feature, [tool.name]: feature.name };
 
     const recentlyKey = `${tool.name}-${feature.name}`;

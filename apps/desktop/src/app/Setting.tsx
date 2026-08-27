@@ -106,8 +106,8 @@ export default function Setting() {
                     </div>
                 </div>
             </Card>
-            <ExtendPage value={openCommon} onChange={setOpenCommon} disableReplace>
-                <Common />
+            <ExtendPage value={openCommon} onChange={setOpenCommon} disableReplace hideClose>
+                <Common onClose={() => setOpenCommon(false)} />
             </ExtendPage>
         </>
     );

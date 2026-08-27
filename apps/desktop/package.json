@@ -16,6 +16,7 @@
         "@prettier/plugin-php": "^0.22.0",
         "@readme/httpsnippet": "^7.1.2",
         "@tauri-apps/api": "^2.11.1",
+        "@tauri-apps/plugin-dialog": "^2.6.0",
         "@tauri-apps/plugin-opener": "^2.5.4",
         "@types/yargs-parser": "^21.0.0",
         "a-color-picker": "^1.2.1",

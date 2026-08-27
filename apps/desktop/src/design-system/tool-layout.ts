@@ -60,6 +60,8 @@ const toolLayouts: Record<ToolType, ToolLayout> = {
     asn1: "inspector",
     dockerCompose: "editor",
     zhNumber: "utility",
+    livePhoto: "generator",
+    xMedia: "generator",
 };
 
 const toolMarks: Record<ToolType, string> = {
@@ -113,6 +115,8 @@ const toolMarks: Record<ToolType, string> = {
     asn1: "ASN",
     dockerCompose: "YML",
     zhNumber: "壹",
+    livePhoto: "LIVE",
+    xMedia: "X",
 };
 
 export const getToolMark = (tool: string): string =>

@@ -12,6 +12,31 @@
     grid-template-columns: repeat(auto-fill, 125px);
     gap: 5px;
     justify-content: center;
+    min-height: 40px;
+}
+
+.ctool-common-chip {
+    box-sizing: border-box;
+    width: 125px;
+    min-height: 32px;
+    padding: 0 8px;
+    border: 1px dashed var(--lumia-border-strong);
+    border-radius: var(--lumia-radius-control);
+    background: var(--lumia-editor);
+    color: var(--lumia-text);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: element;
+    -webkit-app-region: no-drag;
+}
+
+.ctool-common-chip:hover {
+    border-color: var(--lumia-primary);
+    color: var(--lumia-primary);
+}
+
+.ctool-common-chip:active {
+    cursor: grabbing;
 }
 
 /* block/Content.vue */

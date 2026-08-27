@@ -1,5 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod live_photo;
+mod x_media;
+
 use tauri::Manager;
 
 #[tauri::command]
@@ -14,7 +17,15 @@ fn toggle_dev_tools(window: tauri::WebviewWindow) {
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![toggle_dev_tools])
+        .plugin(tauri_plugin_dialog::init())
+        .invoke_handler(tauri::generate_handler![
+            toggle_dev_tools,
+            live_photo::live_photo_probe,
+            live_photo::create_google_motion_photo,
+            live_photo::create_apple_live_photo,
+            x_media::fetch_x_tweet,
+            x_media::download_x_media,
+        ])
         .setup(|app| {
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.set_title("");

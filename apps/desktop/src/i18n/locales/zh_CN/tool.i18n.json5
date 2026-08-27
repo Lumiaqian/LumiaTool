@@ -103,5 +103,14 @@
     "zhNumber": "中文数字",
     "punycode": "域名编码",
     "punycode_encoder": "编码",
-    "punycode_decoder": "解码"
+    "punycode_decoder": "解码",
+    "livePhoto": "实况图",
+    "livePhoto_google": "Motion Photo",
+    "livePhoto_apple": "Live Photo",
+    "livePhoto_wallpaper": "壁纸",
+    "livePhoto_google_keywords": "实况,动态照片,motion photo,live,小红书,微信,google",
+    "livePhoto_apple_keywords": "实况,live photo,苹果,相册,heic,mov",
+    "livePhoto_wallpaper_keywords": "壁纸,锁屏,live wallpaper,iphone,实况",
+    "xMedia": "X 媒体",
+    "xMedia_xMedia_keywords": "twitter,x,推特,推文,视频,图片,下载"
 }

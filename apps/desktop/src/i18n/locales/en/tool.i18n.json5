@@ -94,5 +94,14 @@
     "zhNumber": "Chinese numerals",
     "punycode": "Punycode",
     "punycode_encoder": "Encoder",
-    "punycode_decoder": "Decoder"
+    "punycode_decoder": "Decoder",
+    "livePhoto": "Live Photo",
+    "livePhoto_google": "Motion Photo",
+    "livePhoto_apple": "Live Photo",
+    "livePhoto_wallpaper": "Wallpaper",
+    "livePhoto_google_keywords": "live photo,motion photo,xiaohongshu,wechat,google",
+    "livePhoto_apple_keywords": "live photo,apple photos,heic,mov",
+    "livePhoto_wallpaper_keywords": "wallpaper,lock screen,live wallpaper,iphone",
+    "xMedia": "X Media",
+    "xMedia_xMedia_keywords": "twitter,x,tweet,video,image,download"
 }

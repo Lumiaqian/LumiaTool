@@ -51,7 +51,7 @@
     "setting_language": "语言",
     "tools_lists": "全部工具列表",
     "common_tool": "常用工具",
-    "common_drag": "拖动相应工具按钮进行操作",
+    "common_drag": "点击添加或移除，按住可排序",
     "unselected_tool": "未选择工具",
     "display_mode": "主题",
     "display_mode_light": "浅色",

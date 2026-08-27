@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import type { DragEvent } from "react";
 import { Align, Button, Card } from "@/components";
-import { tools } from "@/config";
+import { commonTool, tools } from "@/config";
 import type { ToolType } from "@/config";
 import useSetting from "@/store/setting";
 
@@ -12,15 +12,44 @@ type DragItem = {
     index: number;
 };
 
-export default function Common() {
+export default function Common({ onClose }: { onClose?: () => void }) {
     const storeSetting = useSetting();
     const [selected, setSelected] = useState<ToolType[]>(() => [...storeSetting.items.common]);
     const [unselected, setUnselected] = useState<ToolType[]>(() =>
-        tools.filter((item) => !storeSetting.items.common.includes(item.name)).map(({ name }) => name),
+        tools.filter(item => !storeSetting.items.common.includes(item.name)).map(({ name }) => name),
     );
     const dragItem = useRef<DragItem | null>(null);
+    const dragged = useRef(false);
+
+    const commit = (nextSelected: ToolType[], nextUnselected: ToolType[]) => {
+        setSelected(nextSelected);
+        setUnselected(nextUnselected);
+        storeSetting.save("common", nextSelected);
+    };
+
+    const toggle = (name: ToolType, list: ListName) => {
+        if (dragged.current) {
+            dragged.current = false;
+            return;
+        }
+        if (list === "selected") {
+            if (selected.length <= 1) {
+                return;
+            }
+            commit(
+                selected.filter(item => item !== name),
+                [...unselected, name],
+            );
+            return;
+        }
+        commit(
+            [...selected, name],
+            unselected.filter(item => item !== name),
+        );
+    };
 
     const startDrag = (event: DragEvent, list: ListName, index: number) => {
+        dragged.current = true;
         dragItem.current = { list, index };
         event.dataTransfer.effectAllowed = "move";
         event.dataTransfer.setData("text/plain", `${list}:${index}`);
@@ -34,23 +63,6 @@ export default function Common() {
             return;
         }
 
-        if (source.list === targetList) {
-            const next = [...(targetList === "selected" ? selected : unselected)];
-            const [moved] = next.splice(source.index, 1);
-            if (moved === undefined) {
-                return;
-            }
-            const insertionIndex = source.index < targetIndex ? targetIndex - 1 : targetIndex;
-            next.splice(Math.max(0, Math.min(insertionIndex, next.length)), 0, moved);
-            if (targetList === "selected") {
-                setSelected(next);
-                storeSetting.save("common", next);
-            } else {
-                setUnselected(next);
-            }
-            return;
-        }
-
         const nextSelected = [...selected];
         const nextUnselected = [...unselected];
         const sourceItems = source.list === "selected" ? nextSelected : nextUnselected;
@@ -59,42 +71,49 @@ export default function Common() {
         if (moved === undefined) {
             return;
         }
-        targetItems.splice(Math.max(0, Math.min(targetIndex, targetItems.length)), 0, moved);
-        setSelected(nextSelected);
-        setUnselected(nextUnselected);
-        storeSetting.save("common", nextSelected);
+        if (source.list === "selected" && nextSelected.length < 1) {
+            return;
+        }
+        const insertionIndex = source.list === targetList && source.index < targetIndex
+            ? targetIndex - 1
+            : targetIndex;
+        targetItems.splice(Math.max(0, Math.min(insertionIndex, targetItems.length)), 0, moved);
+        commit(nextSelected, nextUnselected);
     };
 
     const reset = () => {
-        storeSetting.save("common", []);
-        const nextSelected = [...storeSetting.items.common];
-        setSelected(nextSelected);
-        setUnselected(tools.filter((item) => !nextSelected.includes(item.name)).map(({ name }) => name));
+        const nextSelected = [...commonTool];
+        commit(
+            nextSelected,
+            tools.filter(item => !nextSelected.includes(item.name)).map(({ name }) => name),
+        );
     };
 
     const renderList = (items: ToolType[], list: ListName) => (
         <div
             className="ctool-common-tool-draggable"
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={(event) => drop(event, list, items.length)}
+            onDragOver={event => event.preventDefault()}
+            onDrop={event => drop(event, list, items.length)}
         >
             {items.map((name, index) => (
-                <Button
+                <div
                     key={name}
-                    type="dotted"
+                    className="ctool-button ctool-common-chip"
+                    data-type="dotted"
                     draggable
-                    onDragStart={(event: DragEvent) => startDrag(event, list, index)}
+                    onClick={() => toggle(name, list)}
+                    onDragStart={event => startDrag(event, list, index)}
                     onDragEnd={() => {
                         dragItem.current = null;
                     }}
-                    onDragOver={(event: DragEvent) => event.preventDefault()}
-                    onDrop={(event: DragEvent) => {
+                    onDragOver={event => event.preventDefault()}
+                    onDrop={event => {
                         event.stopPropagation();
                         drop(event, list, index);
                     }}
                 >
                     {$t(`tool_${name}`)}
-                </Button>
+                </div>
             ))}
         </div>
     );
@@ -103,11 +122,18 @@ export default function Common() {
         <Align direction="vertical">
             <Card
                 title={$t("main_common_tool")}
-                extra={
-                    <Button type="primary" size="small" onClick={reset}>
-                        {$t("main_ui_reset")}
-                    </Button>
-                }
+                extra={(
+                    <Align>
+                        <Button size="small" onClick={reset}>
+                            {$t("main_ui_reset")}
+                        </Button>
+                        {onClose ? (
+                            <Button size="small" onClick={onClose}>
+                                {$t("main_ui_close")}
+                            </Button>
+                        ) : null}
+                    </Align>
+                )}
             >
                 {renderList(selected, "selected")}
             </Card>

@@ -71,8 +71,8 @@ export default function Tools() {
                 </Card>
             ))}
 
-            <ExtendPage value={openCommon} onChange={setOpenCommon} disableReplace>
-                <Common />
+            <ExtendPage value={openCommon} onChange={setOpenCommon} disableReplace hideClose>
+                <Common onClose={() => setOpenCommon(false)} />
             </ExtendPage>
         </Align>
     );
