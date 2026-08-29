@@ -202,26 +202,26 @@ function Select<T extends SelectValue = SelectValue>({
 
     const componentStyle: CSSVariableProperties = {
         width: width ? sizeConvert(width) : "auto",
-        "--ctool-select-menu-top": menuPosition.top,
-        "--ctool-select-menu-right": menuPosition.right,
-        "--ctool-select-menu-left": menuPosition.left,
-        "--ctool-select-menu-bottom": menuPosition.bottom,
+        "--lumia-select-menu-top": menuPosition.top,
+        "--lumia-select-menu-right": menuPosition.right,
+        "--lumia-select-menu-left": menuPosition.left,
+        "--lumia-select-menu-bottom": menuPosition.bottom,
         ...passedStyle,
     };
     if (center) {
         componentStyle["--text-align"] = "center";
     }
     if (selectLeftWidth) {
-        componentStyle["--ctool-select-left-padding"] = `${selectLeftWidth}px`;
+        componentStyle["--lumia-select-left-padding"] = `${selectLeftWidth}px`;
     }
     if (menuTextWidth) {
-        componentStyle["--ctool-select-menu-width"] = `${menuTextWidth}px`;
+        componentStyle["--lumia-select-menu-width"] = `${menuTextWidth}px`;
     }
 
     return (
         <div
             {...containerProps}
-            className={["ctool-select", className].filter(Boolean).join(" ")}
+            className={["lumia-select", className].filter(Boolean).join(" ")}
             data-size={size}
             data-type={type}
             data-disabled={disabled ? "y" : "n"}
@@ -254,7 +254,7 @@ function Select<T extends SelectValue = SelectValue>({
                             event.preventDefault();
                         }
                     }}
-                    className="ctool-select-summary"
+                    className="lumia-select-summary"
                 >
                     {placeholderValue}
                 </summary>
@@ -263,7 +263,7 @@ function Select<T extends SelectValue = SelectValue>({
                         id={listboxId}
                         role="listbox"
                         aria-labelledby={hasVisibleLabel ? `${labelId} ${summaryId}` : summaryId}
-                        className={menuHidden ? "ctool-select-option-hidden" : undefined}
+                        className={menuHidden ? "lumia-select-option-hidden" : undefined}
                         ref={optionListRef}
                     >
                         {normalizedOptions.map((item, index) => (
@@ -284,9 +284,9 @@ function Select<T extends SelectValue = SelectValue>({
                     </ul>
                 )}
             </details>
-            <div className="ctool-select-left" ref={selectLeftRef}>
+            <div className="lumia-select-left" ref={selectLeftRef}>
                 {hasVisibleLabel && (
-                    <div id={labelId} className="ctool-select-prepend ctool-input-label">{label}</div>
+                    <div id={labelId} className="lumia-select-prepend lumia-input-label">{label}</div>
                 )}
             </div>
             <Modal

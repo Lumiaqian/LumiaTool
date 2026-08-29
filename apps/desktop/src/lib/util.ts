@@ -4,9 +4,9 @@ import {isObject} from "lodash";
 import rdiff from "recursive-diff";
 
 // 版本号
-export const version = document.querySelector('meta[name="ctool-version"]')?.getAttribute('content') || "dev"
+export const version = document.querySelector('meta[name="lumia-version"]')?.getAttribute('content') || "dev"
 // 构建时间
-export const buildTimestamp = parseInt(document.querySelector('meta[name="ctool-build-timestamp"]')?.getAttribute('content') || `${Date.parse((new Date()).toString()) / 1000}`)
+export const buildTimestamp = parseInt(document.querySelector('meta[name="lumia-build-timestamp"]')?.getAttribute('content') || `${Date.parse((new Date()).toString()) / 1000}`)
 
 // uuid
 export const uuid = (): string => {

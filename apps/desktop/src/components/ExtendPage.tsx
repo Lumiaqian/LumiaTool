@@ -49,15 +49,15 @@ function useTransitionPresence(show: boolean): TransitionPresence {
         if (show) {
             setPresent(true);
             setTransitionClassName(
-                "ctool-extend-page-enter-active ctool-extend-page-enter-from",
+                "lumia-extend-page-enter-active lumia-extend-page-enter-from",
             );
             frame = window.requestAnimationFrame(() => {
-                setTransitionClassName("ctool-extend-page-enter-active");
+                setTransitionClassName("lumia-extend-page-enter-active");
                 timer = setTimeout(() => setTransitionClassName(""), 300);
             });
         } else if (presentRef.current) {
             setTransitionClassName(
-                "ctool-extend-page-leave-active ctool-extend-page-leave-to",
+                "lumia-extend-page-leave-active lumia-extend-page-leave-to",
             );
             timer = setTimeout(() => {
                 setPresent(false);
@@ -81,13 +81,13 @@ function useTransitionPresence(show: boolean): TransitionPresence {
 function getTop() {
     return typeof document === "undefined"
         ? 33
-        : document.querySelector<HTMLElement>(".ctool-header")?.offsetHeight || 33;
+        : document.querySelector<HTMLElement>(".lumia-header")?.offsetHeight || 33;
 }
 
 function getBottom() {
     return typeof document === "undefined"
         ? 33
-        : document.querySelector<HTMLElement>(".ctool-bottom")?.offsetHeight || 33;
+        : document.querySelector<HTMLElement>(".lumia-bottom")?.offsetHeight || 33;
 }
 
 function ExtendPage({
@@ -161,7 +161,7 @@ function ExtendPage({
 
     const target = typeof document === "undefined"
         ? null
-        : document.querySelector("#ctool-append");
+        : document.querySelector("#lumia-append");
     if (!target) {
         return null;
     }
@@ -172,7 +172,7 @@ function ExtendPage({
                 <div
                     {...rest}
                     className={[
-                        "ctool-extend-page",
+                        "lumia-extend-page",
                         className,
                         transition.transitionClassName,
                     ].filter(Boolean).join(" ")}
@@ -184,7 +184,7 @@ function ExtendPage({
             {transition.present && !hideClose ? (
                 <div
                     className={[
-                        "ctool-extend-page-close",
+                        "lumia-extend-page-close",
                         transition.transitionClassName,
                     ].filter(Boolean).join(" ")}
                 >

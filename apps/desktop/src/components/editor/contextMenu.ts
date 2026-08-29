@@ -3,13 +3,13 @@ import formatter from "@/tools/code/formatter";
 
 // 自定义右键菜单
 const lists = [
-    "ctool_multiple_selection",
-    "ctool_beautify",
-    "ctool_compress",
-    "ctool_line_wrapping",
-    "ctool_line_number",
-    "ctool_goto",
-    "ctool_search",
+    "lumia_multiple_selection",
+    "lumia_beautify",
+    "lumia_compress",
+    "lumia_line_wrapping",
+    "lumia_line_number",
+    "lumia_goto",
+    "lumia_search",
 ] as const;
 
 type contextMenuType = (typeof lists)[number];
@@ -25,7 +25,7 @@ const menuDefinition = (): {
     return [
         // 列选择
         {
-            id: "ctool_multiple_selection",
+            id: "lumia_multiple_selection",
             label: $t(`component_editor_multiple`),
             contextMenuGroupId: "1_modification",
             enable: true,
@@ -35,7 +35,7 @@ const menuDefinition = (): {
         },
         // 查找/替换
         {
-            id: "ctool_search",
+            id: "lumia_search",
             label: $t(`component_editor_search`),
             contextMenuGroupId: "1_modification",
             enable: true,
@@ -45,7 +45,7 @@ const menuDefinition = (): {
         },
         // 跳转
         {
-            id: "ctool_goto",
+            id: "lumia_goto",
             label: $t(`component_editor_goto`),
             contextMenuGroupId: "1_modification",
             enable: true,
@@ -53,7 +53,7 @@ const menuDefinition = (): {
         },
         // 格式化
         {
-            id: "ctool_beautify",
+            id: "lumia_beautify",
             label: $t(`code_beautify`),
             run: async ed => {
                 const lang = ed.getModel()?.getLanguageId() || "";
@@ -68,7 +68,7 @@ const menuDefinition = (): {
         },
         // 压缩
         {
-            id: "ctool_compress",
+            id: "lumia_compress",
             label: $t(`code_compress`),
             run: async ed => {
                 const lang = ed.getModel()?.getLanguageId() || "";
@@ -83,7 +83,7 @@ const menuDefinition = (): {
         },
         // 自动换行
         {
-            id: "ctool_line_wrapping",
+            id: "lumia_line_wrapping",
             label: $t(`component_editor_line_wrapping`),
             enable: true,
             run: ed => {
@@ -93,7 +93,7 @@ const menuDefinition = (): {
         },
         // 显示行号
         {
-            id: "ctool_line_number",
+            id: "lumia_line_number",
             label: $t(`component_editor_line_number`),
             enable: true,
             run: ed => {
@@ -113,8 +113,8 @@ class contextMenu {
         this.editor = editor;
         this.initMenu();
         this.editor.onDidChangeModelLanguage(e => {
-            this.toggle("ctool_beautify", formatter.isEnable(e.newLanguage, "beautify"));
-            this.toggle("ctool_compress", formatter.isEnable(e.newLanguage, "compress"));
+            this.toggle("lumia_beautify", formatter.isEnable(e.newLanguage, "beautify"));
+            this.toggle("lumia_compress", formatter.isEnable(e.newLanguage, "compress"));
             this.removeDefaultMenu();
         });
         this.removeDefaultMenu();
@@ -140,7 +140,7 @@ class contextMenu {
                 id: item.id,
                 precondition: item.id,
                 label: item.label,
-                contextMenuGroupId: item.contextMenuGroupId || "ctool",
+                contextMenuGroupId: item.contextMenuGroupId || "lumia",
                 contextMenuOrder: index++,
                 run: editor => {
                     if (item.run) {

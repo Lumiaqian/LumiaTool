@@ -65,15 +65,15 @@ export default function Ipv4() {
 
     return (
         <>
-            <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-ipcalc-page ctool-ipcalc-v4-page">
-                <div className="ctool-ipcalc-workspace">
-                    <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                        <header className="ctool-inspector-family-panel-header">
+            <div className="lumia-inspector-utility-family lumia-inspector-family-page lumia-ipcalc-page lumia-ipcalc-v4-page">
+                <div className="lumia-ipcalc-workspace">
+                    <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                        <header className="lumia-inspector-family-panel-header">
                             <strong>{$t("ipcalc_ip")}</strong>
                             <HelpTip link="https://www.npmjs.com/package/netmask" />
                         </header>
-                        <div className="ctool-inspector-family-panel-body ctool-ipcalc-form">
-                            <Align horizontal="center" className="ctool-page-option" direction="vertical">
+                        <div className="lumia-inspector-family-panel-body lumia-ipcalc-form">
+                            <Align horizontal="center" className="lumia-page-option" direction="vertical">
                 <Input
                     size="large"
                     width={300}
@@ -98,7 +98,7 @@ export default function Ipv4() {
             </Align>
                         </div>
                     </section>
-                    <div className="ctool-ipcalc-results">
+                    <div className="lumia-ipcalc-results">
 
             {error === "" && (
                 <Align direction="vertical">
@@ -138,7 +138,7 @@ export default function Ipv4() {
                     </Card>
                 </Align>
             )}
-            {error !== "" && <HeightResize append={[".ctool-page-option"]}><Exception content={error} /></HeightResize>}
+            {error !== "" && <HeightResize append={[".lumia-page-option"]}><Exception content={error} /></HeightResize>}
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@ export default function Ipv4() {
                 </Align>
             </Modal>
 
-            <ExtendPage className="ctool-inspector-utility-extend ctool-ipcalc-subnet-page" value={showSubnet} onChange={setShowSubnet}>
+            <ExtendPage className="lumia-inspector-utility-extend lumia-ipcalc-subnet-page" value={showSubnet} onChange={setShowSubnet}>
                 <Card
                     title={`${action.current.input} ${$t("ipcalc_subnet")}`}
                     padding="0"

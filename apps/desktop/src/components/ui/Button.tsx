@@ -35,7 +35,7 @@ export default function Button({
         <Tooltip content={tooltip}>
             <button
                 {...buttonProps}
-                className={["ctool-button", buttonProps.className].filter(Boolean).join(" ")}
+                className={["lumia-button", buttonProps.className].filter(Boolean).join(" ")}
                 data-size={size}
                 data-type={type}
                 style={long ? { width: "100%", ...buttonProps.style } : buttonProps.style}

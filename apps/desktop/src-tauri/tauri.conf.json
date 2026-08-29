@@ -5,8 +5,8 @@
     "version": "../../../package.json",
     "identifier": "com.lumiaqian.lumiatool",
     "build": {
-        "beforeDevCommand": "pnpm --filter ctool-desktop run dev:ui",
-        "beforeBuildCommand": "pnpm --filter ctool-desktop run build:ui",
+        "beforeDevCommand": "pnpm --filter lumiatool-desktop run dev:ui",
+        "beforeBuildCommand": "pnpm --filter lumiatool-desktop run build:ui",
         "devUrl": "http://localhost:5173",
         "frontendDist": "../dist"
     },

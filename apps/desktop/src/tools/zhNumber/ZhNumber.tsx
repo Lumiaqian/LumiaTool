@@ -58,9 +58,9 @@ export default function ZhNumber() {
     };
 
     return (
-        <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-zh-number-page">
-            <div className="ctool-utility-family-form">
-                <div className="ctool-utility-family-options">
+        <div className="lumia-inspector-utility-family lumia-utility-family-page lumia-zh-number-page">
+            <div className="lumia-utility-family-form">
+                <div className="lumia-utility-family-options">
                     <Bool
                         border
                         label={$t("zhNumber_traditional")}
@@ -71,8 +71,8 @@ export default function ZhNumber() {
                     />
                 </div>
                 {action.current.map.map((item: ConvertType) => (
-                    <section className="ctool-utility-family-value" key={item}>
-                        <header className="ctool-utility-family-value-header">
+                    <section className="lumia-utility-family-value" key={item}>
+                        <header className="lumia-utility-family-value-header">
                             <strong>{$t(`zhNumber_${item}`)}</strong>
                             {values[item] !== "" ? (
                                 <Button

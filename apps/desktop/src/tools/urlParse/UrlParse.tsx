@@ -40,25 +40,25 @@ export default function UrlParse() {
     }, [action, action.current.input]);
 
     return (
-        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-url-parse-page">
-            <HeightResize className="ctool-inspector-family-fill" ignore>
+        <div className="lumia-inspector-utility-family lumia-inspector-family-page lumia-url-parse-page">
+            <HeightResize className="lumia-inspector-family-fill" ignore>
                 {() => (
-                    <div className="ctool-inspector-family-split">
-                        <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                            <header className="ctool-inspector-family-panel-header">
+                    <div className="lumia-inspector-family-split">
+                        <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                            <header className="lumia-inspector-family-panel-header">
                                 <strong>{$t("main_ui_input")}</strong>
                             </header>
-                            <div className="ctool-inspector-family-panel-body">
+                            <div className="lumia-inspector-family-panel-body">
                                 <Textarea height="100%" placeholder={$t("main_ui_input")} value={action.current.input} onChange={value => { action.current.input = value; }} />
                             </div>
                         </section>
-                        <section className="ctool-inspector-family-panel ctool-inspector-family-result">
-                            <header className="ctool-inspector-family-panel-header">
+                        <section className="lumia-inspector-family-panel lumia-inspector-family-result">
+                            <header className="lumia-inspector-family-panel-header">
                                 <strong>{$t("main_ui_output")}</strong>
                             </header>
-                            <div className="ctool-inspector-family-panel-body ctool-url-parse-result">
-                                {output.error !== "" && <p className="ctool-inspector-family-error">{output.error}</p>}
-                                <div className="ctool-url-parse-parts">
+                            <div className="lumia-inspector-family-panel-body lumia-url-parse-result">
+                                {output.error !== "" && <p className="lumia-inspector-family-error">{output.error}</p>}
+                                <div className="lumia-url-parse-parts">
                                     <Input readOnly label="Base" value={output.base} />
                                     <Input readOnly label="Path" value={output.path} />
                                     <Input readOnly label="Hash" value={output.hash} />

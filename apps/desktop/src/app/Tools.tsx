@@ -23,7 +23,7 @@ export default function Tools() {
     };
 
     return (
-        <Align direction="vertical" className="ctool-tools-catalog">
+        <Align direction="vertical" className="lumia-tools-catalog">
             <Card
                 title={$t("main_category_common")}
                 extra={

@@ -128,10 +128,10 @@ export default function RandomString() {
 
     return (
         <>
-            <div className="ctool-generator-editor-family ctool-generator-page ctool-random-string-generator-page">
-                <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
-                    <Card className="ctool-page-option">
-                        <Align className="ctool-generator-option-grid">
+            <div className="lumia-generator-editor-family lumia-generator-page lumia-random-string-generator-page">
+                <aside className="lumia-generator-options" aria-label={$t("main_ui_setting")}>
+                    <Card className="lumia-page-option">
+                        <Align className="lumia-generator-option-grid">
                             <Input
                                 value={action.current.base}
                                 onChange={value => {
@@ -175,7 +175,7 @@ export default function RandomString() {
                         </Align>
                     </Card>
                 </aside>
-                <section className="ctool-generator-result" aria-label={$t("main_ui_output")}>
+                <section className="lumia-generator-result" aria-label={$t("main_ui_output")}>
                     <HeightResize>
                         {({ height }) => (
                             <SerializeOutput

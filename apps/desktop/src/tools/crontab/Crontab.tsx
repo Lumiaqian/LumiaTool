@@ -64,14 +64,14 @@ export default function Crontab() {
     ];
 
     return (
-        <div className="ctool-crontab-page">
-            <section className="ctool-crontab-toolbar" aria-label={$t("crontab_expression")}>
+        <div className="lumia-crontab-page">
+            <section className="lumia-crontab-toolbar" aria-label={$t("crontab_expression")}>
                 <Input
                     value={action.current.input}
                     onChange={changeInput}
                     label={$t("crontab_expression")}
                 />
-                <div className="ctool-crontab-actions">
+                <div className="lumia-crontab-actions">
                     <HelpTip link="https://www.npmjs.com/package/cron-parser" />
                     <Button
                         type="primary"
@@ -80,36 +80,36 @@ export default function Crontab() {
                     />
                 </div>
             </section>
-            <div className="ctool-crontab-workspace">
-                <div className="ctool-crontab-summary">
-                    <section className="ctool-tester-panel ctool-crontab-description" aria-labelledby="ctool-crontab-description-title">
-                        <header className="ctool-tester-panel-header">
-                            <strong id="ctool-crontab-description-title">{$t("crontab_description")}</strong>
+            <div className="lumia-crontab-workspace">
+                <div className="lumia-crontab-summary">
+                    <section className="lumia-tester-panel lumia-crontab-description" aria-labelledby="lumia-crontab-description-title">
+                        <header className="lumia-tester-panel-header">
+                            <strong id="lumia-crontab-description-title">{$t("crontab_description")}</strong>
                         </header>
-                        <output className={isError ? "ctool-crontab-output is-error" : "ctool-crontab-output"}>
+                        <output className={isError ? "lumia-crontab-output is-error" : "lumia-crontab-output"}>
                             <pre>{description || "—"}</pre>
                         </output>
                     </section>
-                    <section className="ctool-tester-panel ctool-crontab-schedule" aria-labelledby="ctool-crontab-schedule-title">
-                        <header className="ctool-tester-panel-header">
-                            <strong id="ctool-crontab-schedule-title">{$t("crontab_execute_time_list")}</strong>
+                    <section className="lumia-tester-panel lumia-crontab-schedule" aria-labelledby="lumia-crontab-schedule-title">
+                        <header className="lumia-tester-panel-header">
+                            <strong id="lumia-crontab-schedule-title">{$t("crontab_execute_time_list")}</strong>
                         </header>
                         {schedule.length === 0 ? (
-                            <div className="ctool-tester-empty">—</div>
+                            <div className="lumia-tester-empty">—</div>
                         ) : (
-                            <ol className="ctool-crontab-schedule-list">
+                            <ol className="lumia-crontab-schedule-list">
                                 {schedule.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}
                             </ol>
                         )}
                     </section>
                 </div>
-                <section className="ctool-tester-panel ctool-crontab-reference" aria-labelledby="ctool-crontab-reference-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-crontab-reference-title">
+                <section className="lumia-tester-panel lumia-crontab-reference" aria-labelledby="lumia-crontab-reference-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-crontab-reference-title">
                             {isGenerate ? $t("crontab_generate") : $t("main_ui_reference")}
                         </strong>
                     </header>
-                    <div className="ctool-crontab-reference-body">
+                    <div className="lumia-crontab-reference-body">
                         {!isGenerate ? (
                             <Tabs value="example" lists={[
                                 { name: "example", label: $t("crontab_example") },
@@ -123,7 +123,7 @@ export default function Crontab() {
                                     ]}
                                     lists={example.map((item) => ({ exp: item, text: conversion(item) }))}
                                 />
-                                <Link href="https://www.npmjs.com/package/cron-parser" className="ctool-crontab-format-link">
+                                <Link href="https://www.npmjs.com/package/cron-parser" className="lumia-crontab-format-link">
                                     <img src={crontabImage} alt="crontab" />
                                 </Link>
                                 <Table

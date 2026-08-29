@@ -33,7 +33,7 @@ function Encrypt() {
             rack={(
                 <>
                     <Select size="small" value={algName} onChange={(value) => { action.current.algName = value; }} options={algNames} />
-                    <Textarea className="ctool-transformer-rack-key" height="100%" value={key} onChange={(value) => { action.current.key = value; }} placeholder={$t("rsa_public")} />
+                    <Textarea className="lumia-transformer-rack-key" height="100%" value={key} onChange={(value) => { action.current.key = value; }} placeholder={$t("rsa_public")} />
                 </>
             )}
             source={<TextInput value={input} onChange={(value) => { action.current.input = value; }} placeholder={$t("rsa_encrypt_input")} height="100%" />}

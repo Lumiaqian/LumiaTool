@@ -62,9 +62,9 @@ export default function Timestamp() {
     }, [current, action.current.timezone]);
 
     return (
-        <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-timestamp-page">
-            <section className="ctool-utility-family-value ctool-timestamp-input">
-                <header className="ctool-utility-family-value-header">
+        <div className="lumia-inspector-utility-family lumia-utility-family-page lumia-timestamp-page">
+            <section className="lumia-utility-family-value lumia-timestamp-input">
+                <header className="lumia-utility-family-value-header">
                     <Select
                         size="small"
                         center={false}
@@ -100,21 +100,21 @@ export default function Timestamp() {
                     placeholder={$t("time_timestamp_input_placeholder")}
                 />
             </section>
-            <section className="ctool-timestamp-results">
-                <div className="ctool-timestamp-value">
+            <section className="lumia-timestamp-results">
+                <div className="lumia-timestamp-value">
                     <Input readOnly size="large" value={output.second} label={$t("time_second")} />
                     {output.isValid && <Button size="small" type="primary" text={$t("main_ui_copy")} onClick={() => $copy(output.second)} />}
                 </div>
-                <div className="ctool-timestamp-value">
+                <div className="lumia-timestamp-value">
                     <Input readOnly size="large" value={output.millisecond} label={$t("time_millisecond")} />
                     {output.isValid && <Button size="small" type="primary" text={$t("main_ui_copy")} onClick={() => $copy(output.millisecond)} />}
                 </div>
-                <div className="ctool-timestamp-value">
+                <div className="lumia-timestamp-value">
                     <Input readOnly size="large" value={output.nanosecond} label={$t("time_nanosecond")} />
                     {output.isValid && <Button size="small" type="primary" text={$t("main_ui_copy")} onClick={() => $copy(output.nanosecond)} />}
                 </div>
             </section>
-            <div className="ctool-timestamp-examples">
+            <div className="lumia-timestamp-examples">
                 <Table
                     columns={[{ title: $t("time_format"), key: "format" }, { title: $t("time_value"), key: "value" }]}
                     lists={example}

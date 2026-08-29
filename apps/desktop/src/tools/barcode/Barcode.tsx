@@ -62,10 +62,10 @@ export default function Barcode() {
     };
 
     return (
-        <div className="ctool-generator-editor-family ctool-generator-page ctool-barcode-generator-page">
-            <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
-                <Card className="ctool-barcode-options">
-                    <Align className="ctool-generator-option-grid">
+        <div className="lumia-generator-editor-family lumia-generator-page lumia-barcode-generator-page">
+            <aside className="lumia-generator-options" aria-label={$t("main_ui_setting")}>
+                <Card className="lumia-barcode-options">
+                    <Align className="lumia-generator-option-grid">
                         <Input value={action.current.input} onChange={(value) => { action.current.input = value; }} width={260} placeholder={$t("main_ui_input")} append={<Select value={action.current.format} onChange={(value) => { action.current.format = value; }} options={barcodeFormat} />} />
                         <Color value={action.current.background} onChange={(value) => { action.current.background = value; }} label={$t("barcode_background")} />
                         <Color value={action.current.line_color} onChange={(value) => { action.current.line_color = value; }} label={$t("barcode_line_color")} />
@@ -82,12 +82,12 @@ export default function Barcode() {
                     </Align>
                 </Card>
             </aside>
-            <section className="ctool-generator-preview" aria-label={$t("main_ui_output")}>
-                <Card className="ctool-preview-panel">
-                    <div className="ctool-preview-stage">
+            <section className="lumia-generator-preview" aria-label={$t("main_ui_output")}>
+                <Card className="lumia-preview-panel">
+                    <div className="lumia-preview-stage">
                         <button
                             type="button"
-                            className="ctool-preview-action"
+                            className="lumia-preview-action"
                             onClick={copy}
                             disabled={!valid}
                             aria-label={$t("main_ui_copy")}

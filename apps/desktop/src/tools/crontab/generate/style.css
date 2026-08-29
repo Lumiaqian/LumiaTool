@@ -1,15 +1,15 @@
-.ctool-crontab-generate-layout {
+.lumia-crontab-generate-layout {
     display: grid;
     grid-template-columns: auto auto minmax(0, 1fr);
     gap: 20px 10px;
     align-items: center;
 }
-.ctool-crontab-generate-layout .ctool-input input {
+.lumia-crontab-generate-layout .lumia-input input {
     text-align: center;
 }
-.ctool-crontab-generate-layout .ctool-input {
+.lumia-crontab-generate-layout .lumia-input {
     width: 60px;
 }
-.ctool-crontab-generate-layout .ctool-checkbox .ctool-bool{
+.lumia-crontab-generate-layout .lumia-checkbox .lumia-bool{
     height: 24px;
 }

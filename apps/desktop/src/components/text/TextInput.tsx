@@ -261,7 +261,7 @@ export default function TextInput({
 
     if (useInput) {
         return (
-            <div className={["ctool-text-input-inline", className].filter(Boolean).join(" ")} style={style}>
+            <div className={["lumia-text-input-inline", className].filter(Boolean).join(" ")} style={style}>
                 {content}
                 {hasToolbar ? extra : null}
             </div>
@@ -271,13 +271,13 @@ export default function TextInput({
 
     return (
         <div
-            className={["ctool-text-input-frame", hasToolbar ? "" : "ctool-text-input-frame--bare", className]
+            className={["lumia-text-input-frame", hasToolbar ? "" : "lumia-text-input-frame--bare", className]
                 .filter(Boolean)
                 .join(" ")}
             style={style}
         >
-            {hasToolbar ? <div className="ctool-text-input-toolbar">{extra}</div> : null}
-            <div className="ctool-text-input-content">{content}</div>
+            {hasToolbar ? <div className="lumia-text-input-toolbar">{extra}</div> : null}
+            <div className="lumia-text-input-content">{content}</div>
         </div>
     );
 }

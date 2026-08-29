@@ -152,8 +152,8 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
 
             new PlaceholderContentWidget(placeholder, editor);
             const contextMenu = new ContextMenu(editor);
-            contextMenu.setHandle("ctool_line_wrapping", () => undefined);
-            contextMenu.setHandle("ctool_line_number", () => undefined);
+            contextMenu.setHandle("lumia_line_wrapping", () => undefined);
+            contextMenu.setHandle("lumia_line_number", () => undefined);
             configureLineInfo(editor).status(lineInfoRef.current);
 
             editorRef.current?.dispose();
@@ -181,12 +181,12 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
     }, [lang, reload, lineInfo, updateEditorConfig]);
 
     const className = disableBorder
-        ? "ctool-code-editor ctool-code-editor-disable-border"
-        : "ctool-code-editor";
+        ? "lumia-code-editor lumia-code-editor-disable-border"
+        : "lumia-code-editor";
 
     return (
         <div className={className} style={{ height: sizeConvert(height), width: "100%" }}>
-            {children ? <div className="ctool-editor-surface-toolbar">{children}</div> : null}
+            {children ? <div className="lumia-editor-surface-toolbar">{children}</div> : null}
             <div ref={containerRef} style={{ minHeight: 0, height: "100%", width: "100%" }} />
         </div>
     );

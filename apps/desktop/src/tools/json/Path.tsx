@@ -66,7 +66,7 @@ export default function Path({
     }, [json, value.type, value.json_path, value.jmes_path, onSuccess]);
 
     return (
-        <div className="ctool-json-path-workspace"><Align direction="vertical" className="ctool-json-path" bottom="default">{value.type === "json_path" && (
+        <div className="lumia-json-path-workspace"><Align direction="vertical" className="lumia-json-path" bottom="default">{value.type === "json_path" && (
             <Input
                 value={value.json_path}
                 onChange={(json_path) => onChange?.({ ...value, json_path })}
@@ -81,7 +81,7 @@ export default function Path({
                 label={$t("json_jmes_path")}
                 append={<HelpTip link="https://www.npmjs.com/package/jmespath" />}
             />
-        )}</Align><HeightResize fatherHeight={height} append={[".ctool-json-path"]} onResize={setEditorHeight}><Editor
+        )}</Align><HeightResize fatherHeight={height} append={[".lumia-json-path"]} onResize={setEditorHeight}><Editor
             value={output}
             placeholder={`${$t(`json_${value.type}`)} ${$t("main_ui_output")}`}
             lang="json"

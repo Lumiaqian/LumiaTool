@@ -46,12 +46,12 @@ function Lrc() {
     };
 
     return (
-        <div className="ctool-validation-page ctool-validation-lrc-page">
-            <section className="ctool-tester-panel ctool-validation-input-panel" aria-labelledby="ctool-lrc-input-title">
-                <header className="ctool-tester-panel-header">
-                    <strong id="ctool-lrc-input-title">{$t("main_ui_input")}</strong>
+        <div className="lumia-validation-page lumia-validation-lrc-page">
+            <section className="lumia-tester-panel lumia-validation-input-panel" aria-labelledby="lumia-lrc-input-title">
+                <header className="lumia-tester-panel-header">
+                    <strong id="lumia-lrc-input-title">{$t("main_ui_input")}</strong>
                 </header>
-                <div className="ctool-validation-input">
+                <div className="lumia-validation-input">
                     <TextInput
                         value={action.current.input}
                         onChange={(value) => {
@@ -62,20 +62,20 @@ function Lrc() {
                     />
                 </div>
             </section>
-            <section className="ctool-tester-panel ctool-validation-results-panel" aria-labelledby="ctool-lrc-output-title">
-                <header className="ctool-tester-panel-header">
-                    <strong id="ctool-lrc-output-title">{$t("main_ui_output")}</strong>
+            <section className="lumia-tester-panel lumia-validation-results-panel" aria-labelledby="lumia-lrc-output-title">
+                <header className="lumia-tester-panel-header">
+                    <strong id="lumia-lrc-output-title">{$t("main_ui_output")}</strong>
                 </header>
-                {error !== "" && <p className="ctool-tester-error" role="alert">{error}</p>}
-                <div className="ctool-tester-results">
+                {error !== "" && <p className="lumia-tester-error" role="alert">{error}</p>}
+                <div className="lumia-tester-results">
                     {(["Hex", "Dec", "Oct", "Bin"] as const).map((type) => {
                         const value = error === "" ? getResult(type) : "";
                         return (
-                            <article className="ctool-tester-result" key={type}>
-                                <h3 className="ctool-tester-result-name">{type}</h3>
-                                <output className="ctool-tester-result-value"><code>{value || "—"}</code></output>
+                            <article className="lumia-tester-result" key={type}>
+                                <h3 className="lumia-tester-result-name">{type}</h3>
+                                <output className="lumia-tester-result-value"><code>{value || "—"}</code></output>
                                 {value !== "" && (
-                                    <button className="ctool-tester-copy" type="button" onClick={() => $copy(value)}>
+                                    <button className="lumia-tester-copy" type="button" onClick={() => $copy(value)}>
                                         {$t("main_ui_copy")}
                                     </button>
                                 )}

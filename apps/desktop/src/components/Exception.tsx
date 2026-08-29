@@ -19,11 +19,11 @@ const containerStyle: CSSProperties = {
 };
 
 const iconStyle: CSSProperties = {
-    color: "var(--ctool-info-color)",
+    color: "var(--lumia-info-color)",
 };
 
 const textStyle: CSSProperties = {
-    color: "var(--ctool-info-color)",
+    color: "var(--lumia-info-color)",
     fontSize: ".875rem",
 };
 

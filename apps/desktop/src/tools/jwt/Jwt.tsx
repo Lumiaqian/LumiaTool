@@ -28,27 +28,27 @@ export default function Jwt(): React.ReactElement {
     }, [action.current.input, action.current.header, action.current.payload]);
 
     return (
-        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-jwt-page">
-            <HeightResize className="ctool-inspector-family-fill">
+        <div className="lumia-inspector-utility-family lumia-inspector-family-page lumia-jwt-page">
+            <HeightResize className="lumia-inspector-family-fill">
                 {() => (
-                    <div className="ctool-inspector-family-split">
-                        <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                            <header className="ctool-inspector-family-panel-header">
+                    <div className="lumia-inspector-family-split">
+                        <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                            <header className="lumia-inspector-family-panel-header">
                                 <strong>{$t("main_ui_input")}</strong>
                                 <Align>
                                     <Bool border size="small" value={action.current.header} onChange={(value) => { action.current.header = value; }} label="header" />
                                     <Bool border size="small" value={action.current.payload} onChange={(value) => { action.current.payload = value; }} label="payload" />
                                 </Align>
                             </header>
-                            <div className="ctool-inspector-family-panel-body">
+                            <div className="lumia-inspector-family-panel-body">
                                 <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height="100%" placeholder={$t("main_ui_input")} />
                             </div>
                         </section>
-                        <section className="ctool-inspector-family-panel ctool-inspector-family-result">
-                            <header className="ctool-inspector-family-panel-header">
+                        <section className="lumia-inspector-family-panel lumia-inspector-family-result">
+                            <header className="lumia-inspector-family-panel-header">
                                 <strong>{$t("main_ui_output")}</strong>
                             </header>
-                            <div className="ctool-inspector-family-panel-body">
+                            <div className="lumia-inspector-family-panel-body">
                                 <SerializeOutput
                                     allow={["json", "xml", "yaml", "toml", "php_array", "properties", "http_query_string"]}
                                     content={outputSerialize}

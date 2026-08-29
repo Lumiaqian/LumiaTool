@@ -70,10 +70,10 @@ export default function XMedia() {
     };
 
     return (
-        <div className="ctool-generator-editor-family ctool-generator-page ctool-x-media-page">
-            <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
+        <div className="lumia-generator-editor-family lumia-generator-page lumia-x-media-page">
+            <aside className="lumia-generator-options" aria-label={$t("main_ui_setting")}>
                 <Card>
-                    <Align direction="vertical" className="ctool-x-media-options">
+                    <Align direction="vertical" className="lumia-x-media-options">
                         <Input
                             width="100%"
                             value={url}
@@ -96,25 +96,25 @@ export default function XMedia() {
                             {$t("xMedia_download")}
                         </Button>
                         {tweet ? (
-                            <div className="ctool-x-media-meta">
+                            <div className="lumia-x-media-meta">
                                 <strong>@{tweet.author}</strong>
                                 <p>{tweet.text}</p>
                                 <p>{$t("xMedia_click_hint")}</p>
                             </div>
                         ) : null}
-                        {status ? <div className="ctool-x-media-status">{status}</div> : null}
-                        {error ? <div className="ctool-x-media-error">{error}</div> : null}
+                        {status ? <div className="lumia-x-media-status">{status}</div> : null}
+                        {error ? <div className="lumia-x-media-error">{error}</div> : null}
                     </Align>
                 </Card>
             </aside>
-            <section className="ctool-generator-preview">
+            <section className="lumia-generator-preview">
                 <Card>
                     {tweet?.items.length ? (
-                        <div className="ctool-x-media-grid">
+                        <div className="lumia-x-media-grid">
                             {tweet.items.map(item => (
                                 <figure
                                     key={item.filename}
-                                    className="ctool-x-media-item"
+                                    className="lumia-x-media-item"
                                     data-selected={selected.includes(item.filename) ? "y" : "n"}
                                     onClick={() => toggleItem(item.filename)}
                                 >

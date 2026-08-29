@@ -143,16 +143,16 @@ export default function Workbench({ variant }: { variant: Variant }) {
     };
 
     return (
-        <div className="ctool-generator-editor-family ctool-generator-page ctool-live-photo-page">
-            <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
+        <div className="lumia-generator-editor-family lumia-generator-page lumia-live-photo-page">
+            <aside className="lumia-generator-options" aria-label={$t("main_ui_setting")}>
                 <Card>
-                    <Align direction="vertical" className="ctool-live-photo-options">
+                    <Align direction="vertical" className="lumia-live-photo-options">
                         <Button type="primary" long onClick={() => void pickVideo()}>
                             {$t("livePhoto_pick_video")}
                         </Button>
-                        <div className="ctool-live-photo-path">{videoPath ? fileName(videoPath) : $t("livePhoto_empty_video")}</div>
+                        <div className="lumia-live-photo-path">{videoPath ? fileName(videoPath) : $t("livePhoto_empty_video")}</div>
                         {info ? (
-                            <div className="ctool-live-photo-path">
+                            <div className="lumia-live-photo-path">
                                 {info.width}×{info.height} · {info.duration.toFixed(1)}s
                             </div>
                         ) : null}
@@ -193,7 +193,7 @@ export default function Workbench({ variant }: { variant: Variant }) {
                         </Align>
                         {coverPath ? (
                             <Align>
-                                <span className="ctool-live-photo-path">{fileName(coverPath)}</span>
+                                <span className="lumia-live-photo-path">{fileName(coverPath)}</span>
                                 <Button size="small" onClick={() => { session.coverPath = ""; }}>
                                     {$t("livePhoto_cover_clear")}
                                 </Button>
@@ -224,9 +224,9 @@ export default function Workbench({ variant }: { variant: Variant }) {
                             />
                         )}
                         {variant === "wallpaper" ? (
-                            <div className="ctool-live-photo-hint">{$t("livePhoto_wallpaper_hint")}</div>
+                            <div className="lumia-live-photo-hint">{$t("livePhoto_wallpaper_hint")}</div>
                         ) : clipDuration > 3.5 ? (
-                            <div className="ctool-live-photo-hint">{$t("livePhoto_wechat_hint")}</div>
+                            <div className="lumia-live-photo-hint">{$t("livePhoto_wechat_hint")}</div>
                         ) : null}
                         <Button
                             type="primary"
@@ -237,19 +237,19 @@ export default function Workbench({ variant }: { variant: Variant }) {
                         >
                             {$t("livePhoto_export")}
                         </Button>
-                        {status ? <div className="ctool-live-photo-status">{status}</div> : null}
-                        {error ? <div className="ctool-live-photo-error">{error}</div> : null}
+                        {status ? <div className="lumia-live-photo-status">{status}</div> : null}
+                        {error ? <div className="lumia-live-photo-error">{error}</div> : null}
                     </Align>
                 </Card>
             </aside>
-            <section className="ctool-generator-preview">
+            <section className="lumia-generator-preview">
                 <Card>
                     {appleBlocked ? (
                         <Exception content={$t("livePhoto_macos_only")} />
                     ) : previewSrc ? (
                         <video
                             ref={videoRef}
-                            className="ctool-live-photo-video"
+                            className="lumia-live-photo-video"
                             src={previewSrc}
                             controls
                             onLoadedMetadata={event => {

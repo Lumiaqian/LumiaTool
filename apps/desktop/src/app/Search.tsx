@@ -17,7 +17,7 @@ export default function Search() {
     const setting = useSetting();
     const operate = useOperate();
     const wrapperRef = useRef<HTMLDivElement | null>(null);
-    const listboxId = "ctool-search-listbox";
+    const listboxId = "lumia-search-listbox";
     const [input, setInput] = useState("");
     const [isInput, setIsInput] = useState(false);
     const [selectIndex, setSelectIndex] = useState(0);
@@ -99,7 +99,7 @@ export default function Search() {
     };
 
     return (
-        <div ref={wrapperRef} className="ctool-search" style={{ display: "inline-flex" }}>
+        <div ref={wrapperRef} className="lumia-search" style={{ display: "inline-flex" }}>
             <Input
                 role="combobox"
                 aria-autocomplete="list"
@@ -121,10 +121,10 @@ export default function Search() {
                 suffix={<Icon name="search" size={12} />}
             />
             {isInput && (
-                <ul id={listboxId} className="ctool-search-block" role="listbox">
+                <ul id={listboxId} className="lumia-search-block" role="listbox">
                     {items.map((item, index) => (
                         <li
-                            className={index === selectIndex ? "ctool-search-active" : ""}
+                            className={index === selectIndex ? "lumia-search-active" : ""}
                             key={`${item.tool}-${item.feature}`}
                             role="presentation"
                         >

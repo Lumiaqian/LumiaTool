@@ -77,9 +77,9 @@ export default function Generate() {
         [],
     );
 
-    return (<div className="ctool-generator-editor-family ctool-generator-page ctool-qr-generator-page ctool-qr-workspace"><div className="ctool-qr-primary">
-        <section className="ctool-qr-source">
-            <header className="ctool-qr-source-header">
+    return (<div className="lumia-generator-editor-family lumia-generator-page lumia-qr-generator-page lumia-qr-workspace"><div className="lumia-qr-primary">
+        <section className="lumia-qr-source">
+            <header className="lumia-qr-source-header">
                 <Bool
                     size="small"
                     value={action.current.option.is_show}
@@ -109,7 +109,7 @@ export default function Generate() {
         />
     </div>
     {action.current.option.is_show ? (
-        <div className="ctool-page-option" style={{ marginTop: 5 }}>
+        <div className="lumia-page-option" style={{ marginTop: 5 }}>
             <Tabs
                 value={action.current.option.tab}
                 onChange={value => {

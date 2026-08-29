@@ -61,7 +61,7 @@ export default function ToObject({
     };
 
     return (
-        <HeightResize row="1-250px" className="ctool-json-object-workspace">{({ height }: { height: number }) => (
+        <HeightResize row="1-250px" className="lumia-json-object-workspace">{({ height }: { height: number }) => (
             <>
                 <Editor value={output} height={height} lang={lang} />
                 <Card height={height} title={getDisplayName(lang)} padding="5px 10px">

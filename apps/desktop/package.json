@@ -1,5 +1,5 @@
 {
-    "name": "ctool-desktop",
+    "name": "lumiatool-desktop",
     "private": true,
     "scripts": {
         "tauri": "tauri",
@@ -36,7 +36,7 @@
         "csso": "^5.0.5",
         "csv-parse": "^5.3.3",
         "csv-stringify": "^6.2.3",
-        "ctool-config": "workspace:*",
+        "lumiatool-config": "workspace:*",
         "dayjs": "catalog:",
         "decode-uri-component": "^0.4.0",
         "ext-list": "^4.0.0",

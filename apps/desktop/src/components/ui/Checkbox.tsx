@@ -119,7 +119,7 @@ function Checkbox<T extends CheckboxItem = CheckboxItem>({
     return (
         <Align
             {...restProps}
-            className={className ? `ctool-checkbox ${className}` : "ctool-checkbox"}
+            className={className ? `lumia-checkbox ${className}` : "lumia-checkbox"}
             direction={direction}
         >
             {listKeys.map((key) => (

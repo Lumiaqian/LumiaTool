@@ -1,5 +1,5 @@
 /* Tool.vue */
-.ctool-global {
+.lumia-global {
     height: 100vh;
     display: grid;
     grid-template-columns: 1fr;
@@ -7,7 +7,7 @@
 }
 
 /* block/Common.vue */
-.ctool-common-tool-draggable {
+.lumia-common-tool-draggable {
     display: grid;
     grid-template-columns: repeat(auto-fill, 125px);
     gap: 5px;
@@ -15,7 +15,7 @@
     min-height: 40px;
 }
 
-.ctool-common-chip {
+.lumia-common-chip {
     box-sizing: border-box;
     width: 125px;
     min-height: 32px;
@@ -30,17 +30,17 @@
     -webkit-app-region: no-drag;
 }
 
-.ctool-common-chip:hover {
+.lumia-common-chip:hover {
     border-color: var(--lumia-primary);
     color: var(--lumia-primary);
 }
 
-.ctool-common-chip:active {
+.lumia-common-chip:active {
     cursor: grabbing;
 }
 
 /* block/Content.vue */
-.ctool-content {
+.lumia-content {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
@@ -48,24 +48,24 @@
     overflow: hidden;
 }
 
-.ctool-main-tool {
+.lumia-main-tool {
     width: 100%;
     height: 100%;
 }
 
-.ctool-row {
+.lumia-row {
     display: grid;
     gap: 5px;
     min-width: 0;
 }
 
-.ctool-row > * {
+.lumia-row > * {
     min-width: 0;
 }
 
 
 /* block/Search.vue */
-.ctool-search-block {
+.lumia-search-block {
     z-index: 99;
     position: fixed;
     top: 28px;
@@ -84,7 +84,7 @@
     padding: 5px 0 0;
 }
 
-.ctool-search-block li {
+.lumia-search-block li {
     cursor: pointer;
     list-style: none;
     width: 100%;
@@ -94,41 +94,41 @@
     margin-bottom: 0;
 }
 
-.ctool-search-block li.ctool-search-active {
+.lumia-search-block li.lumia-search-active {
     background-color: var(--dropdown-hover-background-color);
 }
 
 /* block/Setting.vue */
-.ctool-setting {
+.lumia-setting {
     display: grid;
     grid-template-columns: 112px minmax(0, 1fr);
     gap: 12px 20px;
     width: min(720px, 100%);
 }
 
-.ctool-setting > span {
+.lumia-setting > span {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    color: var(--ctool-color-secondary);
+    color: var(--lumia-color-secondary);
     font-size: 13px;
     font-weight: 500;
 }
 
 
 /* components/Display.vue */
-.ctool-display {
+.lumia-display {
     position: relative;
     display: block;
     width: 100%;
 }
 
-.ctool-display .ctool-display-extra {
+.lumia-display .lumia-display-extra {
     display: inline-flex;
     align-items: center;
 }
 
-.ctool-display-toggle {
+.lumia-display-toggle {
     cursor: pointer !important;
     height: 100%;
     width: 24px;
@@ -136,28 +136,28 @@
     align-items: center;
 }
 
-.ctool-display .ctool-display-extra-right .ctool-display-toggle {
+.lumia-display .lumia-display-extra-right .lumia-display-toggle {
     justify-content: right;
 }
 
-.ctool-display .ctool-display-extra-left .ctool-display-toggle {
+.lumia-display .lumia-display-extra-left .lumia-display-toggle {
     justify-content: left;
 }
 
-.ctool-display
-    :is(.ctool-display-extra-hide.ctool-display-extra-right, .ctool-display-extra-show.ctool-display-extra-left)
-    .ctool-display-toggle
-    .ctool-icon {
+.lumia-display
+    :is(.lumia-display-extra-hide.lumia-display-extra-right, .lumia-display-extra-show.lumia-display-extra-left)
+    .lumia-display-toggle
+    .lumia-icon {
     transform: rotate(180deg);
 }
 
-.ctool-display .ctool-display-extra-hide .ctool-display-toggle {
+.lumia-display .lumia-display-extra-hide .lumia-display-toggle {
     width: unset;
     height: unset;
 }
 
 /* components/ExtendPage.vue */
-.ctool-extend-page {
+.lumia-extend-page {
     position: fixed;
     box-sizing: border-box;
     padding: 5px;
@@ -169,7 +169,7 @@
     overflow-y: auto;
 }
 
-.ctool-extend-page-close {
+.lumia-extend-page-close {
     --close-width: 80px;
     position: fixed;
     bottom: 3px;
@@ -178,22 +178,22 @@
     display: inline-flex;
 }
 
-.ctool-extend-page-enter-active, .ctool-extend-page-leave-active {
+.lumia-extend-page-enter-active, .lumia-extend-page-leave-active {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.ctool-extend-page-enter-from, .ctool-extend-page-leave-to {
+.lumia-extend-page-enter-from, .lumia-extend-page-leave-to {
     transform: translateY(-100%);
     opacity: 0;
 }
 
 /* components/HeightResize.vue */
-.ctool-height-resize {
+.lumia-height-resize {
     width: 100%;
 }
 
 /* components/Message.vue */
-.ctool-message {
+.lumia-message {
     --position-top: 150px;
     position: fixed;
     top: var(--position-top);
@@ -202,7 +202,7 @@
     z-index: 10000;
 }
 
-.ctool-message-block {
+.lumia-message-block {
     display: flex;
     gap: 5px;
     align-items: center;
@@ -210,83 +210,83 @@
     max-width: calc(100vw - 3rem);
     font-size: .875rem;
     line-height: 1rem;
-    color: var(--ctool-message-color);
-    background-color: var(--ctool-message-background-color);
-    border: 1px solid var(--ctool-message-border-color);
+    color: var(--lumia-message-color);
+    background-color: var(--lumia-message-background-color);
+    border: 1px solid var(--lumia-message-border-color);
     border-radius: var(--border-radius);
     padding: .85rem 1.2rem;
 }
 
-.ctool-message-block .ctool-message-content {
+.lumia-message-block .lumia-message-content {
     max-height: calc(100vh - 6rem);
     line-height: 24px;
     overflow-y: auto;
 }
 
-.ctool-message pre, .ctool-message pre > code {
+.lumia-message pre, .lumia-message pre > code {
     color: currentColor;
     background-color: transparent;
 }
 
-.ctool-message-success {
-    --ctool-message-color: var(--ctool-primary);
-    --ctool-message-border-color: #e1f3d8;
-    --ctool-message-background-color: #edfcf7;
+.lumia-message-success {
+    --lumia-message-color: var(--lumia-primary);
+    --lumia-message-border-color: #e1f3d8;
+    --lumia-message-background-color: #edfcf7;
 }
 
-[data-theme="dark"] .ctool-message-success {
-    --ctool-message-border-color: #25371c;
-    --ctool-message-background-color: #002421;
+[data-theme="dark"] .lumia-message-success {
+    --lumia-message-border-color: #25371c;
+    --lumia-message-background-color: #002421;
 }
 
-.ctool-message-error {
-    --ctool-message-color: #f56c6c;
-    --ctool-message-border-color: #fde2e2;
-    --ctool-message-background-color: #fef0f0;
+.lumia-message-error {
+    --lumia-message-color: #f56c6c;
+    --lumia-message-border-color: #fde2e2;
+    --lumia-message-background-color: #fef0f0;
 }
 
-[data-theme="dark"] .ctool-message-error {
-    --ctool-message-border-color: #412626;
-    --ctool-message-background-color: #2b1d1d;
+[data-theme="dark"] .lumia-message-error {
+    --lumia-message-border-color: #412626;
+    --lumia-message-background-color: #2b1d1d;
 }
 
-.ctool-message-info {
-    --ctool-message-color: #909399;
-    --ctool-message-border-color: #e9e9eb;
-    --ctool-message-background-color: #f4f4f5;
+.lumia-message-info {
+    --lumia-message-color: #909399;
+    --lumia-message-border-color: #e9e9eb;
+    --lumia-message-background-color: #f4f4f5;
 }
 
-[data-theme="dark"] .ctool-message-info {
-    --ctool-message-color: #909399;
-    --ctool-message-border-color: #2d2d2f;
-    --ctool-message-background-color: #202121;
+[data-theme="dark"] .lumia-message-info {
+    --lumia-message-color: #909399;
+    --lumia-message-border-color: #2d2d2f;
+    --lumia-message-background-color: #202121;
 }
 
-.ctool-message-enter-active, .ctool-message-leave-active {
+.lumia-message-enter-active, .lumia-message-leave-active {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.ctool-message-enter-from, .ctool-message-leave-to {
+.lumia-message-enter-from, .lumia-message-leave-to {
     transform: translateY(-100%);
     opacity: 0;
 }
 
 /* components/Modal.vue */
-.ctool-modal {
-    --ctool-modal-margin: 1rem;
+.lumia-modal {
+    --lumia-modal-margin: 1rem;
 }
 
-dialog.ctool-modal {
+dialog.lumia-modal {
     backdrop-filter: unset;
     background-color: transparent;
     -webkit-backdrop-filter: unset;
 }
 
-.ctool-modal article {
+.lumia-modal article {
     width: 400px;
 }
 
-.ctool-modal header {
+.lumia-modal header {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
@@ -294,123 +294,123 @@ dialog.ctool-modal {
     padding: .6rem 1rem;
 }
 
-.ctool-modal main {
-    margin: var(--ctool-modal-margin);
+.lumia-modal main {
+    margin: var(--lumia-modal-margin);
 }
 
-.ctool-modal footer {
+.lumia-modal footer {
     padding: .6rem 1rem;
 }
 
-dialog.ctool-modal article {
+dialog.lumia-modal article {
     overflow: unset;
 }
 
-.ctool-modal-enter-active, .ctool-modal-leave-active {
+.lumia-modal-enter-active, .lumia-modal-leave-active {
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.ctool-modal-enter-from, .ctool-modal-leave-to {
+.lumia-modal-enter-from, .lumia-modal-leave-to {
     transform: translateY(-100%);
     opacity: 0;
 }
 
 /* components/editor/Diff.vue */
-.ctool-code-diff {
-    border-color: var(--ctool-border-color);
+.lumia-code-diff {
+    border-color: var(--lumia-border-color);
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
     overflow: hidden;
-    background: var(--ctool-block-content-bg-color);
+    background: var(--lumia-block-content-bg-color);
 }
 
-.ctool-code-diff-disable-border {
+.lumia-code-diff-disable-border {
     border: 0;
 }
 
-.ctool-code-diff .ctool-display-extra-bottom-right {
+.lumia-code-diff .lumia-display-extra-bottom-right {
     right: 12px;
     bottom: 10px;
     gap: 4px;
     padding: 5px;
-    border: 1px solid color-mix(in srgb, var(--ctool-border-color) 78%, transparent);
+    border: 1px solid color-mix(in srgb, var(--lumia-border-color) 78%, transparent);
     border-radius: 12px;
-    background: color-mix(in srgb, var(--ctool-elevated-background) 90%, transparent);
+    background: color-mix(in srgb, var(--lumia-elevated-background) 90%, transparent);
     box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
     backdrop-filter: blur(20px) saturate(1.35);
     -webkit-backdrop-filter: blur(20px) saturate(1.35);
 }
 
-.ctool-code-diff .ctool-diff-toolbar {
+.lumia-code-diff .lumia-diff-toolbar {
     flex-wrap: nowrap !important;
     align-items: center !important;
     gap: 6px !important;
 }
 
-.ctool-diff-navigation {
+.lumia-diff-navigation {
     display: inline-grid;
     grid-template-columns: 28px 64px 28px;
     align-items: center;
     min-width: 120px;
     height: 28px;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--ctool-border-color) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--lumia-border-color) 72%, transparent);
     border-radius: 8px;
-    background: color-mix(in srgb, var(--ctool-form-element-background-color) 88%, transparent);
+    background: color-mix(in srgb, var(--lumia-form-element-background-color) 88%, transparent);
 }
 
-.ctool-diff-navigation button {
+.lumia-diff-navigation button {
     width: 28px;
     height: 28px;
     padding: 0;
     border: 0;
     border-radius: 0;
     background: transparent;
-    color: var(--ctool-color-secondary);
+    color: var(--lumia-color-secondary);
     text-align: center;
 }
 
-.ctool-diff-navigation button:not(:disabled):hover {
-    color: var(--ctool-primary);
-    background: var(--ctool-hover-background);
+.lumia-diff-navigation button:not(:disabled):hover {
+    color: var(--lumia-primary);
+    background: var(--lumia-hover-background);
 }
 
-.ctool-diff-navigation button:disabled {
+.lumia-diff-navigation button:disabled {
     opacity: .35;
 }
 
-.ctool-diff-navigation output {
+.lumia-diff-navigation output {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    border-inline: 1px solid color-mix(in srgb, var(--ctool-border-color) 58%, transparent);
-    color: var(--ctool-color-secondary);
+    border-inline: 1px solid color-mix(in srgb, var(--lumia-border-color) 58%, transparent);
+    color: var(--lumia-color-secondary);
     font-variant-numeric: tabular-nums;
 }
 
 /* components/editor/Editor.vue */
-.ctool-code-editor {
-    border-color: var(--ctool-border-color);
+.lumia-code-editor {
+    border-color: var(--lumia-border-color);
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
     overflow: hidden;
-    background: var(--ctool-block-content-bg-color);
+    background: var(--lumia-block-content-bg-color);
 }
 
-.ctool-code-editor-disable-border.ctool-code-editor {
+.lumia-code-editor-disable-border.lumia-code-editor {
     border: none;
 }
 
 /* components/serialize/SerializeOutput.vue */
-.ctool-serialize-output-disabled-border .ctool-code-editor .cm-editor {
+.lumia-serialize-output-disabled-border .lumia-code-editor .cm-editor {
     border-width: 0px
 }
 
 /* components/ui/Bool.vue */
-.ctool-bool {
+.lumia-bool {
     --height: 2;
     --font-size: 0.875;
     display: inline-flex;
@@ -421,162 +421,162 @@ dialog.ctool-modal article {
     cursor: pointer;
 }
 
-.ctool-bool[data-disabled="y"][data-border="y"] label {
+.lumia-bool[data-disabled="y"][data-border="y"] label {
     color: unset;
 }
 
-.ctool-bool:hover, .ctool-bool[data-checked="y"] {
-    --color: var(--ctool-primary);
+.lumia-bool:hover, .lumia-bool[data-checked="y"] {
+    --color: var(--lumia-primary);
 }
 
-.ctool-bool input {
+.lumia-bool input {
     --border-width: 1px !important;
     border-radius: 0;
 }
 
-.ctool-bool input:hover {
-    --border-color: var(--ctool-primary);
+.lumia-bool input:hover {
+    --border-color: var(--lumia-primary);
 }
 
-.ctool-bool[data-disabled="y"] input[type="checkbox"] {
+.lumia-bool[data-disabled="y"] input[type="checkbox"] {
     --background-color: var(--form-element-disabled-background-color);
 }
 
-.ctool-bool label {
+.lumia-bool label {
     cursor: pointer;
     font-size: calc(1rem * var(--font-size));
     color: var(--color);
 
 }
 
-.ctool-bool[data-border="y"] {
-    border: 1px solid var(--ctool-border-color);
+.lumia-bool[data-border="y"] {
+    border: 1px solid var(--lumia-border-color);
     padding: 0 calc(.8rem * var(--font-size));
     border-radius: var(--border-radius);
-    background-color: var(--ctool-background-color);
+    background-color: var(--lumia-background-color);
 }
 
-.ctool-bool[data-border="y"][data-checked="y"]:not([data-disabled="y"]), .ctool-bool[data-border="y"]:hover {
-    border: 1px solid var(--ctool-primary);
+.lumia-bool[data-border="y"][data-checked="y"]:not([data-disabled="y"]), .lumia-bool[data-border="y"]:hover {
+    border: 1px solid var(--lumia-primary);
 }
 
-.ctool-bool[data-size="small"] {
+.lumia-bool[data-size="small"] {
     --font-size: 0.75;
     --height: 1.5;
 }
 
-.ctool-bool[data-size="large"] {
+.lumia-bool[data-size="large"] {
     --font-size: 1;
     --height: 2.5;
 }
 
-.ctool-bool input {
+.lumia-bool input {
     height: calc(1rem * var(--font-size));
     width: calc(1rem * var(--font-size));
 }
 
 /* components/ui/Button.vue */
-.ctool-button {
+.lumia-button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     width: auto;
-    height: var(--ctool-form-item-height);
-    padding: 0 calc(var(--ctool-form-font-size) * 0.7);
-    font-size: var(--ctool-form-font-size);
+    height: var(--lumia-form-item-height);
+    padding: 0 calc(var(--lumia-form-font-size) * 0.7);
+    font-size: var(--lumia-form-font-size);
 }
-.ctool-button::before {
+.lumia-button::before {
     --spacing:1rem;
 }
 
-.ctool-button[data-type="general"] {
-    --background-color: var(--ctool-form-element-background-color);
-    --border-color: var(--ctool-border-color);
+.lumia-button[data-type="general"] {
+    --background-color: var(--lumia-form-element-background-color);
+    --border-color: var(--lumia-border-color);
     --color: var(--color);
 }
 
-.ctool-button[data-type="general"]:is([aria-current],:hover,:active,:focus) {
-    --border-color: var(--ctool-primary);
-    --color: var(--ctool-primary);
+.lumia-button[data-type="general"]:is([aria-current],:hover,:active,:focus) {
+    --border-color: var(--lumia-primary);
+    --color: var(--lumia-primary);
 }
 
-.ctool-button[data-type="dotted"] {
-    --background-color: var(--ctool-form-element-background-color);
-    --border-color: var(--ctool-border-color);
+.lumia-button[data-type="dotted"] {
+    --background-color: var(--lumia-form-element-background-color);
+    --border-color: var(--lumia-border-color);
     --color: var(--color);
     border-style: dashed;
 }
-.ctool-button[data-type="dotted"]:is([aria-current],:hover,:active,:focus) {
-    --border-color: var(--ctool-primary);
-    --color: var(--ctool-primary);
+.lumia-button[data-type="dotted"]:is([aria-current],:hover,:active,:focus) {
+    --border-color: var(--lumia-primary);
+    --color: var(--lumia-primary);
 }
 
-.ctool-button[data-type="danger"] {
+.lumia-button[data-type="danger"] {
     --background-color: color-mix(in srgb, var(--lumia-danger) 12%, transparent);
     --border-color: color-mix(in srgb, var(--lumia-danger) 28%, transparent);
     --color: var(--lumia-danger);
 }
 
-.ctool-button[data-type="danger"]:is([aria-current],:hover,:active,:focus) {
+.lumia-button[data-type="danger"]:is([aria-current],:hover,:active,:focus) {
     --background-color: color-mix(in srgb, var(--lumia-danger) 22%, transparent);
     --border-color: var(--lumia-danger);
     --color: var(--lumia-danger);
 }
 
 /* components/ui/Card.vue */
-.ctool-card {
+.lumia-card {
     width: 100%;
-    background-color: var(--ctool-block-content-bg-color);
-    border: 1px solid var(--ctool-border-color);
+    background-color: var(--lumia-block-content-bg-color);
+    border: 1px solid var(--lumia-border-color);
     border-radius: 8px;
     display: grid;
     grid-template-rows: auto minmax(0px, 1fr);
     height: auto;
 }
 
-.ctool-card-header {
+.lumia-card-header {
     padding: 0 8px 0 12px;
-    background-color: var(--ctool-block-title-bg-color);
-    border-bottom: 1px solid var(--ctool-border-color);
+    background-color: var(--lumia-block-title-bg-color);
+    border-bottom: 1px solid var(--lumia-border-color);
     display: flex;
     height: 2.35rem;
     justify-content: space-between;
     align-items: center;
 }
 
-.ctool-card-title, .ctool-card-extra {
+.lumia-card-title, .lumia-card-extra {
     font-size: .875rem;
 }
 
-.ctool-card-body {
+.lumia-card-body {
     overflow-y: auto;
 }
 
 /* components/ui/Color.vue */
-.ctool-color {
+.lumia-color {
     position: relative;
-    --height: var(--ctool-form-item-height);
+    --height: var(--lumia-form-item-height);
     --form-element-spacing-vertical: .3rem;
     --form-element-spacing-horizontal: .3rem;
-    --ctool-color-left-padding: 0px;
+    --lumia-color-left-padding: 0px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--ctool-form-font-size);
+    font-size: var(--lumia-form-font-size);
 }
 
-.ctool-color input[type="color"] {
-    width: calc(var(--ctool-color-left-padding) + var(--height));
+.lumia-color input[type="color"] {
+    width: calc(var(--lumia-color-left-padding) + var(--height));
     height: calc(var(--height));
-    padding-left: calc(var(--ctool-color-left-padding) + var(--form-element-spacing-horizontal)) !important;
+    padding-left: calc(var(--lumia-color-left-padding) + var(--form-element-spacing-horizontal)) !important;
     cursor: pointer;
 }
 
 
-.ctool-color-prepend {
+.lumia-color-prepend {
     border-right: var(--border-width) solid var(--form-element-border-color);
-    background-color: var(--ctool-block-title-bg-color);
-    color: var(--ctool-info-color);
+    background-color: var(--lumia-block-title-bg-color);
+    color: var(--lumia-info-color);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -584,14 +584,14 @@ dialog.ctool-modal article {
     height: calc(var(--height) - var(--border-width) * 2) !important;
 }
 
-.ctool-color-left {
+.lumia-color-left {
     left: 2px;
     position: absolute;
     top: 1px;
 }
 
 /* components/ui/Icon.vue */
-.ctool-icon {
+.lumia-icon {
     --font-size: 1rem;
     fill: currentColor;
     width: var(--font-size);
@@ -603,184 +603,184 @@ dialog.ctool-modal article {
     transition-duration: .15s;
 }
 
-.ctool-icon-reverse {
+.lumia-icon-reverse {
     color: var(--background-color)
 }
 
-.ctool-icon-hover {
+.lumia-icon-hover {
     cursor: pointer !important;
 }
 
-.ctool-icon-hover:hover,.ctool-icon-highlight {
+.lumia-icon-hover:hover,.lumia-icon-highlight {
     color: var(--primary)
 }
 
 /* components/ui/Input.vue */
-.ctool-input {
-    --height: var(--ctool-form-item-height);
-    --ctool-input-left-padding: 0px;
-    --ctool-input-right-padding: 0px;
-    --ctool-input-prepend-padding: 0.4rem;
-    --ctool-input-append-padding: 0.4rem;
+.lumia-input {
+    --height: var(--lumia-form-item-height);
+    --lumia-input-left-padding: 0px;
+    --lumia-input-right-padding: 0px;
+    --lumia-input-prepend-padding: 0.4rem;
+    --lumia-input-append-padding: 0.4rem;
     --form-element-spacing-vertical: 0.0625rem;
     --form-element-spacing-horizontal: 0.4rem;
     position: relative;
     display: inline-flex;
     box-sizing: border-box;
     width: 100%;
-    font-size: var(--ctool-form-font-size);
+    font-size: var(--lumia-form-font-size);
 }
 
-.ctool-input :is(.ctool-input-append, .ctool-input-prepend):has(.ctool-select, .ctool-button) {
-    --ctool-input-prepend-padding: 0;
-    --ctool-input-append-padding: 0;
+.lumia-input :is(.lumia-input-append, .lumia-input-prepend):has(.lumia-select, .lumia-button) {
+    --lumia-input-prepend-padding: 0;
+    --lumia-input-append-padding: 0;
 }
 
-.ctool-input[data-size="small"] {
+.lumia-input[data-size="small"] {
     --form-element-spacing-vertical: 0rem;
 }
 
-.ctool-input[data-size="large"] {
+.lumia-input[data-size="large"] {
     --form-element-spacing-vertical: 0.25rem;
 }
 
-.ctool-input > input {
-    font-size: var(--ctool-form-font-size);
+.lumia-input > input {
+    font-size: var(--lumia-form-font-size);
     box-sizing: border-box;
-    padding-left: calc(var(--ctool-input-left-padding) + var(--form-element-spacing-horizontal)) !important;
-    padding-right: calc(var(--ctool-input-right-padding) + var(--form-element-spacing-horizontal)) !important;
+    padding-left: calc(var(--lumia-input-left-padding) + var(--form-element-spacing-horizontal)) !important;
+    padding-right: calc(var(--lumia-input-right-padding) + var(--form-element-spacing-horizontal)) !important;
     height: calc(var(--height)) !important;
 }
 
-.ctool-input-append,
-.ctool-input-suffix,
-.ctool-input-prepend,
-.ctool-input-prefix {
+.lumia-input-append,
+.lumia-input-suffix,
+.lumia-input-prepend,
+.lumia-input-prefix {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: calc(var(--height) - var(--border-width) * 2) !important;
 }
 
-.ctool-input-append,
-.ctool-input-prepend {
-    background-color: var(--ctool-block-title-bg-color);
-    color: var(--ctool-info-color);
+.lumia-input-append,
+.lumia-input-prepend {
+    background-color: var(--lumia-block-title-bg-color);
+    color: var(--lumia-info-color);
 }
 
-.ctool-input-prepend {
-    padding: 0 var(--ctool-input-prepend-padding);
+.lumia-input-prepend {
+    padding: 0 var(--lumia-input-prepend-padding);
     border-right: var(--border-width) solid var(--form-element-border-color);
 }
 
-.ctool-input-append {
-    padding: 0 var(--ctool-input-append-padding);
+.lumia-input-append {
+    padding: 0 var(--lumia-input-append-padding);
     border-left: var(--border-width) solid var(--form-element-border-color);
 }
 
-.ctool-input-prefix {
+.lumia-input-prefix {
     padding-right: 0;
 }
 
-.ctool-input-suffix {
+.lumia-input-suffix {
     padding-left: 0;
 }
 
-.ctool-input-suffix,
-.ctool-input-prefix {
+.lumia-input-suffix,
+.lumia-input-prefix {
     color: var(--form-element-placeholder-color);
     padding: 0 0.4rem;
 }
 
-.ctool-input-left,
-.ctool-input-right {
+.lumia-input-left,
+.lumia-input-right {
     position: absolute;
     top: 1px;
 }
 
-.ctool-input-left {
+.lumia-input-left {
     left: 2px;
 }
 
-.ctool-input-right {
+.lumia-input-right {
     right: 2px;
 }
 
-:is(.ctool-input-append, .ctool-input-prepend) :is(.ctool-select, .ctool-button) {
-    --height: calc(var(--ctool-form-item-height) - 2px);
+:is(.lumia-input-append, .lumia-input-prepend) :is(.lumia-select, .lumia-button) {
+    --height: calc(var(--lumia-form-item-height) - 2px);
     --border-width: 0px;
 }
 
 /* components/ui/InputNumber.vue */
-.ctool-input input[type="number"] {
+.lumia-input input[type="number"] {
     text-align: center;
 }
 
 /* components/ui/Link.vue */
-.ctool-link {
+.lumia-link {
     cursor: pointer;
 }
 
-.ctool-link[data-type="default"] {
-    --primary: var(--ctool-color-primary);
+.lumia-link[data-type="default"] {
+    --primary: var(--lumia-color-primary);
 }
 
 /* components/ui/Radio.vue */
-.ctool-radio {
+.lumia-radio {
     display: inline-block;
 }
 
-.ctool-radio .ctool-button:not(:first-of-type,:last-of-type) {
+.lumia-radio .lumia-button:not(:first-of-type,:last-of-type) {
     border-radius: 0;
 }
 
-.ctool-radio .ctool-button:not(:last-child) {
+.lumia-radio .lumia-button:not(:last-child) {
     margin-right: -1px;
 }
 
-.ctool-radio .ctool-button:is(:active,:focus,:hover) {
+.lumia-radio .lumia-button:is(:active,:focus,:hover) {
     z-index: 1;
 }
 
-.ctool-radio .ctool-button:first-of-type {
+.lumia-radio .lumia-button:first-of-type {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.ctool-radio .ctool-button:last-of-type {
+.lumia-radio .lumia-button:last-of-type {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
 /* components/ui/Select.vue */
-.ctool-select {
-    --ctool-select-menu-width: 1px;
+.lumia-select {
+    --lumia-select-menu-width: 1px;
     --form-element-spacing-vertical: 0.0625rem;
     --form-element-spacing-horizontal: 0.4rem;
     --text-align: unset;
-    --ctool-select-left-padding: 0px;
-    --ctool-select-menu-top: unset;
-    --ctool-select-menu-right: unset;
-    --ctool-select-menu-left: unset;
-    --ctool-select-menu-bottom: unset;
+    --lumia-select-left-padding: 0px;
+    --lumia-select-menu-top: unset;
+    --lumia-select-menu-right: unset;
+    --lumia-select-menu-left: unset;
+    --lumia-select-menu-bottom: unset;
 
     position: relative;
     display: inline-flex;
-    --height: var(--ctool-form-item-height);
+    --height: var(--lumia-form-item-height);
     width: auto;
     height: var(--height);
-    font-size: var(--ctool-form-font-size);
+    font-size: var(--lumia-form-font-size);
 }
 
-.ctool-select[data-disabled="y"] {
+.lumia-select[data-disabled="y"] {
     --border-color: var(--form-element-disabled-border-color);
 }
 
-.ctool-select details {
+.lumia-select details {
     width: 100%;
 }
 
-.ctool-select details .ctool-select-summary[role="button"] {
+.lumia-select details .lumia-select-summary[role="button"] {
     height: 100%;
     width: 100%;
     display: inline-grid;
@@ -789,129 +789,129 @@ dialog.ctool-modal article {
     text-align: var(--text-align);
     padding-top: 0;
     padding-bottom: 0;
-    font-size: var(--ctool-form-font-size);
-    padding-left: calc(var(--ctool-select-left-padding) + var(--form-element-spacing-horizontal)) !important;
+    font-size: var(--lumia-form-font-size);
+    padding-left: calc(var(--lumia-select-left-padding) + var(--form-element-spacing-horizontal)) !important;
     padding-right: var(--form-element-spacing-horizontal);
 }
 
-.ctool-select ul[role="listbox"] {
-    --ctool-form-font-size: 0.875rem;
+.lumia-select ul[role="listbox"] {
+    --lumia-form-font-size: 0.875rem;
     --form-element-spacing-vertical: 0.8rem;
     --form-element-spacing-horizontal: 0.9rem;
     z-index: 10010;
     box-sizing: border-box;
-    font-size: var(--ctool-form-font-size);
-    min-width: calc(var(--ctool-select-menu-width));
+    font-size: var(--lumia-form-font-size);
+    min-width: calc(var(--lumia-select-menu-width));
     max-height: 12rem;
     margin: 4px 0 0;
     padding: 4px;
     overflow-y: auto;
-    border: 1px solid var(--ctool-border-color);
-    border-radius: var(--ctool-radius-md);
-    background: var(--ctool-dropdown-background-color);
-    box-shadow: var(--ctool-shadow);
+    border: 1px solid var(--lumia-border-color);
+    border-radius: var(--lumia-radius-md);
+    background: var(--lumia-dropdown-background-color);
+    box-shadow: var(--lumia-shadow);
     position: fixed;
-    top: var(--ctool-select-menu-top);
-    right: var(--ctool-select-menu-right);
-    left: var(--ctool-select-menu-left);
-    bottom: var(--ctool-select-menu-bottom);
+    top: var(--lumia-select-menu-top);
+    right: var(--lumia-select-menu-right);
+    left: var(--lumia-select-menu-left);
+    bottom: var(--lumia-select-menu-bottom);
 }
 
-.ctool-select ul[role="listbox"] li {
+.lumia-select ul[role="listbox"] li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.ctool-select ul[role="listbox"].ctool-select-option-hidden {
+.lumia-select ul[role="listbox"].lumia-select-option-hidden {
     right: -100000px;
 }
 
-.ctool-select details[role="list"] .ctool-select-summary + ul li a {
+.lumia-select details[role="list"] .lumia-select-summary + ul li a {
     overflow: unset;
     text-overflow: unset;
     cursor: pointer;
 }
 
-.ctool-select[data-type="general"] details .ctool-select-summary {
-    --background-color: var(--ctool-background-color);
-    --border-color: var(--ctool-border-color);
-    --color: var(--ctool-color-primary);
+.lumia-select[data-type="general"] details .lumia-select-summary {
+    --background-color: var(--lumia-background-color);
+    --border-color: var(--lumia-border-color);
+    --color: var(--lumia-color-primary);
 }
 
-.ctool-select[data-type="general"] details .ctool-select-summary:is([aria-current], :hover, :active, :focus) {
-    --border-color: var(--ctool-primary);
-    --color: var(--ctool-primary);
+.lumia-select[data-type="general"] details .lumia-select-summary:is([aria-current], :hover, :active, :focus) {
+    --border-color: var(--lumia-primary);
+    --color: var(--lumia-primary);
 }
 
-.ctool-select[data-type="general"] details .ctool-select-summary[role="button"]::after {
+.lumia-select[data-type="general"] details .lumia-select-summary[role="button"]::after {
     background-image: var(--icon-chevron);
 }
 
-.ctool-select details[role="list"] .ctool-select-summary::after {
+.lumia-select details[role="list"] .lumia-select-summary::after {
     margin-inline-start: 0.2rem;
 }
 
-.ctool-select .ctool-select-left {
+.lumia-select .lumia-select-left {
     position: absolute;
     top: 1px;
     left: 2px;
 }
 
-.ctool-select .ctool-select-prepend {
+.lumia-select .lumia-select-prepend {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0 0.4rem;
     height: calc(var(--height) - var(--border-width) * 2) !important;
-    background-color: var(--ctool-block-title-bg-color);
-    color: var(--ctool-info-color);
+    background-color: var(--lumia-block-title-bg-color);
+    color: var(--lumia-info-color);
     border-right: var(--border-width) solid var(--form-element-border-color);
 }
 
-.ctool-select details[role="list"][open] .ctool-select-summary::after {
+.lumia-select details[role="list"][open] .lumia-select-summary::after {
     transform: rotate(180deg);
 }
 
 /* components/ui/Table.vue */
-.ctool-table {
-    --ctool-table-border-width: 0;
+.lumia-table {
+    --lumia-table-border-width: 0;
     height: auto;
     width: 100%;
-    border: var(--ctool-table-border-width) solid var(--ctool-border-color);
+    border: var(--lumia-table-border-width) solid var(--lumia-border-color);
     overflow-y: auto;
     --font-size:.875rem;
 }
 
-.ctool-table table {
+.lumia-table table {
     height: 100%;
     width: 100%;
     margin-bottom: 0;
     position: relative;
 }
 
-.ctool-table th, .ctool-table td {
+.lumia-table th, .lumia-table td {
     padding: .4rem .8rem;
 }
 
-.ctool-table th {
+.lumia-table th {
     position: sticky;
     top: 0;
-    background-color: var(--ctool-block-title-bg-color);
+    background-color: var(--lumia-block-title-bg-color);
 }
 
-.ctool-table table[role=grid] tbody tr:hover {
+.lumia-table table[role=grid] tbody tr:hover {
     background-color: var(--primary-focus);
 }
 
-.ctool-table table tbody tr:last-child td {
+.lumia-table table tbody tr:last-child td {
     border-bottom: none;
 }
 
 /* components/ui/Tabs.vue */
-.ctool-tabs {
-    background-color: var(--ctool-block-content-bg-color);
-    border: 1px solid var(--ctool-border-color);
+.lumia-tabs {
+    background-color: var(--lumia-block-content-bg-color);
+    border: 1px solid var(--lumia-border-color);
     border-radius: var(--border-radius);
     width: 100%;
     display: grid;
@@ -919,96 +919,96 @@ dialog.ctool-modal article {
     height: auto;
 }
 
-.ctool-tabs-header {
-    background-color: var(--ctool-block-title-bg-color);
+.lumia-tabs-header {
+    background-color: var(--lumia-block-title-bg-color);
     height: 2.2rem;
     display: grid;
     grid-template-columns: auto minmax(0px, 1fr);
 }
 
-.ctool-tabs-header-fill {
+.lumia-tabs-header-fill {
     height: 100%;
-    border-bottom: 1px solid var(--ctool-border-color);
+    border-bottom: 1px solid var(--lumia-border-color);
     display: flex;
     justify-content: right;
     align-items: center;
     padding-right: 10px;
 }
 
-.ctool-tabs-header-item > span {
+.lumia-tabs-header-item > span {
     height: 100%;
     display: inline-flex;
     padding: 0 .9rem;
-    border-bottom: 1px solid var(--ctool-border-color);
+    border-bottom: 1px solid var(--lumia-border-color);
     font-size: .875rem;
     align-items: center;
     justify-content: center;
-    color: var(--ctool-color-secondary);
+    color: var(--lumia-color-secondary);
     font-weight: 500;
     cursor: pointer;
 }
 
-.ctool-tabs-header-item > span.ctool-tabs-current {
-    border-right: 1px solid var(--ctool-border-color);
-    border-left: 1px solid var(--ctool-border-color);
+.lumia-tabs-header-item > span.lumia-tabs-current {
+    border-right: 1px solid var(--lumia-border-color);
+    border-left: 1px solid var(--lumia-border-color);
     border-bottom: none;
-    color: var(--ctool-primary);
+    color: var(--lumia-primary);
 }
 
-.ctool-tabs-header-item > span.ctool-tabs-current:first-child {
+.lumia-tabs-header-item > span.lumia-tabs-current:first-child {
     border-left: none;
 }
 
-.ctool-tabs-header-item > span:hover {
-    color: var(--ctool-primary);
+.lumia-tabs-header-item > span:hover {
+    color: var(--lumia-primary);
 }
 
-.ctool-tabs-current-0 > *:not(:nth-child(1)) {
+.lumia-tabs-current-0 > *:not(:nth-child(1)) {
     display: none !important;
 }
 
-.ctool-tabs-current-1 > *:not(:nth-child(2)) {
+.lumia-tabs-current-1 > *:not(:nth-child(2)) {
     display: none !important;
 }
 
-.ctool-tabs-current-2 > *:not(:nth-child(3)) {
+.lumia-tabs-current-2 > *:not(:nth-child(3)) {
     display: none !important;
 }
 
-.ctool-tabs-current-3 > *:not(:nth-child(4)) {
+.lumia-tabs-current-3 > *:not(:nth-child(4)) {
     display: none !important;
 }
 
-.ctool-tabs-current-4 > *:not(:nth-child(5)) {
+.lumia-tabs-current-4 > *:not(:nth-child(5)) {
     display: none !important;
 }
 
-.ctool-tabs-current-5 > *:not(:nth-child(6)) {
+.lumia-tabs-current-5 > *:not(:nth-child(6)) {
     display: none !important;
 }
 
-.ctool-tabs-current-6 > *:not(:nth-child(7)) {
+.lumia-tabs-current-6 > *:not(:nth-child(7)) {
     display: none !important;
 }
 
-.ctool-tabs-current-7 > *:not(:nth-child(8)) {
+.lumia-tabs-current-7 > *:not(:nth-child(8)) {
     display: none !important;
 }
 
 /* components/ui/Textarea.vue */
-.ctool-textarea {
+.lumia-textarea {
     width: 100%;
     height: 100%;
     --form-element-spacing-vertical: 5px;
     --form-element-spacing-horizontal: 10px;
 }
 
-.ctool-textarea textarea {
+.lumia-textarea textarea {
     height: 100%;
 }
 
 /* components/ui/UploadFile.vue */
-.ctool-upload {
+.lumia-upload {
     display: inline-flex;
 }
 
@@ -1029,34 +1029,34 @@ dialog.ctool-modal article {
 }
 
 /* tools/ipcalc/Item.vue */
-.ctool-ipcalc-item {
+.lumia-ipcalc-item {
     display: inline-block;
     cursor: pointer;
     padding: 5px 16px;
     font-size: .875rem;
 }
-.ctool-ipcalc-item:hover{
+.lumia-ipcalc-item:hover{
     background-color: var(--primary-focus);
 }
-.ctool-ipcalc-item-title {
+.lumia-ipcalc-item-title {
     line-height: 14px;
     font-size: .75rem;
-    color: var(--ctool-placeholder-text-color);
+    color: var(--lumia-placeholder-text-color);
 }
 
-.ctool-ipcalc-item-value {
+.lumia-ipcalc-item-value {
     line-height: 18px;
 }
 
 /* tools/unit/Unit.vue */
-.ctool-unit-all {
+.lumia-unit-all {
     display: grid;
     grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
     width: 100%;
     font-size: .875rem;
 }
 
-.ctool-unit-all > div {
+.lumia-unit-all > div {
     cursor: pointer;
     padding: 7px 16px;
     display: flex;
@@ -1064,58 +1064,58 @@ dialog.ctool-modal article {
     align-items: center;
 }
 
-.ctool-unit-all > div:hover {
+.lumia-unit-all > div:hover {
     background-color: var(--primary-focus);
 }
 
-.ctool-unit-all > div > span:last-child {
-    color: var(--ctool-placeholder-text-color);
+.lumia-unit-all > div > span:last-child {
+    color: var(--lumia-placeholder-text-color);
     font-size: .75rem;
 }
 
-.ctool-unit-simple-value {
+.lumia-unit-simple-value {
     font-size: 2rem;
     font-weight: 500;
     cursor: pointer;
     color: #ed4014;
 }
 
-.ctool-unit-simple-title {
+.lumia-unit-simple-title {
     font-size: 1.2rem;
-    color: var(--ctool-placeholder-text-color);
+    color: var(--lumia-placeholder-text-color);
 }
 
 /* tools/websocket/Websocket.vue */
-.ctool-websocket-status.ctool-websocket-status-close {
-    background-color: var(--ctool-contrast);
+.lumia-websocket-status.lumia-websocket-status-close {
+    background-color: var(--lumia-contrast);
 }
 
-.ctool-websocket-status.ctool-websocket-status-open {
-    background-color: var(--ctool-primary);
+.lumia-websocket-status.lumia-websocket-status-open {
+    background-color: var(--lumia-primary);
 }
 
-.ctool-websocket-status.ctool-websocket-status-connecting {
+.lumia-websocket-status.lumia-websocket-status-connecting {
     background-color: #ff9900;
 }
 
-.ctool-websocket-status {
+.lumia-websocket-status {
     border-radius: 50%;
     height: 7px;
     width: 7px;
     display: inline-block
 }
 
-.ctool-websocket-logs-content {
+.lumia-websocket-logs-content {
     padding: 5px 10px;
     word-wrap: break-word;
     white-space: normal;
 }
 
-.ctool-websocket-logs-item {
+.lumia-websocket-logs-item {
     width: 100%;
 }
 
-.ctool-websocket-logs-top {
+.lumia-websocket-logs-top {
     display: flex;
     padding: 0 5px;
     justify-content: space-between;
@@ -1123,83 +1123,83 @@ dialog.ctool-modal article {
     line-height: 1.5rem;
 }
 
-.ctool-websocket-logs-time {
+.lumia-websocket-logs-time {
     display: inline-flex;
     font-size: .75rem;
     color: #8d9095;
 }
 
-.ctool-websocket-logs-type {
+.lumia-websocket-logs-type {
     display: inline-flex;
     font-size: .75rem;
     text-align: center;
 }
 
-.ctool-websocket-logs-type-accept {
-    color: var(--ctool-primary);
+.lumia-websocket-logs-type-accept {
+    color: var(--lumia-primary);
 }
 
-.ctool-websocket-logs-type-send {
-    color: var(--ctool-contrast);
+.lumia-websocket-logs-type-send {
+    color: var(--lumia-contrast);
 }
 
-.ctool-layout-desktop .ctool-code-editor,
-.ctool-layout-desktop .ctool-code-diff {
-    border-color: var(--ctool-border-color);
-    border-radius: var(--ctool-radius-md);
-    background: var(--ctool-block-content-bg-color);
+.lumia-layout-desktop .lumia-code-editor,
+.lumia-layout-desktop .lumia-code-diff {
+    border-color: var(--lumia-border-color);
+    border-radius: var(--lumia-radius-md);
+    background: var(--lumia-block-content-bg-color);
 }
 
-.ctool-layout-desktop .ctool-main-tool > .ctool-height-resize > .ctool-code-diff {
-    border: 1px solid var(--ctool-border-color);
-    border-radius: var(--ctool-radius-md);
+.lumia-layout-desktop .lumia-main-tool > .lumia-height-resize > .lumia-code-diff {
+    border: 1px solid var(--lumia-border-color);
+    border-radius: var(--lumia-radius-md);
 }
 
-.ctool-layout-desktop :is(input, select, textarea) {
-    border-radius: var(--ctool-radius-sm);
+.lumia-layout-desktop :is(input, select, textarea) {
+    border-radius: var(--lumia-radius-sm);
 }
 
-.ctool-layout-desktop :is(input, textarea, summary[role="button"]):focus-visible {
+.lumia-layout-desktop :is(input, textarea, summary[role="button"]):focus-visible {
     outline: 0;
-    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+    box-shadow: 0 0 0 3px var(--lumia-primary-focus);
 }
 
-.ctool-code-diff .ctool-display-extra-bottom-right {
+.lumia-code-diff .lumia-display-extra-bottom-right {
     padding: 5px;
-    border-color: color-mix(in srgb, var(--ctool-border-color) 92%, transparent);
+    border-color: color-mix(in srgb, var(--lumia-border-color) 92%, transparent);
     border-radius: 12px;
-    background: color-mix(in srgb, var(--ctool-elevated-background) 94%, transparent);
+    background: color-mix(in srgb, var(--lumia-elevated-background) 94%, transparent);
     box-shadow: 0 8px 30px rgba(0, 0, 0, .16);
 }
 
-.ctool-display-toggle {
+.lumia-display-toggle {
     width: 26px;
     min-width: 26px;
     height: 28px;
     padding: 0;
     border: 0;
-    border-radius: var(--ctool-radius-sm);
-    color: var(--ctool-color-secondary);
+    border-radius: var(--lumia-radius-sm);
+    color: var(--lumia-color-secondary);
     background: transparent;
 }
 
-.ctool-display-toggle:hover {
-    color: var(--ctool-color-primary);
-    background: var(--ctool-hover-background);
+.lumia-display-toggle:hover {
+    color: var(--lumia-color-primary);
+    background: var(--lumia-hover-background);
 }
 
-.ctool-diff-navigation {
+.lumia-diff-navigation {
     display: inline-grid;
     grid-template-columns: 28px auto 28px;
     align-items: center;
     height: 28px;
     overflow: hidden;
-    border: 1px solid var(--ctool-border-color);
-    border-radius: var(--ctool-radius-sm);
-    background: var(--ctool-block-content-bg-color);
+    border: 1px solid var(--lumia-border-color);
+    border-radius: var(--lumia-radius-sm);
+    background: var(--lumia-block-content-bg-color);
 }
 
-.ctool-diff-navigation button {
+.lumia-diff-navigation button {
     width: 28px;
     height: 28px;
     min-width: 0;
@@ -1207,22 +1207,22 @@ dialog.ctool-modal article {
     padding: 0;
     border: 0;
     border-radius: 0;
-    color: var(--ctool-color-secondary);
+    color: var(--lumia-color-secondary);
     background: transparent;
     box-shadow: none;
     font-size: 18px;
 }
 
-.ctool-diff-navigation button:hover:not(:disabled) {
-    color: var(--ctool-primary);
-    background: var(--ctool-hover-background);
+.lumia-diff-navigation button:hover:not(:disabled) {
+    color: var(--lumia-primary);
+    background: var(--lumia-hover-background);
 }
 
-.ctool-diff-navigation button:disabled {
+.lumia-diff-navigation button:disabled {
     opacity: .38;
 }
 
-.ctool-diff-navigation output {
+.lumia-diff-navigation output {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1230,47 +1230,47 @@ dialog.ctool-modal article {
     min-width: 58px;
     height: 100%;
     padding-inline: 7px;
-    border-inline: 1px solid var(--ctool-border-color);
-    color: var(--ctool-color-secondary);
+    border-inline: 1px solid var(--lumia-border-color);
+    color: var(--lumia-color-secondary);
     font-size: 11px;
     font-variant-numeric: tabular-nums;
 }
 
-.ctool-diff-navigation output strong {
-    color: var(--ctool-color-primary);
+.lumia-diff-navigation output strong {
+    color: var(--lumia-color-primary);
     font-weight: 650;
 }
 
-.ctool-bool[data-border="y"] {
-    border-color: var(--ctool-border-color);
-    border-radius: var(--ctool-radius-sm);
-    background: var(--ctool-block-content-bg-color);
+.lumia-bool[data-border="y"] {
+    border-color: var(--lumia-border-color);
+    border-radius: var(--lumia-radius-sm);
+    background: var(--lumia-block-content-bg-color);
 }
 
-.ctool-bool[data-border="y"]:has(input:focus-visible) {
-    border-color: var(--ctool-primary);
-    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+.lumia-bool[data-border="y"]:has(input:focus-visible) {
+    border-color: var(--lumia-primary);
+    box-shadow: 0 0 0 3px var(--lumia-primary-focus);
 }
 
-.ctool-bool label {
+.lumia-bool label {
     display: inline-flex;
     align-items: center;
     gap: 6px;
 }
 
-.ctool-select details .ctool-select-summary[role="button"] {
-    border-radius: var(--ctool-radius-sm);
+.lumia-select details .lumia-select-summary[role="button"] {
+    border-radius: var(--lumia-radius-sm);
 }
 
-.ctool-select ul[role="listbox"] li > button {
+.lumia-select ul[role="listbox"] li > button {
     appearance: none;
     display: block;
     width: 100%;
     margin: 0;
     padding: 8px 12px;
     border: 0;
-    border-radius: var(--ctool-radius-sm);
-    color: var(--ctool-color-primary);
+    border-radius: var(--lumia-radius-sm);
+    color: var(--lumia-color-primary);
     background: transparent;
     cursor: pointer;
     font: inherit;
@@ -1278,71 +1278,71 @@ dialog.ctool-modal article {
     white-space: nowrap;
 }
 
-.ctool-select ul[role="listbox"] li > button:hover,
-.ctool-select ul[role="listbox"] li > button[aria-selected="true"] {
-    color: var(--ctool-primary);
-    background: var(--ctool-dropdown-hover-background-color);
+.lumia-select ul[role="listbox"] li > button:hover,
+.lumia-select ul[role="listbox"] li > button[aria-selected="true"] {
+    color: var(--lumia-primary);
+    background: var(--lumia-dropdown-hover-background-color);
 }
 
-.ctool-card {
-    border-radius: var(--ctool-radius-md);
+.lumia-card {
+    border-radius: var(--lumia-radius-md);
     box-shadow: 0 1px 2px rgba(0, 0, 0, .03);
 }
 
-.ctool-card-header {
+.lumia-card-header {
     min-height: 40px;
     height: auto;
     padding-inline: 12px 8px;
 }
 
-.ctool-card-title {
+.lumia-card-title {
     font-weight: 650;
 }
 
-.ctool-textarea textarea {
+.lumia-textarea textarea {
     padding: 10px 12px;
-    border-color: var(--ctool-border-color);
-    background: var(--ctool-form-element-background-color);
+    border-color: var(--lumia-border-color);
+    background: var(--lumia-form-element-background-color);
     line-height: 1.55;
     transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
 }
 
-.ctool-textarea textarea:focus {
-    border-color: color-mix(in srgb, var(--ctool-primary) 68%, var(--ctool-border-color));
-    background: var(--ctool-form-element-active-background-color);
-    box-shadow: 0 0 0 3px var(--ctool-primary-focus);
+.lumia-textarea textarea:focus {
+    border-color: color-mix(in srgb, var(--lumia-primary) 68%, var(--lumia-border-color));
+    background: var(--lumia-form-element-active-background-color);
+    box-shadow: 0 0 0 3px var(--lumia-primary-focus);
 }
 
 
-.ctool-message {
+.lumia-message {
     top: 20px;
 }
 
-.ctool-message-content {
+.lumia-message-content {
     display: flex;
     align-items: center;
     gap: 9px;
     max-width: min(520px, calc(100vw - 32px));
     padding: 10px 14px;
-    border: 1px solid var(--ctool-border-color);
-    border-radius: var(--ctool-radius-md);
-    color: var(--ctool-color-primary);
-    background: var(--ctool-elevated-background);
-    box-shadow: var(--ctool-shadow);
+    border: 1px solid var(--lumia-border-color);
+    border-radius: var(--lumia-radius-md);
+    color: var(--lumia-color-primary);
+    background: var(--lumia-elevated-background);
+    box-shadow: var(--lumia-shadow);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
-    top: var(--ctool-toolbar-height) !important;
-    left: var(--ctool-sidebar-width);
+body:has(.lumia-layout-desktop) #lumia-append .lumia-extend-page {
+    top: var(--lumia-toolbar-height) !important;
+    left: var(--lumia-sidebar-width);
     z-index: 90;
-    width: calc(100vw - var(--ctool-sidebar-width));
-    height: calc(100vh - var(--ctool-toolbar-height)) !important;
+    width: calc(100vw - var(--lumia-sidebar-width));
+    height: calc(100vh - var(--lumia-toolbar-height)) !important;
     padding: 54px 20px 20px;
-    background: var(--ctool-background-color);
+    background: var(--lumia-background-color);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close {
-    top: calc(var(--ctool-toolbar-height) + 12px);
+body:has(.lumia-layout-desktop) #lumia-append .lumia-extend-page-close {
+    top: calc(var(--lumia-toolbar-height) + 12px);
     right: 20px;
     bottom: auto;
     left: auto;
@@ -1351,60 +1351,60 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close {
 }
 
 @media (max-width: 1100px) {
-    body:has(.ctool-layout-desktop) {
-        --ctool-sidebar-width: 224px;
+    body:has(.lumia-layout-desktop) {
+        --lumia-sidebar-width: 224px;
     }
 
-    body:has(.ctool-layout-desktop .ctool-sidebar-collapsed) {
-        --ctool-sidebar-width: 72px;
+    body:has(.lumia-layout-desktop .lumia-sidebar-collapsed) {
+        --lumia-sidebar-width: 72px;
     }
 
-    .ctool-layout-desktop > .ctool-content {
+    .lumia-layout-desktop > .lumia-content {
         padding: 12px;
     }
 
-    .ctool-workbench-toolbar {
+    .lumia-workbench-toolbar {
         padding-inline: 14px;
     }
 
-    .ctool-main-tool {
+    .lumia-main-tool {
         padding: 8px;
     }
 
 }
 
 @media (max-width: 760px) {
-    body:has(.ctool-layout-desktop) {
-        --ctool-sidebar-width: 190px;
+    body:has(.lumia-layout-desktop) {
+        --lumia-sidebar-width: 190px;
     }
 
-    body:has(.ctool-layout-desktop .ctool-sidebar-collapsed) {
-        --ctool-sidebar-width: 72px;
+    body:has(.lumia-layout-desktop .lumia-sidebar-collapsed) {
+        --lumia-sidebar-width: 72px;
     }
 
-    .ctool-workbench-toolbar {
+    .lumia-workbench-toolbar {
         gap: 10px;
     }
 
-    .ctool-workbench-title h1 {
+    .lumia-workbench-title h1 {
         max-width: 34vw;
         font-size: 17px;
     }
 
-    .ctool-feature-tabs button {
+    .lumia-feature-tabs button {
         padding-inline: 9px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ctool-layout-desktop,
-    .ctool-skip-link,
-    .ctool-sidebar button,
-    .ctool-sidebar-brand-mark,
-    .ctool-sidebar-toggle,
-    .ctool-sidebar-tool-indicator,
-    .ctool-search input,
-    .ctool-textarea textarea {
+    .lumia-layout-desktop,
+    .lumia-skip-link,
+    .lumia-sidebar button,
+    .lumia-sidebar-brand-mark,
+    .lumia-sidebar-toggle,
+    .lumia-sidebar-tool-indicator,
+    .lumia-search input,
+    .lumia-textarea textarea {
         transition-duration: .01ms !important;
     }
 }

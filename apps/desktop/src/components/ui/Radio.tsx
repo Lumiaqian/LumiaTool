@@ -53,7 +53,7 @@ function Radio<T extends RadioValue = RadioValue>({
     return (
         <div
             {...restProps}
-            className={className ? `ctool-radio ${className}` : "ctool-radio"}
+            className={className ? `lumia-radio ${className}` : "lumia-radio"}
         >
             {normalizedOptions.map((item, index) => (
                 <Button

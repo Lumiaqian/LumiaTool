@@ -25,12 +25,12 @@ export default function VariableConversion() {
     }, [action, action.current.input]);
 
     return (
-        <div className="ctool-inspector-utility-family ctool-variable-page">
-            <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                <header className="ctool-inspector-family-panel-header">
+        <div className="lumia-inspector-utility-family lumia-variable-page">
+            <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                <header className="lumia-inspector-family-panel-header">
                     <strong>{$t("variableConversion_input")}</strong>
                 </header>
-                <div className="ctool-inspector-family-panel-body">
+                <div className="lumia-inspector-family-panel-body">
                     <Textarea
                         height="100%"
                         value={action.current.input}
@@ -39,16 +39,16 @@ export default function VariableConversion() {
                     />
                 </div>
             </section>
-            <div className="ctool-variable-grid">
+            <div className="lumia-variable-grid">
                 {output.map(item => (
-                    <section className="ctool-inspector-family-panel" key={item.key}>
-                        <header className="ctool-inspector-family-panel-header">
+                    <section className="lumia-inspector-family-panel" key={item.key}>
+                        <header className="lumia-inspector-family-panel-header">
                             <strong>{item.label}</strong>
                             {item.value !== "" ? (
                                 <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(item.value)} />
                             ) : null}
                         </header>
-                        <div className="ctool-inspector-family-panel-body">
+                        <div className="lumia-inspector-family-panel-body">
                             <Textarea height="100%" value={item.value} placeholder={item.label} readOnly />
                         </div>
                     </section>

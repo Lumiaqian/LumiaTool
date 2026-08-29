@@ -36,7 +36,7 @@ export default function Parse() {
     }, [action, text]);
 
     return (
-        <HeightResize reduce={5} ignore className="ctool-generator-editor-family ctool-qr-parser-page">{({ height, small, large }) => (
+        <HeightResize reduce={5} ignore className="lumia-generator-editor-family lumia-qr-parser-page">{({ height, small, large }) => (
             <>
                 <Align direction="vertical">
                     <TextInput

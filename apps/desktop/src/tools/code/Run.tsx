@@ -73,8 +73,8 @@ export default function Run() {
 
     return (
         <>
-            <div className="ctool-generator-editor-family ctool-editor-page ctool-code-runner-page">
-                <header className="ctool-editor-command-toolbar" aria-label={$t("main_ui_setting")}>
+            <div className="lumia-generator-editor-family lumia-editor-page lumia-code-runner-page">
+                <header className="lumia-editor-command-toolbar" aria-label={$t("main_ui_setting")}>
                     <Align>
                         <span>{$t("code_run_used_times", [used])}</span>
                         <Select dialog size="small" value={action.current.language} onChange={(value: string) => { action.current.language = value; }} options={languageLists.map((name) => ({ value: name, label: getDisplayName(name) }))} />
@@ -83,8 +83,8 @@ export default function Run() {
                         <Button size="small" onClick={() => setShowSetting((value) => !value)}>{$t("main_ui_setting")}</Button>
                     </Align>
                 </header>
-                <div className="ctool-editor-result-workspace">
-                    <section className="ctool-editor-surface" aria-label={$t("main_ui_input")}>
+                <div className="lumia-editor-result-workspace">
+                    <section className="lumia-editor-surface" aria-label={$t("main_ui_input")}>
                         <HeightResize>
                             {({ height }) => (
                                 <Editor
@@ -96,7 +96,7 @@ export default function Run() {
                             )}
                         </HeightResize>
                     </section>
-                    <section className="ctool-editor-result" aria-label={$t("main_ui_output")}>
+                    <section className="lumia-editor-result" aria-label={$t("main_ui_output")}>
                         <Card title={$t("main_ui_output")} padding="0">
                             <Editor lang="shell" value={action.current.result.error !== "" ? action.current.result.error : action.current.result.output}>
                                 {action.current.result.output !== "" && action.current.result.error === "" && (

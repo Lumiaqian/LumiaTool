@@ -215,8 +215,8 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
             [diffEditor.getOriginalEditor(), diffEditor.getModifiedEditor()].forEach(childEditor => {
                 new PlaceholderContentWidget($t("main_ui_input"), childEditor);
                 const contextMenu = new ContextMenu(childEditor);
-                contextMenu.setHandle("ctool_line_wrapping", () => undefined);
-                contextMenu.setHandle("ctool_line_number", () => undefined);
+                contextMenu.setHandle("lumia_line_wrapping", () => undefined);
+                contextMenu.setHandle("lumia_line_number", () => undefined);
             });
 
             diffEditor.onDidUpdateDiff(() => {
@@ -257,7 +257,7 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
     }, [lang, inline, updateEditorConfig]);
 
     const navigation = (
-        <div className="ctool-diff-navigation" role="group" aria-label={$t("component_editor_change_navigation")}>
+        <div className="lumia-diff-navigation" role="group" aria-label={$t("component_editor_change_navigation")}>
             <button
                 type="button"
                 disabled={changes === 0 || currentChange === 1}
@@ -285,7 +285,7 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
     );
 
     const extra = (
-        <Align className="ctool-diff-toolbar">
+        <Align className="lumia-diff-toolbar">
             {navigation}
             <Bool
                 value={inline}
@@ -299,12 +299,12 @@ const Diff = forwardRef<DiffRef, DiffProps>(function Diff(
     );
 
     const className = disableBorder
-        ? "ctool-code-diff ctool-code-diff-disable-border"
-        : "ctool-code-diff";
+        ? "lumia-code-diff lumia-code-diff-disable-border"
+        : "lumia-code-diff";
 
     return (
         <div className={className} style={{ height: sizeConvert(height), width: "100%" }}>
-            <div className="ctool-editor-surface-toolbar">{extra}</div>
+            <div className="lumia-editor-surface-toolbar">{extra}</div>
             <div ref={containerRef} style={{ minHeight: 0, height: "100%", width: "100%" }} />
         </div>
     );

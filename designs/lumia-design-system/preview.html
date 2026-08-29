@@ -159,7 +159,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 <p>产品主题是 <strong>真 Light / Dark</strong>。chrome（顶栏、工具架、工具条、状态栏）和 workspace（输入、结果、参数）必须同时换色。</p>
 <table><thead><tr><th>设置</th><th>行为</th></tr></thead><tbody><tr><td>Light</td><td><code>document.documentElement.dataset.theme = "light"</code></td></tr><tr><td>Dark</td><td><code>document.documentElement.dataset.theme = "dark"</code></td></tr><tr><td>Auto</td><td>跟随 <code>prefers-color-scheme</code>，写入同一个 <code>data-theme</code></td></tr></tbody></table>
 <p>禁止：</p>
-<ul><li>深色框架 + 浅色作业面的混合表面。</li><li>只换 chrome、不换 paper/editor。</li><li>在组件或 CSS 里硬编码 <code>rgba(23,20,16)</code> 一类主题色。</li><li>第三套 Studio 主题。</li><li>Pico / 旧 <code>--ctool-*</code> 蓝灰作为绘制色。</li></ul>
+<ul><li>深色框架 + 浅色作业面的混合表面。</li><li>只换 chrome、不换 paper/editor。</li><li>在组件或 CSS 里硬编码 <code>rgba(23,20,16)</code> 一类主题色。</li><li>第三套 Studio 主题。</li><li>Pico / 旧 <code>--lumia-*</code> 蓝灰作为绘制色。</li></ul>
 <p>所有可绘制颜色只来自 <code>--lumia-*</code>。Light 定义在 <code>:root, [data-theme="light"]</code>；Dark 定义在 <code>[data-theme="dark"]</code>。绘制属性必须读 token，不得在选择器里再写死 hex。</p>
 <h2>设计原则</h2>
 <ol><li><strong>任务优先</strong>：输入、结果、关键操作高于装饰。</li><li><strong>结构先于容器</strong>：Pane、Toolbar、Rack、Row、Separator。不把每块内容套成独立 Card。</li><li><strong>操作就近</strong>：复制、加载、清空、运行靠近对应值。禁止绝对定位覆盖编辑内容。</li><li><strong>状态明确</strong>：Empty / Populated / Error / Disabled / Loading 必须可区分。</li><li><strong>完整可读</strong>：长值滚动或换行，禁止用 ellipsis 藏核心数据。</li><li><strong>本地优先</strong>：状态栏反映真实处理状态，不造仪表盘指标。</li><li><strong>同类同构</strong>：新工具必须归入既有模板；不适配先改规范再加模式。</li><li><strong>主题完整</strong>：任何表面在 Light 和 Dark 下都必须可读。不得依赖「另一半主题的颜色」。</li></ol>

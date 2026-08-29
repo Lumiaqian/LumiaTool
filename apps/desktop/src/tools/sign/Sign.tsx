@@ -121,7 +121,7 @@ export default function Sign() {
             footerType="long"
             onOk={generateKeypairExecute}
         >
-            <div className="ctool-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
+            <div className="lumia-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
                 <Select
                     size="large"
                     options={generateKeypairType}
@@ -141,8 +141,8 @@ export default function Sign() {
     ), [generateKeypair, generateKeypairExecute]);
 
     return (
-        <div className="ctool-sign-page">
-            <section className="ctool-sign-toolbar" aria-label={$t("main_ui_setting")}>
+        <div className="lumia-sign-page">
+            <section className="lumia-sign-toolbar" aria-label={$t("main_ui_setting")}>
                 <Select
                     label={$t("main_ui_setting")}
                     options={algorithm}
@@ -154,15 +154,15 @@ export default function Sign() {
                     onClick={() => setGenerateKeypair(current => ({ ...current, show: true }))}
                 />
             </section>
-            <div className="ctool-sign-workspace">
-                <section className="ctool-tester-panel ctool-sign-data-panel" aria-labelledby="ctool-sign-data-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-sign-data-title">{$t("sign_sign_data")}</strong>
+            <div className="lumia-sign-workspace">
+                <section className="lumia-tester-panel lumia-sign-data-panel" aria-labelledby="lumia-sign-data-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-sign-data-title">{$t("sign_sign_data")}</strong>
                         {action.current.signData !== "" && (
                             <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.signData)} />
                         )}
                     </header>
-                    <div className="ctool-sign-editor">
+                    <div className="lumia-sign-editor">
                         <Textarea
                             height="100%"
                             value={action.current.signData}
@@ -170,7 +170,7 @@ export default function Sign() {
                             placeholder={$t("sign_sign_data")}
                         />
                     </div>
-                    <footer className="ctool-sign-actions">
+                    <footer className="lumia-sign-actions">
                         <Button
                             type="primary"
                             text={$t("sign_sign")}
@@ -179,14 +179,14 @@ export default function Sign() {
                         />
                     </footer>
                 </section>
-                <section className="ctool-tester-panel ctool-sign-result-panel" aria-labelledby="ctool-sign-result-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-sign-result-title">{$t("sign_verify_code")}</strong>
+                <section className="lumia-tester-panel lumia-sign-result-panel" aria-labelledby="lumia-sign-result-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-sign-result-title">{$t("sign_verify_code")}</strong>
                         {action.current.verifyCode !== "" && (
                             <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.verifyCode)} />
                         )}
                     </header>
-                    <div className="ctool-sign-editor">
+                    <div className="lumia-sign-editor">
                         <Textarea
                             height="100%"
                             value={action.current.verifyCode}
@@ -194,7 +194,7 @@ export default function Sign() {
                             placeholder={$t("sign_verify_code")}
                         />
                     </div>
-                    <footer className="ctool-sign-actions">
+                    <footer className="lumia-sign-actions">
                         <Button
                             type="primary"
                             text={$t("sign_verify")}
@@ -203,14 +203,14 @@ export default function Sign() {
                         />
                     </footer>
                 </section>
-                <section className="ctool-tester-panel ctool-sign-key-panel" aria-labelledby="ctool-sign-public-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-sign-public-title">{$t("sign_public_key")}</strong>
+                <section className="lumia-tester-panel lumia-sign-key-panel" aria-labelledby="lumia-sign-public-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-sign-public-title">{$t("sign_public_key")}</strong>
                         {action.current.publicKey !== "" && (
                             <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.publicKey)} />
                         )}
                     </header>
-                    <div className="ctool-sign-editor">
+                    <div className="lumia-sign-editor">
                         <Textarea
                             height="100%"
                             value={action.current.publicKey}
@@ -219,14 +219,14 @@ export default function Sign() {
                         />
                     </div>
                 </section>
-                <section className="ctool-tester-panel ctool-sign-key-panel" aria-labelledby="ctool-sign-private-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-sign-private-title">{$t("sign_private_key")}</strong>
+                <section className="lumia-tester-panel lumia-sign-key-panel" aria-labelledby="lumia-sign-private-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-sign-private-title">{$t("sign_private_key")}</strong>
                         {action.current.privateKey !== "" && (
                             <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.privateKey)} />
                         )}
                     </header>
-                    <div className="ctool-sign-editor">
+                    <div className="lumia-sign-editor">
                         <Textarea
                             height="100%"
                             value={action.current.privateKey}

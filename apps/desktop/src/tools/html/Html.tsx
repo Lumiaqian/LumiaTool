@@ -38,7 +38,7 @@ export default function Html() {
     };
 
     return (
-        <HeightResize className="ctool-transformer-page ctool-transformer-page--legacy" >{({ height }) => (
+        <HeightResize className="lumia-transformer-page lumia-transformer-page--legacy" >{({ height }) => (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
                 <Textarea
                     value={getHandle("encode")}

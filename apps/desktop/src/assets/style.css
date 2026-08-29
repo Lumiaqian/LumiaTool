@@ -13,29 +13,28 @@
 }
 
 #root, :root, html {
-    --ctool-primary: var(--lumia-primary);
-    --ctool-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
-    --ctool-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
-    --ctool-primary-soft: color-mix(in srgb, var(--lumia-primary) 11%, transparent);
-    --ctool-space-1: 4px;
-    --ctool-space-2: 8px;
-    --ctool-space-3: 12px;
-    --ctool-space-4: 16px;
-    --ctool-space-5: 24px;
-    --ctool-radius-sm: 7px;
-    --ctool-radius-md: 7px;
-    --ctool-radius-lg: 11px;
-    --ctool-contrast: var(--lumia-danger);
-    --ctool-contrast-hover: color-mix(in srgb, var(--lumia-danger) 70%, white);
-    --ctool-contrast-focus: color-mix(in srgb, var(--lumia-danger) 24%, transparent);
-    --ctool-color-primary: var(--lumia-text);
-    --ctool-color-secondary: var(--lumia-muted);
-    --ctool-form-item-height: 2rem;
-    --ctool-form-font-size: .8125rem;
-    --ctool-border-color: var(--lumia-border);
-    --ctool-placeholder-text-color: var(--lumia-muted);
-    --ctool-info-color: var(--lumia-muted);
-    --ctool-disabled-text-color: var(--lumia-muted);
+    --lumia-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --lumia-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --lumia-primary-soft: color-mix(in srgb, var(--lumia-primary) 11%, transparent);
+    --lumia-space-1: 4px;
+    --lumia-space-2: 8px;
+    --lumia-space-3: 12px;
+    --lumia-space-4: 16px;
+    --lumia-space-5: 24px;
+    --lumia-radius-sm: 7px;
+    --lumia-radius-md: 7px;
+    --lumia-radius-lg: 11px;
+    --lumia-contrast: var(--lumia-danger);
+    --lumia-contrast-hover: color-mix(in srgb, var(--lumia-danger) 70%, white);
+    --lumia-contrast-focus: color-mix(in srgb, var(--lumia-danger) 24%, transparent);
+    --lumia-color-primary: var(--lumia-text);
+    --lumia-color-secondary: var(--lumia-muted);
+    --lumia-form-item-height: 2rem;
+    --lumia-form-font-size: .8125rem;
+    --lumia-border-color: var(--lumia-border);
+    --lumia-placeholder-text-color: var(--lumia-muted);
+    --lumia-info-color: var(--lumia-muted);
+    --lumia-disabled-text-color: var(--lumia-muted);
     --primary: var(--lumia-primary);
     --primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
     --primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
@@ -57,12 +56,12 @@
 
 
 #root [data-size="small"] {
-    --ctool-form-item-height: 1.5rem;
-    --ctool-form-font-size: .75rem;
+    --lumia-form-item-height: 1.5rem;
+    --lumia-form-font-size: .75rem;
 }
 
 #root [data-size="large"] {
-    --ctool-form-item-height: 2.5rem;
+    --lumia-form-item-height: 2.5rem;
 }
 
 #root [data-disabled="y"] {
@@ -72,7 +71,7 @@
 
 input, select, textarea {
     font-size: .875rem;
-    --form-element-placeholder-color: var(--ctool-placeholder-text-color);
+    --form-element-placeholder-color: var(--lumia-placeholder-text-color);
 }
 
 body {
@@ -94,6 +93,6 @@ input:not([type=submit], [type=button], [type=reset])[disabled], select[disabled
 }
 
 
-.ctool-input-label{
+.lumia-input-label{
     font-weight: 500;
 }

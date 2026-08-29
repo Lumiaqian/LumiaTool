@@ -37,5 +37,5 @@ export default function Reference() {
         { title: $t("ascii_description"), key: "explain" },
     ], []);
 
-    return <div className="ctool-inspector-utility-family ctool-ascii-reference"><HeightResize>{({ height }) => <Table columns={columns} lists={lists} height={height} />}</HeightResize></div>;
+    return <div className="lumia-inspector-utility-family lumia-ascii-reference"><HeightResize>{({ height }) => <Table columns={columns} lists={lists} height={height} />}</HeightResize></div>;
 }

@@ -5,6 +5,6 @@ export type {
     ToolInterface,
     CategoryInterface,
     FeatureInterface
-} from "ctool-config"
+} from "lumiatool-config"
 
-export {tools, categories, commonTool, toolExists, categoryExists, getTool, getCategory} from "ctool-config"
+export {tools, categories, commonTool, toolExists, categoryExists, getTool, getCategory} from "lumiatool-config"

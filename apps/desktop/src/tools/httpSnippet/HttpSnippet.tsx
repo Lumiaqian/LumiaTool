@@ -40,8 +40,8 @@ export default function HttpSnippet() {
     const selectedOutput = output[selected] ?? output[0];
 
     return (
-        <div className="ctool-generator-editor-family ctool-editor-page ctool-http-snippet-page">
-            <header className="ctool-editor-command-toolbar ctool-http-snippet-toolbar" aria-label={$t("main_ui_setting")}>
+        <div className="lumia-generator-editor-family lumia-editor-page lumia-http-snippet-page">
+            <header className="lumia-editor-command-toolbar lumia-http-snippet-toolbar" aria-label={$t("main_ui_setting")}>
                 <Align>
                     <HelpTip
                         link={action.current.source === "cURL"
@@ -80,7 +80,7 @@ export default function HttpSnippet() {
             </header>
             <HeightResize>
                 {({ height }) => (
-                    <div className="ctool-editor-pair">
+                    <div className="lumia-editor-pair">
                         <Editor
                             lang={action.current.source === "cURL" ? "shell" : "json"}
                             value={action.current.input}

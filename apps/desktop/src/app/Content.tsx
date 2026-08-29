@@ -106,9 +106,9 @@ export default function Content() {
 
     return (
         <>
-            <main className="ctool-content" id="ctool-main-content" tabIndex={-1}>
+            <main className="lumia-content" id="lumia-main-content" tabIndex={-1}>
                 <div
-                    className={`ctool-main-tool ctool-tool-layout-${toolLayout}`}
+                    className={`lumia-main-tool lumia-tool-layout-${toolLayout}`}
                     data-tool={operate.items.tool}
                     data-feature={operate.items.feature}
                 >

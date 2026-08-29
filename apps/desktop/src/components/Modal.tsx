@@ -47,13 +47,13 @@ function useArticlePresence(show: boolean): ArticlePresence {
 
         if (show) {
             setPresent(true);
-            setTransitionClassName("ctool-modal-enter-active ctool-modal-enter-from");
+            setTransitionClassName("lumia-modal-enter-active lumia-modal-enter-from");
             frame = window.requestAnimationFrame(() => {
-                setTransitionClassName("ctool-modal-enter-active");
+                setTransitionClassName("lumia-modal-enter-active");
                 timer = setTimeout(() => setTransitionClassName(""), 300);
             });
         } else if (presentRef.current) {
-            setTransitionClassName("ctool-modal-leave-active ctool-modal-leave-to");
+            setTransitionClassName("lumia-modal-leave-active lumia-modal-leave-to");
             timer = setTimeout(() => {
                 setPresent(false);
                 setTransitionClassName("");
@@ -74,7 +74,7 @@ function useArticlePresence(show: boolean): ArticlePresence {
 }
 
 type ModalStyle = CSSProperties & {
-    "--ctool-modal-margin": string;
+    "--lumia-modal-margin": string;
 };
 
 function Modal({
@@ -150,13 +150,13 @@ function Modal({
     }, []);
 
     const modalStyle = useMemo<ModalStyle>(() => ({
-        "--ctool-modal-margin": padding,
+        "--lumia-modal-margin": padding,
         ...fallthroughStyle,
     }), [fallthroughStyle, padding]);
 
     const target = typeof document === "undefined"
         ? null
-        : document.querySelector("#ctool-append");
+        : document.querySelector("#lumia-append");
     if (!target) {
         return null;
     }
@@ -166,7 +166,7 @@ function Modal({
     return createPortal(
         <dialog
             {...rest}
-            className={["ctool-modal", className].filter(Boolean).join(" ")}
+            className={["lumia-modal", className].filter(Boolean).join(" ")}
             ref={containerRef}
             style={modalStyle}
         >

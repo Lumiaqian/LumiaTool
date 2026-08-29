@@ -2,7 +2,7 @@ import store from 'store2'
 import {StorageInterface, StorageDataStructure, StorageDataStructureInterface} from '@/types'
 
 // 当前操作实例
-const instance = store.namespace('ctool')
+const instance = store.namespace('lumia')
 
 class storage implements StorageInterface {
     get<T>(key: string): StorageDataStructure<T> {

@@ -50,32 +50,31 @@ html {
     --lumia-duration-normal: 180ms;
     --lumia-ease-standard: cubic-bezier(.2, 0, 0, 1);
 
-    --ctool-primary: var(--lumia-primary);
-    --ctool-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
-    --ctool-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
-    --ctool-color-primary-theme: var(--lumia-text);
-    --ctool-color-secondary-theme: var(--lumia-muted);
-    --ctool-border-color-theme: var(--lumia-border);
-    --ctool-placeholder-text-color-theme: var(--lumia-muted);
-    --ctool-background-color: var(--lumia-app-bg);
-    --ctool-block-title-bg-color: var(--lumia-raised-bg);
-    --ctool-block-content-bg-color: var(--lumia-paper);
-    --ctool-dropdown-background-color: var(--lumia-overlay-bg);
-    --ctool-dropdown-hover-background-color: color-mix(in srgb, var(--lumia-selection) 14%, transparent);
-    --ctool-form-element-background-color: var(--lumia-editor);
-    --ctool-form-element-active-background-color: var(--lumia-paper);
-    --ctool-sidebar-background: var(--lumia-sidebar-bg);
-    --ctool-toolbar-background: var(--lumia-raised-bg);
-    --ctool-elevated-background: var(--lumia-raised-bg);
-    --ctool-hover-background: color-mix(in srgb, var(--lumia-text) 7%, transparent);
-    --ctool-selected-background: var(--lumia-selection);
-    --ctool-panel-shadow: none;
-    --ctool-shadow: var(--lumia-shadow-overlay);
-    --ctool-radius-sm: var(--lumia-radius-control);
-    --ctool-radius-md: var(--lumia-radius-control);
-    --ctool-radius-lg: var(--lumia-radius-panel);
-    --ctool-form-item-height: var(--lumia-control-height);
-    --ctool-form-font-size: .8125rem;
+    --lumia-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --lumia-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --lumia-color-primary-theme: var(--lumia-text);
+    --lumia-color-secondary-theme: var(--lumia-muted);
+    --lumia-border-color-theme: var(--lumia-border);
+    --lumia-placeholder-text-color-theme: var(--lumia-muted);
+    --lumia-background-color: var(--lumia-app-bg);
+    --lumia-block-title-bg-color: var(--lumia-raised-bg);
+    --lumia-block-content-bg-color: var(--lumia-paper);
+    --lumia-dropdown-background-color: var(--lumia-overlay-bg);
+    --lumia-dropdown-hover-background-color: color-mix(in srgb, var(--lumia-selection) 14%, transparent);
+    --lumia-form-element-background-color: var(--lumia-editor);
+    --lumia-form-element-active-background-color: var(--lumia-paper);
+    --lumia-sidebar-background: var(--lumia-sidebar-bg);
+    --lumia-toolbar-background: var(--lumia-raised-bg);
+    --lumia-elevated-background: var(--lumia-raised-bg);
+    --lumia-hover-background: color-mix(in srgb, var(--lumia-text) 7%, transparent);
+    --lumia-selected-background: var(--lumia-selection);
+    --lumia-panel-shadow: none;
+    --lumia-shadow: var(--lumia-shadow-overlay);
+    --lumia-radius-sm: var(--lumia-radius-control);
+    --lumia-radius-md: var(--lumia-radius-control);
+    --lumia-radius-lg: var(--lumia-radius-panel);
+    --lumia-form-item-height: var(--lumia-control-height);
+    --lumia-form-font-size: .8125rem;
     --primary: var(--lumia-primary);
     --primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
     --primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
@@ -109,26 +108,25 @@ html {
     --lumia-focus: #b9a5ff;
     --lumia-shadow-overlay: 0 18px 48px rgba(0, 0, 0, .36);
 
-    --ctool-primary: var(--lumia-primary);
-    --ctool-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
-    --ctool-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
-    --ctool-color-primary-theme: var(--lumia-text);
-    --ctool-color-secondary-theme: var(--lumia-muted);
-    --ctool-border-color-theme: var(--lumia-border);
-    --ctool-placeholder-text-color-theme: var(--lumia-muted);
-    --ctool-background-color: var(--lumia-app-bg);
-    --ctool-block-title-bg-color: var(--lumia-raised-bg);
-    --ctool-block-content-bg-color: var(--lumia-paper);
-    --ctool-dropdown-background-color: var(--lumia-overlay-bg);
-    --ctool-dropdown-hover-background-color: color-mix(in srgb, var(--lumia-selection) 14%, transparent);
-    --ctool-form-element-background-color: var(--lumia-editor);
-    --ctool-form-element-active-background-color: var(--lumia-paper);
-    --ctool-sidebar-background: var(--lumia-sidebar-bg);
-    --ctool-toolbar-background: var(--lumia-raised-bg);
-    --ctool-elevated-background: var(--lumia-raised-bg);
-    --ctool-hover-background: color-mix(in srgb, var(--lumia-text) 7%, transparent);
-    --ctool-selected-background: var(--lumia-selection);
-    --ctool-shadow: var(--lumia-shadow-overlay);
+    --lumia-primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
+    --lumia-primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
+    --lumia-color-primary-theme: var(--lumia-text);
+    --lumia-color-secondary-theme: var(--lumia-muted);
+    --lumia-border-color-theme: var(--lumia-border);
+    --lumia-placeholder-text-color-theme: var(--lumia-muted);
+    --lumia-background-color: var(--lumia-app-bg);
+    --lumia-block-title-bg-color: var(--lumia-raised-bg);
+    --lumia-block-content-bg-color: var(--lumia-paper);
+    --lumia-dropdown-background-color: var(--lumia-overlay-bg);
+    --lumia-dropdown-hover-background-color: color-mix(in srgb, var(--lumia-selection) 14%, transparent);
+    --lumia-form-element-background-color: var(--lumia-editor);
+    --lumia-form-element-active-background-color: var(--lumia-paper);
+    --lumia-sidebar-background: var(--lumia-sidebar-bg);
+    --lumia-toolbar-background: var(--lumia-raised-bg);
+    --lumia-elevated-background: var(--lumia-raised-bg);
+    --lumia-hover-background: color-mix(in srgb, var(--lumia-text) 7%, transparent);
+    --lumia-selected-background: var(--lumia-selection);
+    --lumia-shadow: var(--lumia-shadow-overlay);
     --primary: var(--lumia-primary);
     --primary-hover: color-mix(in srgb, var(--lumia-primary) 82%, white);
     --primary-focus: color-mix(in srgb, var(--lumia-focus) 24%, transparent);
@@ -138,8 +136,8 @@ html {
     color-scheme: dark;
 }
 
-.ctool-layout-desktop .ctool-main-tool,
-body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
+.lumia-layout-desktop .lumia-main-tool,
+body:has(.lumia-layout-desktop) #lumia-append .lumia-extend-page {
     --background-color: var(--lumia-paper);
     --color: var(--lumia-text);
     --h1-color: var(--lumia-text);
@@ -164,20 +162,20 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
     --form-element-active-border-color: var(--lumia-primary);
     --table-border-color: var(--lumia-border);
     --table-row-stripped-background-color: color-mix(in srgb, var(--lumia-controls) 40%, var(--lumia-paper));
-    --ctool-color-primary-theme: var(--lumia-text);
-    --ctool-color-secondary-theme: var(--lumia-muted);
-    --ctool-placeholder-text-color-theme: var(--lumia-muted);
-    --ctool-border-color-theme: var(--lumia-border);
-    --ctool-block-content-bg-color: var(--lumia-paper);
-    --ctool-block-title-bg-color: var(--lumia-raised-bg);
-    --ctool-form-element-background-color: var(--lumia-editor);
-    --ctool-form-element-active-background-color: var(--lumia-paper);
-    --ctool-elevated-background: var(--lumia-paper);
+    --lumia-color-primary-theme: var(--lumia-text);
+    --lumia-color-secondary-theme: var(--lumia-muted);
+    --lumia-placeholder-text-color-theme: var(--lumia-muted);
+    --lumia-border-color-theme: var(--lumia-border);
+    --lumia-block-content-bg-color: var(--lumia-paper);
+    --lumia-block-title-bg-color: var(--lumia-raised-bg);
+    --lumia-form-element-background-color: var(--lumia-editor);
+    --lumia-form-element-active-background-color: var(--lumia-paper);
+    --lumia-elevated-background: var(--lumia-paper);
     color: var(--lumia-text);
     background: var(--lumia-paper);
 }
 
-.ctool-layout-desktop :is(button, input, textarea, select, a):focus-visible {
+.lumia-layout-desktop :is(button, input, textarea, select, a):focus-visible {
     outline: 2px solid var(--lumia-focus);
     outline-offset: 2px;
 }

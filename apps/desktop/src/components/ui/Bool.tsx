@@ -19,11 +19,11 @@ export default function Bool({
     label = "",
     onChange,
 }: BoolProps) {
-    const [key] = useState(() => `ctool-bool-key-${uuid()}`);
+    const [key] = useState(() => `lumia-bool-key-${uuid()}`);
 
     return (
         <div
-            className="ctool-bool"
+            className="lumia-bool"
             data-size={size}
             data-border={border ? "y" : "n"}
             data-checked={value ? "y" : "n"}

@@ -36,7 +36,7 @@ function DockerCompose() {
     }, [action, input]);
 
     return (
-        <div className="ctool-generator-editor-family ctool-editor-page ctool-docker-compose-page">
+        <div className="lumia-generator-editor-family lumia-editor-page lumia-docker-compose-page">
         <HeightResize row="1-1">
             {({ height }) => (
                 <>

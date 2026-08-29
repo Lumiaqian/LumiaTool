@@ -11,10 +11,10 @@ type Props = {
 
 export default function Option({ name = "", value = "", onSelect, children }: Props) {
     return (
-        <div className="ctool-crontab-generate-layout" onClick={() => onSelect?.(name)}>
+        <div className="lumia-crontab-generate-layout" onClick={() => onSelect?.(name)}>
             {value === name
                 ? <Icon hover size={14} color="var(--primary)" name="checked" />
-                : <Icon hover size={14} color="var(--ctool-border-color)" name="unchecked" />}
+                : <Icon hover size={14} color="var(--lumia-border-color)" name="unchecked" />}
             <span>{$t(`crontab_generate_${name}`)}</span>
             <div>{children}</div>
         </div>

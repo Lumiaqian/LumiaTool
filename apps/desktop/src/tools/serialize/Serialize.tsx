@@ -14,7 +14,7 @@ export default function Serialize() {
     const action = useAction(initial);
 
     return (
-        <HeightResize className="ctool-transformer-page ctool-transformer-page--legacy" style={{ gridTemplateColumns: "1fr 1fr" }}>{({ height }) => (
+        <HeightResize className="lumia-transformer-page lumia-transformer-page--legacy" style={{ gridTemplateColumns: "1fr 1fr" }}>{({ height }) => (
             <>
                 <SerializeInput
                     value={action.current.input}

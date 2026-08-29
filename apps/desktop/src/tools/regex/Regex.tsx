@@ -74,12 +74,12 @@ export default function Regex() {
     ]);
 
     return (
-        <div className="ctool-regex-page">
-            <section className="ctool-regex-toolbar" aria-label={$t("main_ui_setting")}>
-                <div className="ctool-regex-control">
-                    <header className="ctool-regex-control-header">
+        <div className="lumia-regex-page">
+            <section className="lumia-regex-toolbar" aria-label={$t("main_ui_setting")}>
+                <div className="lumia-regex-control">
+                    <header className="lumia-regex-control-header">
                         <strong>{$t("regex_expression")}</strong>
-                        <div className="ctool-regex-control-actions">
+                        <div className="lumia-regex-control-actions">
                             <Dropdown
                                 size="small"
                                 options={getCommonExpression()}
@@ -105,10 +105,10 @@ export default function Regex() {
                         placeholder={$t("regex_expression")}
                     />
                 </div>
-                <div className="ctool-regex-control">
-                    <header className="ctool-regex-control-header">
+                <div className="lumia-regex-control">
+                    <header className="lumia-regex-control-header">
                         <strong>{$t("regex_replace_content")}</strong>
-                        <label className="ctool-tester-check">
+                        <label className="lumia-tester-check">
                             <input
                                 type="checkbox"
                                 checked={action.current.is_delete}
@@ -130,12 +130,12 @@ export default function Regex() {
                     />
                 </div>
             </section>
-            <div className="ctool-regex-workspace">
-                <section className="ctool-tester-panel ctool-regex-editor-panel" aria-labelledby="ctool-regex-input-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-regex-input-title">{$t("regex_input")}</strong>
-                        <div className="ctool-tester-checks">
-                            <label className="ctool-tester-check">
+            <div className="lumia-regex-workspace">
+                <section className="lumia-tester-panel lumia-regex-editor-panel" aria-labelledby="lumia-regex-input-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-regex-input-title">{$t("regex_input")}</strong>
+                        <div className="lumia-tester-checks">
+                            <label className="lumia-tester-check">
                                 <input
                                     type="checkbox"
                                     checked={action.current.is_global}
@@ -145,7 +145,7 @@ export default function Regex() {
                                 />
                                 <span>{$t("regex_global")}</span>
                             </label>
-                            <label className="ctool-tester-check">
+                            <label className="lumia-tester-check">
                                 <input
                                     type="checkbox"
                                     checked={action.current.is_ignore_case}
@@ -157,7 +157,7 @@ export default function Regex() {
                             </label>
                         </div>
                     </header>
-                    <div className="ctool-regex-editor">
+                    <div className="lumia-regex-editor">
                         <Editor
                             height="100%"
                             value={action.current.content}
@@ -168,11 +168,11 @@ export default function Regex() {
                         />
                     </div>
                 </section>
-                <section className="ctool-tester-panel ctool-regex-editor-panel" aria-labelledby="ctool-regex-output-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-regex-output-title">{$t("main_ui_output")}</strong>
+                <section className="lumia-tester-panel lumia-regex-editor-panel" aria-labelledby="lumia-regex-output-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-regex-output-title">{$t("main_ui_output")}</strong>
                     </header>
-                    <div className="ctool-regex-editor">
+                    <div className="lumia-regex-editor">
                         <Editor height="100%" value={output} placeholder={$t("main_ui_output")} />
                     </div>
                 </section>

@@ -262,10 +262,10 @@ const Icon = ({
     ...nativeProps
 }: IconProps) => {
     const classes = [
-        "ctool-icon",
-        reverse ? "ctool-icon-reverse" : "",
-        hover ? "ctool-icon-hover" : "",
-        highlight ? "ctool-icon-highlight" : "",
+        "lumia-icon",
+        reverse ? "lumia-icon-reverse" : "",
+        hover ? "lumia-icon-hover" : "",
+        highlight ? "lumia-icon-highlight" : "",
         className ?? "",
     ].filter(Boolean).join(" ");
 

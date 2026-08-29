@@ -109,7 +109,7 @@ importers:
       csv-stringify:
         specifier: ^6.2.3
         version: 6.5.1
-      ctool-config:
+      lumiatool-config:
         specifier: workspace:*
         version: link:../../packages/config
       dayjs:

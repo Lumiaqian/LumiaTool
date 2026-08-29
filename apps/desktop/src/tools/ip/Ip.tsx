@@ -48,10 +48,10 @@ export default function Ip() {
     };
 
     return (
-        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-ip-page">
-            <div className="ctool-inspector-family-split">
-                <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                    <header className="ctool-inspector-family-panel-header">
+        <div className="lumia-inspector-utility-family lumia-inspector-family-page lumia-ip-page">
+            <div className="lumia-inspector-family-split">
+                <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                    <header className="lumia-inspector-family-panel-header">
                         <strong>{$t("main_ui_input")}</strong>
                         <Align>
                             <Button type="general" size="small" onClick={local}>
@@ -62,7 +62,7 @@ export default function Ip() {
                             </Button>
                         </Align>
                     </header>
-                    <div className="ctool-inspector-family-panel-body ctool-ip-query-form">
+                    <div className="lumia-inspector-family-panel-body lumia-ip-query-form">
                         <Input
                             value={action.current.input}
                             onChange={(value) => { action.current.input = value; }}
@@ -70,15 +70,15 @@ export default function Ip() {
                             placeholder={$t("ip_input")}
                         />
                     </div>
-                    <footer className="ctool-inspector-family-panel-footer">
+                    <footer className="lumia-inspector-family-panel-footer">
                         <Link href="https://geojs.io/">{$t("ip_info_source")}: https://geojs.io/</Link>
                     </footer>
                 </section>
-                <section className="ctool-inspector-family-panel ctool-inspector-family-result">
-                    <header className="ctool-inspector-family-panel-header">
+                <section className="lumia-inspector-family-panel lumia-inspector-family-result">
+                    <header className="lumia-inspector-family-panel-header">
                         <strong>{$t("main_ui_output")}</strong>
                     </header>
-                    <div className="ctool-inspector-family-panel-body">
+                    <div className="lumia-inspector-family-panel-body">
                         <SerializeOutput
                             allow={["json", "xml", "yaml", "toml", "php_array", "properties", "http_query_string"]}
                             content={outputSerialize}

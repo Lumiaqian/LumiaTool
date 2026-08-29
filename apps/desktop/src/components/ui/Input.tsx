@@ -121,10 +121,10 @@ function Input({
         rootStyle.width = sizeConvert(width);
     }
     if (inputLeftWidth) {
-        rootStyle["--ctool-input-left-padding"] = `${inputLeftWidth}px`;
+        rootStyle["--lumia-input-left-padding"] = `${inputLeftWidth}px`;
     }
     if (inputRightWidth) {
-        rootStyle["--ctool-input-right-padding"] = `${inputRightWidth}px`;
+        rootStyle["--lumia-input-right-padding"] = `${inputRightWidth}px`;
     }
 
     const inputStyle: CSSProperties = {
@@ -147,7 +147,7 @@ function Input({
 
     return (
         <div
-            className="ctool-input"
+            className="lumia-input"
             style={rootStyle}
             data-size={size}
             data-disabled={disabled ? "y" : "n"}
@@ -166,34 +166,34 @@ function Input({
                 type={type}
                 onChange={changeEvent => onChange?.(changeEvent.target.value)}
             />
-            <div className="ctool-input-left" ref={inputLeftRef}>
+            <div className="lumia-input-left" ref={inputLeftRef}>
                 {(hasPrefix || label !== "" || hasPrepend) && (
                     <>
                         {(hasPrepend || label !== "") && (
                             hasPrepend ? (
                                 <div
-                                    className={`ctool-input-prepend${label !== "" ? " ctool-input-label" : ""}`}
+                                    className={`lumia-input-prepend${label !== "" ? " lumia-input-label" : ""}`}
                                 >
                                     {prepend}
                                 </div>
                             ) : (
                                 <label
                                     htmlFor={inputId}
-                                    className="ctool-input-prepend ctool-input-label"
+                                    className="lumia-input-prepend lumia-input-label"
                                 >
                                     {label}
                                 </label>
                             )
                         )}
-                        {hasPrefix && <div className="ctool-input-prefix">{prefix}</div>}
+                        {hasPrefix && <div className="lumia-input-prefix">{prefix}</div>}
                     </>
                 )}
             </div>
-            <div className="ctool-input-right" ref={inputRightRef}>
+            <div className="lumia-input-right" ref={inputRightRef}>
                 {(hasSuffix || hasAppend) && (
                     <>
-                        {hasSuffix && <div className="ctool-input-suffix">{suffix}</div>}
-                        {hasAppend && <div className="ctool-input-append">{append}</div>}
+                        {hasSuffix && <div className="lumia-input-suffix">{suffix}</div>}
+                        {hasAppend && <div className="lumia-input-append">{append}</div>}
                     </>
                 )}
             </div>

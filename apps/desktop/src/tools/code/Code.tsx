@@ -94,8 +94,8 @@ export default function Code() {
     }, [action]);
 
     return (
-        <div className="ctool-generator-editor-family ctool-editor-page ctool-code-formatter-page">
-            <header className="ctool-editor-command-toolbar" aria-label={$t("main_ui_setting")}>
+        <div className="lumia-generator-editor-family lumia-editor-page lumia-code-formatter-page">
+            <header className="lumia-editor-command-toolbar" aria-label={$t("main_ui_setting")}>
                 <Align>
                     <Select
                         size="small"
@@ -130,7 +130,7 @@ export default function Code() {
                     {isEnableCompress && <Button size="small" onClick={() => void handle("compress")}>{$t("code_compress")}</Button>}
                 </Align>
             </header>
-            <section className="ctool-editor-surface">
+            <section className="lumia-editor-surface">
                 <HeightResize>
                     {({ height }) => (
                         <Editor

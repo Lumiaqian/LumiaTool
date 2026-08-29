@@ -12,11 +12,11 @@ export default defineConfig({
         HtmlConfig({
             metas: [
                 {
-                    name: "ctool-version",
+                    name: "lumia-version",
                     content: JSON.parse(readFileSync(join(__dirname, "../../package.json")).toString())["version"],
                 },
                 {
-                    name: "ctool-build-timestamp",
+                    name: "lumia-build-timestamp",
                     content: `${Date.parse(new Date().toString()) / 1000}`,
                 },
             ],

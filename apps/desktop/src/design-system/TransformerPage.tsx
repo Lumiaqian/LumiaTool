@@ -16,28 +16,28 @@ export default function TransformerPage({
     resultLabel = $t("main_ui_output"),
 }: TransformerPageProps) {
     const panes = (
-        <div className="ctool-transformer-panes">
-            <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={sourceLabel}>
-                <header className="ctool-transformer-pane-header">
+        <div className="lumia-transformer-panes">
+            <section className="lumia-transformer-pane lumia-transformer-pane--source" aria-label={sourceLabel}>
+                <header className="lumia-transformer-pane-header">
                     <strong>{sourceLabel}</strong>
                 </header>
-                <div className="ctool-transformer-pane-body">{source}</div>
+                <div className="lumia-transformer-pane-body">{source}</div>
             </section>
-            <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={resultLabel}>
-                <header className="ctool-transformer-pane-header">
+            <section className="lumia-transformer-pane lumia-transformer-pane--result" aria-label={resultLabel}>
+                <header className="lumia-transformer-pane-header">
                     <strong>{resultLabel}</strong>
                 </header>
-                <div className="ctool-transformer-pane-body">{result}</div>
+                <div className="lumia-transformer-pane-body">{result}</div>
             </section>
         </div>
     );
 
     return (
-        <div className={`ctool-transformer-page ${rack ? "ctool-transformer-page--configured" : "ctool-transformer-page--paired"}`}>
-            <div className="ctool-transformer-layout">
+        <div className={`lumia-transformer-page ${rack ? "lumia-transformer-page--configured" : "lumia-transformer-page--paired"}`}>
+            <div className="lumia-transformer-layout">
                 {rack ? (
-                    <div className="ctool-transformer-stage">
-                        <div className="ctool-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
+                    <div className="lumia-transformer-stage">
+                        <div className="lumia-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
                             {rack}
                         </div>
                         {panes}

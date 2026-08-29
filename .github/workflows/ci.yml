@@ -64,4 +64,4 @@ jobs:
             - name: Build React application
               env:
                   NODE_OPTIONS: --max-old-space-size=4096
-              run: pnpm --filter ctool-desktop run build:ui
+              run: pnpm --filter lumiatool-desktop run build:ui

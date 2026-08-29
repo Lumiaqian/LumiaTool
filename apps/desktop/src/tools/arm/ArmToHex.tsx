@@ -53,9 +53,9 @@ export default function ArmToHex() {
     };
 
     return (
-        <div className="ctool-transformer-page ctool-transformer-page--arm">
+        <div className="lumia-transformer-page lumia-transformer-page--arm">
             <Input
-                className="ctool-page-option ctool-transformer-rack"
+                className="lumia-page-option lumia-transformer-rack"
                 label="Offset (hex) 0x"
                 value={action.current.offset}
                 onChange={(value) => { action.current.offset = value; }}
@@ -69,15 +69,15 @@ export default function ArmToHex() {
                     </Align>
                 )}
             />
-            <div className="ctool-transformer-panes ctool-transformer-panes--multiple">
-                <HeightResize append={[".ctool-page-option"]}>
+            <div className="lumia-transformer-panes lumia-transformer-panes--multiple">
+                <HeightResize append={[".lumia-page-option"]}>
                     {({ height }) => (
-                        <div className="ctool-transformer-arm-layout">
-                            <Align className="ctool-transformer-pane ctool-transformer-pane--source" direction="vertical" role="region" aria-label={$t("main_ui_input")}>
+                        <div className="lumia-transformer-arm-layout">
+                            <Align className="lumia-transformer-pane lumia-transformer-pane--source" direction="vertical" role="region" aria-label={$t("main_ui_input")}>
                                 <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height={height - 37} placeholder={inputPlaceholder} />
                                 <Button type="primary" loading={loading} onClick={convert} long text={$t("arm_convert")} />
                             </Align>
-                            <Align className="ctool-transformer-pane ctool-transformer-pane--result ctool-transformer-multiple-results" direction="vertical" role="region" aria-label={$t("main_ui_output")}>
+                            <Align className="lumia-transformer-pane lumia-transformer-pane--result lumia-transformer-multiple-results" direction="vertical" role="region" aria-label={$t("main_ui_output")}>
                                 <Textarea value={result.arm64} placeholder={outputPlaceholder("ARM64")} height={(height - 10) / 3} copy={outputPlaceholder("ARM64")} />
                                 <Textarea value={result.arm} placeholder={outputPlaceholder("ARM")} height={(height - 10) / 3} copy={outputPlaceholder("ARM")} />
                                 <Textarea value={result.thumb} placeholder={outputPlaceholder("THUMB")} height={(height - 10) / 3} copy={outputPlaceholder("THUMB")} />

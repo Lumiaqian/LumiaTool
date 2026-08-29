@@ -8,11 +8,11 @@ export default function Item({ title = "", value = "" }: ItemProps) {
         <button
             type="button"
             onClick={() => { $copy(`${value}`); }}
-            className="ctool-ipcalc-item"
+            className="lumia-ipcalc-item"
             title={`${value}`}
         >
-            <span className="ctool-ipcalc-item-value">{value}</span>
-            {title !== "" && <span className="ctool-ipcalc-item-title">{title}</span>}
+            <span className="lumia-ipcalc-item-value">{value}</span>
+            {title !== "" && <span className="lumia-ipcalc-item-title">{title}</span>}
         </button>
     );
 }

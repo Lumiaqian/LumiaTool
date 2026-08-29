@@ -197,10 +197,10 @@ export default function Websocket() {
     }, []);
 
     return (
-        <div className="ctool-websocket-page" data-status={status}>
-            <section className="ctool-websocket-toolbar" aria-label={$t("websocket_connect")}>
-                <div className="ctool-websocket-connection-status" role="status" aria-live="polite">
-                    <span className={`ctool-websocket-status ctool-websocket-status-${status}`} aria-hidden="true" />
+        <div className="lumia-websocket-page" data-status={status}>
+            <section className="lumia-websocket-toolbar" aria-label={$t("websocket_connect")}>
+                <div className="lumia-websocket-connection-status" role="status" aria-live="polite">
+                    <span className={`lumia-websocket-status lumia-websocket-status-${status}`} aria-hidden="true" />
                     <span>
                         {status === "open"
                             ? $t("websocket_connect_ok")
@@ -224,7 +224,7 @@ export default function Websocket() {
                     label={$t("websocket_protocols")}
                     suffix={<HelpTip text={$t("websocket_protocols_tip")} />}
                 />
-                <label className="ctool-tester-check">
+                <label className="lumia-tester-check">
                     <input type="checkbox" checked={retry} onChange={event => setRetry(event.target.checked)} />
                     <span>{$t("websocket_reconnect")}</span>
                 </label>
@@ -239,10 +239,10 @@ export default function Websocket() {
                     />
                 )}
             </section>
-            <div className="ctool-websocket-workspace">
-                <section className="ctool-tester-panel ctool-websocket-composer" aria-labelledby="ctool-websocket-composer-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-websocket-composer-title">{$t("websocket_send_content")}</strong>
+            <div className="lumia-websocket-workspace">
+                <section className="lumia-tester-panel lumia-websocket-composer" aria-labelledby="lumia-websocket-composer-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-websocket-composer-title">{$t("websocket_send_content")}</strong>
                         <Button
                             type="primary"
                             text={$t("websocket_send")}
@@ -250,7 +250,7 @@ export default function Websocket() {
                             onClick={send}
                         />
                     </header>
-                    <div className="ctool-websocket-composer-body">
+                    <div className="lumia-websocket-composer-body">
                         <Textarea
                             height="100%"
                             value={sendContent}
@@ -259,10 +259,10 @@ export default function Websocket() {
                         />
                     </div>
                 </section>
-                <section className="ctool-tester-panel ctool-websocket-logs" aria-labelledby="ctool-websocket-log-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-websocket-log-title">{$t("websocket_log_content")}</strong>
-                        <div className="ctool-websocket-log-actions">
+                <section className="lumia-tester-panel lumia-websocket-logs" aria-labelledby="lumia-websocket-log-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-websocket-log-title">{$t("websocket_log_content")}</strong>
+                        <div className="lumia-websocket-log-actions">
                             <Button
                                 size="small"
                                 text={$t("main_ui_copy")}
@@ -276,7 +276,7 @@ export default function Websocket() {
                                 disabled={logs.length === 0}
                                 onClick={() => setLogs([])}
                             />
-                            <label className="ctool-tester-check">
+                            <label className="lumia-tester-check">
                                 <input
                                     type="checkbox"
                                     checked={action.current.keepScroll}
@@ -290,22 +290,22 @@ export default function Websocket() {
                         </div>
                     </header>
                     <div
-                        className="ctool-websocket-log-list"
+                        className="lumia-websocket-log-list"
                         ref={logListRef}
                         role="log"
                         aria-live="polite"
                     >
                         {logs.length < 1 ? (
-                            <p className="ctool-tester-empty">
+                            <p className="lumia-tester-empty">
                                 {status === "open" ? $t("websocket_send_content") : $t("websocket_connect")}
                             </p>
                         ) : (
                             logs.map((item, index) => (
                                 <article
                                     key={`${item.time}-${item.type}-${index}`}
-                                    className={`ctool-websocket-log-item is-${item.type}`}
+                                    className={`lumia-websocket-log-item is-${item.type}`}
                                 >
-                                    <header className="ctool-websocket-log-meta">
+                                    <header className="lumia-websocket-log-meta">
                                         <strong>
                                             {item.type === "send"
                                                 ? $t("websocket_client")

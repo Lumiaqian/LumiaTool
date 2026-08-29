@@ -34,7 +34,7 @@ LumiaTool 是本地优先的跨平台开发者工具箱（React + Tauri）。用
 - 只换 chrome、不换 paper/editor。
 - 在组件或 CSS 里硬编码 `rgba(23,20,16)` 一类主题色。
 - 第三套 Studio 主题。
-- Pico / 旧 `--ctool-*` 蓝灰作为绘制色。
+- Pico / 旧 `--lumia-*` 蓝灰作为绘制色。
 
 所有可绘制颜色只来自 `--lumia-*`。Light 定义在 `:root, [data-theme="light"]`；Dark 定义在 `[data-theme="dark"]`。绘制属性必须读 token，不得在选择器里再写死 hex。
 

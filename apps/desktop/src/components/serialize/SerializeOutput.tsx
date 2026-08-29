@@ -231,14 +231,14 @@ export default function SerializeOutput({
     );
 
     const className = disabledBorder
-        ? "ctool-serialize-output ctool-serialize-output-disabled-border"
-        : "ctool-serialize-output";
+        ? "lumia-serialize-output lumia-serialize-output-disabled-border"
+        : "lumia-serialize-output";
     const hasInner = ["csv", "html_table", "xml", "text"].includes(current.type);
 
     return (
         <div className={className} style={style}>
-            <div className="ctool-serialize-toolbar ctool-serialize-toolbar--top">{outerExtra}</div>
-            <div className="ctool-serialize-body">
+            <div className="lumia-serialize-toolbar lumia-serialize-toolbar--top">{outerExtra}</div>
+            <div className="lumia-serialize-body">
                 {["http_query_string", "csv"].includes(current.type) ? (
                     <Textarea value={result} placeholder={getPlaceholder} />
                 ) : (
@@ -251,7 +251,7 @@ export default function SerializeOutput({
                     />
                 )}
             </div>
-            {hasInner ? <div className="ctool-serialize-toolbar ctool-serialize-toolbar--bottom">{innerExtra}</div> : null}
+            {hasInner ? <div className="lumia-serialize-toolbar lumia-serialize-toolbar--bottom">{innerExtra}</div> : null}
         </div>
     );
 }

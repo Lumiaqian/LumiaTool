@@ -51,13 +51,13 @@ const Color = ({
 
     const style: ColorStyle = { ...nativeStyle };
     if (inputLeftWidth) {
-        style["--ctool-color-left-padding"] = `${inputLeftWidth}px`;
+        style["--lumia-color-left-padding"] = `${inputLeftWidth}px`;
     }
 
     return (
         <div
             {...nativeProps}
-            className={["ctool-color", className].filter(Boolean).join(" ")}
+            className={["lumia-color", className].filter(Boolean).join(" ")}
             data-size={size}
             style={style}
         >
@@ -67,9 +67,9 @@ const Color = ({
                 disabled={disabled}
                 onChange={(changeEvent) => onChange?.(changeEvent.currentTarget.value)}
             />
-            <div className="ctool-color-left" ref={inputLeft}>
+            <div className="lumia-color-left" ref={inputLeft}>
                 {label !== "" ? (
-                    <div className="ctool-color-prepend ctool-input-label">
+                    <div className="lumia-color-prepend lumia-input-label">
                         {label}
                     </div>
                 ) : null}

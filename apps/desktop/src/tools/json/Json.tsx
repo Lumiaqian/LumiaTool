@@ -149,7 +149,7 @@ export default function Json(): React.ReactElement {
         if (value === "zh2unicode") transformInput(util.zh2unicode);
     };
 
-    return (<div className="ctool-generator-editor-family ctool-editor-page ctool-json-editor-page ctool-json-workspace"><div>
+    return (<div className="lumia-generator-editor-family lumia-editor-page lumia-json-editor-page lumia-json-workspace"><div>
             <Tabs
                 value={action.current.tabs}
                 onChange={(value) => { action.current.tabs = value; }}
@@ -264,7 +264,7 @@ export default function Json(): React.ReactElement {
                     ))}
                 </Align>
             </Tabs>
-        <HeightResize append={[".ctool-page-option"]}>
+        <HeightResize append={[".lumia-page-option"]}>
             {({ height }: { height: number }) => (
                 <div style={layoutStyle}>
                     {action.current.expand_type === "from" && (

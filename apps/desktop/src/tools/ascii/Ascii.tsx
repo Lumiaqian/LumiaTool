@@ -34,16 +34,16 @@ export default function Ascii() {
 
     return (
         <>
-            <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-ascii-page">
-                <HeightResize className="ctool-inspector-family-fill">
+            <div className="lumia-inspector-utility-family lumia-inspector-family-page lumia-ascii-page">
+                <HeightResize className="lumia-inspector-family-fill">
                     {() => (
-                        <div className="ctool-inspector-family-split">
-                            <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                                <header className="ctool-inspector-family-panel-header">
+                        <div className="lumia-inspector-family-split">
+                            <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                                <header className="lumia-inspector-family-panel-header">
                                     <strong>{$t("ascii_input_str")}</strong>
                                     <Button size="small" onClick={() => setShowReference((current) => !current)} text={$t("main_ui_reference")} />
                                 </header>
-                                <div className="ctool-inspector-family-panel-body">
+                                <div className="lumia-inspector-family-panel-body">
                                     <Textarea
                                         value={getHandle("str")}
                                         onChange={(next) => setHandle("str", next)}
@@ -52,15 +52,15 @@ export default function Ascii() {
                                     />
                                 </div>
                             </section>
-                            <section className="ctool-inspector-family-panel ctool-inspector-family-result">
-                                <header className="ctool-inspector-family-panel-header">
+                            <section className="lumia-inspector-family-panel lumia-inspector-family-result">
+                                <header className="lumia-inspector-family-panel-header">
                                     <strong>{$t("main_ui_output")}</strong>
                                 </header>
-                                <div className="ctool-inspector-family-panel-body ctool-ascii-results">
+                                <div className="lumia-inspector-family-panel-body lumia-ascii-results">
                                     {outputTypes.map((item) => {
                                         const value = getHandle(item);
                                         return (
-                                            <section className="ctool-inspector-family-value" key={item}>
+                                            <section className="lumia-inspector-family-value" key={item}>
                                                 <header>
                                                     <strong>{$t(`ascii_input_${item}`)}</strong>
                                                     <Button size="small" type="primary" onClick={() => $copy(value)} text={$t("main_ui_copy")} />
@@ -79,7 +79,7 @@ export default function Ascii() {
                     )}
                 </HeightResize>
             </div>
-            <ExtendPage className="ctool-inspector-utility-extend ctool-ascii-reference-page" value={showReference} onChange={setShowReference}>
+            <ExtendPage className="lumia-inspector-utility-extend lumia-ascii-reference-page" value={showReference} onChange={setShowReference}>
                 <Reference />
             </ExtendPage>
         </>

@@ -51,7 +51,7 @@ export default function Schema({
     }, [ajv, json, value.exp, value.option, onSuccess]);
 
     return (
-        <HeightResize fatherHeight={height} ignore reduce={5} className="ctool-json-schema-workspace">{({ small, large }) => (
+        <HeightResize fatherHeight={height} ignore reduce={5} className="lumia-json-schema-workspace">{({ small, large }) => (
             <Align direction="horizontal" width="100%">
                 <Editor
                     value={value.exp}

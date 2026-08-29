@@ -98,9 +98,9 @@ export default function Bcrypt() {
         : `${$t("bcrypt_check")} (${action.current.check_result ? $t("bcrypt_check_result_success") : $t("bcrypt_check_result_error")})`;
 
     return (
-        <div className="ctool-bcrypt-page">
-            <section className="ctool-bcrypt-toolbar" aria-label={$t("main_ui_setting")}>
-                <div className="ctool-bcrypt-config">
+        <div className="lumia-bcrypt-page">
+            <section className="lumia-bcrypt-toolbar" aria-label={$t("main_ui_setting")}>
+                <div className="lumia-bcrypt-config">
                     <Select
                         value={action.current.rounds}
                         onChange={(value) => { action.current.rounds = value; }}
@@ -121,7 +121,7 @@ export default function Bcrypt() {
                         text={$t("bcrypt_generate")}
                     />
                 </div>
-                <div className="ctool-bcrypt-check">
+                <div className="lumia-bcrypt-check">
                     <Button
                         loading={checkLoading}
                         disabled={checkLoading || action.current.input === "" || action.current.hash === ""}
@@ -130,7 +130,7 @@ export default function Bcrypt() {
                     />
                     <output
                         className={[
-                            "ctool-bcrypt-status",
+                            "lumia-bcrypt-status",
                             action.current.check_result === null
                                 ? ""
                                 : action.current.check_result
@@ -147,15 +147,15 @@ export default function Bcrypt() {
                     </output>
                 </div>
             </section>
-            <div className="ctool-bcrypt-workspace">
-                <section className="ctool-tester-panel" aria-labelledby="ctool-bcrypt-password-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-bcrypt-password-title">{$t("bcrypt_password")}</strong>
+            <div className="lumia-bcrypt-workspace">
+                <section className="lumia-tester-panel" aria-labelledby="lumia-bcrypt-password-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-bcrypt-password-title">{$t("bcrypt_password")}</strong>
                         {action.current.input !== "" && (
                             <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.input)} />
                         )}
                     </header>
-                    <div className="ctool-bcrypt-editor">
+                    <div className="lumia-bcrypt-editor">
                         <Textarea
                             height="100%"
                             value={action.current.input}
@@ -164,14 +164,14 @@ export default function Bcrypt() {
                         />
                     </div>
                 </section>
-                <section className="ctool-tester-panel" aria-labelledby="ctool-bcrypt-hash-title">
-                    <header className="ctool-tester-panel-header">
-                        <strong id="ctool-bcrypt-hash-title">{$t("bcrypt_hash")}</strong>
+                <section className="lumia-tester-panel" aria-labelledby="lumia-bcrypt-hash-title">
+                    <header className="lumia-tester-panel-header">
+                        <strong id="lumia-bcrypt-hash-title">{$t("bcrypt_hash")}</strong>
                         {action.current.hash !== "" && (
                             <Button size="small" text={$t("main_ui_copy")} onClick={() => $copy(action.current.hash)} />
                         )}
                     </header>
-                    <div className="ctool-bcrypt-editor">
+                    <div className="lumia-bcrypt-editor">
                         <Textarea
                             height="100%"
                             value={action.current.hash}

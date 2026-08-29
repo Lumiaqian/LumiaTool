@@ -1,5 +1,5 @@
-.ctool-json-workspace,
-.ctool-qr-workspace {
+.lumia-json-workspace,
+.lumia-qr-workspace {
     width: 100%;
     height: 100%;
     min-width: 0;
@@ -7,47 +7,47 @@
     color: var(--lumia-text);
 }
 
-.ctool-json-workspace,
-.ctool-qr-workspace {
+.lumia-json-workspace,
+.lumia-qr-workspace {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.ctool-json-workspace > div:first-child,
-.ctool-json-workspace .ctool-page-option,
-.ctool-qr-workspace .ctool-page-option {
+.lumia-json-workspace > div:first-child,
+.lumia-json-workspace .lumia-page-option,
+.lumia-qr-workspace .lumia-page-option {
     flex: 0 0 auto;
 }
 
-.ctool-json-workspace > .ctool-height-resize,
-.ctool-qr-primary {
+.lumia-json-workspace > .lumia-height-resize,
+.lumia-qr-primary {
     min-height: 0;
     flex: 1;
 }
 
-.ctool-json-workspace .ctool-code-editor,
-.ctool-json-workspace .monaco-editor,
-.ctool-json-workspace textarea,
-.ctool-json-workspace input {
+.lumia-json-workspace .lumia-code-editor,
+.lumia-json-workspace .monaco-editor,
+.lumia-json-workspace textarea,
+.lumia-json-workspace input {
     border-color: var(--lumia-border);
     background-color: var(--lumia-editor);
 }
 
-.ctool-json-workspace .ctool-page-option,
-.ctool-qr-workspace .ctool-page-option {
+.lumia-json-workspace .lumia-page-option,
+.lumia-qr-workspace .lumia-page-option {
     padding: 8px 10px;
     border: 1px solid rgba(83, 97, 79, .14);
     border-radius: var(--lumia-radius-panel);
     background: var(--lumia-controls);
 }
 
-.ctool-json-workspace .ctool-page-option :is(button, input, select),
-.ctool-qr-workspace .ctool-page-option :is(button, input, select) {
+.lumia-json-workspace .lumia-page-option :is(button, input, select),
+.lumia-qr-workspace .lumia-page-option :is(button, input, select) {
     min-height: 28px;
 }
 
-.ctool-qr-primary {
+.lumia-qr-primary {
     min-height: 0;
     display: grid;
     grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
@@ -57,53 +57,53 @@
     background: var(--lumia-paper);
 }
 
-.ctool-qr-primary > * {
+.lumia-qr-primary > * {
     min-width: 0;
     min-height: 0;
     overflow: hidden;
     border: 1px solid var(--lumia-border);
     border-radius: var(--lumia-radius-panel);
 }
-.ctool-qr-primary .ctool-textarea,
-.ctool-qr-primary textarea {
+.lumia-qr-primary .lumia-textarea,
+.lumia-qr-primary textarea {
     height: 100% !important;
 }
 
 
-.ctool-qr-workspace img {
+.lumia-qr-workspace img {
     max-width: min(78%, 360px);
     max-height: 78%;
     object-fit: contain;
     filter: drop-shadow(0 8px 18px rgba(54, 44, 36, .14));
 }
 
-.ctool-layout-desktop .ctool-main-tool :is(textarea, input, select) {
+.lumia-layout-desktop .lumia-main-tool :is(textarea, input, select) {
     color: var(--lumia-text);
 }
 
-.ctool-layout-desktop .ctool-main-tool textarea {
+.lumia-layout-desktop .lumia-main-tool textarea {
     line-height: 1.7;
 }
 
-.ctool-layout-desktop .ctool-main-tool :is(button, input, select, textarea) {
+.lumia-layout-desktop .lumia-main-tool :is(button, input, select, textarea) {
     border-radius: var(--lumia-radius-control);
 }
 
-.ctool-transformer-workspace,
-.ctool-inspector-workspace {
+.lumia-transformer-workspace,
+.lumia-inspector-workspace {
     width: 100%;
     height: 100%;
     min-width: 0;
     min-height: 0;
 }
 
-.ctool-transformer-workspace > .ctool-height-resize,
-.ctool-inspector-workspace > .ctool-height-resize {
+.lumia-transformer-workspace > .lumia-height-resize,
+.lumia-inspector-workspace > .lumia-height-resize {
     height: 100% !important;
 }
 
-.ctool-transformer-workspace > .ctool-height-resize > .ctool-align,
-.ctool-inspector-workspace > .ctool-height-resize > .ctool-align {
+.lumia-transformer-workspace > .lumia-height-resize > .lumia-align,
+.lumia-inspector-workspace > .lumia-height-resize > .lumia-align {
     height: 100% !important;
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -111,8 +111,8 @@
     gap: 10px !important;
     flex-flow: initial !important;
 }
-.ctool-transformer-workspace > .ctool-height-resize > .ctool-align > *,
-.ctool-inspector-workspace > .ctool-height-resize > .ctool-align > * {
+.lumia-transformer-workspace > .lumia-height-resize > .lumia-align > *,
+.lumia-inspector-workspace > .lumia-height-resize > .lumia-align > * {
     min-width: 0;
     min-height: 0;
     overflow: hidden;
@@ -122,43 +122,43 @@
     height: 100% !important;
 }
 
-.ctool-transformer-workspace > .ctool-height-resize > .ctool-align > *:first-child,
-.ctool-inspector-workspace > .ctool-height-resize > .ctool-align > *:first-child {
+.lumia-transformer-workspace > .lumia-height-resize > .lumia-align > *:first-child,
+.lumia-inspector-workspace > .lumia-height-resize > .lumia-align > *:first-child {
     background: var(--lumia-editor);
 }
 
-.ctool-transformer-workspace .ctool-textarea,
-.ctool-transformer-workspace textarea,
-.ctool-inspector-workspace .ctool-textarea,
-.ctool-inspector-workspace textarea {
+.lumia-transformer-workspace .lumia-textarea,
+.lumia-transformer-workspace textarea,
+.lumia-inspector-workspace .lumia-textarea,
+.lumia-inspector-workspace textarea {
     height: 100% !important;
 }
 
-.ctool-inspector-workspace .ctool-display-extra {
+.lumia-inspector-workspace .lumia-display-extra {
     color: var(--lumia-muted);
     background: var(--lumia-controls);
 }
 
-.ctool-inspector-workspace [aria-checked="true"] {
+.lumia-inspector-workspace [aria-checked="true"] {
     color: var(--lumia-text);
     background: var(--lumia-control-selected);
 }
 
-.ctool-layout-desktop .ctool-main-tool button[type="button"],
-.ctool-layout-desktop .ctool-main-tool button:not([type]) {
+.lumia-layout-desktop .lumia-main-tool button[type="button"],
+.lumia-layout-desktop .lumia-main-tool button:not([type]) {
     min-height: 28px;
 }
 
 @media (max-width: 960px) {
 
-    .ctool-transformer-workspace > .ctool-height-resize > .ctool-align,
-    .ctool-inspector-workspace > .ctool-height-resize > .ctool-align {
+    .lumia-transformer-workspace > .lumia-height-resize > .lumia-align,
+    .lumia-inspector-workspace > .lumia-height-resize > .lumia-align {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, minmax(220px, 1fr));
         overflow-y: auto;
     }
 
-    .ctool-qr-primary {
+    .lumia-qr-primary {
         grid-template-columns: 1fr;
         grid-template-rows: minmax(220px, 1fr) minmax(220px, 1fr);
         overflow-y: auto;

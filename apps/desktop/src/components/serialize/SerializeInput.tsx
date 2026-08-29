@@ -288,9 +288,9 @@ export default function SerializeInput({
         ) : null;
 
     return (
-        <div className="ctool-serialize-input" style={style}>
-            {typeSelector ? <div className="ctool-serialize-toolbar ctool-serialize-toolbar--top">{typeSelector}</div> : null}
-            <div className="ctool-serialize-body">
+        <div className="lumia-serialize-input" style={style}>
+            {typeSelector ? <div className="lumia-serialize-toolbar lumia-serialize-toolbar--top">{typeSelector}</div> : null}
+            <div className="lumia-serialize-body">
                 {["http_query_string", "csv"].includes(current.type) ? (
                     <Textarea
                         value={current.value}
@@ -309,7 +309,7 @@ export default function SerializeInput({
                 )}
             </div>
             {["csv", "html_table", "properties", "xml"].includes(current.type) ? (
-                <div className="ctool-serialize-toolbar ctool-serialize-toolbar--bottom">{inputExtra}</div>
+                <div className="lumia-serialize-toolbar lumia-serialize-toolbar--bottom">{inputExtra}</div>
             ) : null}
         </div>
     );

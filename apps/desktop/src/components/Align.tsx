@@ -85,7 +85,7 @@ function Align({
     return (
         <div
             {...rest}
-            className={["ctool-align", className].filter(Boolean).join(" ")}
+            className={["lumia-align", className].filter(Boolean).join(" ")}
             style={{ ...style, ...fallthroughStyle }}
         >
             {children}

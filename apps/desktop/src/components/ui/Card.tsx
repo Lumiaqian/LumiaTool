@@ -59,17 +59,17 @@ function Card({
     return (
         <div
             {...restProps}
-            className={className ? `ctool-card ${className}` : "ctool-card"}
+            className={className ? `lumia-card ${className}` : "lumia-card"}
             style={cardStyle}
         >
             {title !== "" && (
-                <div className="ctool-card-header">
-                    <div className="ctool-card-title">{title}</div>
-                    <div className="ctool-card-extra">{extra}</div>
+                <div className="lumia-card-header">
+                    <div className="lumia-card-title">{title}</div>
+                    <div className="lumia-card-extra">{extra}</div>
                 </div>
             )}
             <div
-                className="ctool-card-body"
+                className="lumia-card-body"
                 style={{ padding: `${padding}` }}
                 ref={bodyRef}
             >

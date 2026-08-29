@@ -69,10 +69,10 @@ export default function Uuid() {
     }, [saveDependency]);
 
     return (
-        <div className="ctool-generator-editor-family ctool-generator-page ctool-uuid-generator-page">
-            <aside className="ctool-generator-options" aria-label={$t("main_ui_setting")}>
-                <Card className="ctool-page-option">
-                    <Align className="ctool-generator-option-grid">
+        <div className="lumia-generator-editor-family lumia-generator-page lumia-uuid-generator-page">
+            <aside className="lumia-generator-options" aria-label={$t("main_ui_setting")}>
+                <Card className="lumia-page-option">
+                    <Align className="lumia-generator-option-grid">
                         <InputNumber value={action.current.amount} onChange={value => { action.current.amount = value; }} label={$t("uuid_amount")} width={110} />
                         <Bool border label="ULID" value={action.current.ulid} onChange={value => { action.current.ulid = value; }} />
                         <Bool border label={$t("uuid_is_upper")} value={action.current.isUpper} onChange={value => { action.current.isUpper = value; }} />
@@ -82,7 +82,7 @@ export default function Uuid() {
                     </Align>
                 </Card>
             </aside>
-            <section className="ctool-generator-result" aria-label={$t("main_ui_output")}>
+            <section className="lumia-generator-result" aria-label={$t("main_ui_output")}>
                 <HeightResize>
                     {({ height }: { height: number }) => (
                         <SerializeOutput

@@ -32,7 +32,7 @@ function Decrypt() {
             rack={(
                 <>
                     <Select size="small" value={algName} onChange={(value) => { action.current.algName = value; }} options={algNames} />
-                    <Textarea className="ctool-transformer-rack-key" height="100%" value={key} onChange={(value) => { action.current.key = value; }} placeholder={$t("rsa_private")} />
+                    <Textarea className="lumia-transformer-rack-key" height="100%" value={key} onChange={(value) => { action.current.key = value; }} placeholder={$t("rsa_private")} />
                 </>
             )}
             source={<TextInput value={input} onChange={(value) => { action.current.input = value; }} placeholder={$t("rsa_decrypt_input")} allow={["base64", "hex"]} height="100%" />}

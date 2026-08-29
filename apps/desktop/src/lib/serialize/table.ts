@@ -2,7 +2,7 @@ import {unescape, isArray} from "lodash";
 
 const createTempElement = (innerHTML = "", type = "div", id = "") => {
     const el = document.createElement(type);
-    el.id = id ? id : `ctool-temp-${Math.ceil(Math.random() * 99999)}`
+    el.id = id ? id : `lumia-temp-${Math.ceil(Math.random() * 99999)}`
     el.style.cssText = "display:none;"
     document.body.appendChild(el);
     // 移除script标签

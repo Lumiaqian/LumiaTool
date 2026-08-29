@@ -42,15 +42,15 @@ export default function Asn1() {
     };
 
     return (
-        <div className="ctool-inspector-utility-family ctool-inspector-family-page ctool-asn1-page">
-            <HeightResize className="ctool-inspector-family-fill" ignore>
+        <div className="lumia-inspector-utility-family lumia-inspector-family-page lumia-asn1-page">
+            <HeightResize className="lumia-inspector-family-fill" ignore>
                 {() => (
-                    <div className="ctool-inspector-family-split">
-                        <section className="ctool-inspector-family-panel ctool-inspector-family-source">
-                            <header className="ctool-inspector-family-panel-header">
+                    <div className="lumia-inspector-family-split">
+                        <section className="lumia-inspector-family-panel lumia-inspector-family-source">
+                            <header className="lumia-inspector-family-panel-header">
                                 <strong>{$t("asn1_input_der_text")}</strong>
                             </header>
-                            <div className="ctool-inspector-family-panel-body">
+                            <div className="lumia-inspector-family-panel-body">
                                 <TextInput
                                     value={action.current.input}
                                     onChange={(value) => { action.current.input = value; }}
@@ -60,11 +60,11 @@ export default function Asn1() {
                                 />
                             </div>
                         </section>
-                        <section className="ctool-inspector-family-panel ctool-inspector-family-result">
-                            <header className="ctool-inspector-family-panel-header">
+                        <section className="lumia-inspector-family-panel lumia-inspector-family-result">
+                            <header className="lumia-inspector-family-panel-header">
                                 <strong>{$t("asn1_output_result")}</strong>
                             </header>
-                            <div className="ctool-inspector-family-panel-body">
+                            <div className="lumia-inspector-family-panel-body">
                                 <Editor
                                     value={action.current.output}
                                     onChange={(value) => { action.current.output = value; void format(); }}

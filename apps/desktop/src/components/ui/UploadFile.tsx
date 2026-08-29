@@ -84,7 +84,7 @@ const UploadFile = ({
     return (
         <>
             {mode.includes("button") ? (
-                <div {...nativeProps} className={["ctool-upload", nativeProps.className].filter(Boolean).join(" ")}>
+                <div {...nativeProps} className={["lumia-upload", nativeProps.className].filter(Boolean).join(" ")}>
                     <Button
                         size={size}
                         disabled={disabled}

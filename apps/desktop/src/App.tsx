@@ -40,8 +40,8 @@ export default function App() {
     }, []);
 
     return (
-        <div className="ctool-global ctool-layout-desktop">
-            <a className="ctool-skip-link" href="#ctool-main-content">
+        <div className="lumia-global lumia-layout-desktop">
+            <a className="lumia-skip-link" href="#lumia-main-content">
                 {$t("main_workbench_skip")}
             </a>
             <ComplexHeader />

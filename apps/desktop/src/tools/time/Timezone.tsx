@@ -68,11 +68,11 @@ export default function Timezone() {
 
     return (
         <>
-            <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-timezone-page">
-                <div className="ctool-utility-family-form">
+            <div className="lumia-inspector-utility-family lumia-utility-family-page lumia-timezone-page">
+                <div className="lumia-utility-family-form">
                     {Array.from({ length: 7 }, (_, i) => (
-                        <section className="ctool-utility-family-value" key={i}>
-                            <header className="ctool-utility-family-value-header">
+                        <section className="lumia-utility-family-value" key={i}>
+                            <header className="lumia-utility-family-value-header">
                                 <Select
                                     value={action.current.timezone[i]}
                                     onChange={value => { action.current.timezone[i] = value; }}
@@ -95,18 +95,18 @@ export default function Timezone() {
                     {!isValid ? (
                         <Button size={size} text={$t("time_current_time")} onClick={setCurrent} />
                     ) : (
-                        <div className="ctool-utility-family-actions">
+                        <div className="lumia-utility-family-actions">
                             <Button size={size} onClick={() => setIsMore(true)} text={$t("main_ui_more")} />
                             <Button size={size} onClick={() => { action.current.input = ""; }} text={$t("main_ui_clear")} />
                         </div>
                     )}
                 </div>
             </div>
-            <ExtendPage className="ctool-inspector-utility-extend ctool-timezone-more-page" value={isMore} onChange={setIsMore}>
-                <div className="ctool-timezone-more-grid">
+            <ExtendPage className="lumia-inspector-utility-extend lumia-timezone-more-page" value={isMore} onChange={setIsMore}>
+                <div className="lumia-timezone-more-grid">
                     {timezoneOptions.map(item => (
-                        <section className="ctool-utility-family-value" key={item.value}>
-                            <header className="ctool-utility-family-value-header">
+                        <section className="lumia-utility-family-value" key={item.value}>
+                            <header className="lumia-utility-family-value-header">
                                 <strong>{item.label}</strong>
                                 <Button
                                     size="small"

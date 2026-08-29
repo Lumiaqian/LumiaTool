@@ -15,9 +15,9 @@ const close = (container: HTMLElement) => {
 };
 
 const show = (type: MessageType, content: string, option: MessageOption = {}) => {
-    const append = document.getElementById("ctool-append") ?? document.body;
+    const append = document.getElementById("lumia-append") ?? document.body;
     const container = document.createElement("div");
-    container.className = "ctool-message";
+    container.className = "lumia-message";
     const offset = option.offset ?? 20;
     const previous = Array.from(roots.keys());
     const top = previous.reduce((value, element) => value + element.clientHeight + 10, offset);
@@ -29,7 +29,7 @@ const show = (type: MessageType, content: string, option: MessageOption = {}) =>
     const liveRole = type === "error" ? "alert" : "status";
     root.render(
         <div
-            className="ctool-message-content"
+            className="lumia-message-content"
             data-type={type}
             role={liveRole}
             aria-live={type === "error" ? "assertive" : "polite"}

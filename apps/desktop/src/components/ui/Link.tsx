@@ -36,7 +36,7 @@ function Link({
         <Tooltip content={tooltip}>
             <a
                 {...anchorProps}
-                className={["ctool-link", className].filter(Boolean).join(" ")}
+                className={["lumia-link", className].filter(Boolean).join(" ")}
                 data-type={type}
                 onClick={click}
             >

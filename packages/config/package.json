@@ -1,5 +1,5 @@
 {
-    "name": "ctool-config",
+    "name": "lumiatool-config",
     "private": true,
     "main": "./dist/index.js",
     "module": "./dist/esm/index.js",

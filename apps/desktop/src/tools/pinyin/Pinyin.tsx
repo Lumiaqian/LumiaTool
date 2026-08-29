@@ -58,10 +58,10 @@ export default function Pinyin(): React.ReactElement {
     }, [output]);
 
     return (
-        <HeightResize className="ctool-transformer-page ctool-transformer-page--legacy" reduce={10} ignore append={[".ctool-page-option"]}>{({ small, large }: { small: number; large: number }) => (
+        <HeightResize className="lumia-transformer-page lumia-transformer-page--legacy" reduce={10} ignore append={[".lumia-page-option"]}>{({ small, large }: { small: number; large: number }) => (
             <Align direction="vertical">
                 <Textarea height={small} placeholder={$t("main_ui_input")} value={action.current.input} onChange={(value) => { action.current.input = value; }} />
-                <Card className="ctool-page-option">
+                <Card className="lumia-page-option">
                     <Align horizontal="center">
                         <Radio
                             value={action.current.type}

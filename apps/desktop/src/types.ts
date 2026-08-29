@@ -13,9 +13,9 @@ export type {
     ToolRouteConfig,
     ThemeType,
     ThemeRawType,
-} from "ctool-config";
+} from "lumiatool-config";
 
-export { localesReal, locales, themes } from "ctool-config";
+export { localesReal, locales, themes } from "lumiatool-config";
 
 // 组件尺寸
 export type ComponentSizeType = "small" | "large" | "default";

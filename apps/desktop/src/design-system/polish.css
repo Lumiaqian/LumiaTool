@@ -1,26 +1,26 @@
 /* Final production detail pass. */
-.ctool-tool-layout-transformer > .ctool-height-resize > .ctool-align,
-.ctool-tool-layout-inspector > .ctool-height-resize > .ctool-align {
+.lumia-tool-layout-transformer > .lumia-height-resize > .lumia-align,
+.lumia-tool-layout-inspector > .lumia-height-resize > .lumia-align {
     height: 100% !important;
 }
 
-.ctool-tool-layout-transformer > .ctool-height-resize > .ctool-align > *,
-.ctool-tool-layout-inspector > .ctool-height-resize > .ctool-align > * {
+.lumia-tool-layout-transformer > .lumia-height-resize > .lumia-align > *,
+.lumia-tool-layout-inspector > .lumia-height-resize > .lumia-align > * {
     height: 100% !important;
 }
 
-.ctool-tool-layout-transformer :is(.ctool-textarea, .ctool-textarea > .ctool-display, textarea),
-.ctool-tool-layout-inspector :is(.ctool-textarea, .ctool-textarea > .ctool-display, textarea) {
+.lumia-tool-layout-transformer :is(.lumia-textarea, .lumia-textarea > .lumia-display, textarea),
+.lumia-tool-layout-inspector :is(.lumia-textarea, .lumia-textarea > .lumia-display, textarea) {
     height: 100% !important;
 }
-.ctool-qr-primary > .ctool-display,
-.ctool-qr-primary > .ctool-display > .ctool-display,
-.ctool-qr-primary > .ctool-display .ctool-textarea,
-.ctool-qr-primary > .ctool-display textarea {
+.lumia-qr-primary > .lumia-display,
+.lumia-qr-primary > .lumia-display > .lumia-display,
+.lumia-qr-primary > .lumia-display .lumia-textarea,
+.lumia-qr-primary > .lumia-display textarea {
     height: 100% !important;
 }
 
-.ctool-hmac-workspace {
+.lumia-hmac-workspace {
     width: 100%;
     height: 100%;
     display: grid;
@@ -28,7 +28,7 @@
     gap: 10px;
 }
 
-.ctool-hmac-workspace > .ctool-align {
+.lumia-hmac-workspace > .lumia-align {
     height: 100%;
     display: grid !important;
     grid-template-rows: auto minmax(0, 1fr);
@@ -36,8 +36,8 @@
     flex-flow: initial !important;
 }
 
-.ctool-hmac-workspace > .ctool-align > .ctool-display,
-.ctool-hmac-workspace > .ctool-height-resize {
+.lumia-hmac-workspace > .lumia-align > .lumia-display,
+.lumia-hmac-workspace > .lumia-height-resize {
     min-height: 0;
     height: 100% !important;
     overflow: hidden;
@@ -46,11 +46,11 @@
     background: var(--lumia-editor);
 }
 
-.ctool-hmac-workspace > .ctool-height-resize {
+.lumia-hmac-workspace > .lumia-height-resize {
     background: var(--lumia-paper);
 }
 
-.ctool-hmac-workspace > .ctool-height-resize > .ctool-align {
+.lumia-hmac-workspace > .lumia-height-resize > .lumia-align {
     height: 100% !important;
     display: grid !important;
     grid-template-rows: repeat(6, minmax(0, 1fr));
@@ -58,39 +58,39 @@
     flex-flow: initial !important;
 }
 
-.ctool-hmac-workspace > .ctool-height-resize .ctool-textarea {
+.lumia-hmac-workspace > .lumia-height-resize .lumia-textarea {
     height: 100% !important;
     border-bottom: 1px solid rgba(71, 57, 45, .1);
     border-radius: 0;
 }
 
-.ctool-hmac-workspace > .ctool-height-resize .ctool-textarea:last-child {
+.lumia-hmac-workspace > .lumia-height-resize .lumia-textarea:last-child {
     border-bottom: 0;
 }
 
-.ctool-hmac-workspace > .ctool-align .ctool-height-resize,
-.ctool-hmac-workspace > .ctool-align .ctool-text-input,
-.ctool-hmac-workspace > .ctool-align .ctool-textarea,
-.ctool-hmac-workspace > .ctool-align textarea {
+.lumia-hmac-workspace > .lumia-align .lumia-height-resize,
+.lumia-hmac-workspace > .lumia-align .lumia-text-input,
+.lumia-hmac-workspace > .lumia-align .lumia-textarea,
+.lumia-hmac-workspace > .lumia-align textarea {
     height: 100% !important;
 }
 
 
-.ctool-main-tool .ctool-height-resize[style*="grid-template-columns"] {
+.lumia-main-tool .lumia-height-resize[style*="grid-template-columns"] {
     display: grid !important;
     gap: 10px !important;
 }
 
-.ctool-main-tool .ctool-height-resize[style*="grid-template-columns"] > * {
+.lumia-main-tool .lumia-height-resize[style*="grid-template-columns"] > * {
     min-width: 0;
     min-height: 0;
 }
 
-.ctool-main-tool .ctool-display {
+.lumia-main-tool .lumia-display {
     position: relative;
 }
 
-.ctool-main-tool .ctool-display-extra {
+.lumia-main-tool .lumia-display-extra {
     gap: 5px;
     align-items: center;
     padding: 3px;
@@ -100,7 +100,7 @@
     backdrop-filter: blur(10px);
 }
 
-.ctool-main-tool .ctool-display-toggle {
+.lumia-main-tool .lumia-display-toggle {
     width: 22px;
     min-width: 22px;
     height: 24px;
@@ -112,12 +112,12 @@
     background: transparent;
 }
 
-.ctool-main-tool .ctool-display-toggle:hover {
+.lumia-main-tool .lumia-display-toggle:hover {
     color: var(--lumia-text);
     background: var(--lumia-border);
 }
 
-.ctool-main-tool .ctool-textarea textarea {
+.lumia-main-tool .lumia-textarea textarea {
     padding: 14px 15px;
     color: var(--lumia-text);
     border: 0;
@@ -127,33 +127,33 @@
     line-height: 1.65;
 }
 
-.ctool-main-tool .ctool-textarea textarea::placeholder {
+.lumia-main-tool .lumia-textarea textarea::placeholder {
     color: var(--lumia-muted);
 }
 
-.ctool-main-tool .ctool-textarea textarea:focus {
+.lumia-main-tool .lumia-textarea textarea:focus {
     border: 0;
     box-shadow: inset 0 0 0 2px rgba(169, 148, 255, .58);
 }
 
-.ctool-workbench-title strong {
+.lumia-workbench-title strong {
     font-size: 18px;
 }
 
 /* Extended pages behave like focused workspaces, not legacy full-page sheets. */
-body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-extend-page {
     padding: 16px 18px 18px;
     overflow: auto;
     color: var(--lumia-text);
     background: var(--lumia-app-bg);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-extend-page-close {
     top: calc(var(--lumia-topbar-height) + 18px);
     right: 26px;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close button {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-extend-page-close button {
     min-height: 30px;
     padding: 6px 10px;
     color: var(--lumia-text);
@@ -163,7 +163,7 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-extend-page-close button {
     box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-card {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-card {
     color: var(--lumia-text);
     border: 1px solid var(--lumia-border);
     border-radius: var(--lumia-radius-panel);
@@ -171,7 +171,7 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-card {
     box-shadow: none;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-card-header {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-card-header {
     min-height: 44px;
     padding: 0 12px 0 14px;
     color: var(--lumia-text);
@@ -179,37 +179,37 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-card-header {
     background: color-mix(in srgb, var(--lumia-paper) 88%, var(--lumia-control-selected));
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-card-title {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-card-title {
     font-family: Georgia, "Songti SC", serif;
     font-size: 15px;
     font-weight: 600;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-card-body {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-card-body {
     color: var(--lumia-text);
     background: var(--lumia-paper);
 }
 
 /* History table. */
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table {
     height: 100%;
     overflow: auto;
     color: var(--lumia-text);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table table {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table thead {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table thead {
     position: sticky;
     top: 0;
     z-index: 2;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table th {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table th {
     height: 38px;
     padding: 0 12px;
     color: var(--lumia-muted);
@@ -220,7 +220,7 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-table th {
     text-align: left;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table td {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table td {
     padding: 9px 12px;
     color: var(--lumia-text);
     border-bottom: 1px solid rgba(71, 57, 45, .1);
@@ -228,49 +228,49 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-table td {
     vertical-align: middle;
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table tr:hover td {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table tr:hover td {
     background: color-mix(in srgb, var(--lumia-paper) 90%, var(--lumia-control-selected));
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table textarea {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table textarea {
     min-height: 54px;
     padding: 9px 10px;
     border: 1px solid var(--lumia-border);
     background: var(--lumia-editor);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table button {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table button {
     min-height: 28px;
     color: var(--lumia-text);
     border: 1px solid var(--lumia-border);
     background: var(--lumia-paper);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-table .ctool-button[data-type="primary"] {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-table .lumia-button[data-type="primary"] {
     color: var(--lumia-on-primary);
     border-color: transparent;
     background: var(--lumia-primary);
 }
 
-body:has(.ctool-layout-desktop) #ctool-append .ctool-card-extra .ctool-button[data-type="danger"] {
+body:has(.lumia-layout-desktop) #lumia-append .lumia-card-extra .lumia-button[data-type="danger"] {
     color: var(--lumia-danger);
     border-color: color-mix(in srgb, var(--lumia-danger) 28%, transparent);
     background: color-mix(in srgb, var(--lumia-danger) 12%, transparent);
 }
 
 /* Tool catalog becomes compact, readable shelves. */
-.ctool-tools-catalog {
+.lumia-tools-catalog {
     grid-auto-rows: max-content;
     gap: 10px !important;
     padding: 42px 0 0;
 }
 
-.ctool-tools-catalog .ctool-card {
+.lumia-tools-catalog .lumia-card {
     height: auto !important;
     min-height: 96px;
 }
 
-.ctool-tools-catalog .ctool-card-body > .ctool-align {
+.lumia-tools-catalog .lumia-card-body > .lumia-align {
     display: flex !important;
     flex-flow: row wrap !important;
     align-content: flex-start;
@@ -278,7 +278,7 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-card-extra .ctool-button[da
     height: auto !important;
 }
 
-.ctool-tools-catalog .ctool-card-body button {
+.lumia-tools-catalog .lumia-card-body button {
     min-height: 30px;
     margin: 0;
     padding: 6px 10px;
@@ -289,33 +289,33 @@ body:has(.ctool-layout-desktop) #ctool-append .ctool-card-extra .ctool-button[da
     box-shadow: none;
 }
 
-.ctool-tools-catalog .ctool-card-body button:hover {
+.lumia-tools-catalog .lumia-card-body button:hover {
     color: var(--lumia-control-selected);
     border-color: rgba(239, 169, 104, .55);
     background: rgba(239, 169, 104, .22);
 }
 
 /* Empty states are quiet and centered. */
-.ctool-main-tool .ctool-exception,
-body:has(.ctool-layout-desktop) #ctool-append .ctool-exception {
+.lumia-main-tool .lumia-exception,
+body:has(.lumia-layout-desktop) #lumia-append .lumia-exception {
     color: var(--lumia-muted);
 }
 
-.ctool-main-tool .ctool-exception .ctool-icon,
-body:has(.ctool-layout-desktop) #ctool-append .ctool-exception .ctool-icon {
+.lumia-main-tool .lumia-exception .lumia-icon,
+body:has(.lumia-layout-desktop) #lumia-append .lumia-exception .lumia-icon {
     opacity: .5;
 }
 
 @media (max-width: 960px) {
-    .ctool-tools-catalog {
+    .lumia-tools-catalog {
         grid-template-columns: 1fr !important;
     }
 
-    .ctool-tools-catalog > .ctool-card:nth-child(-n + 2) {
+    .lumia-tools-catalog > .lumia-card:nth-child(-n + 2) {
         grid-column: auto;
     }
 
-    .ctool-hmac-workspace {
+    .lumia-hmac-workspace {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, minmax(300px, 1fr));
         overflow-y: auto;

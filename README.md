@@ -79,9 +79,6 @@ pnpm check
 
 问题和功能建议可以提交到 [GitHub Issues](https://github.com/Lumiaqian/LumiaTool/issues)。使用与支持方式见[支持说明](./SUPPORT.md)。
 
-## 项目沿革
-
-本项目是基于 [baiy/Ctool](https://github.com/baiy/Ctool) 的独立桌面重构，保留原项目 MIT 许可证与作者信息。产品名和仓库名已改为 LumiaTool，不再作为上游 Ctool 的官方续作。
 
 ## 许可证
 

@@ -180,7 +180,7 @@ export default function TextOutput({
         error !== "" ? (
             <Textarea value={error} readOnly />
         ) : result === "" ? (
-            <div className="ctool-text-output-empty">
+            <div className="lumia-text-output-empty">
                 <Exception />
             </div>
         ) : ["text", "base64", "hex", "hex_dump"].includes(current.type) ? (
@@ -349,11 +349,11 @@ export default function TextOutput({
 
     return (
         <div
-            className={["ctool-text-output-frame", hasFooter ? "" : "ctool-text-output-frame--bare"].filter(Boolean).join(" ")}
+            className={["lumia-text-output-frame", hasFooter ? "" : "lumia-text-output-frame--bare"].filter(Boolean).join(" ")}
             style={style}
         >
-            <div className="ctool-text-output-content">{mainContent}</div>
-            {hasFooter ? <div className="ctool-text-output-toolbar">{extra}</div> : null}
+            <div className="lumia-text-output-content">{mainContent}</div>
+            {hasFooter ? <div className="lumia-text-output-toolbar">{extra}</div> : null}
         </div>
     );
 }

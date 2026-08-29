@@ -59,10 +59,10 @@ export default function Verify() {
     }, [action, output]);
 
     return (
-        <div className="ctool-transformer-page ctool-transformer-page--configured">
-            <div className="ctool-transformer-layout">
-                <div className="ctool-transformer-stage ctool-transformer-stage--verify">
-                    <div className="ctool-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
+        <div className="lumia-transformer-page lumia-transformer-page--configured">
+            <div className="lumia-transformer-layout">
+                <div className="lumia-transformer-stage lumia-transformer-stage--verify">
+                    <div className="lumia-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
                         <Input
                             value={action.current.option.public_key}
                             onChange={(value) => { action.current.option.public_key = value; }}
@@ -75,10 +75,10 @@ export default function Verify() {
                         />
                         <HelpTip link="https://github.com/JuneAndGreen/sm-crypto" />
                     </div>
-                    <div className="ctool-transformer-panes">
-                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("sm2_source_data")}>
-                            <header className="ctool-transformer-pane-header"><strong>{$t("sm2_source_data")}</strong></header>
-                            <div className="ctool-transformer-pane-body">
+                    <div className="lumia-transformer-panes">
+                        <section className="lumia-transformer-pane lumia-transformer-pane--source" aria-label={$t("sm2_source_data")}>
+                            <header className="lumia-transformer-pane-header"><strong>{$t("sm2_source_data")}</strong></header>
+                            <div className="lumia-transformer-pane-body">
                                 <TextInput
                                     value={action.current.sourceData}
                                     onChange={(value) => { action.current.sourceData = value; }}
@@ -88,9 +88,9 @@ export default function Verify() {
                                 />
                             </div>
                         </section>
-                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("sm2_sign_value")}>
-                            <header className="ctool-transformer-pane-header"><strong>{$t("sm2_sign_value")}</strong></header>
-                            <div className="ctool-transformer-pane-body">
+                        <section className="lumia-transformer-pane lumia-transformer-pane--source" aria-label={$t("sm2_sign_value")}>
+                            <header className="lumia-transformer-pane-header"><strong>{$t("sm2_sign_value")}</strong></header>
+                            <div className="lumia-transformer-pane-body">
                                 <TextInput
                                     value={action.current.signValue}
                                     onChange={(value) => { action.current.signValue = value; }}
@@ -101,9 +101,9 @@ export default function Verify() {
                             </div>
                         </section>
                     </div>
-                    <section className="ctool-transformer-pane ctool-transformer-pane--result ctool-transformer-result-band" aria-label={$t("main_ui_output")}>
-                        <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
-                        <div className="ctool-transformer-pane-body">
+                    <section className="lumia-transformer-pane lumia-transformer-pane--result lumia-transformer-result-band" aria-label={$t("main_ui_output")}>
+                        <header className="lumia-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                        <div className="lumia-transformer-pane-body">
                             <TextOutput
                                 value={action.current.output}
                                 onChange={(value) => { action.current.output = value; }}

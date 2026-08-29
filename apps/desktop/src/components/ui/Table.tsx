@@ -22,7 +22,7 @@ type ScopedTableContent<T extends TableRow = TableRow> =
     | ((context: TableSlotContext<T>) => ReactNode);
 
 type TableStyle = CSSProperties & {
-    "--ctool-table-border-width"?: string;
+    "--lumia-table-border-width"?: string;
 };
 
 export interface TableProps<T extends TableRow = TableRow>
@@ -92,7 +92,7 @@ function Table<T extends TableRow = TableRow>({
     ...restProps
 }: TableProps<T>) {
     const tableStyle: TableStyle = {
-        ...(border ? { "--ctool-table-border-width": "1px" } : {}),
+        ...(border ? { "--lumia-table-border-width": "1px" } : {}),
         ...externalStyle,
     };
     const hasColumnSlot = column !== undefined;
@@ -101,7 +101,7 @@ function Table<T extends TableRow = TableRow>({
     return (
         <div
             {...restProps}
-            className={className ? `ctool-table ${className}` : "ctool-table"}
+            className={className ? `lumia-table ${className}` : "lumia-table"}
             style={tableStyle}
         >
             <table role="grid">

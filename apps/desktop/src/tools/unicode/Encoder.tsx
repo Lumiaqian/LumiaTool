@@ -37,11 +37,11 @@ export default function Encoder() {
     }, [action, isEmpty, text, action.current.type, action.current.ignore_ascii]);
 
     return (
-        <div className="ctool-transformer-page ctool-transformer-page--configured">
-            <HeightResize className="ctool-transformer-layout" reduce={5}>
+        <div className="lumia-transformer-page lumia-transformer-page--configured">
+            <HeightResize className="lumia-transformer-layout" reduce={5}>
                 {({ small, large }: { small: number; large: number }) => (
-                    <div className="ctool-transformer-stage">
-                        <div className="ctool-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
+                    <div className="lumia-transformer-stage">
+                        <div className="lumia-transformer-rack" role="group" aria-label={$t("main_ui_setting")}>
                             <Align>
                                 <Select
                                     size="small"
@@ -59,16 +59,16 @@ export default function Encoder() {
                                 />
                             </Align>
                         </div>
-                        <div className="ctool-transformer-panes">
-                            <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("main_ui_input")}>
-                                <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
-                                <div className="ctool-transformer-pane-body">
+                        <div className="lumia-transformer-panes">
+                            <section className="lumia-transformer-pane lumia-transformer-pane--source" aria-label={$t("main_ui_input")}>
+                                <header className="lumia-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
+                                <div className="lumia-transformer-pane-body">
                                     <TextInput allow={["text", "base64", "hex"]} value={action.current.input} onChange={value => { action.current.input = value; }} height={small} />
                                 </div>
                             </section>
-                            <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={$t("main_ui_output")}>
-                                <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
-                                <div className="ctool-transformer-pane-body">
+                            <section className="lumia-transformer-pane lumia-transformer-pane--result" aria-label={$t("main_ui_output")}>
+                                <header className="lumia-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                                <div className="lumia-transformer-pane-body">
                                     <Textarea value={output} placeholder={$t("main_ui_output")} height={large} copy />
                                 </div>
                             </section>

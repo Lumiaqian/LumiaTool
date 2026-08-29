@@ -76,17 +76,17 @@ export default function Hmac() {
     }, [action, calculation]);
 
     return (
-        <div className="ctool-hmac-page">
-            <section className="ctool-tester-panel ctool-hmac-input-panel" aria-labelledby="ctool-hmac-input-title">
-                <header className="ctool-tester-panel-header">
-                    <strong id="ctool-hmac-input-title">{$t("main_ui_input")}</strong>
+        <div className="lumia-hmac-page">
+            <section className="lumia-tester-panel lumia-hmac-input-panel" aria-labelledby="lumia-hmac-input-title">
+                <header className="lumia-tester-panel-header">
+                    <strong id="lumia-hmac-input-title">{$t("main_ui_input")}</strong>
                 </header>
-                <div className="ctool-hmac-inputs">
-                    <section className="ctool-tester-editor-group" aria-labelledby="ctool-hmac-secret-title">
-                        <header className="ctool-tester-editor-header">
-                            <strong id="ctool-hmac-secret-title">{$t("hmac_secret")}</strong>
+                <div className="lumia-hmac-inputs">
+                    <section className="lumia-tester-editor-group" aria-labelledby="lumia-hmac-secret-title">
+                        <header className="lumia-tester-editor-header">
+                            <strong id="lumia-hmac-secret-title">{$t("hmac_secret")}</strong>
                         </header>
-                        <div className="ctool-tester-editor-body">
+                        <div className="lumia-tester-editor-body">
                             <TextInput
                                 value={action.current.secret}
                                 onChange={(value) => { action.current.secret = value; }}
@@ -95,11 +95,11 @@ export default function Hmac() {
                             />
                         </div>
                     </section>
-                    <section className="ctool-tester-editor-group" aria-labelledby="ctool-hmac-content-title">
-                        <header className="ctool-tester-editor-header">
-                            <strong id="ctool-hmac-content-title">{$t("main_ui_input")}</strong>
+                    <section className="lumia-tester-editor-group" aria-labelledby="lumia-hmac-content-title">
+                        <header className="lumia-tester-editor-header">
+                            <strong id="lumia-hmac-content-title">{$t("main_ui_input")}</strong>
                         </header>
-                        <div className="ctool-tester-editor-body">
+                        <div className="lumia-tester-editor-body">
                             <TextInput
                                 value={action.current.input}
                                 onChange={(value) => { action.current.input = value; }}
@@ -110,8 +110,8 @@ export default function Hmac() {
                         </div>
                     </section>
                 </div>
-                <fieldset className="ctool-tester-options" aria-label={$t("main_ui_setting")}>
-                    <label className="ctool-tester-check">
+                <fieldset className="lumia-tester-options" aria-label={$t("main_ui_setting")}>
+                    <label className="lumia-tester-check">
                         <input
                             type="checkbox"
                             checked={action.current.is_uppercase}
@@ -119,7 +119,7 @@ export default function Hmac() {
                         />
                         <span>{$t("hmac_uppercase")}</span>
                     </label>
-                    <label className="ctool-tester-check" title={$t("hmac_multiple_tooltip")}>
+                    <label className="lumia-tester-check" title={$t("hmac_multiple_tooltip")}>
                         <input
                             type="checkbox"
                             checked={action.current.multiple}
@@ -131,33 +131,33 @@ export default function Hmac() {
                 </fieldset>
             </section>
 
-            <section className="ctool-tester-panel ctool-hmac-results-panel" aria-labelledby="ctool-hmac-results-title">
-                <header className="ctool-tester-panel-header">
-                    <strong id="ctool-hmac-results-title">{$t("main_ui_output")}</strong>
+            <section className="lumia-tester-panel lumia-hmac-results-panel" aria-labelledby="lumia-hmac-results-title">
+                <header className="lumia-tester-panel-header">
+                    <strong id="lumia-hmac-results-title">{$t("main_ui_output")}</strong>
                 </header>
                 {calculation.firstError !== "" && (
-                    <p className="ctool-tester-error" role="alert">{calculation.firstError}</p>
+                    <p className="lumia-tester-error" role="alert">{calculation.firstError}</p>
                 )}
-                <div className="ctool-tester-results">
+                <div className="lumia-tester-results">
                     {methods.map((method) => {
                         const value = calculation.values[method];
                         const error = calculation.errors[method];
-                        const labelId = `ctool-hmac-${method}-label`;
+                        const labelId = `lumia-hmac-${method}-label`;
                         return (
                             <article
-                                className={`ctool-tester-result${error ? " is-error" : ""}`}
+                                className={`lumia-tester-result${error ? " is-error" : ""}`}
                                 key={method}
                                 aria-labelledby={labelId}
                             >
-                                <h3 className="ctool-tester-result-name" id={labelId}>
+                                <h3 className="lumia-tester-result-name" id={labelId}>
                                     HMAC-{method.toUpperCase()}
                                 </h3>
-                                <output className="ctool-tester-result-value" aria-labelledby={labelId}>
+                                <output className="lumia-tester-result-value" aria-labelledby={labelId}>
                                     <code>{error || value || "—"}</code>
                                 </output>
                                 {value !== "" && !error && (
                                     <button
-                                        className="ctool-tester-copy"
+                                        className="lumia-tester-copy"
                                         type="button"
                                         onClick={() => $copy(value)}
                                         aria-label={`${$t("main_ui_copy")} HMAC-${method}`}

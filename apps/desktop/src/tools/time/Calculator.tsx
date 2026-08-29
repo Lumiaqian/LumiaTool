@@ -76,9 +76,9 @@ export default function Calculator() {
     }, [poorState.input1, poorState.input2, poorState.unit, operationState.input, operationState.length, operationState.type, operationState.unit, analyzeState.input, analyzeState.type]);
 
     return (
-        <Align className="ctool-inspector-utility-family ctool-utility-family-page ctool-time-calculator-page" direction="vertical">
+        <Align className="lumia-inspector-utility-family lumia-utility-family-page lumia-time-calculator-page" direction="vertical">
             <Card title={$t("time_diff_tool")}>
-                <Align className="ctool-time-calculator-row">
+                <Align className="lumia-time-calculator-row">
                     <Input center value={poorState.input1} onChange={(value: string) => { poorState.input1 = value; }} width={170} />
                     <span>与</span>
                     <Input center value={poorState.input2} onChange={(value: string) => { poorState.input2 = value; }} width={170} />
@@ -87,7 +87,7 @@ export default function Calculator() {
                 </Align>
             </Card>
             <Card title={$t("time_operation")}>
-                <Align className="ctool-time-calculator-row">
+                <Align className="lumia-time-calculator-row">
                     <Input center value={operationState.input} onChange={(value: string) => { operationState.input = value; }} width={170} />
                     <Select value={operationState.type} onChange={(value: string) => { operationState.type = value; }} options={[{ value: "+", label: $t("time_add") }, { value: "-", label: $t("time_reduce") }]} />
                     <InputNumber center value={operationState.length} onChange={(value: number) => { operationState.length = value; }} width={160} append={<Select value={operationState.unit} onChange={(value: UnitValue) => { operationState.unit = value; }} options={unitOptions} />} />
@@ -95,7 +95,7 @@ export default function Calculator() {
                 </Align>
             </Card>
             <Card title={$t("time_analyze")}>
-                <Align className="ctool-time-calculator-row">
+                <Align className="lumia-time-calculator-row">
                     <Input center value={analyzeState.input} onChange={(value: string) => { analyzeState.input = value; }} width={170} />
                     <Select value={analyzeState.type} onChange={(value: string) => { analyzeState.type = value; }} options={[{ value: "year", label: $t("time_analyze_year") }, { value: "quarter", label: $t("time_analyze_quarter") }, { value: "month", label: $t("time_analyze_month") }]} />
                     <Button onClick={() => $copy(analyze)} type="dotted" text={analyze} />

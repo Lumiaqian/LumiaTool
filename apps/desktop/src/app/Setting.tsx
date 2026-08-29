@@ -20,7 +20,7 @@ export default function Setting() {
                 height="100%"
                 padding="24px"
             >
-                <div className="ctool-setting">
+                <div className="lumia-setting">
                     <span>{$t("main_display_mode")}</span>
                     <div>
                         <Select

@@ -93,17 +93,17 @@ function Tabs<T extends string = string>({
         <div
             {...restProps}
             ref={containerRef}
-            className={className ? `ctool-tabs ${className}` : "ctool-tabs"}
+            className={className ? `lumia-tabs ${className}` : "lumia-tabs"}
             style={tabsStyle}
         >
-            <div className="ctool-tabs-header">
-                <div className="ctool-tabs-header-item">
+            <div className="lumia-tabs-header">
+                <div className="lumia-tabs-header-item">
                     {lists.map((item, index) => (
                         <span
                             key={item.name}
                             className={
                                 index === currentIndex
-                                    ? "ctool-tabs-current"
+                                    ? "lumia-tabs-current"
                                     : undefined
                             }
                             onClick={() => select(item.name)}
@@ -112,11 +112,11 @@ function Tabs<T extends string = string>({
                         </span>
                     ))}
                 </div>
-                <div className="ctool-tabs-header-fill">{extra}</div>
+                <div className="lumia-tabs-header-fill">{extra}</div>
             </div>
             {currentIndex !== -1 && (
                 <div
-                    className={`ctool-tabs-body ctool-tabs-current-${currentIndex}`}
+                    className={`lumia-tabs-body lumia-tabs-current-${currentIndex}`}
                     style={{ padding: `${padding}` }}
                 >
                     {children}

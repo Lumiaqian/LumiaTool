@@ -156,7 +156,7 @@ function HeightResize({
     return (
         <div
             {...rest}
-            className={["ctool-height-resize", className].filter(Boolean).join(" ")}
+            className={["lumia-height-resize", className].filter(Boolean).join(" ")}
             style={style}
         >
             {content}

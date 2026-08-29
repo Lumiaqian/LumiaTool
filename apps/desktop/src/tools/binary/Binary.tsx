@@ -29,17 +29,17 @@ export default function Binary() {
     };
 
     return (
-        <div className="ctool-generator-editor-family ctool-generator-page ctool-binary-generator-page">
-            <HeightResize className="ctool-binary-workspace">
+        <div className="lumia-generator-editor-family lumia-generator-page lumia-binary-generator-page">
+            <HeightResize className="lumia-binary-workspace">
                 {({ height }) => (
                     <>
-                        <section className="ctool-generator-options" aria-label={$t("main_ui_input")}>
-                            <div className="ctool-page-option">
+                        <section className="lumia-generator-options" aria-label={$t("main_ui_input")}>
+                            <div className="lumia-page-option">
                                 <Select size="small" value={action.current.length} onChange={(value) => { action.current.length = value; }} options={lengthOptions} />
                             </div>
                             <Textarea height={height} value={action.current.input} onChange={(value) => { action.current.input = value; }} placeholder={$t("binary_input")} />
                         </section>
-                        <section className="ctool-generator-result ctool-binary-results" aria-label={$t("main_ui_output")}>
+                        <section className="lumia-generator-result lumia-binary-results" aria-label={$t("main_ui_output")}>
                             <Textarea value={result("trueForm")} placeholder={$t("binary_true_form")} copy={$t("binary_true_form")} />
                             <Textarea value={result("inverse")} placeholder={$t("binary_inverse")} copy={$t("binary_inverse")} />
                             <Textarea value={result("complement")} placeholder={$t("binary_complement")} copy={$t("binary_complement")} />

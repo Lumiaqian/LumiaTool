@@ -27,7 +27,7 @@ export default class implements Transform {
         const targetOption = getTargetOption(lang)
         const jsonInput = jsonInputForTargetLanguage(lang);
         await jsonInput.addSource({
-            name: 'ctool',
+            name: 'lumia',
             samples: [input]
         });
         const inputData = new InputData();

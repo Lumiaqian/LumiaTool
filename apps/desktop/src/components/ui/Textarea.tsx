@@ -76,7 +76,7 @@ function Textarea({
     return (
         <div
             {...containerProps}
-            className={["ctool-textarea", floatButtonText !== "" ? "ctool-textarea--with-action" : "", className]
+            className={["lumia-textarea", floatButtonText !== "" ? "lumia-textarea--with-action" : "", className]
                 .filter(Boolean)
                 .join(" ")}
             style={{ height: sizeConvert(height), ...style }}
@@ -91,7 +91,7 @@ function Textarea({
                 onChange={changeEvent => onChange?.(changeEvent.target.value)}
             />
             {floatButtonText !== "" ? (
-                <div className="ctool-textarea-action">
+                <div className="lumia-textarea-action">
                     <Button
                         size="small"
                         type={floatType}

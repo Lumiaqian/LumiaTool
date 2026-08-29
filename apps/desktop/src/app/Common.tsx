@@ -91,14 +91,14 @@ export default function Common({ onClose }: { onClose?: () => void }) {
 
     const renderList = (items: ToolType[], list: ListName) => (
         <div
-            className="ctool-common-tool-draggable"
+            className="lumia-common-tool-draggable"
             onDragOver={event => event.preventDefault()}
             onDrop={event => drop(event, list, items.length)}
         >
             {items.map((name, index) => (
                 <div
                     key={name}
-                    className="ctool-button ctool-common-chip"
+                    className="lumia-button lumia-common-chip"
                     data-type="dotted"
                     draggable
                     onClick={() => toggle(name, list)}

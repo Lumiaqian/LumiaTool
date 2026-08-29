@@ -65,8 +65,8 @@ export default function Text() {
 
     return (
         <>
-            <div className="ctool-generator-editor-family ctool-editor-page ctool-text-editor-page">
-            <Card className="ctool-page-option" style={{ marginBottom: 5 }}>
+            <div className="lumia-generator-editor-family lumia-editor-page lumia-text-editor-page">
+            <Card className="lumia-page-option" style={{ marginBottom: 5 }}>
                 <Align horizontal="center">
                     <Dropdown size={size} placeholder={$t("text_case_conversion")} options={caseOptions} onSelect={(value: TransformMethod) => handle(value)} />
                     <Dropdown size={size} placeholder={$t("text_punctuation")} options={[{ value: "en", label: `${$t("text_cn")} -> ${$t("text_en")}` }, { value: "zh", label: `${$t("text_en")} -> ${$t("text_cn")}` }]} onSelect={(type: string) => handle("replacePunctuation", { type })} />
@@ -80,7 +80,7 @@ export default function Text() {
                     <Dropdown size={size} placeholder={$t("text_filter")} options={[{ value: "lineTrim", label: $t("text_filter_trim") }, { value: "filterBlankLine", label: $t("text_filter_blank_line") }, { value: "filterAllBr", label: $t("text_filter_all_br") }]} onSelect={(value: TransformMethod) => handle(value)} />
                 </Align>
             </Card>
-            <HeightResize append={[".ctool-page-option"]}>
+            <HeightResize append={[".lumia-page-option"]}>
                 {({ height }: { height: number }) => (
                     <Editor value={action.current.input} onChange={(value: string) => { action.current.input = value; }} lang="text" height={`${height}px`} placeholder={$t("main_ui_input")}>
                         <Button type="dotted" size="small" onClick={() => setStatMore(true)} tooltip={$t("text_more_stat")}>
@@ -91,7 +91,7 @@ export default function Text() {
             </HeightResize>
             </div>
             <Modal value={replaceShow} onChange={setReplaceShow} width={600} title={$t("text_replace")} footerType="long" onOk={replace}>
-                <div className="ctool-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                <div className="lumia-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
                     <div>
                         <Align>
                             <Dropdown size="small" options={getCommonExpression()} placeholder={$t("regex_common")} onSelect={selectReplaceExplain} />

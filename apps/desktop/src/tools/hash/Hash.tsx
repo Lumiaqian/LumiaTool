@@ -85,14 +85,14 @@ export default function Hash() {
     }, [calculation]);
 
     return (
-        <div className="ctool-inspector-utility-family ctool-inspector-family-page">
-            <div className="ctool-inspector-family-split">
-            <section className="ctool-inspector-family-panel ctool-inspector-family-source" aria-labelledby="ctool-hash-input-title">
-                <header className="ctool-inspector-family-panel-header">
-                    <strong id="ctool-hash-input-title">{$t("main_ui_input")}</strong>
+        <div className="lumia-inspector-utility-family lumia-inspector-family-page">
+            <div className="lumia-inspector-family-split">
+            <section className="lumia-inspector-family-panel lumia-inspector-family-source" aria-labelledby="lumia-hash-input-title">
+                <header className="lumia-inspector-family-panel-header">
+                    <strong id="lumia-hash-input-title">{$t("main_ui_input")}</strong>
                 </header>
 
-                <div className="ctool-inspector-family-panel-body">
+                <div className="lumia-inspector-family-panel-body">
                     <TextInput
                         value={action.current.input}
                         onChange={(value) => { action.current.input = value; }}
@@ -102,8 +102,8 @@ export default function Hash() {
                     />
                 </div>
 
-                <fieldset className="ctool-tester-options" aria-label={$t("main_ui_setting")}>
-                    <label className="ctool-tester-check">
+                <fieldset className="lumia-tester-options" aria-label={$t("main_ui_setting")}>
+                    <label className="lumia-tester-check">
                         <input
                             type="checkbox"
                             checked={isSalt}
@@ -112,7 +112,7 @@ export default function Hash() {
                         />
                         <span>{$t("hash_salt")}</span>
                     </label>
-                    <label className="ctool-tester-check">
+                    <label className="lumia-tester-check">
                         <input
                             type="checkbox"
                             checked={isUppercase}
@@ -120,7 +120,7 @@ export default function Hash() {
                         />
                         <span>{$t("hash_uppercase")}</span>
                     </label>
-                    <label className="ctool-tester-check">
+                    <label className="lumia-tester-check">
                         <input
                             type="checkbox"
                             checked={multiple}
@@ -132,7 +132,7 @@ export default function Hash() {
                 </fieldset>
 
                 {isSalt && !fileInput && (
-                    <div className="ctool-utility-inline-fields" role="group" aria-label={$t("hash_salt")}>
+                    <div className="lumia-utility-inline-fields" role="group" aria-label={$t("hash_salt")}>
                         <Input
                             value={action.current.salt}
                             onChange={(value) => { action.current.salt = value; }}
@@ -152,27 +152,27 @@ export default function Hash() {
                 )}
             </section>
 
-            <section className="ctool-inspector-family-panel" aria-labelledby="ctool-hash-results-title">
-                <header className="ctool-inspector-family-panel-header">
-                    <strong id="ctool-hash-results-title">{$t("main_ui_output")}</strong>
+            <section className="lumia-inspector-family-panel" aria-labelledby="lumia-hash-results-title">
+                <header className="lumia-inspector-family-panel-header">
+                    <strong id="lumia-hash-results-title">{$t("main_ui_output")}</strong>
                 </header>
                 {calculation.firstError !== "" && (
-                    <p className="ctool-tester-error" role="alert">{calculation.firstError}</p>
+                    <p className="lumia-tester-error" role="alert">{calculation.firstError}</p>
                 )}
-                <div className="ctool-tester-results">
+                <div className="lumia-tester-results">
                     {methods.map((method) => {
                         const value = calculation.values[method];
                         const error = calculation.errors[method];
-                        const labelId = `ctool-hash-${method}-label`;
+                        const labelId = `lumia-hash-${method}-label`;
                         return (
-                            <article className={`ctool-tester-result${error ? " is-error" : ""}`} key={method} aria-labelledby={labelId}>
-                                <h3 className="ctool-tester-result-name" id={labelId}>{method.toUpperCase()}</h3>
-                                <output className="ctool-tester-result-value" aria-labelledby={labelId}>
+                            <article className={`lumia-tester-result${error ? " is-error" : ""}`} key={method} aria-labelledby={labelId}>
+                                <h3 className="lumia-tester-result-name" id={labelId}>{method.toUpperCase()}</h3>
+                                <output className="lumia-tester-result-value" aria-labelledby={labelId}>
                                     <code>{error || value || "—"}</code>
                                 </output>
                                 {value !== "" && !error && (
                                     <button
-                                        className="ctool-tester-copy"
+                                        className="lumia-tester-copy"
                                         type="button"
                                         onClick={() => $copy(value)}
                                         aria-label={`${$t("main_ui_copy")} ${method}`}

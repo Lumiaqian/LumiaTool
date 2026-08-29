@@ -23,7 +23,7 @@ const events = [
 ] as const
 
 type Event = typeof events[number]
-const eventName = (name: Event) => `ctool_${name}`
+const eventName = (name: Event) => `lumia_${name}`
 
 type Listener = () => void
 
@@ -54,7 +54,7 @@ const event = {
 
 // 获取操作区域高度
 const getMainOperateHeight = () => {
-    let el = document.querySelector<HTMLElement>('.ctool-main-tool')
+    let el = document.querySelector<HTMLElement>('.lumia-main-tool')
     if (!el) {
         return window.innerHeight;
     }

@@ -59,7 +59,7 @@ const render = (range: Range, editor: monaco.editor.IStandaloneCodeEditor) => {
             options: {
                 after: {
                     content: `${count}`,
-                    inlineClassName: "ctool-monaco-editor-line-info",
+                    inlineClassName: "lumia-monaco-editor-line-info",
                 },
             },
         },
@@ -75,7 +75,7 @@ const lineInfoHandle = (editor: monaco.editor.IStandaloneCodeEditor) => {
     for (let index = range.startLineNumber; index <= range.endLineNumber; index++) {
         editor
             .getLineDecorations(index)
-            ?.filter(item => item.options.after?.inlineClassName?.includes("ctool-monaco-editor-line-info"))
+            ?.filter(item => item.options.after?.inlineClassName?.includes("lumia-monaco-editor-line-info"))
             .forEach(item => {
                 editor.removeDecorations([item.id]);
             });
@@ -129,7 +129,7 @@ class LineInfo {
                 this.editor
                     .getModel()
                     ?.getAllDecorations()
-                    .filter(item => item.options.after?.inlineClassName?.includes("ctool-monaco-editor-line-info"))
+                    .filter(item => item.options.after?.inlineClassName?.includes("lumia-monaco-editor-line-info"))
                     .map(item => item.id) || [];
             if (ids.length > 0) {
                 this.editor.removeDecorations(ids);

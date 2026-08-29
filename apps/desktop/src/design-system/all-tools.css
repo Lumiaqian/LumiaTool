@@ -1,13 +1,13 @@
-.ctool-main-tool[class*="ctool-tool-layout-"] {
+.lumia-main-tool[class*="lumia-tool-layout-"] {
     container-type: inline-size;
 }
 
-.ctool-main-tool[class*="ctool-tool-layout-"] > * {
+.lumia-main-tool[class*="lumia-tool-layout-"] > * {
     min-width: 0;
     min-height: 0;
 }
 
-.ctool-main-tool[class*="ctool-tool-layout-"] .ctool-page-option {
+.lumia-main-tool[class*="lumia-tool-layout-"] .lumia-page-option {
     padding: var(--lumia-space-2) var(--lumia-space-3);
     color: var(--lumia-muted);
     border: 1px solid color-mix(in srgb, var(--lumia-control-selected) 16%, transparent);
@@ -15,20 +15,20 @@
     background: var(--lumia-controls);
 }
 
-.ctool-main-tool[class*="ctool-tool-layout-"] .ctool-page-option :is(button, input, select) {
+.lumia-main-tool[class*="lumia-tool-layout-"] .lumia-page-option :is(button, input, select) {
     min-height: var(--lumia-control-height-compact, 26px);
 }
 
-.ctool-main-tool[class*="ctool-tool-layout-"] :is(.ctool-card, .ctool-display, .ctool-code-editor, .ctool-code-diff) {
+.lumia-main-tool[class*="lumia-tool-layout-"] :is(.lumia-card, .lumia-display, .lumia-code-editor, .lumia-code-diff) {
     border-color: color-mix(in srgb, var(--lumia-text) 12%, transparent);
     box-shadow: none;
 }
 
-.ctool-main-tool[class*="ctool-tool-layout-"] :is(textarea, input, select) {
+.lumia-main-tool[class*="lumia-tool-layout-"] :is(textarea, input, select) {
     border-color: color-mix(in srgb, var(--lumia-text) 14%, transparent);
 }
 
-.ctool-main-tool {
+.lumia-main-tool {
     --code-background-color: transparent;
     --code-color: var(--lumia-text);
     --card-background-color: transparent;
@@ -37,7 +37,7 @@
     color-scheme: light;
 }
 
-.ctool-main-tool article {
+.lumia-main-tool article {
     margin: 0;
     padding: 0;
     color: inherit;
@@ -46,8 +46,8 @@
     box-shadow: none;
 }
 
-.ctool-main-tool article > header,
-.ctool-main-tool article > footer {
+.lumia-main-tool article > header,
+.lumia-main-tool article > footer {
     margin: 0;
     padding: 0;
     color: inherit;
@@ -56,7 +56,7 @@
     background: transparent;
 }
 
-.ctool-main-tool :is(code, samp) {
+.lumia-main-tool :is(code, samp) {
     padding: 0;
     color: inherit;
     border: 0;
@@ -64,81 +64,81 @@
     background: transparent;
 }
 
-.ctool-main-tool pre {
+.lumia-main-tool pre {
     margin: 0;
     overflow: auto;
     color: inherit;
     background: transparent;
 }
 
-.ctool-main-tool pre code {
+.lumia-main-tool pre code {
     display: block;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
 }
 
-.ctool-main-tool textarea {
+.lumia-main-tool textarea {
     margin-bottom: 0 !important;
 }
 
-.ctool-main-tool .monaco-editor,
-.ctool-main-tool .monaco-editor .overflow-guard,
-.ctool-main-tool .monaco-editor .monaco-editor-background,
-.ctool-main-tool .monaco-editor .margin {
+.lumia-main-tool .monaco-editor,
+.lumia-main-tool .monaco-editor .overflow-guard,
+.lumia-main-tool .monaco-editor .monaco-editor-background,
+.lumia-main-tool .monaco-editor .margin {
     background-color: var(--lumia-editor) !important;
 }
 
-.ctool-transformer-pane-body,
-.ctool-inspector-family-panel-body,
-.ctool-tester-editor-body,
-.ctool-sign-editor,
-.ctool-bcrypt-editor,
-.ctool-regex-editor,
-.ctool-websocket-composer-body,
-.ctool-validation-input {
+.lumia-transformer-pane-body,
+.lumia-inspector-family-panel-body,
+.lumia-tester-editor-body,
+.lumia-sign-editor,
+.lumia-bcrypt-editor,
+.lumia-regex-editor,
+.lumia-websocket-composer-body,
+.lumia-validation-input {
     display: grid;
     min-width: 0;
     min-height: 0;
 }
 
-.ctool-text-input-frame,
-.ctool-text-output-frame,
-.ctool-serialize-output,
-.ctool-serialize-input {
+.lumia-text-input-frame,
+.lumia-text-output-frame,
+.lumia-serialize-output,
+.lumia-serialize-input {
     min-width: 0;
     min-height: 0;
     height: 100%;
     display: grid;
 }
 
-.ctool-text-input-frame {
+.lumia-text-input-frame {
     grid-template-rows: auto minmax(0, 1fr);
 }
 
-.ctool-text-input-frame--bare,
-.ctool-text-output-frame--bare {
+.lumia-text-input-frame--bare,
+.lumia-text-output-frame--bare {
     grid-template-rows: minmax(0, 1fr);
 }
 
-.ctool-text-output-frame {
+.lumia-text-output-frame {
     grid-template-rows: minmax(0, 1fr) auto;
 }
 
-.ctool-serialize-output,
-.ctool-serialize-input {
+.lumia-serialize-output,
+.lumia-serialize-input {
     grid-template-rows: auto minmax(0, 1fr);
 }
 
-.ctool-serialize-output:has(.ctool-serialize-toolbar--bottom),
-.ctool-serialize-input:has(.ctool-serialize-toolbar--bottom) {
+.lumia-serialize-output:has(.lumia-serialize-toolbar--bottom),
+.lumia-serialize-input:has(.lumia-serialize-toolbar--bottom) {
     grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
-.ctool-text-input-toolbar,
-.ctool-text-output-toolbar,
-.ctool-serialize-toolbar,
-.ctool-textarea-action,
-.ctool-editor-surface-toolbar {
+.lumia-text-input-toolbar,
+.lumia-text-output-toolbar,
+.lumia-serialize-toolbar,
+.lumia-textarea-action,
+.lumia-editor-surface-toolbar {
     min-height: var(--lumia-control-height);
     display: flex;
     align-items: center;
@@ -148,77 +148,77 @@
     background: var(--lumia-controls);
 }
 
-.ctool-code-editor,
-.ctool-code-diff {
+.lumia-code-editor,
+.lumia-code-diff {
     display: grid;
     grid-template-rows: minmax(0, 1fr);
     min-height: 0;
 }
 
-.ctool-code-editor:has(> .ctool-editor-surface-toolbar),
-.ctool-code-diff:has(> .ctool-editor-surface-toolbar) {
+.lumia-code-editor:has(> .lumia-editor-surface-toolbar),
+.lumia-code-diff:has(> .lumia-editor-surface-toolbar) {
     grid-template-rows: auto minmax(0, 1fr);
 }
 
 
-.ctool-code-editor > div:last-child,
-.ctool-code-diff > div:last-child {
+.lumia-code-editor > div:last-child,
+.lumia-code-diff > div:last-child {
     min-height: 0;
 }
-.ctool-text-input-toolbar,
-.ctool-serialize-toolbar--top {
+.lumia-text-input-toolbar,
+.lumia-serialize-toolbar--top {
     border-bottom: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
 }
 
-.ctool-text-output-toolbar,
-.ctool-serialize-toolbar--bottom,
-.ctool-textarea-action {
+.lumia-text-output-toolbar,
+.lumia-serialize-toolbar--bottom,
+.lumia-textarea-action {
     border-top: 1px solid color-mix(in srgb, var(--lumia-text) 10%, transparent);
 }
 
-.ctool-text-input-content,
-.ctool-text-output-content,
-.ctool-serialize-body,
-.ctool-textarea--with-action {
+.lumia-text-input-content,
+.lumia-text-output-content,
+.lumia-serialize-body,
+.lumia-textarea--with-action {
     min-width: 0;
     min-height: 0;
     display: grid;
     overflow: hidden;
 }
 
-.ctool-textarea--with-action {
+.lumia-textarea--with-action {
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
 }
 
-.ctool-textarea--with-action textarea {
+.lumia-textarea--with-action textarea {
     min-height: 0;
     height: 100% !important;
 }
 
-.ctool-text-input-content > .ctool-textarea,
-.ctool-text-output-content > .ctool-textarea,
-.ctool-serialize-body > :is(.ctool-textarea, .ctool-code-editor) {
+.lumia-text-input-content > .lumia-textarea,
+.lumia-text-output-content > .lumia-textarea,
+.lumia-serialize-body > :is(.lumia-textarea, .lumia-code-editor) {
     min-width: 0;
     min-height: 0;
     display: grid;
 }
 
-.ctool-text-input-content textarea,
-.ctool-text-output-content textarea,
-.ctool-serialize-body textarea {
+.lumia-text-input-content textarea,
+.lumia-text-output-content textarea,
+.lumia-serialize-body textarea {
     min-height: 0;
     height: 100% !important;
     margin: 0 !important;
     background: transparent;
 }
 
-.ctool-text-output-empty {
+.lumia-text-output-empty {
     width: 100%;
     height: 100%;
 }
 
-.ctool-text-input-inline {
+.lumia-text-input-inline {
     min-width: 0;
     display: flex;
     align-items: center;
@@ -226,9 +226,9 @@
 }
 
 /* Transformer — source and result are equal peers. */
-.ctool-tool-layout-transformer > .ctool-height-resize > .ctool-align,
-.ctool-tool-layout-transformer > :not(.ctool-transformer-workspace) > .ctool-height-resize > .ctool-align,
-.ctool-tool-layout-transformer .ctool-height-resize.ctool-row {
+.lumia-tool-layout-transformer > .lumia-height-resize > .lumia-align,
+.lumia-tool-layout-transformer > :not(.lumia-transformer-workspace) > .lumia-height-resize > .lumia-align,
+.lumia-tool-layout-transformer .lumia-height-resize.lumia-row {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: minmax(0, 1fr);
@@ -236,8 +236,8 @@
     flex-flow: initial !important;
 }
 
-.ctool-tool-layout-transformer > .ctool-height-resize > .ctool-align > *,
-.ctool-tool-layout-transformer .ctool-height-resize.ctool-row > * {
+.lumia-tool-layout-transformer > .lumia-height-resize > .lumia-align > *,
+.lumia-tool-layout-transformer .lumia-height-resize.lumia-row > * {
     min-width: 0;
     min-height: 0;
     height: 100% !important;
@@ -247,40 +247,40 @@
     background: var(--lumia-paper);
 }
 
-.ctool-tool-layout-transformer > .ctool-height-resize > .ctool-align > *:first-child,
-.ctool-tool-layout-transformer .ctool-height-resize.ctool-row > *:first-child {
+.lumia-tool-layout-transformer > .lumia-height-resize > .lumia-align > *:first-child,
+.lumia-tool-layout-transformer .lumia-height-resize.lumia-row > *:first-child {
     background: var(--lumia-editor);
 }
 
-.ctool-tool-layout-transformer :is(.ctool-textarea, textarea) {
+.lumia-tool-layout-transformer :is(.lumia-textarea, textarea) {
     height: 100% !important;
 }
 
 /* Editor — commands above one dominant editing surface. */
-.ctool-tool-layout-editor {
+.lumia-tool-layout-editor {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.ctool-tool-layout-editor > :is(.ctool-height-resize, .ctool-json-workspace, .ctool-code-editor, .ctool-code-diff) {
+.lumia-tool-layout-editor > :is(.lumia-height-resize, .lumia-json-workspace, .lumia-code-editor, .lumia-code-diff) {
     min-height: 0;
     flex: 1;
 }
 
-.ctool-tool-layout-editor :is(.ctool-code-editor, .ctool-code-diff, .monaco-editor) {
+.lumia-tool-layout-editor :is(.lumia-code-editor, .lumia-code-diff, .monaco-editor) {
     border-radius: var(--lumia-radius-panel);
     background: var(--lumia-editor);
 }
 
-.ctool-tool-layout-editor > .ctool-align,
-.ctool-tool-layout-editor > .ctool-display {
+.lumia-tool-layout-editor > .lumia-align,
+.lumia-tool-layout-editor > .lumia-display {
     flex: 0 0 auto;
 }
 
 /* Inspector — raw source beside structured interpretation. */
-.ctool-tool-layout-inspector > .ctool-height-resize > .ctool-align,
-.ctool-tool-layout-inspector .ctool-height-resize.ctool-row {
+.lumia-tool-layout-inspector > .lumia-height-resize > .lumia-align,
+.lumia-tool-layout-inspector .lumia-height-resize.lumia-row {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: minmax(0, 1fr);
@@ -288,8 +288,8 @@
     flex-flow: initial !important;
 }
 
-.ctool-tool-layout-inspector > .ctool-height-resize > .ctool-align > *,
-.ctool-tool-layout-inspector .ctool-height-resize.ctool-row > * {
+.lumia-tool-layout-inspector > .lumia-height-resize > .lumia-align > *,
+.lumia-tool-layout-inspector .lumia-height-resize.lumia-row > * {
     min-width: 0;
     min-height: 0;
     height: 100% !important;
@@ -299,107 +299,107 @@
     background: var(--lumia-paper);
 }
 
-.ctool-tool-layout-inspector > .ctool-height-resize > .ctool-align > *:first-child,
-.ctool-tool-layout-inspector .ctool-height-resize.ctool-row > *:first-child {
+.lumia-tool-layout-inspector > .lumia-height-resize > .lumia-align > *:first-child,
+.lumia-tool-layout-inspector .lumia-height-resize.lumia-row > *:first-child {
     background: var(--lumia-editor);
 }
 
-.ctool-tool-layout-inspector :is(.ctool-textarea, textarea) {
+.lumia-tool-layout-inspector :is(.lumia-textarea, textarea) {
     height: 100% !important;
 }
 
 /* Generator — preview is primary, parameters form a stable rack. */
-.ctool-tool-layout-generator {
+.lumia-tool-layout-generator {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.ctool-tool-layout-generator > :is(.ctool-height-resize, .ctool-qr-workspace) {
+.lumia-tool-layout-generator > :is(.lumia-height-resize, .lumia-qr-workspace) {
     min-height: 0;
     flex: 1;
 }
 
-.ctool-tool-layout-generator > .ctool-align,
-.ctool-tool-layout-generator > .ctool-row {
+.lumia-tool-layout-generator > .lumia-align,
+.lumia-tool-layout-generator > .lumia-row {
     min-height: 0;
 }
 
-.ctool-tool-layout-generator :is(.ctool-card, .ctool-display) {
+.lumia-tool-layout-generator :is(.lumia-card, .lumia-display) {
     border-radius: var(--lumia-radius-panel);
     background: var(--lumia-paper);
 }
 
-.ctool-tool-layout-generator img,
-.ctool-tool-layout-generator canvas {
+.lumia-tool-layout-generator img,
+.lumia-tool-layout-generator canvas {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
 
 /* Tester — configuration stays compact, logs and results take the space. */
-.ctool-tool-layout-tester {
+.lumia-tool-layout-tester {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.ctool-tool-layout-tester > .ctool-height-resize,
-.ctool-tool-layout-tester > .ctool-code-editor,
-.ctool-tool-layout-tester > .ctool-code-diff,
-.ctool-tool-layout-tester > :last-child {
+.lumia-tool-layout-tester > .lumia-height-resize,
+.lumia-tool-layout-tester > .lumia-code-editor,
+.lumia-tool-layout-tester > .lumia-code-diff,
+.lumia-tool-layout-tester > :last-child {
     min-height: 0;
     flex: 1;
 }
 
-.ctool-tool-layout-tester :is(.ctool-card, .ctool-display) {
+.lumia-tool-layout-tester :is(.lumia-card, .lumia-display) {
     border-radius: var(--lumia-radius-panel);
 }
 
 /* Diff — comparison consumes the whole canvas. */
-.ctool-tool-layout-diff {
+.lumia-tool-layout-diff {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.ctool-tool-layout-diff > :is(.ctool-height-resize, .ctool-code-diff, .ctool-code-editor) {
+.lumia-tool-layout-diff > :is(.lumia-height-resize, .lumia-code-diff, .lumia-code-editor) {
     min-height: 0;
     flex: 1;
 }
 
-.ctool-tool-layout-diff .ctool-code-diff {
+.lumia-tool-layout-diff .lumia-code-diff {
     height: 100% !important;
     border-radius: var(--lumia-radius-panel);
 }
 
 /* Utility — preserve specialized structures but normalize their surfaces. */
-.ctool-tool-layout-utility {
+.lumia-tool-layout-utility {
     min-width: 0;
     min-height: 0;
 }
 
-.ctool-tool-layout-utility :is(.ctool-card, .ctool-display, .ctool-height-resize) {
+.lumia-tool-layout-utility :is(.lumia-card, .lumia-display, .lumia-height-resize) {
     border-radius: var(--lumia-radius-panel);
 }
 
-.ctool-tool-layout-utility .ctool-page-option {
+.lumia-tool-layout-utility .lumia-page-option {
     background: var(--lumia-controls);
 }
 
 @container (max-width: 760px) {
-    .ctool-tool-layout-transformer > .ctool-height-resize > .ctool-align,
-    .ctool-tool-layout-transformer .ctool-height-resize.ctool-row,
-    .ctool-tool-layout-inspector > .ctool-height-resize > .ctool-align,
-    .ctool-tool-layout-inspector .ctool-height-resize.ctool-row {
+    .lumia-tool-layout-transformer > .lumia-height-resize > .lumia-align,
+    .lumia-tool-layout-transformer .lumia-height-resize.lumia-row,
+    .lumia-tool-layout-inspector > .lumia-height-resize > .lumia-align,
+    .lumia-tool-layout-inspector .lumia-height-resize.lumia-row {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, minmax(220px, 1fr));
         overflow-y: auto;
     }
 
-    .ctool-tool-layout-generator .ctool-row,
-    .ctool-tool-layout-tester .ctool-row,
-    .ctool-tool-layout-utility .ctool-row {
+    .lumia-tool-layout-generator .lumia-row,
+    .lumia-tool-layout-tester .lumia-row,
+    .lumia-tool-layout-utility .lumia-row {
         grid-template-columns: 1fr !important;
     }
 }

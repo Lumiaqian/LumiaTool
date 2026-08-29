@@ -50,18 +50,12 @@ export default function Header() {
     const selectCategory = (name: string) => {
         setSelectedCategory(name);
         const nextCategoryTools = toolsForCategory(name);
-        let tool = "";
-        if (categoryExists(name)) {
-            tool = storeOperate.getCategoryLastTool(name);
-        } else {
-            for (const feature of storeOperate.getRecently()) {
-                if (storeSetting.items.common.includes(feature.tool.name)) {
-                    tool = feature.tool.name;
-                    break;
-                }
-            }
-        }
-        const nextTool = tool || nextCategoryTools[0];
+        const recentTool = categoryExists(name)
+            ? storeOperate.getCategoryLastTool(name)
+            : storeOperate.getRecently().find(({ tool }) =>
+                storeSetting.items.common.includes(tool.name)
+            )?.tool.name;
+        const nextTool = recentTool || nextCategoryTools[0];
         if (nextTool) {
             selectTool(nextTool, name);
         }
@@ -88,12 +82,11 @@ export default function Header() {
         });
     }, [selectedCategory, storeOperate.items.tool]);
 
-
     return (
         <>
-            <header className="ctool-workbench-topbar" data-tauri-drag-region>
+            <header className="lumia-workbench-topbar" data-tauri-drag-region>
                 <button
-                    className="ctool-mobile-tools"
+                    className="lumia-mobile-tools"
                     onClick={() => setMobileOpen(true)}
                     aria-label={$t("main_workbench_open_shelf")}
                     aria-expanded={mobileOpen}
@@ -102,19 +95,18 @@ export default function Header() {
                     <span>{$t("main_workbench_tools")}</span>
                 </button>
                 <button
-                    className="ctool-brand"
+                    className="lumia-brand"
                     onClick={() => selectCategory("common")}
                     aria-label={$t("main_workbench_home")}
                 >
-                    <span className="ctool-brand-mark" aria-hidden="true" />
                     <strong>LumiaTool</strong>
                 </button>
-                <div className="ctool-global-search">
+                <div className="lumia-global-search">
                     <Search />
                     <kbd>{/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘ K" : "Ctrl K"}</kbd>
                 </div>
                 <button
-                    className={openHistory ? "ctool-topbar-action is-active" : "ctool-topbar-action"}
+                    className={openHistory ? "lumia-topbar-action is-active" : "lumia-topbar-action"}
                     onClick={() => setOpenHistory(value => !value)}
                     aria-pressed={openHistory}
                     aria-label={$t("main_history")}
@@ -123,8 +115,8 @@ export default function Header() {
                     <span>{$t("main_history")}</span>
                 </button>
                 <button
-                    className="ctool-topbar-action"
-                    onClick={() => event.dispatch("open_setting") }
+                    className="lumia-topbar-action"
+                    onClick={() => event.dispatch("open_setting")}
                     aria-label={$t("main_ui_setting")}
                 >
                     <Icon size={15} name="setting" />
@@ -132,12 +124,12 @@ export default function Header() {
                 </button>
             </header>
 
-            <aside className={`ctool-tool-shelf${mobileOpen ? " is-mobile-open" : ""}`} aria-label={$t("main_workbench_shelf")}>
-                <button className="ctool-mobile-close" onClick={() => setMobileOpen(false)} aria-label={$t("main_workbench_close_shelf")}>
+            <aside className={`lumia-tool-shelf${mobileOpen ? " is-mobile-open" : ""}`} aria-label={$t("main_workbench_shelf")}>
+                <button className="lumia-mobile-close" onClick={() => setMobileOpen(false)} aria-label={$t("main_workbench_close_shelf")}>
                     ×
                 </button>
 
-                <nav ref={categoryListRef} className="ctool-category-strip" aria-label={$t("main_workbench_category")}>
+                <nav ref={categoryListRef} className="lumia-category-strip" aria-label={$t("main_workbench_category")}>
                     {allCategories.map(name => (
                         <button
                             className={selectedCategory === name ? "is-current" : ""}
@@ -150,7 +142,7 @@ export default function Header() {
                     ))}
                 </nav>
 
-                <nav ref={toolListRef} className="ctool-tool-grid" aria-label={$t("main_workbench_category_tools")}>
+                <nav ref={toolListRef} className="lumia-tool-grid" aria-label={$t("main_workbench_category_tools")}>
                     {categoryTools.map(name => (
                         <button
                             className={storeOperate.items.tool === name ? "is-current" : ""}
@@ -158,7 +150,7 @@ export default function Header() {
                             onClick={() => selectTool(name)}
                             aria-current={storeOperate.items.tool === name ? "page" : undefined}
                         >
-                            <span className="ctool-tool-glyph" aria-hidden="true">
+                            <span className="lumia-tool-glyph" aria-hidden="true">
                                 {getToolMark(name)}
                             </span>
                             <span>{$t(`tool_${name}`)}</span>
@@ -166,7 +158,7 @@ export default function Header() {
                     ))}
                 </nav>
 
-                <div className="ctool-shelf-footer" role="toolbar" aria-label={$t("main_workbench_actions")}>
+                <div className="lumia-shelf-footer" role="toolbar" aria-label={$t("main_workbench_actions")}>
                     <button onClick={() => setOpenTools(value => !value)} aria-label={$t("main_tools_lists")}>
                         <Icon size={16} name="common" />
                     </button>
@@ -179,15 +171,15 @@ export default function Header() {
                 </div>
             </aside>
 
-            {mobileOpen && <button className="ctool-shelf-mask" onClick={() => setMobileOpen(false)} aria-label={$t("main_workbench_close_shelf")} />}
+            {mobileOpen && <button className="lumia-shelf-mask" onClick={() => setMobileOpen(false)} aria-label={$t("main_workbench_close_shelf")} />}
 
-            <header className="ctool-workbench-toolbar">
-                <div className="ctool-workbench-title">
+            <header className="lumia-workbench-toolbar">
+                <div className="lumia-workbench-title">
                     <strong>{$t(`tool_${storeOperate.items.tool}`)}</strong>
                     <span>{workspaceSubtitle}</span>
                 </div>
                 {features.length > 1 && (
-                    <nav className="ctool-feature-tabs" aria-label={$t("main_workbench_features")}>
+                    <nav className="lumia-feature-tabs" aria-label={$t("main_workbench_features")}>
                         {features.map(feature => (
                             <button
                                 className={storeOperate.items.feature === feature.name ? "is-current" : ""}
@@ -202,10 +194,8 @@ export default function Header() {
                 )}
             </header>
 
-            <footer className="ctool-workbench-status" aria-label={$t("main_workbench_status")}>
-                <span>UTF-8</span>
+            <footer className="lumia-workbench-status" aria-label={$t("main_workbench_status")}>
                 <span>{storeOperate.items.feature || $t("main_workbench_status_workspace")}</span>
-                <span>{$t("main_workbench_status_local")}</span>
                 <span>{$t("main_workbench_status_ready")}</span>
             </footer>
 

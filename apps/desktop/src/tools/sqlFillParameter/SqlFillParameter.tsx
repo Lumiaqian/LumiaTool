@@ -126,11 +126,11 @@ export default function SqlFillParameter() {
     }, [action, input, params]);
 
     return (
-        <div className="ctool-generator-editor-family ctool-editor-page ctool-sql-parameter-page">
+        <div className="lumia-generator-editor-family lumia-editor-page lumia-sql-parameter-page">
         <HeightResize ignore reduce={5}>
             {({ height }: { height: number }) => (
                 <Align direction="vertical">
-                    <div className="ctool-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
+                    <div className="lumia-row" style={{ gridTemplateColumns: "1fr 1fr" }}>
                         <Textarea value={action.current.input} onChange={(value: string) => { action.current.input = value; }} height={height / 2} placeholder="Sql:SELECT * FROM T WHERE id=? AND name = ?" copy="Sql" />
                         <Textarea value={action.current.params} onChange={(value: string) => { action.current.params = value; }} height={height / 2} placeholder={`${$t("sqlFillParameter_parameter")}:1(Integer),zhangshan(String)`} copy={$t("sqlFillParameter_parameter")} />
                     </div>

@@ -27,7 +27,7 @@ function Tooltip({ content = "", children, ...restProps }: TooltipProps) {
     const storeTheme = useTheme();
     const tooltipRef = useRef<TippyInstance | undefined>(undefined);
     const reactId = useId();
-    const marker = `ctool-tooltip-${reactId}`;
+    const marker = `lumia-tooltip-${reactId}`;
     const theme = storeTheme.theme.raw === "dark" ? "light" : "dark";
 
     let marked = false;
@@ -54,14 +54,14 @@ function Tooltip({ content = "", children, ...restProps }: TooltipProps) {
                 ...restProps,
                 className,
                 style,
-                "data-ctool-tooltip-id": marker,
+                "data-lumia-tooltip-id": marker,
             });
         });
 
     const renderedChildren = markFirstElement(children);
 
     useLayoutEffect(() => {
-        const target = document.querySelector<HTMLElement>(`[data-ctool-tooltip-id="${marker}"]`);
+        const target = document.querySelector<HTMLElement>(`[data-lumia-tooltip-id="${marker}"]`);
         if (!target) {
             return;
         }

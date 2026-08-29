@@ -10,19 +10,19 @@ const initial = await initialize({
 export default function Encoder() {
     const action = useAction(initial);
     return (
-        <div className="ctool-transformer-page ctool-transformer-page--paired">
-            <HeightResize className="ctool-transformer-layout" reduce={5}>
+        <div className="lumia-transformer-page lumia-transformer-page--paired">
+            <HeightResize className="lumia-transformer-layout" reduce={5}>
                 {({ small, large }) => (
-                    <div className="ctool-transformer-panes">
-                        <section className="ctool-transformer-pane ctool-transformer-pane--source" aria-label={$t("main_ui_input")}>
-                            <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
-                            <div className="ctool-transformer-pane-body">
+                    <div className="lumia-transformer-panes">
+                        <section className="lumia-transformer-pane lumia-transformer-pane--source" aria-label={$t("main_ui_input")}>
+                            <header className="lumia-transformer-pane-header"><strong>{$t("main_ui_input")}</strong></header>
+                            <div className="lumia-transformer-pane-body">
                                 <TextInput allow={["text", "hex", "upload", "url"]} value={action.current.input} onChange={(value) => { action.current.input = value; }} height={small} upload="file" encoding />
                             </div>
                         </section>
-                        <section className="ctool-transformer-pane ctool-transformer-pane--result" aria-label={$t("main_ui_output")}>
-                            <header className="ctool-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
-                            <div className="ctool-transformer-pane-body">
+                        <section className="lumia-transformer-pane lumia-transformer-pane--result" aria-label={$t("main_ui_output")}>
+                            <header className="lumia-transformer-pane-header"><strong>{$t("main_ui_output")}</strong></header>
+                            <div className="lumia-transformer-pane-body">
                                 <TextOutput value={action.current.output} onChange={(value) => { action.current.output = value; }} allow={["base64"]} content={action.current.input.text} height={large} onSuccess={() => action.save()} />
                             </div>
                         </section>

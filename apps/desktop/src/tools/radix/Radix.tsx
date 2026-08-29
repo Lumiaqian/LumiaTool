@@ -77,14 +77,14 @@ export default function Radix() {
 
     return (
         <>
-            <div className="ctool-inspector-utility-family ctool-utility-family-page ctool-radix-page">
-                <div className="ctool-utility-family-form">
+            <div className="lumia-inspector-utility-family lumia-utility-family-page lumia-radix-page">
+                <div className="lumia-utility-family-form">
                     {range(0, 6).map(i => {
                         const currentBase = action.current.map[i];
                         const numberValue = getHandle(currentBase);
                         return (
-                            <section className="ctool-utility-family-value" key={i}>
-                                <header className="ctool-utility-family-value-header">
+                            <section className="lumia-utility-family-value" key={i}>
+                                <header className="lumia-utility-family-value-header">
                                     <Select
                                         value={currentBase}
                                         onChange={value => {
@@ -113,7 +113,7 @@ export default function Radix() {
                         );
                     })}
                     {isValid ? (
-                        <div className="ctool-utility-family-actions">
+                        <div className="lumia-utility-family-actions">
                             <Button size={size} onClick={() => setIsMore(true)} text={$t("main_ui_more")} />
                             <Button
                                 size={size}
@@ -124,8 +124,8 @@ export default function Radix() {
                             />
                         </div>
                     ) : (
-                        <section className="ctool-utility-family-value ctool-radix-alphabet">
-                            <header className="ctool-utility-family-value-header">
+                        <section className="lumia-utility-family-value lumia-radix-alphabet">
+                            <header className="lumia-utility-family-value-header">
                                 <strong>{$t("radix_alphabet")}</strong>
                                 {alphabet !== defaultAlphabet ? (
                                     <Button size="small" type="danger" onClick={() => setAlphabet(defaultAlphabet)} text={$t("radix_reset")} />
@@ -141,8 +141,8 @@ export default function Radix() {
                     )}
                 </div>
             </div>
-            <ExtendPage className="ctool-inspector-utility-extend ctool-radix-more-page" value={isMore} onChange={setIsMore}>
-                <div className="ctool-radix-more-grid">
+            <ExtendPage className="lumia-inspector-utility-extend lumia-radix-more-page" value={isMore} onChange={setIsMore}>
+                <div className="lumia-radix-more-grid">
                     {range(2, 65).map(i => {
                         const value = getHandle(i);
                         return (
@@ -152,7 +152,7 @@ export default function Radix() {
                                 prepend={(
                                     <button
                                         type="button"
-                                        className={i === action.current.type ? "ctool-radix-base is-current" : "ctool-radix-base"}
+                                        className={i === action.current.type ? "lumia-radix-base is-current" : "lumia-radix-base"}
                                         onClick={() => $copy(value)}
                                     >
                                         {i}
