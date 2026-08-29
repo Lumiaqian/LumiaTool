@@ -108,6 +108,9 @@ class contextMenu {
     private editor: monaco.editor.IStandaloneCodeEditor;
 
     private handles: { [key in contextMenuType]?: menuHandle } = {};
+    private disposed = false;
+
+    private timeout: ReturnType<typeof setTimeout> | undefined;
 
     constructor(editor: monaco.editor.IStandaloneCodeEditor) {
         this.editor = editor;
@@ -121,7 +124,13 @@ class contextMenu {
     }
 
     private removeDefaultMenu() {
-        setTimeout(() => {
+        if (this.timeout !== undefined) {
+            clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(() => {
+            if (this.disposed || this.editor.getModel() === null) {
+                return;
+            }
             // 移除多余右键菜单
             this.editor.createContextKey("editorHasDocumentFormattingProvider", false);
             // this.editor.createContextKey("editorHasDocumentSymbolProvider", false);
@@ -131,6 +140,14 @@ class contextMenu {
             this.editor.createContextKey("editorHasMultipleDocumentFormattingProvider", false);
             this.editor.createContextKey("editorHasMultipleDocumentSelectionFormattingProvider", false);
         }, 200);
+    }
+
+    dispose() {
+        this.disposed = true;
+        if (this.timeout !== undefined) {
+            clearTimeout(this.timeout);
+            this.timeout = undefined;
+        }
     }
 
     initMenu() {

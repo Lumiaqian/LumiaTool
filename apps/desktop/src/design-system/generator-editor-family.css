@@ -175,7 +175,9 @@
     background: var(--lumia-controls);
 }
 
-.lumia-qr-generator-page .lumia-qr-primary :is(.lumia-text-input, .lumia-text-output, .lumia-display, .lumia-textarea, textarea),
+.lumia-qr-generator-page
+    .lumia-qr-primary
+    :is(.lumia-text-input, .lumia-text-output, .lumia-display, .lumia-textarea, textarea),
 .lumia-qr-generator-page .lumia-qr-primary .lumia-code-editor {
     min-height: 0;
     height: 100% !important;
@@ -752,4 +754,55 @@
     font-size: 12px;
     color: var(--lumia-muted);
     overflow-wrap: anywhere;
+}
+
+.lumia-json-command-bar {
+    gap: var(--lumia-space-2) !important;
+}
+
+.lumia-json-command-bar > span {
+    color: var(--lumia-border-strong);
+}
+
+.lumia-qr-source-header {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lumia-qr-source-header strong {
+    color: var(--lumia-text);
+    font-size: var(--lumia-font-sm);
+}
+
+.lumia-qr-output {
+    position: relative;
+}
+
+.lumia-qr-output > .lumia-display {
+    height: 100% !important;
+}
+
+.lumia-qr-output-hint {
+    position: absolute;
+    left: 50%;
+    bottom: calc(50% - 2.25rem);
+    margin: 0;
+    color: var(--lumia-muted);
+    font-size: var(--lumia-font-sm);
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+@media (max-width: 720px) {
+    .lumia-json-command-bar {
+        width: max-content !important;
+        min-width: 100%;
+        flex-wrap: nowrap !important;
+    }
+
+    .lumia-qr-generator-page .lumia-qr-primary {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: repeat(2, minmax(260px, 1fr));
+        overflow: auto;
+    }
 }

@@ -1,0 +1,33 @@
+{
+  "type": "design",
+  "designSystems": [],
+  "primaryDesignSystem": null,
+  "assets": {
+    "LumiaTool 工作台 UI 审查": {
+      "versions": [
+        {
+          "path": "Feedback - LumiaTool Workspace.html",
+          "createdAt": "2026-08-29T14:27:57.804Z",
+          "status": "needs-review",
+          "subtitle": "深浅主题与窄窗全面审查",
+          "viewport": {
+            "width": 1568,
+            "height": 953
+          }
+        },
+        {
+          "path": "Feedback - LumiaTool Workspace v2.html",
+          "createdAt": "2026-08-29T14:46:33.561Z",
+          "status": "needs-review",
+          "subtitle": "多模板、覆盖层与键盘交互独立复审",
+          "viewport": {
+            "width": 1568,
+            "height": 953
+          }
+        }
+      ]
+    }
+  },
+  "createdAt": "2026-08-29T14:27:57.804Z",
+  "updatedAt": "2026-08-29T14:50:35.120Z"
+}

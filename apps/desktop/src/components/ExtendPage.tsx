@@ -4,13 +4,7 @@ import { createPortal } from "react-dom";
 import { Button, Icon } from "@/components";
 import event, { componentResizeDispatch } from "@/event";
 
-if (typeof document !== "undefined") {
-    document.addEventListener("keydown", keyboardEvent => {
-        if (keyboardEvent.key === "Escape") {
-            event.dispatch("extend_page_close");
-        }
-    });
-}
+let activeModalCount = 0;
 
 interface ExtendPageOwnProps {
     children?: ReactNode;
@@ -22,13 +16,20 @@ interface ExtendPageOwnProps {
     hideClose?: boolean;
 }
 
-type ExtendPageProps = ExtendPageOwnProps &
-    Omit<HTMLAttributes<HTMLDivElement>, keyof ExtendPageOwnProps>;
+type ExtendPageProps = ExtendPageOwnProps & Omit<HTMLAttributes<HTMLDivElement>, keyof ExtendPageOwnProps>;
 
 interface TransitionPresence {
     present: boolean;
     transitionClassName: string;
 }
+const focusableSelector = [
+    "button:not([disabled])",
+    "[href]",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])",
+].join(",");
 
 function useTransitionPresence(show: boolean): TransitionPresence {
     const [present, setPresent] = useState(show);
@@ -48,17 +49,13 @@ function useTransitionPresence(show: boolean): TransitionPresence {
 
         if (show) {
             setPresent(true);
-            setTransitionClassName(
-                "lumia-extend-page-enter-active lumia-extend-page-enter-from",
-            );
+            setTransitionClassName("lumia-extend-page-enter-active lumia-extend-page-enter-from");
             frame = window.requestAnimationFrame(() => {
                 setTransitionClassName("lumia-extend-page-enter-active");
                 timer = setTimeout(() => setTransitionClassName(""), 300);
             });
         } else if (presentRef.current) {
-            setTransitionClassName(
-                "lumia-extend-page-leave-active lumia-extend-page-leave-to",
-            );
+            setTransitionClassName("lumia-extend-page-leave-active lumia-extend-page-leave-to");
             timer = setTimeout(() => {
                 setPresent(false);
                 setTransitionClassName("");
@@ -110,6 +107,8 @@ function ExtendPage({
     const onChangeRef = useRef(onChange);
     disableReplaceRef.current = disableReplace;
     onChangeRef.current = onChange;
+    const pageRef = useRef<HTMLDivElement | null>(null);
+    const triggerRef = useRef<HTMLElement | null>(null);
 
     const transition = useTransitionPresence(value);
 
@@ -152,16 +151,77 @@ function ExtendPage({
         event.addListener("locale_change", localeChange);
         return () => event.removeListener("locale_change", localeChange);
     }, []);
+    useEffect(() => {
+        if (!value) {
+            triggerRef.current?.focus();
+            triggerRef.current = null;
+            return;
+        }
 
-    const pageStyle = useMemo<CSSProperties>(() => ({
-        top: `${top + offset}px`,
-        height: `calc(100vh - ${top + bottom + offset}px)`,
-        ...fallthroughStyle,
-    }), [bottom, fallthroughStyle, offset, top]);
+        triggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        const app = document.querySelector<HTMLElement>("#app");
+        app?.setAttribute("inert", "");
+        activeModalCount += 1;
 
-    const target = typeof document === "undefined"
-        ? null
-        : document.querySelector("#lumia-append");
+        const keydown = (keyboardEvent: KeyboardEvent) => {
+            const page = pageRef.current;
+            const openPages = [...document.querySelectorAll<HTMLElement>(".lumia-extend-page")];
+            if (!page || openPages.at(-1) !== page) {
+                return;
+            }
+            if (keyboardEvent.key === "Escape") {
+                keyboardEvent.preventDefault();
+                onChangeRef.current?.(false);
+                return;
+            }
+            if (keyboardEvent.key !== "Tab") {
+                return;
+            }
+            const focusable = [...page.querySelectorAll<HTMLElement>(focusableSelector)];
+            if (focusable.length === 0) {
+                keyboardEvent.preventDefault();
+                page.focus();
+                return;
+            }
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (keyboardEvent.shiftKey && document.activeElement === first) {
+                keyboardEvent.preventDefault();
+                last.focus();
+            } else if (!keyboardEvent.shiftKey && document.activeElement === last) {
+                keyboardEvent.preventDefault();
+                first.focus();
+            }
+        };
+        document.addEventListener("keydown", keydown);
+        return () => {
+            document.removeEventListener("keydown", keydown);
+            activeModalCount -= 1;
+            if (activeModalCount === 0) {
+                app?.removeAttribute("inert");
+            }
+        };
+    }, [value]);
+
+    useEffect(() => {
+        if (!value || !transition.present) {
+            return;
+        }
+        const page = pageRef.current;
+        const firstFocusable = page?.querySelector<HTMLElement>(focusableSelector);
+        (firstFocusable ?? page)?.focus();
+    }, [transition.present, value]);
+
+    const pageStyle = useMemo<CSSProperties>(
+        () => ({
+            top: `${top + offset}px`,
+            height: `calc(100vh - ${top + bottom + offset}px)`,
+            ...fallthroughStyle,
+        }),
+        [bottom, fallthroughStyle, offset, top],
+    );
+
+    const target = typeof document === "undefined" ? null : document.querySelector("#lumia-append");
     if (!target) {
         return null;
     }
@@ -171,31 +231,24 @@ function ExtendPage({
             {transition.present ? (
                 <div
                     {...rest}
-                    className={[
-                        "lumia-extend-page",
-                        className,
-                        transition.transitionClassName,
-                    ].filter(Boolean).join(" ")}
+                    ref={pageRef}
+                    role="dialog"
+                    aria-modal="true"
+                    tabIndex={-1}
+                    className={["lumia-extend-page", className, transition.transitionClassName]
+                        .filter(Boolean)
+                        .join(" ")}
                     style={pageStyle}
                 >
+                    {!hideClose ? (
+                        <div className="lumia-extend-page-close">
+                            <Button size="small" type="primary" onClick={() => onChangeRef.current?.(false)}>
+                                <Icon name="close" size={10} />
+                                <span>{closeText || closeI18n}</span>
+                            </Button>
+                        </div>
+                    ) : null}
                     {children}
-                </div>
-            ) : null}
-            {transition.present && !hideClose ? (
-                <div
-                    className={[
-                        "lumia-extend-page-close",
-                        transition.transitionClassName,
-                    ].filter(Boolean).join(" ")}
-                >
-                    <Button
-                        size="small"
-                        type="primary"
-                        onClick={() => onChangeRef.current?.(false)}
-                    >
-                        <Icon name="close" size={10} />
-                        <span style={{ marginLeft: 5 }}>{closeText || closeI18n}</span>
-                    </Button>
                 </div>
             ) : null}
         </>,

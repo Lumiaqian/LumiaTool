@@ -4,11 +4,13 @@ class PlaceholderContentWidget implements monacoEditor.editor.IContentWidget {
     private static readonly ID = "editor.widget.placeholderHint";
 
     private domNode: HTMLElement | undefined;
+    private readonly changeListener: monacoEditor.IDisposable;
 
-    constructor(private readonly placeholder: string, private readonly editor: monacoEditor.editor.ICodeEditor) {
-        // register a listener for editor code changes
-        editor.onDidChangeModelContent(() => this.onDidChangeModelContent());
-        // ensure that on initial load the placeholder is shown
+    constructor(
+        private readonly placeholder: string,
+        private readonly editor: monacoEditor.editor.ICodeEditor,
+    ) {
+        this.changeListener = editor.onDidChangeModelContent(() => this.onDidChangeModelContent());
         this.onDidChangeModelContent();
     }
 
@@ -45,6 +47,7 @@ class PlaceholderContentWidget implements monacoEditor.editor.IContentWidget {
     }
 
     dispose(): void {
+        this.changeListener.dispose();
         this.editor.removeContentWidget(this);
     }
 }

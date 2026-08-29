@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-    Button,
-    HelpTip,
-    Icon,
-    Input,
-    Textarea,
-} from "@/components";
+import { Button, HelpTip, Icon, Input, Textarea } from "@/components";
 import { initialize, useAction } from "@/store/action";
 import dayjs from "dayjs";
 
@@ -16,7 +10,7 @@ const initial = await initialize(
         protocols: "",
     },
     {
-        paste: (str) => /^ws/.test(str),
+        paste: str => /^ws/.test(str),
     },
 );
 
@@ -53,10 +47,7 @@ export default function Websocket() {
         if (!mountedRef.current) {
             return;
         }
-        setLogs((current) => [
-            ...current,
-            { content, type, time: dayjs().format("HH:mm:ss") },
-        ]);
+        setLogs(current => [...current, { content, type, time: dayjs().format("HH:mm:ss") }]);
     }, []);
 
     useEffect(() => {
@@ -87,9 +78,7 @@ export default function Websocket() {
         try {
             const websocket = new WebSocket(
                 action.current.input,
-                action.current.protocols !== ""
-                    ? action.current.protocols.split(",")
-                    : undefined,
+                action.current.protocols !== "" ? action.current.protocols.split(",") : undefined,
             );
 
             websocket.addEventListener("open", () => {
@@ -133,12 +122,7 @@ export default function Websocket() {
                 if (!mountedRef.current) {
                     return;
                 }
-                log(
-                    typeof event.data === "string"
-                        ? event.data
-                        : String(event.data),
-                    "accept",
-                );
+                log(typeof event.data === "string" ? event.data : String(event.data), "accept");
             });
 
             websocket.addEventListener("error", () => {
@@ -209,38 +193,45 @@ export default function Websocket() {
                               : $t("websocket_close")}
                     </span>
                 </div>
-                <Input
-                    value={action.current.input}
-                    aria-label="WebSocket URL"
-                    onChange={(value: string) => {
-                        action.current.input = value;
-                    }}
-                />
-                <Input
-                    value={action.current.protocols}
-                    onChange={(value: string) => {
-                        action.current.protocols = value;
-                    }}
-                    label={$t("websocket_protocols")}
-                    suffix={<HelpTip text={$t("websocket_protocols_tip")} />}
-                />
-                <label className="lumia-tester-check">
-                    <input type="checkbox" checked={retry} onChange={event => setRetry(event.target.checked)} />
-                    <span>{$t("websocket_reconnect")}</span>
-                </label>
-                {status === "close" ? (
-                    <Button type="primary" onClick={connect} text={$t("websocket_connect")} />
-                ) : (
-                    <Button
-                        type="danger"
-                        loading={status === "connecting"}
-                        onClick={close}
-                        text={$t("websocket_close")}
+                <div className="lumia-websocket-endpoint">
+                    <Input
+                        value={action.current.input}
+                        aria-label="WebSocket URL"
+                        onChange={(value: string) => {
+                            action.current.input = value;
+                        }}
                     />
-                )}
+                    <Input
+                        value={action.current.protocols}
+                        onChange={(value: string) => {
+                            action.current.protocols = value;
+                        }}
+                        label={$t("websocket_protocols")}
+                        suffix={<HelpTip text={$t("websocket_protocols_tip")} />}
+                    />
+                </div>
+                <div className="lumia-websocket-connect-actions">
+                    <label className="lumia-tester-check">
+                        <input type="checkbox" checked={retry} onChange={event => setRetry(event.target.checked)} />
+                        <span>{$t("websocket_reconnect")}</span>
+                    </label>
+                    {status === "close" ? (
+                        <Button type="primary" onClick={connect} text={$t("websocket_connect")} />
+                    ) : (
+                        <Button
+                            type="danger"
+                            loading={status === "connecting"}
+                            onClick={close}
+                            text={$t("websocket_close")}
+                        />
+                    )}
+                </div>
             </section>
             <div className="lumia-websocket-workspace">
-                <section className="lumia-tester-panel lumia-websocket-composer" aria-labelledby="lumia-websocket-composer-title">
+                <section
+                    className="lumia-tester-panel lumia-websocket-composer"
+                    aria-labelledby="lumia-websocket-composer-title"
+                >
                     <header className="lumia-tester-panel-header">
                         <strong id="lumia-websocket-composer-title">{$t("websocket_send_content")}</strong>
                         <Button
@@ -259,7 +250,10 @@ export default function Websocket() {
                         />
                     </div>
                 </section>
-                <section className="lumia-tester-panel lumia-websocket-logs" aria-labelledby="lumia-websocket-log-title">
+                <section
+                    className="lumia-tester-panel lumia-websocket-logs"
+                    aria-labelledby="lumia-websocket-log-title"
+                >
                     <header className="lumia-tester-panel-header">
                         <strong id="lumia-websocket-log-title">{$t("websocket_log_content")}</strong>
                         <div className="lumia-websocket-log-actions">
@@ -280,7 +274,7 @@ export default function Websocket() {
                                 <input
                                     type="checkbox"
                                     checked={action.current.keepScroll}
-                                    onChange={(event) => {
+                                    onChange={event => {
                                         action.current.keepScroll = event.target.checked;
                                         action.save();
                                     }}
@@ -289,16 +283,16 @@ export default function Websocket() {
                             </label>
                         </div>
                     </header>
-                    <div
-                        className="lumia-websocket-log-list"
-                        ref={logListRef}
-                        role="log"
-                        aria-live="polite"
-                    >
+                    <div className="lumia-websocket-log-list" ref={logListRef} role="log" aria-live="polite">
                         {logs.length < 1 ? (
-                            <p className="lumia-tester-empty">
-                                {status === "open" ? $t("websocket_send_content") : $t("websocket_connect")}
-                            </p>
+                            <div className="lumia-tester-empty">
+                                <strong>{$t("websocket_log_content")}</strong>
+                                <span>
+                                    {status === "open"
+                                        ? $t("websocket_send_content")
+                                        : `${$t("websocket_connect")} → ${$t("websocket_log_content")}`}
+                                </span>
+                            </div>
                         ) : (
                             logs.map((item, index) => (
                                 <article
@@ -322,7 +316,9 @@ export default function Websocket() {
                                             onClick={() => $copy(item.content)}
                                         />
                                     </header>
-                                    <pre><code>{item.content}</code></pre>
+                                    <pre>
+                                        <code>{item.content}</code>
+                                    </pre>
                                 </article>
                             ))
                         )}

@@ -119,7 +119,7 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
     font-family: var(--lumia-font-display);
     font-size: var(--lumia-font-title);
     font-weight: 600;
-    letter-spacing: -.02em;
+    letter-spacing: -0.02em;
 }
 
 .lumia-global-search {
@@ -141,7 +141,11 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
     top: 50%;
     right: 9px;
     color: var(--lumia-muted);
-    font: 10px ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font:
+        10px ui-monospace,
+        "SFMono-Regular",
+        Menlo,
+        monospace;
     pointer-events: none;
     transform: translateY(-50%);
 }
@@ -214,7 +218,8 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
     border-radius: var(--lumia-radius-control);
     background: transparent;
     cursor: pointer;
-    transition: color var(--lumia-duration-fast) var(--lumia-ease-standard),
+    transition:
+        color var(--lumia-duration-fast) var(--lumia-ease-standard),
         background var(--lumia-duration-fast) var(--lumia-ease-standard);
 }
 
@@ -240,8 +245,6 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
     border-right: 1px solid var(--lumia-border);
     background: var(--lumia-sidebar-bg);
 }
-
-
 
 .lumia-mobile-close {
     display: none;
@@ -303,7 +306,8 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
     background: var(--lumia-raised-bg);
     cursor: pointer;
     text-align: left;
-    transition: color var(--lumia-duration-fast) var(--lumia-ease-standard),
+    transition:
+        color var(--lumia-duration-fast) var(--lumia-ease-standard),
         border-color var(--lumia-duration-fast) var(--lumia-ease-standard),
         background var(--lumia-duration-fast) var(--lumia-ease-standard);
 }
@@ -333,7 +337,19 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
     min-width: 17px;
     height: 17px;
     color: currentColor;
-    font: 700 9px ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font:
+        700 9px ui-monospace,
+        "SFMono-Regular",
+        Menlo,
+        monospace;
+}
+
+.lumia-tool-grid button:not(.is-current):not(:hover) .lumia-tool-glyph {
+    opacity: 0.45;
+}
+
+.lumia-tool-grid button:not(.is-current) .lumia-tool-glyph {
+    font-weight: 600;
 }
 
 .lumia-shelf-footer {
@@ -530,7 +546,7 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
         left: 0;
         width: 240px;
         display: none;
-        box-shadow: 18px 0 50px rgba(0, 0, 0, .46);
+        box-shadow: 18px 0 50px rgba(0, 0, 0, 0.46);
     }
 
     .lumia-tool-shelf.is-mobile-open {
@@ -555,7 +571,7 @@ body:has(.lumia-layout-desktop):has(.lumia-common-tool-draggable) #lumia-append 
         display: block;
         padding: 0;
         border: 0;
-        background: rgba(0, 0, 0, .56);
+        background: rgba(0, 0, 0, 0.56);
     }
 
     .lumia-workbench-title span {

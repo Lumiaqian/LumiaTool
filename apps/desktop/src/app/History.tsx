@@ -24,11 +24,11 @@ const HistoryTable = Table as unknown as ComponentType<HistoryTableProps>;
 
 const tableDataHandle = (item: unknown): string => {
     if (
-        item !== null
-        && typeof item === "object"
-        && isPlainObject(item)
-        && "input" in item
-        && (JSON.stringify(item).length > 150 || Object.keys(item).length === 1)
+        item !== null &&
+        typeof item === "object" &&
+        isPlainObject(item) &&
+        "input" in item &&
+        (JSON.stringify(item).length > 150 || Object.keys(item).length === 1)
     ) {
         const input = item.input;
         if (instanceOfInput(input)) {
@@ -70,7 +70,7 @@ export default function History({ onClose }: { onClose?: () => void }) {
                 title={`${$t("main_history")} · ${$t(`tool_${storeOperate.items.tool}`)}`}
                 height="100%"
                 padding="0"
-                extra={(
+                extra={
                     <Align>
                         {length > 0 ? (
                             <Button size="small" type="danger" onClick={clear}>
@@ -81,7 +81,7 @@ export default function History({ onClose }: { onClose?: () => void }) {
                             {$t("main_ui_close")}
                         </Button>
                     </Align>
-                )}
+                }
             >
                 {length > 0 ? (
                     <HistoryTable
@@ -112,12 +112,17 @@ export default function History({ onClose }: { onClose?: () => void }) {
                         )}
                     </HistoryTable>
                 ) : (
-                    <Align horizontal="center" vertical="center">
-                        <Exception />
-                    </Align>
+                    <div className="lumia-history-empty">
+                        <Exception content={`${$t("main_history")} · ${$t("main_ui_null")}`} />
+                        <p>{$t(`tool_${storeOperate.items.tool}`)}</p>
+                    </div>
                 )}
             </Card>
-            <Modal value={viewData.show} onChange={(show: boolean) => setViewData((value) => ({ ...value, show }))} width="70%">
+            <Modal
+                value={viewData.show}
+                onChange={(show: boolean) => setViewData(value => ({ ...value, show }))}
+                width="70%"
+            >
                 <Textarea value={JSON.stringify(viewData.data, null, "\t")} height="300" />
             </Modal>
         </>

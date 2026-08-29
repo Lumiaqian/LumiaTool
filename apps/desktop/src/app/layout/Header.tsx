@@ -38,9 +38,10 @@ export default function Header() {
         toolExists(storeOperate.items.tool) && !getTool(storeOperate.items.tool).isSimple()
             ? getTool(storeOperate.items.tool).features
             : [];
-    const workspaceSubtitle = features.length > 1 && storeOperate.items.feature
-        ? $t(`tool_${storeOperate.items.tool}_${storeOperate.items.feature}`)
-        : $t(`main_category_${selectedCategory}`);
+    const workspaceSubtitle =
+        features.length > 1 && storeOperate.items.feature
+            ? $t(`tool_${storeOperate.items.tool}_${storeOperate.items.feature}`)
+            : $t(`main_category_${selectedCategory}`);
 
     const selectTool = (name: string, category = selectedCategory) => {
         storeOperate.redirectTool(name, storeOperate.getToolLastFeature(name), category);
@@ -52,9 +53,7 @@ export default function Header() {
         const nextCategoryTools = toolsForCategory(name);
         const recentTool = categoryExists(name)
             ? storeOperate.getCategoryLastTool(name)
-            : storeOperate.getRecently().find(({ tool }) =>
-                storeSetting.items.common.includes(tool.name)
-            )?.tool.name;
+            : storeOperate.getRecently().find(({ tool }) => storeSetting.items.common.includes(tool.name))?.tool.name;
         const nextTool = recentTool || nextCategoryTools[0];
         if (nextTool) {
             selectTool(nextTool, name);
@@ -124,8 +123,15 @@ export default function Header() {
                 </button>
             </header>
 
-            <aside className={`lumia-tool-shelf${mobileOpen ? " is-mobile-open" : ""}`} aria-label={$t("main_workbench_shelf")}>
-                <button className="lumia-mobile-close" onClick={() => setMobileOpen(false)} aria-label={$t("main_workbench_close_shelf")}>
+            <aside
+                className={`lumia-tool-shelf${mobileOpen ? " is-mobile-open" : ""}`}
+                aria-label={$t("main_workbench_shelf")}
+            >
+                <button
+                    className="lumia-mobile-close"
+                    onClick={() => setMobileOpen(false)}
+                    aria-label={$t("main_workbench_close_shelf")}
+                >
                     ×
                 </button>
 
@@ -171,7 +177,13 @@ export default function Header() {
                 </div>
             </aside>
 
-            {mobileOpen && <button className="lumia-shelf-mask" onClick={() => setMobileOpen(false)} aria-label={$t("main_workbench_close_shelf")} />}
+            {mobileOpen && (
+                <button
+                    className="lumia-shelf-mask"
+                    onClick={() => setMobileOpen(false)}
+                    aria-label={$t("main_workbench_close_shelf")}
+                />
+            )}
 
             <header className="lumia-workbench-toolbar">
                 <div className="lumia-workbench-title">
@@ -199,10 +211,10 @@ export default function Header() {
                 <span>{$t("main_workbench_status_ready")}</span>
             </footer>
 
-            <ExtendPage value={openTools} onChange={setOpenTools}>
+            <ExtendPage value={openTools} onChange={setOpenTools} aria-label={$t("main_tools_lists")}>
                 <Tools />
             </ExtendPage>
-            <ExtendPage value={openHistory} onChange={setOpenHistory} hideClose>
+            <ExtendPage value={openHistory} onChange={setOpenHistory} hideClose aria-label={$t("main_history")}>
                 <History onClose={() => setOpenHistory(false)} />
             </ExtendPage>
         </>

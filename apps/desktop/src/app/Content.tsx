@@ -60,7 +60,7 @@ export default function Content() {
     });
 
     useEffect(() => {
-        const toggleSetting = () => setOpenSetting((value) => !value);
+        const toggleSetting = () => setOpenSetting(value => !value);
         event.addListener("open_setting", toggleSetting);
         window.dispatchEvent(new Event("resize"));
         return () => event.removeListener("open_setting", toggleSetting);
@@ -76,9 +76,10 @@ export default function Content() {
         const meta = matched.meta;
         if (meta.type === "tool") {
             const requestedCategory = queryCategory(currentRoute.query);
-            const category = requestedCategory === "common" || categoryExists(requestedCategory)
-                ? requestedCategory
-                : getTool(meta.tool).firstCategory().name;
+            const category =
+                requestedCategory === "common" || categoryExists(requestedCategory)
+                    ? requestedCategory
+                    : getTool(meta.tool).firstCategory().name;
             if (!operate.access(meta.tool, meta.feature, category)) {
                 return;
             }
@@ -86,15 +87,18 @@ export default function Content() {
 
         let active = true;
         setRouteView({ key: routeKey, Component: null, loading: true, error: false });
-        matched.component().then((module) => {
-            if (active) {
-                setRouteView({ key: routeKey, Component: module.default, loading: false, error: false });
-            }
-        }).catch(() => {
-            if (active) {
-                setRouteView({ key: routeKey, Component: null, loading: false, error: true });
-            }
-        });
+        matched
+            .component()
+            .then(module => {
+                if (active) {
+                    setRouteView({ key: routeKey, Component: module.default, loading: false, error: false });
+                }
+            })
+            .catch(() => {
+                if (active) {
+                    setRouteView({ key: routeKey, Component: null, loading: false, error: true });
+                }
+            });
 
         return () => {
             active = false;
@@ -118,12 +122,10 @@ export default function Content() {
                             <Exception />
                         </Align>
                     )}
-                    {!routeView.loading && !routeView.error && RouteComponent && (
-                        <RouteComponent key={routeView.key} />
-                    )}
+                    {!routeView.loading && !routeView.error && RouteComponent && <RouteComponent key={routeView.key} />}
                 </div>
             </main>
-            <ExtendPage value={openSetting} onChange={setOpenSetting}>
+            <ExtendPage value={openSetting} onChange={setOpenSetting} aria-label={$t("main_ui_setting")}>
                 <Setting />
             </ExtendPage>
         </>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LumiaTool UI 独立复审 v2</title>
+<style>
+:root{color-scheme:dark;--bg:#171410;--surface:#241f1a;--raised:#29241e;--text:#f4ecdf;--muted:#b4a697;--line:rgba(255,242,225,.14);--accent:#efa968}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.65 -apple-system,"SF Pro Text","PingFang SC","Noto Sans SC",sans-serif}.review{max-width:1840px;margin:auto;padding:24px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px}.brief{position:sticky;top:24px;align-self:start;padding:20px;border:1px solid var(--line);border-radius:11px;background:var(--surface)}.eyebrow{margin:0 0 8px;color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}h1{margin:0;font:600 25px/1.25 Georgia,"Songti SC",serif}.brief p{margin:12px 0 0;color:var(--muted)}.brief h2{margin:24px 0 8px;font-size:12px}.brief ol{margin:0;padding-left:20px;color:var(--muted)}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.tabs button{min-height:30px;padding:0 12px;border:1px solid var(--line);border-radius:7px;background:var(--raised);color:var(--muted);font:inherit;cursor:pointer}.tabs button[aria-selected=true]{border-color:transparent;background:var(--accent);color:#2b190b}.frame{display:none;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:11px;background:#000}.frame.is-active{display:block}.frame img{display:block;width:100%;height:auto}.spot{position:absolute;display:block;border-radius:5px}.wide-top{left:0;top:0;width:100%;height:5.5%}.wide-shelf{left:0;top:5.5%;width:14.4%;height:94.5%}.wide-body{left:14.4%;top:5.5%;width:85.6%;height:94.5%}
+#json-command{left:15.5%;top:8.5%;width:82.5%;height:12%}#json-editor{left:15.5%;top:20.5%;width:82.5%;height:75%}#json-tabs{left:15.5%;top:8.5%;width:30%;height:5%}
+#qr-source{left:15.5%;top:12%;width:42%;height:82%}#qr-result{left:57.5%;top:12%;width:41%;height:82%}#qr-action{left:91%;top:6%;width:7%;height:5%}
+#ws-connect{left:15.5%;top:12%;width:83%;height:6%}#ws-send{left:15.5%;top:18%;width:33%;height:76%}#ws-log{left:48.5%;top:18%;width:50%;height:76%}#ws-toast{left:38%;top:0;width:23%;height:6%}
+#settings-sheet{left:14.4%;top:3%;width:84.5%;height:93%}#settings-form{left:19%;top:10%;width:55%;height:38%}#settings-close{left:94%;top:6%;width:4%;height:4%}#settings-underlay{left:0;top:0;width:14.4%;height:100%}
+#history-title{left:15.5%;top:3%;width:30%;height:7%}#history-empty{left:45%;top:40%;width:18%;height:18%}
+#compact-top{left:0;top:0;width:100%;height:9%}#compact-tabs{left:3%;top:17%;width:94%;height:10%}#compact-command{left:3%;top:27%;width:94%;height:18%}#compact-editor{left:3%;top:45%;width:94%;height:48%}
+#dark-panels{left:15.5%;top:12%;width:83%;height:82%}#dark-disabled{left:77%;top:18%;width:21%;height:6%}
+@media(max-width:980px){.review{grid-template-columns:1fr;padding:12px}.brief{position:static}}
+</style>
+</head>
+<body><main class="review"><aside class="brief"><p class="eyebrow">Independent re-review · 2026-08-29</p><h1>LumiaTool 工作台 v2</h1><p>重新从当前运行提交采样，不继承上一版判断。覆盖 Editor、Generator、Tester、Settings、History、Dark 与 700px 窄窗。</p><h2>审查顺序</h2><ol><li>阻断级交互与可访问性</li><li>跨模板信息架构</li><li>视觉密度和命令层级</li><li>响应式与主题</li><li>保留项</li></ol></aside><section><nav class="tabs" aria-label="复审截图"><button data-screen="settings" aria-selected="true">设置</button><button data-screen="json">JSON</button><button data-screen="qr">QR</button><button data-screen="ws">WebSocket</button><button data-screen="history">历史</button><button data-screen="compact">窄窗 JSON</button><button data-screen="dark">深色 Tester</button></nav><data-overlay src="./feedback-views-v2.js" controls="on">
+<section class="frame settings is-active" data-screen-label="设置覆盖层"><img src="settings-wide.webp" alt="LumiaTool 设置覆盖层"><i class="spot" id="settings-sheet" data-metric-id="settings-sheet"></i><i class="spot" id="settings-form" data-metric-id="settings-form"></i><i class="spot" id="settings-close" data-metric-id="settings-close"></i><i class="spot" id="settings-underlay" data-metric-id="settings-underlay"></i></section>
+<section class="frame json" data-screen-label="JSON 编辑器"><img src="json-wide.webp" alt="LumiaTool JSON 编辑器"><i class="spot wide-shelf" data-metric-id="json-shelf"></i><i class="spot" id="json-command" data-metric-id="json-command"></i><i class="spot" id="json-editor" data-metric-id="json-editor"></i><i class="spot" id="json-tabs" data-metric-id="json-tabs"></i></section>
+<section class="frame qr" data-screen-label="QR 生成器"><img src="qr-wide.webp" alt="LumiaTool QR 生成器"><i class="spot" id="qr-source" data-metric-id="qr-source"></i><i class="spot" id="qr-result" data-metric-id="qr-result"></i><i class="spot" id="qr-action" data-metric-id="qr-action"></i></section>
+<section class="frame ws" data-screen-label="WebSocket 测试器"><img src="websocket-wide.webp" alt="LumiaTool WebSocket 测试器"><i class="spot" id="ws-connect" data-metric-id="ws-connect"></i><i class="spot" id="ws-send" data-metric-id="ws-send"></i><i class="spot" id="ws-log" data-metric-id="ws-log"></i><i class="spot" id="ws-toast" data-metric-id="ws-toast"></i></section>
+<section class="frame history" data-screen-label="历史覆盖层"><img src="history-wide.webp" alt="LumiaTool 历史覆盖层"><i class="spot" id="history-title" data-metric-id="history-title"></i><i class="spot" id="history-empty" data-metric-id="history-empty"></i></section>
+<section class="frame compact" data-screen-label="700px JSON 编辑器"><img src="json-compact.webp" alt="LumiaTool 窄窗 JSON 编辑器"><i class="spot" id="compact-top" data-metric-id="compact-top"></i><i class="spot" id="compact-tabs" data-metric-id="compact-tabs"></i><i class="spot" id="compact-command" data-metric-id="compact-command"></i><i class="spot" id="compact-editor" data-metric-id="compact-editor"></i></section>
+<section class="frame dark" data-screen-label="深色 WebSocket 测试器"><img src="websocket-dark.webp" alt="LumiaTool 深色 WebSocket 测试器"><i class="spot wide-top" data-metric-id="dark-top"></i><i class="spot wide-shelf" data-metric-id="dark-shelf"></i><i class="spot" id="dark-panels" data-metric-id="dark-panels"></i><i class="spot" id="dark-disabled" data-metric-id="dark-disabled"></i></section>
+</data-overlay></section></main><script src="data-overlay.js"></script><script>
+const overlay = document.querySelector("data-overlay");
+const screenForView = {
+    "blocking-a11y": "settings",
+    "template-architecture": "json",
+    "actions-states": "ws",
+    "generator-actions": "qr",
+    responsive: "compact",
+    theme: "dark",
+    "empty-states": "history",
+    working: "qr",
+};
+const viewForScreen = {
+    settings: "blocking-a11y",
+    json: "template-architecture",
+    qr: "generator-actions",
+    ws: "actions-states",
+    history: "empty-states",
+    compact: "responsive",
+    dark: "theme",
+};
+function showScreen(screen, sync = true) {
+    document.querySelectorAll("[data-screen]").forEach(button =>
+        button.setAttribute("aria-selected", String(button.dataset.screen === screen))
+    );
+    document.querySelectorAll(".frame").forEach(frame =>
+        frame.classList.toggle("is-active", frame.classList.contains(screen))
+    );
+    if (sync && viewForScreen[screen]) {
+        overlay.view = viewForScreen[screen];
+    }
+    requestAnimationFrame(() => overlay.measure());
+}
+document.querySelectorAll("[data-screen]").forEach(button =>
+    button.addEventListener("click", () => showScreen(button.dataset.screen))
+);
+document.querySelectorAll(".frame img").forEach(image =>
+    image.addEventListener("load", () => overlay.measure())
+);
+window.addEventListener("load", () =>
+    requestAnimationFrame(() => requestAnimationFrame(() => overlay.measure()))
+);
+new MutationObserver(() => {
+    const screen = screenForView[overlay.view];
+    const current = document.querySelector("[data-screen][aria-selected=true]")?.dataset.screen;
+    if (screen && screen !== current) {
+        showScreen(screen, false);
+    }
+}).observe(overlay.shadowRoot, { childList: true, subtree: true });
+</script></body></html>

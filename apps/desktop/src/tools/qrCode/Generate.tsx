@@ -1,14 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-    Align,
-    Bool,
-    InputNumber,
-    Select,
-    Tabs,
-    TextInput,
-    TextOutput,
-    UploadFile,
-} from "@/components";
+import { Align, Bool, InputNumber, Select, Tabs, TextInput, TextOutput, UploadFile } from "@/components";
 import { createTextInput, createTextOutput } from "@/components/text";
 import Text from "@/lib/text";
 import { optionMap } from "@/lib/helper";
@@ -41,7 +32,7 @@ export default function Generate() {
                 setOutput(Text.fromError(inputText.toString()));
                 return;
             }
-            setOutput(current => current.isEmpty() ? current : Text.empty());
+            setOutput(current => (current.isEmpty() ? current : Text.empty()));
             if (inputText.isEmpty()) {
                 return;
             }
@@ -77,158 +68,167 @@ export default function Generate() {
         [],
     );
 
-    return (<div className="lumia-generator-editor-family lumia-generator-page lumia-qr-generator-page lumia-qr-workspace"><div className="lumia-qr-primary">
-        <section className="lumia-qr-source">
-            <header className="lumia-qr-source-header">
-                <Bool
-                    size="small"
-                    value={action.current.option.is_show}
-                    onChange={value => {
-                        action.current.option.is_show = value;
-                    }}
-                    label={$t("main_ui_setting")}
-                    border
-                />
-            </header>
-            <TextInput
-                value={action.current.input}
-                onChange={value => {
-                    action.current.input = value;
-                }}
-                upload="file"
-            />
-        </section>
-        <TextOutput
-            value={action.current.output}
-            onChange={value => {
-                action.current.output = value;
-            }}
-            allow={["image", "hex", "base64"]}
-            content={output}
-            onSuccess={() => action.save()}
-        />
-    </div>
-    {action.current.option.is_show ? (
-        <div className="lumia-page-option" style={{ marginTop: 5 }}>
-            <Tabs
-                value={action.current.option.tab}
-                onChange={value => {
-                    action.current.option.tab = value;
-                }}
-                lists={tabs}
-            >
-                <Align>
-                    <InputNumber
-                        size={generateOptionSize}
-                        width={120}
-                        value={action.current.option.margin}
+    return (
+        <div className="lumia-generator-editor-family lumia-generator-page lumia-qr-generator-page lumia-qr-workspace">
+            <div className="lumia-qr-primary">
+                <section className="lumia-qr-source">
+                    <header className="lumia-qr-source-header">
+                        <strong>{$t("main_ui_input")}</strong>
+                        <Bool
+                            size="small"
+                            value={action.current.option.is_show}
+                            onChange={value => {
+                                action.current.option.is_show = value;
+                            }}
+                            label={$t("main_ui_setting")}
+                            border
+                        />
+                    </header>
+                    <TextInput
+                        value={action.current.input}
                         onChange={value => {
-                            action.current.option.margin = value;
+                            action.current.input = value;
                         }}
-                        max={1000}
-                        prepend={$t("qrCode_generate_option_margin")}
+                        upload="file"
                     />
-                    <Select
-                        size={generateOptionSize}
-                        options={["L", "M", "Q", "H"]}
-                        value={action.current.option.error_correction_level}
+                </section>
+                <div className="lumia-qr-output">
+                    <TextOutput
+                        value={action.current.output}
                         onChange={value => {
-                            action.current.option.error_correction_level = value;
+                            action.current.output = value;
                         }}
-                        label={$t("qrCode_generate_option_correction")}
+                        allow={["image", "hex", "base64"]}
+                        content={output}
+                        onSuccess={() => action.save()}
                     />
-                    <UploadFile
-                        size={generateOptionSize}
-                        onSuccess={uploadHandle}
-                        buttonType="text"
-                        type="image"
-                    />
-                    <InputNumber
-                        size={generateOptionSize}
-                        width={100}
-                        value={action.current.option.image_options.size}
+                    {inputText.isEmpty() ? (
+                        <p className="lumia-qr-output-hint">
+                            {$t("main_ui_input")} → {$t("main_ui_output")}
+                        </p>
+                    ) : null}
+                </div>
+            </div>
+            {action.current.option.is_show ? (
+                <div className="lumia-page-option" style={{ marginTop: 5 }}>
+                    <Tabs
+                        value={action.current.option.tab}
                         onChange={value => {
-                            action.current.option.image_options.size = value;
+                            action.current.option.tab = value;
                         }}
-                        max={10}
-                        prepend={$t("qrCode_generate_option_size")}
-                    />
-                    <InputNumber
-                        size={generateOptionSize}
-                        width={120}
-                        value={action.current.option.image_options.margin}
-                        onChange={value => {
-                            action.current.option.image_options.margin = value;
-                        }}
-                        max={1000}
-                        prepend={$t("qrCode_generate_option_margin")}
-                    />
-                </Align>
-                <GenerateOptionColor
-                    value={action.current.option.dots_options.color}
-                    onChange={value => {
-                        action.current.option.dots_options.color = value;
-                    }}
-                    size={generateOptionSize}
-                >
-                    <Select
-                        value={action.current.option.dots_options.type}
-                        onChange={value => {
-                            action.current.option.dots_options.type = value;
-                        }}
-                        options={optionMap(
-                            ["square", "dots", "rounded", "classy", "extra-rounded", "classy-rounded"],
-                            "qrCode_generate_option_",
-                        )}
-                        size={generateOptionSize}
-                        label={$t("qrCode_generate_option_style")}
-                    />
-                </GenerateOptionColor>
-                <GenerateOptionColor
-                    value={action.current.option.corners_square_options.color}
-                    onChange={value => {
-                        action.current.option.corners_square_options.color = value;
-                    }}
-                    size={generateOptionSize}
-                >
-                    <Select
-                        value={action.current.option.corners_square_options.type}
-                        onChange={value => {
-                            action.current.option.corners_square_options.type = value;
-                        }}
-                        options={optionMap(
-                            ["dot", "square", "extra-rounded"],
-                            "qrCode_generate_option_",
-                        )}
-                        size={generateOptionSize}
-                        label={$t("qrCode_generate_option_style")}
-                    />
-                </GenerateOptionColor>
-                <GenerateOptionColor
-                    value={action.current.option.corners_dot_options.color}
-                    onChange={value => {
-                        action.current.option.corners_dot_options.color = value;
-                    }}
-                    size={generateOptionSize}
-                >
-                    <Select
-                        value={action.current.option.corners_dot_options.type}
-                        onChange={value => {
-                            action.current.option.corners_dot_options.type = value;
-                        }}
-                        options={optionMap(["dot", "square"], "qrCode_generate_option_")}
-                        size={generateOptionSize}
-                        label={$t("qrCode_generate_option_style")}
-                    />
-                </GenerateOptionColor>
-                <GenerateOptionColor
-                    value={action.current.option.background_options.color}
-                    onChange={value => {
-                        action.current.option.background_options.color = value;
-                    }}
-                    size={generateOptionSize}
-                />
-            </Tabs>
+                        lists={tabs}
+                    >
+                        <Align>
+                            <InputNumber
+                                size={generateOptionSize}
+                                width={120}
+                                value={action.current.option.margin}
+                                onChange={value => {
+                                    action.current.option.margin = value;
+                                }}
+                                max={1000}
+                                prepend={$t("qrCode_generate_option_margin")}
+                            />
+                            <Select
+                                size={generateOptionSize}
+                                options={["L", "M", "Q", "H"]}
+                                value={action.current.option.error_correction_level}
+                                onChange={value => {
+                                    action.current.option.error_correction_level = value;
+                                }}
+                                label={$t("qrCode_generate_option_correction")}
+                            />
+                            <UploadFile
+                                size={generateOptionSize}
+                                onSuccess={uploadHandle}
+                                buttonType="text"
+                                type="image"
+                            />
+                            <InputNumber
+                                size={generateOptionSize}
+                                width={100}
+                                value={action.current.option.image_options.size}
+                                onChange={value => {
+                                    action.current.option.image_options.size = value;
+                                }}
+                                max={10}
+                                prepend={$t("qrCode_generate_option_size")}
+                            />
+                            <InputNumber
+                                size={generateOptionSize}
+                                width={120}
+                                value={action.current.option.image_options.margin}
+                                onChange={value => {
+                                    action.current.option.image_options.margin = value;
+                                }}
+                                max={1000}
+                                prepend={$t("qrCode_generate_option_margin")}
+                            />
+                        </Align>
+                        <GenerateOptionColor
+                            value={action.current.option.dots_options.color}
+                            onChange={value => {
+                                action.current.option.dots_options.color = value;
+                            }}
+                            size={generateOptionSize}
+                        >
+                            <Select
+                                value={action.current.option.dots_options.type}
+                                onChange={value => {
+                                    action.current.option.dots_options.type = value;
+                                }}
+                                options={optionMap(
+                                    ["square", "dots", "rounded", "classy", "extra-rounded", "classy-rounded"],
+                                    "qrCode_generate_option_",
+                                )}
+                                size={generateOptionSize}
+                                label={$t("qrCode_generate_option_style")}
+                            />
+                        </GenerateOptionColor>
+                        <GenerateOptionColor
+                            value={action.current.option.corners_square_options.color}
+                            onChange={value => {
+                                action.current.option.corners_square_options.color = value;
+                            }}
+                            size={generateOptionSize}
+                        >
+                            <Select
+                                value={action.current.option.corners_square_options.type}
+                                onChange={value => {
+                                    action.current.option.corners_square_options.type = value;
+                                }}
+                                options={optionMap(["dot", "square", "extra-rounded"], "qrCode_generate_option_")}
+                                size={generateOptionSize}
+                                label={$t("qrCode_generate_option_style")}
+                            />
+                        </GenerateOptionColor>
+                        <GenerateOptionColor
+                            value={action.current.option.corners_dot_options.color}
+                            onChange={value => {
+                                action.current.option.corners_dot_options.color = value;
+                            }}
+                            size={generateOptionSize}
+                        >
+                            <Select
+                                value={action.current.option.corners_dot_options.type}
+                                onChange={value => {
+                                    action.current.option.corners_dot_options.type = value;
+                                }}
+                                options={optionMap(["dot", "square"], "qrCode_generate_option_")}
+                                size={generateOptionSize}
+                                label={$t("qrCode_generate_option_style")}
+                            />
+                        </GenerateOptionColor>
+                        <GenerateOptionColor
+                            value={action.current.option.background_options.color}
+                            onChange={value => {
+                                action.current.option.background_options.color = value;
+                            }}
+                            size={generateOptionSize}
+                        />
+                    </Tabs>
+                </div>
+            ) : null}
         </div>
-    ) : null}</div>)
+    );
 }

@@ -1,10 +1,4 @@
-import {
-    forwardRef,
-    useCallback,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-} from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import type { ReactNode } from "react";
 import event from "@/event";
 import { getEditorLanguage } from "@/lib/code";
@@ -106,6 +100,9 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
 
     useEffect(() => {
         let active = true;
+        let contentListener: monacoEditor.IDisposable | undefined;
+        let placeholderWidget: PlaceholderContentWidget | undefined;
+        let contextMenu: ContextMenu | undefined;
         const element = containerRef.current;
         if (!element) {
             return;
@@ -143,15 +140,15 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
                 return;
             }
 
-            editor.onDidChangeModelContent(() => {
+            contentListener = editor.onDidChangeModelContent(() => {
                 const nextValue = editor.getValue();
                 if (nextValue !== valueRef.current) {
                     onChangeRef.current?.(nextValue);
                 }
             });
 
-            new PlaceholderContentWidget(placeholder, editor);
-            const contextMenu = new ContextMenu(editor);
+            placeholderWidget = new PlaceholderContentWidget(placeholder, editor);
+            contextMenu = new ContextMenu(editor);
             contextMenu.setHandle("lumia_line_wrapping", () => undefined);
             contextMenu.setHandle("lumia_line_number", () => undefined);
             configureLineInfo(editor).status(lineInfoRef.current);
@@ -167,6 +164,9 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
             if (!disableClear) {
                 event.removeListener("content_clear", clearHandler);
             }
+            contentListener?.dispose();
+            placeholderWidget?.dispose();
+            contextMenu?.dispose();
             editorRef.current?.dispose();
             editorRef.current = null;
         };
@@ -180,9 +180,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(function Editor(
         updateEditorConfig();
     }, [lang, reload, lineInfo, updateEditorConfig]);
 
-    const className = disableBorder
-        ? "lumia-code-editor lumia-code-editor-disable-border"
-        : "lumia-code-editor";
+    const className = disableBorder ? "lumia-code-editor lumia-code-editor-disable-border" : "lumia-code-editor";
 
     return (
         <div className={className} style={{ height: sizeConvert(height), width: "100%" }}>
