@@ -1,32 +1,41 @@
 import { useState } from "react";
-import { Align, Bool, Button, Card, ExtendPage, InputNumber, Link, Select } from "@/components";
-import { useClipboardPermission } from "@/lib/clipboard";
-import { navigate } from "@/lib/router";
+import { Align, Bool, Button, Card, ExtendPage, InputNumber, Select } from "@/components";
 import { getLocaleName } from "@/i18n";
+import { installAvailableUpdate } from "@/lib/desktop";
+import Message from "@/lib/message";
 import useSetting from "@/store/setting";
 import { locales, themes } from "@/types";
 import Common from "./Common";
 
 export default function Setting() {
     const storeSetting = useSetting();
-    const { state: clipboardState } = useClipboardPermission();
     const [openCommon, setOpenCommon] = useState(false);
-    const localeOptions = locales.map((item) => ({ value: item, label: getLocaleName(item) || "" }));
+    const [checkingUpdate, setCheckingUpdate] = useState(false);
+    const localeOptions = locales.map(item => ({ value: item, label: getLocaleName(item) || "" }));
+
+    const updateApplication = async () => {
+        setCheckingUpdate(true);
+        try {
+            if (!(await installAvailableUpdate())) {
+                Message.success($t("main_update_current"));
+            }
+        } catch (error) {
+            Message.error($error(error, false));
+        } finally {
+            setCheckingUpdate(false);
+        }
+    };
 
     return (
         <>
-            <Card
-                title={$t("main_ui_setting")}
-                height="100%"
-                padding="24px"
-            >
+            <Card title={$t("main_ui_setting")} height="100%" padding="24px">
                 <div className="lumia-setting">
                     <span>{$t("main_display_mode")}</span>
                     <div>
                         <Select
                             value={storeSetting.items.theme}
-                            onChange={(value) => storeSetting.save("theme", value)}
-                            options={themes.map((item) => ({
+                            onChange={value => storeSetting.save("theme", value)}
+                            options={themes.map(item => ({
                                 value: item,
                                 label: $t(`main_display_mode_${item}`),
                             }))}
@@ -37,11 +46,10 @@ export default function Setting() {
                     <div>
                         <Select
                             value={storeSetting.items.locale}
-                            onChange={(value) => storeSetting.save("locale", value)}
+                            onChange={value => storeSetting.save("locale", value)}
                             options={localeOptions}
                         />
                     </div>
-
 
                     <span style={{ gridRowStart: "span 3" }}>{$t("main_ui_clipboard")}</span>
                     <div>
@@ -52,23 +60,11 @@ export default function Setting() {
                         />
                     </div>
                     <div>
-                        <Align>
-                            <Bool
-                                disabled={clipboardState !== "granted"}
-                                label={$t("main_read_content_from_clipboard")}
-                                value={storeSetting.items.auto_read_copy}
-                                onChange={(value: boolean) => storeSetting.save("auto_read_copy", value)}
-                            />
-                            {clipboardState === "prompt" && (
-                                <Link
-                                    style={{ fontSize: ".875rem" }}
-                                    type="primary"
-                                    onClick={() => navigate({ path: "/clipboard" })}
-                                >
-                                    {$t("main_clipboard_get")}
-                                </Link>
-                            )}
-                        </Align>
+                        <Bool
+                            label={$t("main_read_content_from_clipboard")}
+                            value={storeSetting.items.auto_read_copy}
+                            onChange={(value: boolean) => storeSetting.save("auto_read_copy", value)}
+                        />
                     </div>
                     <div>
                         <Bool
@@ -93,7 +89,11 @@ export default function Setting() {
 
                     <span>{$t("main_common_tool")}</span>
                     <div>
-                        <Button size="small" onClick={() => setOpenCommon((value) => !value)} text={$t("main_ui_config")} />
+                        <Button
+                            size="small"
+                            onClick={() => setOpenCommon(value => !value)}
+                            text={$t("main_ui_config")}
+                        />
                     </div>
 
                     <span>{$t("main_ui_other")}</span>
@@ -102,6 +102,16 @@ export default function Setting() {
                             label={$t("main_history_icon_badge_hidden")}
                             value={storeSetting.items.history_icon_badge_hidden}
                             onChange={(value: boolean) => storeSetting.save("history_icon_badge_hidden", value)}
+                        />
+                    </div>
+
+                    <span>{$t("main_update_application")}</span>
+                    <div>
+                        <Button
+                            loading={checkingUpdate}
+                            size="small"
+                            onClick={() => void updateApplication()}
+                            text={$t("main_update_check")}
                         />
                     </div>
                 </div>

@@ -128,11 +128,17 @@ fn build_xmp(mp4_size: usize, presentation_timestamp_us: i64) -> String {
     )
 }
 
-fn mux_motion_photo(jpeg_path: &Path, mp4_path: &Path, output_path: &Path, presentation_us: i64) -> Result<(), String> {
+fn mux_motion_photo(
+    jpeg_path: &Path,
+    mp4_path: &Path,
+    output_path: &Path,
+    presentation_us: i64,
+) -> Result<(), String> {
     let jpeg = fs::read(jpeg_path).map_err(|error| format!("read cover failed: {error}"))?;
     let mp4 = fs::read(mp4_path).map_err(|error| format!("read clip failed: {error}"))?;
     let jpeg = inject_xmp_app1(&jpeg, &build_xmp(mp4.len(), presentation_us))?;
-    let mut output = fs::File::create(output_path).map_err(|error| format!("write output failed: {error}"))?;
+    let mut output =
+        fs::File::create(output_path).map_err(|error| format!("write output failed: {error}"))?;
     output
         .write_all(&jpeg)
         .and_then(|_| output.write_all(&mp4))
@@ -152,7 +158,15 @@ fn ffmpeg_probe(path: &str) -> Result<(f64, i32, i32), String> {
     let ffprobe = find_bin("ffprobe").ok_or_else(|| "ffprobe not found".to_string())?;
     let duration = run_command(
         &ffprobe,
-        &["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+        &[
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "csv=p=0",
+            path,
+        ],
     )?;
     let size = run_command(
         &ffprobe,
@@ -168,7 +182,9 @@ fn ffmpeg_probe(path: &str) -> Result<(f64, i32, i32), String> {
             path,
         ],
     )?;
-    let duration = duration.parse::<f64>().map_err(|_| "invalid video duration".to_string())?;
+    let duration = duration
+        .parse::<f64>()
+        .map_err(|_| "invalid video duration".to_string())?;
     let mut parts = size.split(',');
     let width = parts
         .next()
@@ -238,7 +254,18 @@ fn ffmpeg_extract_jpeg(src: &str, dest: &Path, at_time: f64) -> Result<(), Strin
     let time = format!("{at_time:.3}");
     run_command(
         &ffmpeg,
-        &["-y", "-ss", &time, "-i", src, "-frames:v", "1", "-q:v", "2", dest_str.as_ref()],
+        &[
+            "-y",
+            "-ss",
+            &time,
+            "-i",
+            src,
+            "-frames:v",
+            "1",
+            "-q:v",
+            "2",
+            dest_str.as_ref(),
+        ],
     )?;
     Ok(())
 }
@@ -257,7 +284,12 @@ mod apple {
     }
 
     unsafe extern "C" {
-        fn lumia_probe_video(path: *const c_char, out: *mut LumiaVideoInfo, err: *mut c_char, err_len: c_int) -> c_int;
+        fn lumia_probe_video(
+            path: *const c_char,
+            out: *mut LumiaVideoInfo,
+            err: *mut c_char,
+            err_len: c_int,
+        ) -> c_int;
         fn lumia_export_mp4(
             src: *const c_char,
             dest: *const c_char,
@@ -326,7 +358,13 @@ mod apple {
         Ok((info.duration, info.width, info.height))
     }
 
-    pub fn export_mp4(src: &str, dest: &Path, start: f64, duration: f64, height: i32) -> Result<(), String> {
+    pub fn export_mp4(
+        src: &str,
+        dest: &Path,
+        start: f64,
+        duration: f64,
+        height: i32,
+    ) -> Result<(), String> {
         let src = c_string(src)?;
         let dest = c_string(&dest.to_string_lossy())?;
         let mut err = [0u8; 512];
@@ -430,7 +468,14 @@ fn probe_video(path: &str) -> Result<(f64, i32, i32), String> {
     ffmpeg_probe(path)
 }
 
-fn export_mp4(src: &str, dest: &Path, start: f64, duration: f64, quality: &str, height: i32) -> Result<(), String> {
+fn export_mp4(
+    src: &str,
+    dest: &Path,
+    start: f64,
+    duration: f64,
+    quality: &str,
+    height: i32,
+) -> Result<(), String> {
     if find_bin("ffmpeg").is_some() {
         return ffmpeg_export_mp4(src, dest, start, duration, quality, height);
     }
@@ -497,7 +542,12 @@ pub fn create_google_motion_photo(
             extract_jpeg(&video_path, &jpeg_path, cover_time.max(0.0))?;
         }
         let presentation_us = ((cover_time - start).max(0.0) * 1_000_000.0) as i64;
-        mux_motion_photo(&jpeg_path, &mp4_path, Path::new(&output_path), presentation_us)?;
+        mux_motion_photo(
+            &jpeg_path,
+            &mp4_path,
+            Path::new(&output_path),
+            presentation_us,
+        )?;
         Ok(output_path)
     })();
     let _ = fs::remove_file(&mp4_path);
@@ -532,7 +582,16 @@ pub async fn create_apple_live_photo(
         }
         #[cfg(not(target_os = "macos"))]
         {
-            let _ = (video_path, cover_path, output_dir, start, duration, cover_time, import_photos, wallpaper);
+            let _ = (
+                video_path,
+                cover_path,
+                output_dir,
+                start,
+                duration,
+                cover_time,
+                import_photos,
+                wallpaper,
+            );
             Err("Apple Live Photo export is only available on macOS".into())
         }
     })

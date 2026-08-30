@@ -111,6 +111,15 @@
       "viewport": "1200x720"
     },
     {
+      "name": "media-workbench",
+      "path": "ui_kits/lumiatool/media-workbench/index.html",
+      "previewPath": "ui_kits/lumiatool/media-workbench/index.html",
+      "kind": "screen",
+      "section": "Tool pages",
+      "subtitle": "State-continuous media workflow with a command bar, optional inspector, and dominant canvas",
+      "viewport": "1200x720"
+    },
+    {
       "name": "tester",
       "path": "ui_kits/lumiatool/tester/index.html",
       "previewPath": "ui_kits/lumiatool/tester/index.html",
@@ -187,6 +196,13 @@
       "name": "Typography"
     },
     {
+      "path": "ui_kits/lumiatool/media-workbench/index.html",
+      "group": "LumiaTool",
+      "viewport": "1200x720",
+      "subtitle": "Empty-to-populated generator pattern",
+      "name": "Media Workbench"
+    },
+    {
       "path": "guidelines/avoid.html",
       "group": "Patterns",
       "viewport": "700x210",
@@ -199,6 +215,13 @@
       "viewport": "700x220",
       "subtitle": "Empty, success, disabled and error are explicit",
       "name": "States"
+    },
+    {
+      "path": "guidelines/workspace-grammar.html",
+      "group": "Patterns",
+      "viewport": "900x480",
+      "subtitle": "Shared command, pane, surface, and feedback hierarchy",
+      "name": "Workspace grammar"
     }
   ],
   "globalCssPaths": [

@@ -4,7 +4,7 @@ import { categories, categoryExists, getCategory, getTool, toolExists } from "@/
 import type { FeatureInterface } from "@/config";
 import { getToolMark } from "@/design-system/tool-layout";
 import event from "@/event";
-import { toggleDevTools } from "@/lib/desktop";
+import { isMacOs, toggleDevTools } from "@/lib/desktop";
 import useOperate from "@/store/operate";
 import useSetting from "@/store/setting";
 import History from "../History";
@@ -102,7 +102,7 @@ export default function Header() {
                 </button>
                 <div className="lumia-global-search">
                     <Search />
-                    <kbd>{/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘ K" : "Ctrl K"}</kbd>
+                    <kbd>{isMacOs ? "⌘ K" : "Ctrl K"}</kbd>
                 </div>
                 <button
                     className={openHistory ? "lumia-topbar-action is-active" : "lumia-topbar-action"}

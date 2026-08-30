@@ -140,6 +140,7 @@ jobs:
               uses: tauri-apps/tauri-action@84b9d35b5fc46c1e45415bdb6144030364f7ebc5 # v0
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
                   APPLE_SIGNING_IDENTITY: ${{ startsWith(matrix.platform, 'macos') && '-' || '' }}
                   NODE_OPTIONS: --max-old-space-size=8192
               with:
@@ -150,7 +151,7 @@ jobs:
                   generateReleaseNotes: true
                   releaseDraft: true
                   prerelease: false
-                  includeUpdaterJson: false
+                  includeUpdaterJson: true
                   args: ${{ matrix.args }}
                   assetNamePattern: lumiatool_${{ matrix.asset_suffix }}.[ext]
 

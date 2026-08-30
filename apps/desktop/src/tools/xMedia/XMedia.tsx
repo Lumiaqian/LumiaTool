@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
-import { Align, Button, Card, Exception, Input } from "@/components";
+import { Button, Card, Input } from "@/components";
 import { downloadXMedia, fetchXTweet, type XTweetMedia } from "@/lib/desktop";
 
 export default function XMedia() {
@@ -29,11 +29,9 @@ export default function XMedia() {
     };
 
     const toggleItem = (filename: string) => {
-        setSelected(current => (
-            current.includes(filename)
-                ? current.filter(item => item !== filename)
-                : [...current, filename]
-        ));
+        setSelected(current =>
+            current.includes(filename) ? current.filter(item => item !== filename) : [...current, filename],
+        );
     };
 
     const downloadSelected = async () => {
@@ -70,66 +68,130 @@ export default function XMedia() {
     };
 
     return (
-        <div className="lumia-generator-editor-family lumia-generator-page lumia-x-media-page">
-            <aside className="lumia-generator-options" aria-label={$t("main_ui_setting")}>
-                <Card>
-                    <Align direction="vertical" className="lumia-x-media-options">
-                        <Input
-                            width="100%"
-                            value={url}
-                            placeholder={$t("xMedia_placeholder")}
-                            onChange={value => setUrl(String(value))}
-                            onKeyDown={event => {
-                                if (event.key === "Enter" && url.trim() !== "" && !busy) {
-                                    event.preventDefault();
-                                    void parseTweet();
-                                }
-                            }}
-                        />
-                        <Button type="primary" long loading={busy} disabled={busy || url.trim() === ""} onClick={() => void parseTweet()}>
-                            {$t("xMedia_parse")}
-                        </Button>
-                        <Button long disabled={busy || !tweet?.items.length} onClick={() => setSelected(tweet?.items.map(item => item.filename) ?? [])}>
-                            {$t("xMedia_select_all")}
-                        </Button>
-                        <Button long loading={busy} disabled={busy || selected.length === 0} onClick={() => void downloadSelected()}>
-                            {$t("xMedia_download")}
-                        </Button>
-                        {tweet ? (
-                            <div className="lumia-x-media-meta">
-                                <strong>@{tweet.author}</strong>
-                                <p>{tweet.text}</p>
-                                <p>{$t("xMedia_click_hint")}</p>
-                            </div>
-                        ) : null}
-                        {status ? <div className="lumia-x-media-status">{status}</div> : null}
-                        {error ? <div className="lumia-x-media-error">{error}</div> : null}
-                    </Align>
-                </Card>
-            </aside>
-            <section className="lumia-generator-preview">
-                <Card>
-                    {tweet?.items.length ? (
+        <div
+            className={[
+                "lumia-generator-editor-family",
+                "lumia-generator-page",
+                "lumia-x-media-page",
+                tweet?.items.length ? "lumia-x-media-page--ready" : "lumia-x-media-page--empty",
+            ].join(" ")}
+        >
+            {tweet?.items.length ? (
+                <section className="lumia-media-workbench lumia-x-media-workbench">
+                    <header className="lumia-media-workbench-toolbar">
+                        <div className="lumia-media-workbench-source lumia-x-media-workbench-source">
+                            <Input
+                                width="100%"
+                                value={url}
+                                placeholder={$t("xMedia_placeholder")}
+                                onChange={value => setUrl(String(value))}
+                                onKeyDown={event => {
+                                    if (event.key === "Enter" && url.trim() !== "" && !busy) {
+                                        event.preventDefault();
+                                        void parseTweet();
+                                    }
+                                }}
+                            />
+                            <Button
+                                size="small"
+                                loading={busy}
+                                disabled={busy || url.trim() === ""}
+                                onClick={() => void parseTweet()}
+                            >
+                                {$t("xMedia_parse")}
+                            </Button>
+                        </div>
+                        <div className="lumia-media-workbench-actions">
+                            <span className="lumia-media-workbench-summary">
+                                {selected.length} / {tweet.items.length}
+                            </span>
+                            <Button
+                                size="small"
+                                disabled={busy}
+                                onClick={() => setSelected(tweet.items.map(item => item.filename))}
+                            >
+                                {$t("xMedia_select_all")}
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="small"
+                                loading={busy}
+                                disabled={busy || selected.length === 0}
+                                onClick={() => void downloadSelected()}
+                            >
+                                {$t("xMedia_download")}
+                            </Button>
+                        </div>
+                    </header>
+                    <div className="lumia-x-media-context">
+                        <strong>@{tweet.author}</strong>
+                        <p>{tweet.text}</p>
+                    </div>
+                    {status || error ? (
+                        <div className="lumia-media-workbench-feedback">
+                            {status ? <span className="lumia-x-media-status">{status}</span> : null}
+                            {error ? <span className="lumia-x-media-error">{error}</span> : null}
+                        </div>
+                    ) : null}
+                    <div className="lumia-media-workbench-canvas">
                         <div className="lumia-x-media-grid">
                             {tweet.items.map(item => (
-                                <figure
+                                <button
                                     key={item.filename}
+                                    type="button"
                                     className="lumia-x-media-item"
+                                    aria-pressed={selected.includes(item.filename)}
                                     data-selected={selected.includes(item.filename) ? "y" : "n"}
                                     onClick={() => toggleItem(item.filename)}
                                 >
-                                    <img src={item.thumbnail || item.url} alt={item.filename} />
-                                    <figcaption>
+                                    <span className="lumia-x-media-thumbnail">
+                                        <img src={item.thumbnail || item.url} alt={item.filename} />
+                                    </span>
+                                    <span className="lumia-x-media-caption">
                                         {kindLabel(item.kind)} · {item.filename}
-                                    </figcaption>
-                                </figure>
+                                    </span>
+                                </button>
                             ))}
                         </div>
-                    ) : (
-                        <Exception content={error || $t("xMedia_empty")} />
-                    )}
-                </Card>
-            </section>
+                    </div>
+                </section>
+            ) : (
+                <section className="lumia-generator-preview">
+                    <Card>
+                        <div className="lumia-x-media-empty">
+                            <div className="lumia-x-media-empty-copy">
+                                <span className="lumia-x-media-empty-kicker">X MEDIA</span>
+                                <strong>X Media</strong>
+                                <span>{$t("xMedia_empty")}</span>
+                            </div>
+                            <div className="lumia-x-media-empty-form">
+                                <Input
+                                    width="100%"
+                                    value={url}
+                                    placeholder={$t("xMedia_placeholder")}
+                                    onChange={value => setUrl(String(value))}
+                                    onKeyDown={event => {
+                                        if (event.key === "Enter" && url.trim() !== "" && !busy) {
+                                            event.preventDefault();
+                                            void parseTweet();
+                                        }
+                                    }}
+                                />
+                                <Button
+                                    type="primary"
+                                    long
+                                    loading={busy}
+                                    disabled={busy || url.trim() === ""}
+                                    onClick={() => void parseTweet()}
+                                >
+                                    {$t("xMedia_parse")}
+                                </Button>
+                            </div>
+                            {error ? <div className="lumia-x-media-error">{error}</div> : null}
+                        </div>
+                    </Card>
+                </section>
+            )}
         </div>
     );
 }

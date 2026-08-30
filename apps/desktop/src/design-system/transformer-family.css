@@ -79,16 +79,17 @@ section.lumia-transformer-pane {
     overflow: hidden;
 }
 
-.lumia-transformer-page :is(
-    .lumia-transformer-pane-body,
-    .lumia-transformer-pane-body > *,
-    .lumia-transformer-pane-body > .lumia-display > :first-child,
-    .lumia-transformer-pane-body .lumia-textarea,
-    .lumia-transformer-pane-body .lumia-textarea > .lumia-display,
-    .lumia-transformer-pane-body .lumia-text-input-frame,
-    .lumia-transformer-pane-body .lumia-text-output-frame,
-    .lumia-transformer-pane-body textarea
-) {
+.lumia-transformer-page
+    :is(
+        .lumia-transformer-pane-body,
+        .lumia-transformer-pane-body > *,
+        .lumia-transformer-pane-body > .lumia-display > :first-child,
+        .lumia-transformer-pane-body .lumia-textarea,
+        .lumia-transformer-pane-body .lumia-textarea > .lumia-display,
+        .lumia-transformer-pane-body .lumia-text-input-frame,
+        .lumia-transformer-pane-body .lumia-text-output-frame,
+        .lumia-transformer-pane-body textarea
+    ) {
     min-width: 0;
     min-height: 0;
     height: 100% !important;
@@ -165,11 +166,10 @@ section.lumia-transformer-pane {
 }
 
 .lumia-transformer-stage--verify {
-    grid-template-rows: auto minmax(0, 1fr) minmax(7rem, .4fr);
+    grid-template-rows: auto minmax(0, 1fr) minmax(7rem, 0.4fr);
 }
 
-.lumia-transformer-rack,
-.lumia-transformer-page.lumia-transformer-page--legacy .lumia-page-option {
+.lumia-transformer-rack {
     min-width: 0;
     max-height: 14rem;
     display: flex;
@@ -184,9 +184,7 @@ section.lumia-transformer-pane {
     background: var(--lumia-controls);
 }
 
-.lumia-transformer-rack > .lumia-align,
-.lumia-transformer-page.lumia-transformer-page--legacy .lumia-page-option > .lumia-align,
-.lumia-transformer-page.lumia-transformer-page--legacy .lumia-card-body > .lumia-align {
+.lumia-transformer-rack > .lumia-align {
     min-width: 0;
     display: flex !important;
     flex: 1;
@@ -204,74 +202,6 @@ section.lumia-transformer-pane {
     line-height: 1.7;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align {
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 0;
-    min-height: 0;
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: var(--lumia-space-3) !important;
-    flex-flow: initial !important;
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align > * {
-    min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
-    border-radius: var(--lumia-radius-panel);
-    background: var(--lumia-paper);
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align > :first-child {
-    background: var(--lumia-editor);
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align > .lumia-page-option {
-    overflow: auto;
-    border-color: color-mix(in srgb, var(--lumia-control-selected) 16%, transparent);
-    background: var(--lumia-controls);
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align:not(:has(> :nth-child(3))) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1fr);
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align :is(.lumia-textarea, textarea, .lumia-display) {
-    min-width: 0;
-    min-height: 0;
-    height: 100% !important;
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy:has(> :nth-child(2):last-child),
-.lumia-transformer-page.lumia-transformer-page--legacy > div:has(> :nth-child(2):last-child) {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: minmax(0, 1fr);
-    gap: var(--lumia-space-3) !important;
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy:has(> :nth-child(4):last-child) {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: var(--lumia-space-3) !important;
-}
-
-.lumia-transformer-page.lumia-transformer-page--legacy > :is(.lumia-serialize-input, .lumia-serialize-output, .lumia-textarea),
-.lumia-transformer-page.lumia-transformer-page--legacy > div:has(> :nth-child(2):last-child) > * {
-    min-width: 0;
-    min-height: 0;
-    height: 100% !important;
-    overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--lumia-text) 14%, transparent);
-    border-radius: var(--lumia-radius-panel);
-    background: var(--lumia-paper);
 }
 
 .lumia-transformer-arm-layout > .lumia-transformer-pane {
@@ -311,10 +241,7 @@ section.lumia-transformer-pane {
 
 @container (max-width: 48rem) {
     .lumia-transformer-panes,
-    .lumia-transformer-arm-layout,
-    .lumia-transformer-page.lumia-transformer-page--legacy:has(> :nth-child(2):last-child),
-    .lumia-transformer-page.lumia-transformer-page--legacy > div:has(> :nth-child(2):last-child),
-    .lumia-transformer-page.lumia-transformer-page--legacy > .lumia-align:not(:has(> :nth-child(3))) {
+    .lumia-transformer-arm-layout {
         grid-template-columns: minmax(0, 1fr) !important;
         grid-template-rows: repeat(2, minmax(16rem, 1fr));
         overflow-y: auto;
@@ -327,23 +254,14 @@ section.lumia-transformer-pane {
 }
 
 @container (max-width: 34rem) {
-    .lumia-transformer-rack,
-    .lumia-transformer-page.lumia-transformer-page--legacy .lumia-page-option {
+    .lumia-transformer-rack {
         align-items: stretch;
         flex-direction: column;
     }
 
-    .lumia-transformer-rack > .lumia-align,
-    .lumia-transformer-page.lumia-transformer-page--legacy .lumia-page-option > .lumia-align,
-    .lumia-transformer-page.lumia-transformer-page--legacy .lumia-card-body > .lumia-align {
+    .lumia-transformer-rack > .lumia-align {
         width: 100% !important;
         align-items: stretch !important;
         flex-direction: column !important;
-    }
-
-    .lumia-transformer-page.lumia-transformer-page--legacy:has(> :nth-child(4):last-child) {
-        grid-template-columns: minmax(0, 1fr) !important;
-        grid-template-rows: repeat(4, minmax(12rem, 1fr));
-        overflow-y: auto;
     }
 }

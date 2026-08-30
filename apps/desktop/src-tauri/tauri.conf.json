@@ -37,17 +37,21 @@
             "csp": "default-src 'self'; img-src 'self' asset: http://asset.localhost https://asset.localhost data: blob: https: http:; media-src 'self' asset: http://asset.localhost https://asset.localhost blob: https: http:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self' 'unsafe-eval'; connect-src 'self' ipc: http://ipc.localhost https: http: ws: wss:"
         }
     },
+    "plugins": {
+        "updater": {
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY3MjRBNUM5RDJEM0YzRDAKUldUUTg5UFN5YVVrWjNBMjRXcjk5UU9HY0o4cG1CcWE3N1htSXMrQ3lBTVc3cEFwZkpJSlY5NVUK",
+            "endpoints": ["https://github.com/Lumiaqian/LumiaTool/releases/latest/download/latest.json"],
+            "windows": {
+                "installMode": "passive"
+            }
+        }
+    },
     "bundle": {
         "active": true,
         "category": "DeveloperTool",
+        "createUpdaterArtifacts": true,
         "targets": "all",
-        "icon": [
-            "icons/32x32.png",
-            "icons/128x128.png",
-            "icons/128x128@2x.png",
-            "icons/icon.icns",
-            "icons/icon.ico"
-        ],
+        "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
         "macOS": {
             "minimumSystemVersion": "11.0"
         },

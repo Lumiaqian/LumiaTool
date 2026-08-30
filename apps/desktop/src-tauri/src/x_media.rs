@@ -3,8 +3,11 @@ use serde_json::Value;
 use std::fs;
 use std::path::PathBuf;
 
-const USER_AGENT: &str =
-    concat!("LumiaTool/", env!("CARGO_PKG_VERSION"), " (https://github.com/Lumiaqian/LumiaTool)");
+const USER_AGENT: &str = concat!(
+    "LumiaTool/",
+    env!("CARGO_PKG_VERSION"),
+    " (https://github.com/Lumiaqian/LumiaTool)"
+);
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -112,9 +115,18 @@ fn collect_media(tweet: &Value, tweet_id: &str, prefix: &str, items: &mut Vec<XM
         items.push(XMediaItem {
             kind: "photo".into(),
             thumbnail: Some(url.clone()),
-            width: photo.get("width").and_then(Value::as_u64).map(|value| value as u32),
-            height: photo.get("height").and_then(Value::as_u64).map(|value| value as u32),
-            filename: format!("{prefix}{tweet_id}_{index:02}.{}", extension_for("photo", &url)),
+            width: photo
+                .get("width")
+                .and_then(Value::as_u64)
+                .map(|value| value as u32),
+            height: photo
+                .get("height")
+                .and_then(Value::as_u64)
+                .map(|value| value as u32),
+            filename: format!(
+                "{prefix}{tweet_id}_{index:02}.{}",
+                extension_for("photo", &url)
+            ),
             url,
         });
     }
@@ -123,10 +135,7 @@ fn collect_media(tweet: &Value, tweet_id: &str, prefix: &str, items: &mut Vec<XM
         let Some(url) = video.get("url").and_then(Value::as_str) else {
             continue;
         };
-        let kind = video
-            .get("type")
-            .and_then(Value::as_str)
-            .unwrap_or("video");
+        let kind = video.get("type").and_then(Value::as_str).unwrap_or("video");
         let kind = if kind == "gif" { "gif" } else { "video" };
         let index = items.len() + 1;
         items.push(XMediaItem {
@@ -136,8 +145,14 @@ fn collect_media(tweet: &Value, tweet_id: &str, prefix: &str, items: &mut Vec<XM
                 .get("thumbnail_url")
                 .and_then(Value::as_str)
                 .map(ToOwned::to_owned),
-            width: video.get("width").and_then(Value::as_u64).map(|value| value as u32),
-            height: video.get("height").and_then(Value::as_u64).map(|value| value as u32),
+            width: video
+                .get("width")
+                .and_then(Value::as_u64)
+                .map(|value| value as u32),
+            height: video
+                .get("height")
+                .and_then(Value::as_u64)
+                .map(|value| value as u32),
             filename: format!("{prefix}{tweet_id}_{index:02}.{}", extension_for(kind, url)),
         });
     }
@@ -162,7 +177,10 @@ pub async fn fetch_x_tweet(url: String) -> Result<XTweetMedia, String> {
         .map_err(|error| error.to_string())?;
     let status = response.status();
     let payload: Value = response.json().await.map_err(|error| error.to_string())?;
-    let code = payload.get("code").and_then(Value::as_u64).unwrap_or(u64::from(status.as_u16()));
+    let code = payload
+        .get("code")
+        .and_then(Value::as_u64)
+        .unwrap_or(u64::from(status.as_u16()));
     if code == 401 {
         return Err("This tweet is private".into());
     }
@@ -182,7 +200,11 @@ pub async fn fetch_x_tweet(url: String) -> Result<XTweetMedia, String> {
         .and_then(|value| value.get("screen_name"))
         .and_then(Value::as_str)
         .unwrap_or("unknown");
-    let text = tweet.get("text").and_then(Value::as_str).unwrap_or("").to_string();
+    let text = tweet
+        .get("text")
+        .and_then(Value::as_str)
+        .unwrap_or("")
+        .to_string();
     let tweet_url = tweet
         .get("url")
         .and_then(Value::as_str)
@@ -191,10 +213,7 @@ pub async fn fetch_x_tweet(url: String) -> Result<XTweetMedia, String> {
     let mut items = Vec::new();
     collect_media(tweet, &id, "", &mut items);
     if let Some(quote) = tweet.get("quote") {
-        let quote_id = quote
-            .get("id")
-            .and_then(Value::as_str)
-            .unwrap_or("quote");
+        let quote_id = quote.get("id").and_then(Value::as_str).unwrap_or("quote");
         collect_media(quote, quote_id, "quote_", &mut items);
     }
     if items.is_empty() {
@@ -210,7 +229,10 @@ pub async fn fetch_x_tweet(url: String) -> Result<XTweetMedia, String> {
 }
 
 #[tauri::command]
-pub async fn download_x_media(items: Vec<XMediaItem>, output_dir: String) -> Result<Vec<String>, String> {
+pub async fn download_x_media(
+    items: Vec<XMediaItem>,
+    output_dir: String,
+) -> Result<Vec<String>, String> {
     if items.is_empty() {
         return Err("No media selected".into());
     }

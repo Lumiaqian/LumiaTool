@@ -6,6 +6,25 @@
     "permissions": [
         "core:default",
         "opener:default",
-        "dialog:default"
+        "dialog:default",
+        "clipboard-manager:allow-read-text",
+        "clipboard-manager:allow-write-text",
+        "clipboard-manager:allow-write-image",
+        "fs:allow-write-file",
+        {
+            "identifier": "http:default",
+            "allow": [{ "url": "https://*:*" }, { "url": "http://*:*" }]
+        },
+        "os:allow-locale",
+        "os:allow-platform",
+        "process:allow-restart",
+        "store:allow-load",
+        "store:allow-entries",
+        "store:allow-set",
+        "store:allow-delete",
+        "store:allow-clear",
+        "store:allow-save",
+        "updater:allow-check",
+        "updater:allow-download-and-install"
     ]
 }

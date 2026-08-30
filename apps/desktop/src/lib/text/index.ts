@@ -8,6 +8,8 @@ import validDataUrl from "valid-data-url";
 import { Buffer } from "buffer";
 import Uint from "./uint";
 import extList from "ext-list";
+import { saveFile } from "@/lib/desktop";
+import { HttpError, requestBytes } from "@/lib/proxy";
 
 const _encoding = ["gbk", "utf-8"] as const;
 export type Encoding = (typeof _encoding)[number];
@@ -50,22 +52,14 @@ class Text {
     }
 
     static async fromUrl(url: string) {
-        return new Promise<Text>(resolve => {
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", url);
-            xhr.responseType = "blob";
-            xhr.onload = async () => {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    resolve(await Text.fromBlob(xhr.response));
-                } else {
-                    resolve(Text.fromError(`[${url}] load fail, status code:${xhr.status}`));
-                }
-            };
-            xhr.onerror = () => {
-                resolve(Text.fromError(`[${url}] load fail`));
-            };
-            xhr.send();
-        });
+        try {
+            return Text.fromUint8Array(await requestBytes(url));
+        } catch (error) {
+            if (error instanceof HttpError) {
+                return Text.fromError(`[${url}] load fail, status code:${error.status}`);
+            }
+            return Text.fromError(`[${url}] load fail`);
+        }
     }
 
     static fromUint8Array(item: Uint8Array, encoding: Encoding = "utf-8") {
@@ -80,7 +74,7 @@ class Text {
         return Text.fromBuffer(
             Buffer.from(
                 str
-                    .replaceAll(/\\x/g, '') // 兼容 Unicode Escape 格式
+                    .replaceAll(/\\x/g, "") // 兼容 Unicode Escape 格式
                     .replaceAll(" ", "") // 过滤空格
                     .replaceAll("\n", preserve_line_breaks ? "0a" : "") // 换行符处理
                     .trim(),
@@ -156,14 +150,8 @@ class Text {
         return Array.from(this.uint.uint8Array);
     }
 
-    toDown() {
-        let objectUrl = window.URL.createObjectURL(new Blob([new Uint8Array(this.uint.uint8Array)], { type: this.mime() }));
-        let aEle = document.createElement("a");
-        aEle.download = this.name();
-        aEle.href = objectUrl;
-        aEle.click();
-        aEle.remove();
-        window.URL.revokeObjectURL(objectUrl);
+    async toDown() {
+        return saveFile(new Uint8Array(this.uint.uint8Array), this.name());
     }
 
     toDataUrl() {

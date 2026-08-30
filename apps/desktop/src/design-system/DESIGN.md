@@ -22,11 +22,11 @@ LumiaTool 是本地优先的跨平台开发者工具箱（React + Tauri）。用
 
 产品主题是 **真 Light / Dark**。chrome（顶栏、工具架、工具条、状态栏）和 workspace（输入、结果、参数）必须同时换色。
 
-| 设置 | 行为 |
-|---|---|
-| Light | `document.documentElement.dataset.theme = "light"` |
-| Dark | `document.documentElement.dataset.theme = "dark"` |
-| Auto | 跟随 `prefers-color-scheme`，写入同一个 `data-theme` |
+| 设置  | 行为                                                 |
+| ----- | ---------------------------------------------------- |
+| Light | `document.documentElement.dataset.theme = "light"`   |
+| Dark  | `document.documentElement.dataset.theme = "dark"`    |
+| Auto  | 跟随 `prefers-color-scheme`，写入同一个 `data-theme` |
 
 禁止：
 
@@ -48,6 +48,7 @@ LumiaTool 是本地优先的跨平台开发者工具箱（React + Tauri）。用
 6. **本地优先**：状态栏反映真实处理状态，不造仪表盘指标。
 7. **同类同构**：新工具必须归入既有模板；不适配先改规范再加模式。
 8. **主题完整**：任何表面在 Light 和 Dark 下都必须可读。不得依赖「另一半主题的颜色」。
+9. **状态连续**：Empty → Populated 只替换任务内容，不得让页面骨架跳成另一套 Card / Sidebar 布局。
 
 ## 禁止模式
 
@@ -70,26 +71,26 @@ LumiaTool 是本地优先的跨平台开发者工具箱（React + Tauri）。用
 
 角色不可互换，Light 和 Dark 共用同一角色、不同色值。
 
-| Token | 角色 |
-|---|---|
-| `--lumia-app-bg` | 应用框架底 |
-| `--lumia-sidebar-bg` | 工具架 |
-| `--lumia-raised-bg` | 顶栏、Panel Header、抬起面 |
-| `--lumia-overlay-bg` | Dropdown / Dialog / ExtendPage |
-| `--lumia-paper` | 结果、文档、普通内容 |
-| `--lumia-editor` | 输入、编辑器 |
-| `--lumia-controls` | 参数 Rack |
-| `--lumia-text` | 主文本 |
-| `--lumia-muted` | 次要文本 |
-| `--lumia-primary` | 当前区域唯一主操作 |
-| `--lumia-on-primary` | 主操作上的字 |
-| `--lumia-selection` | 当前位置 / 当前工具 / 导航选中 |
-| `--lumia-on-selection` | 选中项上的字 |
-| `--lumia-success` | Ready / Valid / Generated |
-| `--lumia-warning` | 警告 |
-| `--lumia-danger` | Invalid / Error / Danger |
-| `--lumia-border` | 低对比分割 |
-| `--lumia-focus` | 键盘焦点 |
+| Token                  | 角色                           |
+| ---------------------- | ------------------------------ |
+| `--lumia-app-bg`       | 应用框架底                     |
+| `--lumia-sidebar-bg`   | 工具架                         |
+| `--lumia-raised-bg`    | 顶栏、Panel Header、抬起面     |
+| `--lumia-overlay-bg`   | Dropdown / Dialog / ExtendPage |
+| `--lumia-paper`        | 结果、文档、普通内容           |
+| `--lumia-editor`       | 输入、编辑器                   |
+| `--lumia-controls`     | 参数 Rack                      |
+| `--lumia-text`         | 主文本                         |
+| `--lumia-muted`        | 次要文本                       |
+| `--lumia-primary`      | 当前区域唯一主操作             |
+| `--lumia-on-primary`   | 主操作上的字                   |
+| `--lumia-selection`    | 当前位置 / 当前工具 / 导航选中 |
+| `--lumia-on-selection` | 选中项上的字                   |
+| `--lumia-success`      | Ready / Valid / Generated      |
+| `--lumia-warning`      | 警告                           |
+| `--lumia-danger`       | Invalid / Error / Danger       |
+| `--lumia-border`       | 低对比分割                     |
+| `--lumia-focus`        | 键盘焦点                       |
 
 橙色不得当普通 Button。紫色不得当导航选中。绿色不得当普通选中。
 
@@ -138,7 +139,7 @@ Header + Body + 可选 Footer。操作在 Header 内。输入用 `data-surface="
 
 ### Form Control
 
-可见 Label。开关用文字。Disabled 说明原因。参数放固定 Rack。
+可见 Label。开关用文字。Disabled 说明原因。常驻参数放固定 Rack；媒体工作台的高级参数放可展开 Inspector。
 
 ### Empty / Error / Loading
 
@@ -147,6 +148,17 @@ Empty 安静、无空动作。Error 单个 `role="alert"`。Loading 保持尺寸
 ## 页面模板
 
 只有 6 种。Diff 是 Editor 的特例，不是第 7 种。Hash、时间、进制等走 Utility，禁止再开 `hash.css` 私有模板。
+
+### 共享工作区语法
+
+六种模板共用同一套视觉语法，差异只在任务结构：
+
+1. **Command Bar / Rack**：固定在工作区起点，承载模式、参数和当前区域唯一主操作。
+2. **Pane Header**：只标识 Pane 内容及其就近动作；同一层级高度、边框和背景一致。
+3. **Dominant Surface**：Editor、Canvas、Preview 或 Structured Output 占据剩余空间并独立滚动。
+4. **Feedback Strip**：Loading、Error、Success 留在当前骨架内，不用新 Card 或 Modal 替换内容。
+
+禁止为获得 padding 再套一层无标题 Card。旧页面必须迁移到 `paired`、`configured`、`command-toolbar`、`inspector-split`、`generator` 或 `utility-form` 之一，不保留 `legacy` 模板。
 
 ### Transformer
 
@@ -163,6 +175,26 @@ Empty 安静、无空动作。Error 单个 `role="alert"`。Loading 保持尺寸
 ### Generator
 
 `Options | Preview/Result`。预览有最大尺寸。QR 的高级选项是 Rack，不是盖在输入上的 Settings。
+
+#### Media Workbench（Generator 子型）
+
+适用于「先选择或解析媒体，再浏览、调整、导出」的工具，例如 X Media 与实况图。
+
+| 状态            | 骨架                                                                       |
+| --------------- | -------------------------------------------------------------------------- |
+| Empty           | 单一居中任务入口；只保留开始任务所需的输入、选择或拖放动作                 |
+| Populated       | `Command Bar + Dominant Canvas`；不得恢复成左右 Card 分栏                  |
+| Inspecting      | Command Bar 不动，在其下展开横向参数 Inspector；关闭后 Canvas 立即取回空间 |
+| Error / Loading | 保持当前骨架与尺寸，只在 Command Bar 下方显示单条反馈                      |
+
+约束：
+
+- Command Bar 左侧是当前来源或可重复解析的输入，右侧是选择摘要、参数入口与唯一主操作。
+- Canvas 永远占剩余空间。图库在 Canvas 内滚动；单个预览 `object-fit: contain`。
+- 高级参数默认收起。Inspector 展开后高度有上限并独立滚动，不得重新挤出永久左右栏。
+- 图库列宽限制在 190–280px；用 `auto-fill` 适应窗口，禁止让少量媒体拉成整行巨型 Card。
+- Empty 与 Populated 复用同一页面边界、主题表面和主操作语义；状态切换不得出现第二层浮空 Card 墙。
+- 选择项必须可键盘聚焦并暴露 `aria-pressed`；不能只用彩色边框表达状态。
 
 ### Tester
 
@@ -184,9 +216,9 @@ Empty 安静、无空动作。Error 单个 `role="alert"`。Loading 保持尺寸
 
 页面内容用 Container Query：
 
-- > 760px：双栏。
-- 520–760px：上下排列。
-- < 520px：参数换行，结果值独占下一行。
+- > 760px：常规模板双栏；Media Workbench 的 Command Bar 单行。
+- 520–760px：常规模板上下排列；Media Workbench 的 Command Bar 分两行，Inspector 两列。
+- < 520px：参数换行，结果值独占下一行；Media Workbench 的 Inspector 与图库单列。
 - 窗口 < 720px：工具架变抽屉。
 
 不得用 `display:none` 删除输入、结果或导航能力。
@@ -215,7 +247,7 @@ Empty 安静、无空动作。Error 单个 `role="alert"`。Loading 保持尺寸
 1. 确认模板。
 2. 只使用 `--lumia-*`。
 3. 在 Light 和 Dark 各验收 1568×953 与 700×600。
-4. 检查：控件是否漂浮、标签是否丢失、值是否截断、动作是否远离目标、主题切换后 chrome 与 workspace 是否一起变。
+4. 检查：控件是否漂浮、标签是否丢失、值是否截断、动作是否远离目标、Empty → Populated 是否换了骨架、主题切换后 chrome 与 workspace 是否一起变。
 5. 生产构建后才可声明完成。
 
 未合并本规范到生产 CSS 之前，不得宣称主题已修好。

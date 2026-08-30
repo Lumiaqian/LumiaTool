@@ -110,7 +110,7 @@ export default function Generate() {
                 </div>
             </div>
             {action.current.option.is_show ? (
-                <div className="lumia-page-option" style={{ marginTop: 5 }}>
+                <div className="lumia-page-option">
                     <Tabs
                         value={action.current.option.tab}
                         onChange={value => {

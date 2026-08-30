@@ -1,10 +1,9 @@
 import "@/browser-node-globals";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "@/App";
-import { $t } from "@/i18n";
 import { copy } from "@/lib/clipboard";
-import { initPermission } from "@/lib/clipboard";
+import { initializeSystemLocale } from "@/lib/desktop";
+import { initializeStorage } from "@/lib/localStorage";
 import "@/assets/style.css";
 import "@/assets/react-migrated.css";
 import "@/design-system/tokens.css";
@@ -17,6 +16,9 @@ import "@/design-system/inspector-utility-family.css";
 import "@/design-system/generator-editor-family.css";
 import "@/design-system/polish.css";
 
+await Promise.all([initializeSystemLocale(), initializeStorage()]);
+const [{ default: App }, { $t }] = await Promise.all([import("@/App"), import("@/i18n")]);
+
 Object.assign(globalThis, {
     $t,
     $copy: copy,
@@ -25,8 +27,6 @@ Object.assign(globalThis, {
         return isI18n ? $t(message) : message;
     },
 });
-
-await initPermission();
 
 const container = document.getElementById("app");
 if (!container) {

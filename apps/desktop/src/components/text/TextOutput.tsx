@@ -1,15 +1,6 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import {
-    Align,
-    Bool,
-    Button,
-    Card,
-    Exception,
-    InputNumber,
-    Select,
-    Textarea,
-} from "@/components";
+import { Align, Bool, Button, Card, Exception, InputNumber, Select, Textarea } from "@/components";
 import { sizeConvert } from "@/components/util";
 import { copyImage as copyImageToClipboard } from "@/lib/clipboard";
 import Message from "@/lib/message";
@@ -55,10 +46,7 @@ export default function TextOutput({
     onSuccessRef.current = onSuccess;
 
     const optionSignature = JSON.stringify(current.option);
-    const typeLists = useMemo(
-        () => textOutputEncoderLists.filter(item => allow.includes(item)),
-        [allow],
-    );
+    const typeLists = useMemo(() => textOutputEncoderLists.filter(item => allow.includes(item)), [allow]);
 
     useEffect(() => {
         const sequence = ++conversionSequence.current;
@@ -84,18 +72,13 @@ export default function TextOutput({
                         setAnalyseEncoding(detectedEncoding);
                         converted = encoding
                             ? data.toString(
-                                  option.text.encoding === "analyse"
-                                      ? detectedEncoding
-                                      : option.text.encoding,
+                                  option.text.encoding === "analyse" ? detectedEncoding : option.text.encoding,
                               )
                             : data.toString();
                         break;
                     }
                     case "base64":
-                        converted = data.toBase64(
-                            option.base64.is_url_safe,
-                            option.base64.data_url_show,
-                        );
+                        converted = data.toBase64(option.base64.is_url_safe, option.base64.data_url_show);
                         break;
                     case "hex":
                         converted = data.toHex(option.hex);
@@ -150,13 +133,14 @@ export default function TextOutput({
         });
     };
 
-    const down = () => {
+    const down = async () => {
         setException("");
         try {
-            content.toDown();
-            onSuccessRef.current?.();
+            if (await content.toDown()) {
+                onSuccessRef.current?.();
+            }
         } catch (caught: unknown) {
-            setException($error(caught));
+            setException(caught instanceof Error ? caught.message : String(caught));
         }
     };
 
@@ -227,9 +211,7 @@ export default function TextOutput({
                     <Bool
                         size="small"
                         value={current.option.base64.is_url_safe}
-                        onChange={next =>
-                            mutateCurrent(model => (model.option.base64.is_url_safe = Boolean(next)))
-                        }
+                        onChange={next => mutateCurrent(model => (model.option.base64.is_url_safe = Boolean(next)))}
                         border
                         label={$t("component_content_output_url_safe")}
                         disabled={current.option.base64.data_url_show}
@@ -237,9 +219,7 @@ export default function TextOutput({
                     <Bool
                         size="small"
                         value={current.option.base64.data_url_show}
-                        onChange={next =>
-                            mutateCurrent(model => (model.option.base64.data_url_show = Boolean(next)))
-                        }
+                        onChange={next => mutateCurrent(model => (model.option.base64.data_url_show = Boolean(next)))}
                         border
                         label={$t("component_content_output_data_url")}
                     />
@@ -259,8 +239,7 @@ export default function TextOutput({
                     onChange={next =>
                         mutateCurrent(
                             model =>
-                                (model.option.text.encoding =
-                                    next as TextOutputModel["option"]["text"]["encoding"]),
+                                (model.option.text.encoding = next as TextOutputModel["option"]["text"]["encoding"]),
                         )
                     }
                 />
@@ -285,9 +264,7 @@ export default function TextOutput({
                             <InputNumber
                                 size="small"
                                 value={current.option.hex.width}
-                                onChange={next =>
-                                    mutateCurrent(model => (model.option.hex.width = Number(next)))
-                                }
+                                onChange={next => mutateCurrent(model => (model.option.hex.width = Number(next)))}
                                 max={60}
                                 min={1}
                                 width={90}
@@ -301,9 +278,7 @@ export default function TextOutput({
                         value={current.option.hex.caps}
                         onChange={next =>
                             mutateCurrent(
-                                model =>
-                                    (model.option.hex.caps =
-                                        next as TextOutputModel["option"]["hex"]["caps"]),
+                                model => (model.option.hex.caps = next as TextOutputModel["option"]["hex"]["caps"]),
                             )
                         }
                         options={hexCaps}
@@ -314,9 +289,7 @@ export default function TextOutput({
                         value={current.option.hex.type}
                         onChange={next =>
                             mutateCurrent(
-                                model =>
-                                    (model.option.hex.type =
-                                        next as TextOutputModel["option"]["hex"]["type"]),
+                                model => (model.option.hex.type = next as TextOutputModel["option"]["hex"]["type"]),
                             )
                         }
                         options={hexType}
@@ -327,9 +300,7 @@ export default function TextOutput({
                 <Select
                     size="small"
                     value={current.type}
-                    onChange={next =>
-                        mutateCurrent(model => (model.type = next as TextOutputModel["type"]))
-                    }
+                    onChange={next => mutateCurrent(model => (model.type = next as TextOutputModel["type"]))}
                     options={typeLists.map(item => ({
                         value: item,
                         label: $t(`component_content_type_${item}`),
@@ -340,16 +311,15 @@ export default function TextOutput({
     );
 
     const hasTypeSelect = typeLists.length > 1;
-    const hasResultOptions = result !== "" && (
-        current.type === "base64"
-        || (current.type === "text" && encoding)
-        || current.type === "hex"
-    );
+    const hasResultOptions =
+        result !== "" && (current.type === "base64" || (current.type === "text" && encoding) || current.type === "hex");
     const hasFooter = hasTypeSelect || hasResultOptions;
 
     return (
         <div
-            className={["lumia-text-output-frame", hasFooter ? "" : "lumia-text-output-frame--bare"].filter(Boolean).join(" ")}
+            className={["lumia-text-output-frame", hasFooter ? "" : "lumia-text-output-frame--bare"]
+                .filter(Boolean)
+                .join(" ")}
             style={style}
         >
             <div className="lumia-text-output-content">{mainContent}</div>

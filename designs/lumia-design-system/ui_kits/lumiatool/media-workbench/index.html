@@ -1,0 +1,186 @@
+<!-- @startingPoint section="Tool pages" subtitle="State-continuous media workflow with a command bar, optional inspector, and dominant canvas" viewport="1200x720" -->
+<!-- @dsCard group="LumiaTool" viewport="1200x720" name="Media Workbench" subtitle="Empty-to-populated generator pattern" -->
+<link rel="stylesheet" href="../../../styles.css" />
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        font-family: var(--lumia-font-ui);
+        background: var(--lumia-app-bg);
+        color: var(--lumia-text);
+    }
+    .specimen {
+        height: 720px;
+        padding: var(--lumia-space-4);
+    }
+    .workbench {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--lumia-border);
+        border-radius: var(--lumia-radius-panel);
+        background: var(--lumia-paper);
+    }
+    .command {
+        min-height: var(--lumia-panel-header-height);
+        display: flex;
+        align-items: center;
+        gap: var(--lumia-space-2);
+        padding: var(--lumia-space-2) var(--lumia-space-3);
+        border-bottom: 1px solid var(--lumia-border);
+        background: var(--lumia-raised-bg);
+    }
+    .source {
+        min-width: 0;
+        flex: 1 1 auto;
+        display: grid;
+        gap: var(--lumia-space-1);
+    }
+    .source strong,
+    .source span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .source span,
+    .summary {
+        color: var(--lumia-muted);
+        font-size: var(--lumia-font-sm);
+    }
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: var(--lumia-space-2);
+    }
+    .inspector {
+        display: none;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--lumia-space-3);
+        padding: var(--lumia-space-3);
+        border-bottom: 1px solid var(--lumia-border);
+        background: var(--lumia-controls);
+    }
+    .inspector[data-open="true"] {
+        display: grid;
+    }
+    .field {
+        display: grid;
+        gap: var(--lumia-space-1);
+        color: var(--lumia-muted);
+        font-size: var(--lumia-font-sm);
+    }
+    .field input {
+        width: 100%;
+        height: var(--lumia-control-height);
+        padding: 0 var(--lumia-space-2);
+        color: var(--lumia-text);
+        border: 1px solid var(--lumia-border);
+        border-radius: var(--lumia-radius-control);
+        background: var(--lumia-editor);
+    }
+    .context {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: var(--lumia-space-3);
+        padding: var(--lumia-space-2) var(--lumia-space-3);
+        border-bottom: 1px solid var(--lumia-border);
+    }
+    .context span {
+        color: var(--lumia-muted);
+        line-height: var(--lumia-line-cjk);
+    }
+    .canvas {
+        flex: 1 1 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 280px));
+        justify-content: center;
+        align-content: start;
+        gap: var(--lumia-space-3);
+        padding: var(--lumia-space-4);
+        overflow: auto;
+        background: var(--lumia-editor);
+    }
+    .media {
+        min-height: 250px;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        padding: 0;
+        overflow: hidden;
+        color: var(--lumia-text);
+        text-align: left;
+        border: 1px solid var(--lumia-border);
+        border-radius: var(--lumia-radius-panel);
+        background: var(--lumia-paper);
+        box-shadow: none;
+    }
+    .media[aria-pressed="true"] {
+        border-color: var(--lumia-primary);
+        box-shadow: inset 0 0 0 1px var(--lumia-primary);
+    }
+    .media-preview {
+        display: grid;
+        place-items: center;
+        color: var(--lumia-muted);
+        font-family: var(--lumia-font-mono);
+        background: var(--lumia-paper);
+    }
+    .media-label {
+        padding: var(--lumia-space-2) var(--lumia-space-3);
+        color: var(--lumia-muted);
+        font-size: var(--lumia-font-sm);
+        border-top: 1px solid var(--lumia-border);
+    }
+</style>
+<div class="specimen">
+    <main class="workbench">
+        <header class="command">
+            <div class="source">
+                <strong>2092575786427670708</strong>
+                <span>@aestheticzhub · Psyduck pokemon live wallpaper</span>
+            </div>
+            <div class="actions">
+                <span class="summary" id="summary">已选 2/2</span>
+                <button class="lumia-button" id="inspector-toggle" aria-expanded="false">参数</button>
+                <button class="lumia-button" data-variant="primary">下载所选</button>
+            </div>
+        </header>
+        <section class="inspector" id="inspector" data-open="false">
+            <label class="field">起点 (秒)<input value="0.0" /></label>
+            <label class="field">时长 (秒)<input value="3.0" /></label>
+            <label class="field">封面 (秒)<input value="1.0" /></label>
+            <label class="field">输出高度<input value="原分辨率" /></label>
+        </section>
+        <div class="context">
+            <strong>当前内容</strong><span>来源、上下文和反馈保持在画布上方；切换状态不改变工作区骨架。</span>
+        </div>
+        <section class="canvas">
+            <button class="media" aria-pressed="true">
+                <span class="media-preview">MEDIA 01</span><span class="media-label">视频 · wallpaper_01.mp4</span>
+            </button>
+            <button class="media" aria-pressed="true">
+                <span class="media-preview">MEDIA 02</span><span class="media-label">视频 · wallpaper_02.mp4</span>
+            </button>
+        </section>
+    </main>
+</div>
+<script>
+    const inspectorToggle = document.getElementById("inspector-toggle");
+    const inspector = document.getElementById("inspector");
+    const summary = document.getElementById("summary");
+    inspectorToggle.addEventListener("click", () => {
+        const open = inspector.dataset.open !== "true";
+        inspector.dataset.open = String(open);
+        inspectorToggle.setAttribute("aria-expanded", String(open));
+    });
+    document.querySelectorAll(".media").forEach(item =>
+        item.addEventListener("click", () => {
+            item.setAttribute("aria-pressed", String(item.getAttribute("aria-pressed") !== "true"));
+            const selected = document.querySelectorAll('.media[aria-pressed="true"]').length;
+            summary.textContent = `已选 ${selected}/2`;
+        }),
+    );
+</script>

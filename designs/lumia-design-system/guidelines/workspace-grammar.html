@@ -1,0 +1,152 @@
+<!-- @dsCard group="Patterns" viewport="900x480" name="Workspace grammar" subtitle="Shared command, pane, surface, and feedback hierarchy" -->
+<link rel="stylesheet" href="../styles.css" />
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        padding: var(--lumia-space-4);
+        font-family: var(--lumia-font-ui);
+        color: var(--lumia-text);
+        background: var(--lumia-app-bg);
+    }
+    .examples {
+        height: 448px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--lumia-space-3);
+    }
+    .workspace {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--lumia-border);
+        border-radius: var(--lumia-radius-panel);
+        background: var(--lumia-paper);
+    }
+    .command {
+        min-height: var(--lumia-panel-header-height);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--lumia-space-2);
+        padding: var(--lumia-space-2) var(--lumia-space-3);
+        border-bottom: 1px solid var(--lumia-border);
+        background: var(--lumia-raised-bg);
+    }
+    .command strong,
+    .pane-header strong {
+        font-size: var(--lumia-font-body);
+    }
+    .command-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--lumia-space-2);
+    }
+    .rack {
+        display: flex;
+        align-items: center;
+        gap: var(--lumia-space-2);
+        padding: var(--lumia-space-2) var(--lumia-space-3);
+        border-bottom: 1px solid var(--lumia-border);
+        background: var(--lumia-controls);
+    }
+    .chip {
+        height: var(--lumia-control-height-compact);
+        display: grid;
+        place-items: center;
+        padding: 0 var(--lumia-space-2);
+        color: var(--lumia-muted);
+        font-size: var(--lumia-font-sm);
+        border: 1px solid var(--lumia-border);
+        border-radius: var(--lumia-radius-control);
+        background: var(--lumia-editor);
+    }
+    .panes {
+        flex: 1 1 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--lumia-space-3);
+        padding: var(--lumia-space-3);
+        background: var(--lumia-app-bg);
+    }
+    .pane {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: hidden;
+        border: 1px solid var(--lumia-border);
+        border-radius: var(--lumia-radius-panel);
+        background: var(--lumia-paper);
+    }
+    .pane[data-surface="editor"] {
+        background: var(--lumia-editor);
+    }
+    .pane-header {
+        min-height: var(--lumia-panel-header-height);
+        display: flex;
+        align-items: center;
+        padding: 0 var(--lumia-space-3);
+        border-bottom: 1px solid var(--lumia-border);
+    }
+    .surface {
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        color: var(--lumia-muted);
+        font-family: var(--lumia-font-mono);
+        font-size: var(--lumia-font-sm);
+    }
+    .dominant {
+        flex: 1 1 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        color: var(--lumia-muted);
+        font-family: var(--lumia-font-mono);
+        font-size: var(--lumia-font-sm);
+        background: var(--lumia-editor);
+    }
+    .feedback {
+        padding: var(--lumia-space-2) var(--lumia-space-3);
+        color: var(--lumia-success);
+        font-size: var(--lumia-font-sm);
+        border-top: 1px solid var(--lumia-border);
+    }
+</style>
+<div class="examples">
+    <section class="workspace">
+        <header class="command">
+            <strong>Transformer</strong>
+            <div class="command-actions">
+                <span class="chip">UTF-8</span><button class="lumia-button" data-variant="primary">转换</button>
+            </div>
+        </header>
+        <div class="rack"><span class="chip">模式</span><span class="chip">参数</span></div>
+        <div class="panes">
+            <section class="pane" data-surface="editor">
+                <header class="pane-header"><strong>输入</strong></header>
+                <div class="surface">SOURCE</div>
+            </section>
+            <section class="pane">
+                <header class="pane-header"><strong>输出</strong></header>
+                <div class="surface">RESULT</div>
+            </section>
+        </div>
+    </section>
+    <section class="workspace">
+        <header class="command">
+            <strong>Editor / Media Workbench</strong>
+            <div class="command-actions">
+                <span class="chip">设置</span><button class="lumia-button" data-variant="primary">运行</button>
+            </div>
+        </header>
+        <div class="dominant">DOMINANT SURFACE</div>
+        <div class="feedback">任务完成 · 骨架保持不变</div>
+    </section>
+</div>

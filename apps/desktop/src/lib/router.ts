@@ -54,12 +54,6 @@ export const routes: AppRoute[] = [
         meta: { type: "index" },
     },
     {
-        name: "clipboard",
-        path: "/clipboard",
-        component: () => import("@/app/Clipboard"),
-        meta: { type: "other" },
-    },
-    {
         name: "test",
         path: "/test",
         component: () => import("@/app/Test"),

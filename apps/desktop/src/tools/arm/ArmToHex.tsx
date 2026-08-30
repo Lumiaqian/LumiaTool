@@ -25,11 +25,14 @@ export default function ArmToHex() {
     const action = useAction(initial);
     const [loading, setLoading] = useState(false);
 
-    const result = useMemo(() => ({
-        arm64: handleResult("hex", "arm64", action.current),
-        arm: handleResult("hex", "arm", action.current),
-        thumb: handleResult("hex", "thumb", action.current),
-    }), [action.current.response, action.current.prefix_0x, action.current.swap_endian]);
+    const result = useMemo(
+        () => ({
+            arm64: handleResult("hex", "arm64", action.current),
+            arm: handleResult("hex", "arm", action.current),
+            thumb: handleResult("hex", "thumb", action.current),
+        }),
+        [action.current.response, action.current.prefix_0x, action.current.swap_endian],
+    );
 
     const outputPlaceholder = (field: string) => `${field}${action.current.swap_endian ? " Big Endian" : ""}`;
 
@@ -58,29 +61,80 @@ export default function ArmToHex() {
                 className="lumia-page-option lumia-transformer-rack"
                 label="Offset (hex) 0x"
                 value={action.current.offset}
-                onChange={(value) => { action.current.offset = value; }}
+                onChange={value => {
+                    action.current.offset = value;
+                }}
                 placeholder="0 - for branch and LDR put hex value here"
-                style={{ marginBottom: 5 }}
-                append={(
+                append={
                     <Align>
-                        <Bool value={action.current.prefix_0x} onChange={(value) => { action.current.prefix_0x = value; }} label="0x" />
-                        <Bool value={action.current.swap_endian} onChange={(value) => { action.current.swap_endian = value; }} label="GDB/LLDB" />
+                        <Bool
+                            value={action.current.prefix_0x}
+                            onChange={value => {
+                                action.current.prefix_0x = value;
+                            }}
+                            label="0x"
+                        />
+                        <Bool
+                            value={action.current.swap_endian}
+                            onChange={value => {
+                                action.current.swap_endian = value;
+                            }}
+                            label="GDB/LLDB"
+                        />
                         <HelpTip link="https://armconverter.com/" />
                     </Align>
-                )}
+                }
             />
             <div className="lumia-transformer-panes lumia-transformer-panes--multiple">
                 <HeightResize append={[".lumia-page-option"]}>
                     {({ height }) => (
                         <div className="lumia-transformer-arm-layout">
-                            <Align className="lumia-transformer-pane lumia-transformer-pane--source" direction="vertical" role="region" aria-label={$t("main_ui_input")}>
-                                <Textarea value={action.current.input} onChange={(value) => { action.current.input = value; }} height={height - 37} placeholder={inputPlaceholder} />
-                                <Button type="primary" loading={loading} onClick={convert} long text={$t("arm_convert")} />
+                            <Align
+                                className="lumia-transformer-pane lumia-transformer-pane--source"
+                                direction="vertical"
+                                role="region"
+                                aria-label={$t("main_ui_input")}
+                            >
+                                <Textarea
+                                    value={action.current.input}
+                                    onChange={value => {
+                                        action.current.input = value;
+                                    }}
+                                    height={height - 37}
+                                    placeholder={inputPlaceholder}
+                                />
+                                <Button
+                                    type="primary"
+                                    loading={loading}
+                                    onClick={convert}
+                                    long
+                                    text={$t("arm_convert")}
+                                />
                             </Align>
-                            <Align className="lumia-transformer-pane lumia-transformer-pane--result lumia-transformer-multiple-results" direction="vertical" role="region" aria-label={$t("main_ui_output")}>
-                                <Textarea value={result.arm64} placeholder={outputPlaceholder("ARM64")} height={(height - 10) / 3} copy={outputPlaceholder("ARM64")} />
-                                <Textarea value={result.arm} placeholder={outputPlaceholder("ARM")} height={(height - 10) / 3} copy={outputPlaceholder("ARM")} />
-                                <Textarea value={result.thumb} placeholder={outputPlaceholder("THUMB")} height={(height - 10) / 3} copy={outputPlaceholder("THUMB")} />
+                            <Align
+                                className="lumia-transformer-pane lumia-transformer-pane--result lumia-transformer-multiple-results"
+                                direction="vertical"
+                                role="region"
+                                aria-label={$t("main_ui_output")}
+                            >
+                                <Textarea
+                                    value={result.arm64}
+                                    placeholder={outputPlaceholder("ARM64")}
+                                    height={(height - 10) / 3}
+                                    copy={outputPlaceholder("ARM64")}
+                                />
+                                <Textarea
+                                    value={result.arm}
+                                    placeholder={outputPlaceholder("ARM")}
+                                    height={(height - 10) / 3}
+                                    copy={outputPlaceholder("ARM")}
+                                />
+                                <Textarea
+                                    value={result.thumb}
+                                    placeholder={outputPlaceholder("THUMB")}
+                                    height={(height - 10) / 3}
+                                    copy={outputPlaceholder("THUMB")}
+                                />
                             </Align>
                         </div>
                     )}

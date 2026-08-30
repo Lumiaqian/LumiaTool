@@ -10,6 +10,9 @@
 
 static const char *kContentIdentifierKey = "com.apple.quicktime.content.identifier";
 static const char *kStillImageTimeKey = "com.apple.quicktime.still-image-time";
+static const char *kLivePhotoAutoKey = "com.apple.quicktime.live-photo.auto";
+static const char *kVitalityScoreKey = "com.apple.quicktime.live-photo.vitality-score";
+static const char *kVitalityScoringVersionKey = "com.apple.quicktime.live-photo.vitality-scoring-version";
 
 static void set_error(char *err, int err_len, NSString *message) {
     if (err == NULL || err_len <= 0) {
@@ -389,7 +392,120 @@ static void start_copy_samples(AVAssetReaderOutput *readerOutput, AVAssetWriterI
     }];
 }
 
-static BOOL attach_live_metadata(NSURL *sourceURL, NSURL *outputURL, NSString *contentId, CMTime stillTime, NSError **outError) {
+static AVMutableMetadataItem *live_metadata_item(const char *key, id value, CFStringRef dataType) {
+    AVMutableMetadataItem *item = [AVMutableMetadataItem metadataItem];
+    item.key = @(key);
+    item.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
+    item.value = value;
+    item.dataType = (__bridge NSString *)dataType;
+    return item;
+}
+
+static NSArray<AVMetadataItem *> *live_photo_top_level_metadata(NSString *contentId) {
+    return @[
+        live_metadata_item(kContentIdentifierKey, contentId, kCMMetadataBaseDataType_UTF8),
+        live_metadata_item(kLivePhotoAutoKey, @1, kCMMetadataBaseDataType_SInt8),
+        live_metadata_item(kVitalityScoreKey, @1.0f, kCMMetadataBaseDataType_Float32),
+        live_metadata_item(
+            kVitalityScoringVersionKey,
+            @((int64_t)4),
+            kCMMetadataBaseDataType_SInt64
+        )
+    ];
+}
+
+static BOOL add_still_time_metadata_input(
+    AVAssetWriter *writer,
+    AVAssetWriterInput **outInput,
+    AVAssetWriterInputMetadataAdaptor **outAdaptor,
+    NSError **outError
+) {
+    NSArray *specs = @[@{
+        (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
+            [NSString stringWithFormat:@"mdta/%s", kStillImageTimeKey],
+        (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
+            (__bridge NSString *)kCMMetadataBaseDataType_SInt8
+    }];
+    CMFormatDescriptionRef metadataFormat = NULL;
+    OSStatus status = CMMetadataFormatDescriptionCreateWithMetadataSpecifications(
+        kCFAllocatorDefault,
+        kCMMetadataFormatType_Boxed,
+        (__bridge CFArrayRef)specs,
+        &metadataFormat
+    );
+    if (status != noErr || metadataFormat == NULL) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:15 userInfo:@{
+                NSLocalizedDescriptionKey: [NSString stringWithFormat:
+                    @"Failed to create still-image-time metadata (OSStatus %d)", (int)status]
+            }];
+        }
+        return NO;
+    }
+
+    AVAssetWriterInput *input = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata
+                                                                   outputSettings:nil
+                                                                 sourceFormatHint:metadataFormat];
+    CFRelease(metadataFormat);
+    input.expectsMediaDataInRealTime = NO;
+    if (![writer canAddInput:input]) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:16 userInfo:@{
+                NSLocalizedDescriptionKey: @"Cannot add still-image-time metadata track"
+            }];
+        }
+        return NO;
+    }
+    [writer addInput:input];
+    *outInput = input;
+    *outAdaptor = [AVAssetWriterInputMetadataAdaptor assetWriterInputMetadataAdaptorWithAssetWriterInput:input];
+    return YES;
+}
+
+static BOOL append_still_time_metadata(
+    AVAssetWriter *writer,
+    AVAssetWriterInput *input,
+    AVAssetWriterInputMetadataAdaptor *adaptor,
+    CMTime stillTime,
+    NSError **outError
+) {
+    NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (!input.readyForMoreMediaData &&
+           writer.status == AVAssetWriterStatusWriting &&
+           deadline.timeIntervalSinceNow > 0) {
+        [NSThread sleepForTimeInterval:0.001];
+    }
+    if (!input.readyForMoreMediaData) {
+        if (outError) {
+            *outError = writer.error ?: [NSError errorWithDomain:@"lumiatool" code:17 userInfo:@{
+                NSLocalizedDescriptionKey: @"Timed out preparing still-image-time metadata"
+            }];
+        }
+        return NO;
+    }
+
+    AVMutableMetadataItem *stillItem =
+        live_metadata_item(kStillImageTimeKey, @0, kCMMetadataBaseDataType_SInt8);
+    AVTimedMetadataGroup *group = [[AVTimedMetadataGroup alloc]
+        initWithItems:@[stillItem]
+        timeRange:CMTimeRangeMake(stillTime, CMTimeMake(1, 15))];
+    BOOL appended = [adaptor appendTimedMetadataGroup:group];
+    [input markAsFinished];
+    if (!appended && outError) {
+        *outError = writer.error ?: [NSError errorWithDomain:@"lumiatool" code:18 userInfo:@{
+            NSLocalizedDescriptionKey: @"Failed to append still-image-time metadata"
+        }];
+    }
+    return appended;
+}
+
+static BOOL attach_live_metadata(
+    NSURL *sourceURL,
+    NSURL *outputURL,
+    NSString *contentId,
+    CMTime stillTime,
+    NSError **outError
+) {
     NSFileManager *files = NSFileManager.defaultManager;
     if ([files fileExistsAtPath:outputURL.path]) {
         [files removeItemAtURL:outputURL error:nil];
@@ -408,102 +524,6 @@ static BOOL attach_live_metadata(NSURL *sourceURL, NSURL *outputURL, NSString *c
     }
 
     NSError *error = nil;
-    AVAssetWriter *writer = [AVAssetWriter assetWriterWithURL:outputURL fileType:AVFileTypeQuickTimeMovie error:&error];
-    if (writer == nil) {
-        if (outError) {
-            *outError = error;
-        }
-        return NO;
-    }
-
-    CMFormatDescriptionRef videoHint = (__bridge CMFormatDescriptionRef)videoTrack.formatDescriptions.firstObject;
-    AVAssetWriterInput *videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                                        outputSettings:nil
-                                                                      sourceFormatHint:videoHint];
-    videoInput.expectsMediaDataInRealTime = NO;
-    videoInput.transform = videoTrack.preferredTransform;
-    if ([writer canAddInput:videoInput]) {
-        [writer addInput:videoInput];
-    }
-
-    AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
-    AVAssetWriterInput *audioInput = nil;
-    if (audioTrack != nil) {
-        CMFormatDescriptionRef audioHint = (__bridge CMFormatDescriptionRef)audioTrack.formatDescriptions.firstObject;
-        audioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
-                                                        outputSettings:nil
-                                                      sourceFormatHint:audioHint];
-        audioInput.expectsMediaDataInRealTime = NO;
-        if ([writer canAddInput:audioInput]) {
-            [writer addInput:audioInput];
-        } else {
-            audioInput = nil;
-        }
-    }
-
-    NSArray *specs = @[
-        @{
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
-                [NSString stringWithFormat:@"mdta/%s", kContentIdentifierKey],
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
-                (__bridge NSString *)kCMMetadataBaseDataType_UTF8
-        },
-        @{
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
-                [NSString stringWithFormat:@"mdta/%s", kStillImageTimeKey],
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
-                (__bridge NSString *)kCMMetadataBaseDataType_SInt8
-        }
-    ];
-    CMFormatDescriptionRef metadataFormat = NULL;
-    CMMetadataFormatDescriptionCreateWithMetadataSpecifications(
-        kCFAllocatorDefault,
-        kCMMetadataFormatType_Boxed,
-        (__bridge CFArrayRef)specs,
-        &metadataFormat
-    );
-    AVAssetWriterInput *metadataInput = nil;
-    AVAssetWriterInputMetadataAdaptor *metadataAdaptor = nil;
-    if (metadataFormat != NULL) {
-        metadataInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata
-                                                           outputSettings:nil
-                                                         sourceFormatHint:metadataFormat];
-        metadataInput.expectsMediaDataInRealTime = NO;
-        if ([writer canAddInput:metadataInput]) {
-            [writer addInput:metadataInput];
-            metadataAdaptor = [AVAssetWriterInputMetadataAdaptor assetWriterInputMetadataAdaptorWithAssetWriterInput:metadataInput];
-        }
-        CFRelease(metadataFormat);
-    }
-
-    AVMutableMetadataItem *idItem = [AVMutableMetadataItem metadataItem];
-    idItem.key = @(kContentIdentifierKey);
-    idItem.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
-    idItem.value = contentId;
-    idItem.dataType = (__bridge NSString *)kCMMetadataBaseDataType_UTF8;
-    AVMutableMetadataItem *stillItem = [AVMutableMetadataItem metadataItem];
-    stillItem.key = @(kStillImageTimeKey);
-    stillItem.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
-    stillItem.value = @0;
-    stillItem.dataType = (__bridge NSString *)kCMMetadataBaseDataType_SInt8;
-    writer.metadata = @[idItem, stillItem];
-
-    if (![writer startWriting]) {
-        if (outError) {
-            *outError = writer.error;
-        }
-        return NO;
-    }
-    [writer startSessionAtSourceTime:kCMTimeZero];
-
-    if (metadataAdaptor != nil) {
-        CMTime sampleDuration = CMTimeMake(1, MAX(stillTime.timescale, 600));
-        AVTimedMetadataGroup *group = [[AVTimedMetadataGroup alloc] initWithItems:@[idItem, stillItem]
-                                                                        timeRange:CMTimeRangeMake(stillTime, sampleDuration)];
-        [metadataAdaptor appendTimedMetadataGroup:group];
-        [metadataInput markAsFinished];
-    }
-
     AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset error:&error];
     if (reader == nil) {
         if (outError) {
@@ -511,23 +531,97 @@ static BOOL attach_live_metadata(NSURL *sourceURL, NSURL *outputURL, NSString *c
         }
         return NO;
     }
-    AVAssetReaderTrackOutput *videoOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:videoTrack outputSettings:nil];
-    if ([reader canAddOutput:videoOutput]) {
-        [reader addOutput:videoOutput];
+    AVAssetWriter *writer = [AVAssetWriter assetWriterWithURL:outputURL
+                                                     fileType:AVFileTypeQuickTimeMovie
+                                                        error:&error];
+    if (writer == nil) {
+        if (outError) {
+            *outError = error;
+        }
+        return NO;
     }
+
+    CMFormatDescriptionRef videoHint =
+        (__bridge CMFormatDescriptionRef)videoTrack.formatDescriptions.firstObject;
+    AVAssetWriterInput *videoInput =
+        [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
+                                           outputSettings:nil
+                                         sourceFormatHint:videoHint];
+    videoInput.expectsMediaDataInRealTime = NO;
+    videoInput.transform = videoTrack.preferredTransform;
+    if (![writer canAddInput:videoInput]) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:19 userInfo:@{
+                NSLocalizedDescriptionKey: @"Cannot write Live Photo video track"
+            }];
+        }
+        return NO;
+    }
+    [writer addInput:videoInput];
+
+    AVAssetReaderTrackOutput *videoOutput =
+        [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:videoTrack outputSettings:nil];
+    if (![reader canAddOutput:videoOutput]) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:20 userInfo:@{
+                NSLocalizedDescriptionKey: @"Cannot read Live Photo video track"
+            }];
+        }
+        return NO;
+    }
+    [reader addOutput:videoOutput];
+
+    AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
+    AVAssetWriterInput *audioInput = nil;
     AVAssetReaderTrackOutput *audioOutput = nil;
-    if (audioTrack != nil && audioInput != nil) {
-        audioOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:audioTrack outputSettings:nil];
-        if ([reader canAddOutput:audioOutput]) {
+    if (audioTrack != nil) {
+        CMFormatDescriptionRef audioHint =
+            (__bridge CMFormatDescriptionRef)audioTrack.formatDescriptions.firstObject;
+        audioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
+                                                        outputSettings:nil
+                                                      sourceFormatHint:audioHint];
+        audioInput.expectsMediaDataInRealTime = NO;
+        audioOutput =
+            [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:audioTrack outputSettings:nil];
+        if ([writer canAddInput:audioInput] && [reader canAddOutput:audioOutput]) {
+            [writer addInput:audioInput];
             [reader addOutput:audioOutput];
         } else {
+            audioInput = nil;
             audioOutput = nil;
         }
     }
+
+    AVAssetWriterInput *metadataInput = nil;
+    AVAssetWriterInputMetadataAdaptor *metadataAdaptor = nil;
+    if (!add_still_time_metadata_input(writer, &metadataInput, &metadataAdaptor, outError)) {
+        return NO;
+    }
+    writer.metadata = live_photo_top_level_metadata(contentId);
+
     if (![reader startReading]) {
         if (outError) {
             *outError = reader.error;
         }
+        return NO;
+    }
+    if (![writer startWriting]) {
+        [reader cancelReading];
+        if (outError) {
+            *outError = writer.error;
+        }
+        return NO;
+    }
+    [writer startSessionAtSourceTime:kCMTimeZero];
+    if (!append_still_time_metadata(
+        writer,
+        metadataInput,
+        metadataAdaptor,
+        stillTime,
+        outError
+    )) {
+        [reader cancelReading];
+        [writer cancelWriting];
         return NO;
     }
 
@@ -537,10 +631,19 @@ static BOOL attach_live_metadata(NSURL *sourceURL, NSURL *outputURL, NSString *c
         start_copy_samples(audioOutput, audioInput, group);
     }
     if (dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, 120ll * NSEC_PER_SEC)) != 0) {
+        [reader cancelReading];
+        [writer cancelWriting];
         if (outError) {
             *outError = [NSError errorWithDomain:@"lumiatool" code:12 userInfo:@{
                 NSLocalizedDescriptionKey: @"Timed out writing Live Photo video"
             }];
+        }
+        return NO;
+    }
+    if (reader.status == AVAssetReaderStatusFailed) {
+        [writer cancelWriting];
+        if (outError) {
+            *outError = reader.error;
         }
         return NO;
     }
@@ -549,7 +652,18 @@ static BOOL attach_live_metadata(NSURL *sourceURL, NSURL *outputURL, NSString *c
     [writer finishWritingWithCompletionHandler:^{
         dispatch_semaphore_signal(finish);
     }];
-    dispatch_semaphore_wait(finish, dispatch_time(DISPATCH_TIME_NOW, 30ll * NSEC_PER_SEC));
+    if (dispatch_semaphore_wait(
+        finish,
+        dispatch_time(DISPATCH_TIME_NOW, 30ll * NSEC_PER_SEC)
+    ) != 0) {
+        [writer cancelWriting];
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:21 userInfo:@{
+                NSLocalizedDescriptionKey: @"Timed out finalizing Live Photo metadata"
+            }];
+        }
+        return NO;
+    }
     if (writer.status != AVAssetWriterStatusCompleted) {
         if (outError) {
             *outError = writer.error ?: [NSError errorWithDomain:@"lumiatool" code:11 userInfo:@{
@@ -645,12 +759,11 @@ static BOOL write_wallpaper_mov(
     }
 
     NSDictionary *videoSettings = @{
-        AVVideoCodecKey: AVVideoCodecTypeH264,
+        AVVideoCodecKey: AVVideoCodecTypeHEVC,
         AVVideoWidthKey: @(width),
         AVVideoHeightKey: @(height),
         AVVideoCompressionPropertiesKey: @{
             AVVideoAverageBitRateKey: @(width * height * 6),
-            AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel,
             AVVideoMaxKeyFrameIntervalKey: @30
         }
     };
@@ -660,7 +773,7 @@ static BOOL write_wallpaper_mov(
     if (![writer canAddInput:videoInput]) {
         if (outError) {
             *outError = [NSError errorWithDomain:@"lumiatool" code:14 userInfo:@{
-                NSLocalizedDescriptionKey: @"Cannot add H.264 video input"
+                NSLocalizedDescriptionKey: @"Cannot add HEVC video input"
             }];
         }
         return NO;
@@ -684,51 +797,11 @@ static BOOL write_wallpaper_mov(
         }
     }
 
-    AVMutableMetadataItem *idItem = [AVMutableMetadataItem metadataItem];
-    idItem.key = @(kContentIdentifierKey);
-    idItem.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
-    idItem.value = contentId;
-    idItem.dataType = (__bridge NSString *)kCMMetadataBaseDataType_UTF8;
-    AVMutableMetadataItem *stillItem = [AVMutableMetadataItem metadataItem];
-    stillItem.key = @(kStillImageTimeKey);
-    stillItem.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
-    stillItem.value = @0;
-    stillItem.dataType = (__bridge NSString *)kCMMetadataBaseDataType_SInt8;
-    writer.metadata = @[idItem, stillItem];
-
-    NSArray *specs = @[
-        @{
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
-                [NSString stringWithFormat:@"mdta/%s", kContentIdentifierKey],
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
-                (__bridge NSString *)kCMMetadataBaseDataType_UTF8
-        },
-        @{
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
-                [NSString stringWithFormat:@"mdta/%s", kStillImageTimeKey],
-            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
-                (__bridge NSString *)kCMMetadataBaseDataType_SInt8
-        }
-    ];
-    CMFormatDescriptionRef metadataFormat = NULL;
-    CMMetadataFormatDescriptionCreateWithMetadataSpecifications(
-        kCFAllocatorDefault,
-        kCMMetadataFormatType_Boxed,
-        (__bridge CFArrayRef)specs,
-        &metadataFormat
-    );
+    writer.metadata = live_photo_top_level_metadata(contentId);
     AVAssetWriterInput *metadataInput = nil;
     AVAssetWriterInputMetadataAdaptor *metadataAdaptor = nil;
-    if (metadataFormat != NULL) {
-        metadataInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata
-                                                           outputSettings:nil
-                                                         sourceFormatHint:metadataFormat];
-        metadataInput.expectsMediaDataInRealTime = NO;
-        if ([writer canAddInput:metadataInput]) {
-            [writer addInput:metadataInput];
-            metadataAdaptor = [AVAssetWriterInputMetadataAdaptor assetWriterInputMetadataAdaptorWithAssetWriterInput:metadataInput];
-        }
-        CFRelease(metadataFormat);
+    if (!add_still_time_metadata_input(writer, &metadataInput, &metadataAdaptor, outError)) {
+        return NO;
     }
 
     AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:composition error:&error];
@@ -774,13 +847,17 @@ static BOOL write_wallpaper_mov(
     }
     [writer startSessionAtSourceTime:kCMTimeZero];
 
-    if (metadataAdaptor != nil) {
-        CMTime stillTime = CMTimeMultiplyByFloat64(composition.duration, 0.5);
-        CMTime sampleDuration = CMTimeMake(1, 600);
-        AVTimedMetadataGroup *timedGroup = [[AVTimedMetadataGroup alloc] initWithItems:@[idItem, stillItem]
-                                                                            timeRange:CMTimeRangeMake(stillTime, sampleDuration)];
-        [metadataAdaptor appendTimedMetadataGroup:timedGroup];
-        [metadataInput markAsFinished];
+    CMTime stillTime = CMTimeMultiplyByFloat64(composition.duration, 0.5);
+    if (!append_still_time_metadata(
+        writer,
+        metadataInput,
+        metadataAdaptor,
+        stillTime,
+        outError
+    )) {
+        [reader cancelReading];
+        [writer cancelWriting];
+        return NO;
     }
 
     dispatch_group_t copyGroup = dispatch_group_create();
@@ -817,6 +894,7 @@ static BOOL export_live_mov(
     AVAsset *asset,
     CMTimeRange range,
     NSString *contentId,
+    CMTime stillTime,
     NSURL *outputURL,
     BOOL wallpaper,
     NSError **outError
@@ -824,35 +902,38 @@ static BOOL export_live_mov(
     if (wallpaper) {
         return write_wallpaper_mov(asset, range, contentId, outputURL, outError);
     }
-    NSFileManager *files = NSFileManager.defaultManager;
-    if ([files fileExistsAtPath:outputURL.path]) {
-        [files removeItemAtURL:outputURL error:nil];
-    }
-    AVMutableMetadataItem *idItem = [AVMutableMetadataItem metadataItem];
-    idItem.key = @(kContentIdentifierKey);
-    idItem.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
-    idItem.value = contentId;
-    idItem.dataType = (__bridge NSString *)kCMMetadataBaseDataType_UTF8;
-    AVMutableMetadataItem *stillItem = [AVMutableMetadataItem metadataItem];
-    stillItem.key = @(kStillImageTimeKey);
-    stillItem.keySpace = AVMetadataKeySpaceQuickTimeMetadata;
-    stillItem.value = @0;
-    stillItem.dataType = (__bridge NSString *)kCMMetadataBaseDataType_SInt8;
+
+    NSString *tempName = [NSString stringWithFormat:
+        @"lumiatool-live-%@.mov", NSUUID.UUID.UUIDString];
+    NSURL *tempURL = [NSURL fileURLWithPath:
+        [NSTemporaryDirectory() stringByAppendingPathComponent:tempName]];
     NSString *preset = AVAssetExportPresetHighestQuality;
     NSArray *presets = [AVAssetExportSession exportPresetsCompatibleWithAsset:asset];
     if ([presets containsObject:AVAssetExportPresetHEVCHighestQuality]) {
         preset = AVAssetExportPresetHEVCHighestQuality;
     }
-    return export_composition(
+    BOOL exported = export_composition(
         asset,
         range,
-        outputURL,
+        tempURL,
         AVFileTypeQuickTimeMovie,
-        @[idItem, stillItem],
+        nil,
         preset,
         NO,
         outError
     );
+    if (!exported) {
+        return NO;
+    }
+    BOOL attached = attach_live_metadata(
+        tempURL,
+        outputURL,
+        contentId,
+        stillTime,
+        outError
+    );
+    [NSFileManager.defaultManager removeItemAtURL:tempURL error:nil];
+    return attached;
 }
 
 int lumia_export_apple_live_photo(
@@ -940,20 +1021,21 @@ int lumia_export_apple_live_photo(
             CMTimeMakeWithSeconds(st, 600),
             CMTimeMakeWithSeconds(dur, 600)
         );
-        if (!export_live_mov(asset, range, contentId, movURL, wallpaper_mode, &error)) {
-            if (!export_composition(
-                asset,
-                range,
-                movURL,
-                AVFileTypeQuickTimeMovie,
-                nil,
-                AVAssetExportPresetHighestQuality,
-                wallpaper_mode,
-                &error
-            )) {
-                set_error(err, err_len, error.localizedDescription ?: @"MOV export failed");
-                return 1;
-            }
+        double stillOffset = MIN(MAX(cover - st, 0), dur);
+        CMTime stillTime = wallpaper_mode
+            ? CMTimeMultiplyByFloat64(range.duration, 0.5)
+            : CMTimeMakeWithSeconds(stillOffset, 600);
+        if (!export_live_mov(
+            asset,
+            range,
+            contentId,
+            stillTime,
+            movURL,
+            wallpaper_mode,
+            &error
+        )) {
+            set_error(err, err_len, error.localizedDescription ?: @"MOV export failed");
+            return 1;
         }
 
         CGImageRef image = NULL;
