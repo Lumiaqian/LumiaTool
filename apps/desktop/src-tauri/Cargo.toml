@@ -1,6 +1,6 @@
 [package]
 name = "lumiatool"
-version = "0.0.1"
+version = "0.0.2"
 description = "Cross-platform desktop developer toolbox"
 authors = ["baiy", "lumiaqian"]
 license = "MIT"

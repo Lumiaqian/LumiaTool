@@ -1,6 +1,6 @@
 {
     "name": "lumiatool",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": true,
     "type": "module",
     "packageManager": "pnpm@10.23.0",
@@ -17,7 +17,6 @@
         "check": "pnpm run initialize && pnpm --filter lumiatool-desktop run check",
         "dev": "pnpm run initialize && pnpm --filter lumiatool-desktop run dev",
         "build": "pnpm run initialize && pnpm --filter lumiatool-desktop run build",
-        "release": "node scripts/release.mjs init && pnpm run build && node scripts/release.mjs collect",
         "clean": "node scripts/clean.mjs"
     },
     "pnpm": {

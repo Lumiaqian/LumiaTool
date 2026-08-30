@@ -15,8 +15,6 @@ const paths = [
     "packages/config/dist",
     ".playwright-cli",
     "output",
-    "_release",
-    "_release_files",
 ];
 
 for (const path of paths) {

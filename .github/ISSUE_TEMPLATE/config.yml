@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-    - name: 私密安全漏洞报告
-      url: https://github.com/Lumiaqian/LumiaTool/security/advisories/new
-      about: 涉及安全漏洞时请勿提交公开 Issue。
-    - name: 支持说明
-      url: https://github.com/Lumiaqian/LumiaTool/blob/master/SUPPORT.md
-      about: 查看缺陷反馈、安全报告和社区参与方式。

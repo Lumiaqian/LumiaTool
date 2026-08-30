@@ -1,6 +1,6 @@
 # Maintainer: lumiaqian
 pkgname=lumiatool-bin
-pkgver=0.0.1
+pkgver=0.0.2
 pkgrel=1
 pkgdesc='基于 React 与 Tauri 的跨平台桌面开发工具箱'
 arch=('x86_64')

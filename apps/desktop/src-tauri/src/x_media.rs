@@ -3,7 +3,8 @@ use serde_json::Value;
 use std::fs;
 use std::path::PathBuf;
 
-const USER_AGENT: &str = "LumiaTool/0.0.1 (https://github.com/Lumiaqian/LumiaTool)";
+const USER_AGENT: &str =
+    concat!("LumiaTool/", env!("CARGO_PKG_VERSION"), " (https://github.com/Lumiaqian/LumiaTool)");
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]

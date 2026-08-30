@@ -35,12 +35,28 @@ jobs:
                   const packageVersion = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
                   const cargoText = fs.readFileSync("apps/desktop/src-tauri/Cargo.toml", "utf8");
                   const cargoVersion = cargoText.match(/^version\s*=\s*"([^"]+)"/m)?.[1];
+                  const aurText = fs.readFileSync("packaging/aur/PKGBUILD", "utf8");
+                  const aurVersion = aurText.match(/^pkgver=([^\s]+)$/m)?.[1];
 
-                  if (tagVersion !== packageVersion || tagVersion !== cargoVersion) {
-                      console.error({ tagVersion, packageVersion, cargoVersion });
+                  if (
+                      tagVersion !== packageVersion ||
+                      tagVersion !== cargoVersion ||
+                      tagVersion !== aurVersion
+                  ) {
+                      console.error({ tagVersion, packageVersion, cargoVersion, aurVersion });
                       process.exit(1);
                   }
                   NODE
+
+            - name: Reject published release reuse
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  release_draft="$(gh release view "$GITHUB_REF_NAME" --json isDraft --jq ".isDraft" 2>/dev/null || true)"
+                  if [ "$release_draft" = "false" ]; then
+                      echo "::error::Release $GITHUB_REF_NAME is already published; create a new version instead."
+                      exit 1
+                  fi
 
     build:
         name: build-${{ matrix.asset_suffix }}
@@ -137,3 +153,17 @@ jobs:
                   includeUpdaterJson: false
                   args: ${{ matrix.args }}
                   assetNamePattern: lumiatool_${{ matrix.asset_suffix }}.[ext]
+
+    publish:
+        name: publish
+        needs: build
+        runs-on: ubuntu-22.04
+        timeout-minutes: 5
+        permissions:
+            contents: write
+
+        steps:
+            - name: Publish completed release
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft=false

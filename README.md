@@ -4,7 +4,7 @@
 
 LumiaTool 是一个基于 React 与 Tauri 的跨平台桌面开发工具箱，集中提供编码转换、加解密、数据格式化、文本处理、开发调试和常用生成器。
 
-当前仓库是桌面端重构版本，版本号从 `0.0.1` 重新开始。旧版 Web、浏览器扩展和 uTools 适配器不再参与构建。
+当前仓库只维护 React + Tauri 桌面端，旧版 Web、浏览器扩展和 uTools 适配器不再参与构建。
 
 ## 功能概览
 
@@ -14,13 +14,22 @@ LumiaTool 是一个基于 React 与 Tauri 的跨平台桌面开发工具箱，�
 -   开发调试：HTTP Snippet、WebSocket、Crontab、IP 计算、时间与时区等。
 -   生成与解析：二维码、条形码、UUID、随机字符、Docker Compose 等。
 
-大多数工具可以离线运行。IP 查询、ARM 指令转换、在线代码运行及用户主动连接的网络地址需要联网，具体说明见[隐私说明](./PRIVACY)。
+## 数据与网络
+
+工具输入、历史记录和界面设置默认保存在当前设备。大多数工具可以离线运行，以下功能只会在用户主动使用时联网：
+
+-   IP 查询连接 GeoJS。
+-   ARM 指令转换连接 armconverter.com。
+-   在线代码运行连接 JDoodle，并使用用户自行配置的凭据。
+-   WebSocket、HTTP 等调试工具连接用户填写的地址。
+
+应用不包含账户、广告或行为分析 SDK，也不会在后台上传工具输入。
 
 ## 下载与安装
 
 桌面端支持 macOS、Windows 和 Linux。发布包将在 [GitHub Releases](https://github.com/Lumiaqian/LumiaTool/releases) 提供。
 
-当前 `0.0.1` 仍处于重构开发阶段；首次正式发布前，请按下方步骤在本地运行或构建。
+发布包由 GitHub Actions 在 macOS、Windows 和 Linux 上分别构建。
 
 ## 本地开发
 
@@ -46,13 +55,7 @@ Tauri 不支持直接跨平台打包，请分别在 macOS、Windows 和 Linux �
 apps/desktop/src-tauri/target/release/bundle/
 ```
 
-整理为发布文件：
-
-```bash
-pnpm release
-```
-
-整理后的文件输出到 `_release/`。清理依赖、前端产物、Tauri 构建缓存和本地 UI 测试产物：
+清理依赖、前端产物、Tauri 构建缓存和本地 UI 测试产物：
 
 ```bash
 pnpm clean
@@ -63,25 +66,22 @@ pnpm clean
 ```text
 apps/desktop/       React 界面、工具实现和 Tauri 桌面外壳
 packages/config/    工具清单、分类、国际化和生成脚本
-scripts/            清理与发布辅助脚本
+scripts/            清理脚本
 packaging/aur/      Arch Linux 打包文件
 ```
 
 根目录 `package.json` 中的版本号是应用版本的主要来源，Tauri 配置会直接读取该版本；发布前还需保持 `apps/desktop/src-tauri/Cargo.toml` 版本一致。
 
-## 参与贡献
+## 开发与反馈
 
-提交改动前请先阅读[贡献指南](./CONTRIBUTING.md)和[行为准则](./CODE_OF_CONDUCT.md)，并至少运行：
+提交改动前至少运行：
 
 ```bash
 pnpm check
 ```
 
-问题和功能建议可以提交到 [GitHub Issues](https://github.com/Lumiaqian/LumiaTool/issues)。使用与支持方式见[支持说明](./SUPPORT.md)。
-
+问题和功能建议直接提交到 [GitHub Issues](https://github.com/Lumiaqian/LumiaTool/issues)。
 
 ## 许可证
 
 [MIT](./LICENSE)
-
-安全问题请不要提交公开 Issue，具体方式见[安全策略](./SECURITY.md)。

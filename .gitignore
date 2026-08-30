@@ -24,8 +24,6 @@ dist-ssr
 *.sln
 *.sw?
 
-_release
-_release_files
 _temp
 .npmrc
 todo_list.md
