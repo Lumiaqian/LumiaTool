@@ -39,7 +39,7 @@
     },
     "plugins": {
         "updater": {
-            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY3MjRBNUM5RDJEM0YzRDAKUldUUTg5UFN5YVVrWjNBMjRXcjk5UU9HY0o4cG1CcWE3N1htSXMrQ3lBTVc3cEFwZkpJSlY5NVUK",
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY4OEVBNjVBMTUyQ0I4NjEKUldSaHVDd1ZXcWFPK0xDNEwybnNuQnRMN2ZWeElOZjNZckYyNEl6WHhrQkFkZDBaREFxckl3UDAK",
             "endpoints": ["https://github.com/Lumiaqian/LumiaTool/releases/latest/download/latest.json"],
             "windows": {
                 "installMode": "passive"
