@@ -2,7 +2,6 @@ import { HTTPSnippet, HarRequest } from "@readme/httpsnippet";
 import Json from "@/lib/json";
 import curlToHar from "./curlToHar";
 import { ClientId, TargetId, targets as httpTargets } from "@readme/httpsnippet/targets";
-import { isArray } from "lodash";
 
 interface Entry {
     request: Partial<HarRequest>;
@@ -63,8 +62,7 @@ const convert = (items: HarEntry, target: string) => {
             ].join("\n\n");
         });
     }
-    const result = new HTTPSnippet(items).convert(targetInfo.targetId, targetInfo.clientId);
-    return result === false ? [""] : isArray(result) ? result : [result];
+    return new HTTPSnippet(items).convert(targetInfo.targetId, targetInfo.clientId).map(item => item || "");
 };
 
 export const targets = (() => {

@@ -1,13 +1,12 @@
 packages:
-    - 'apps/*'
-    - 'packages/*'
+    - "apps/*"
+    - "packages/*"
 
 catalog:
-    '@types/lodash': ^4.17.7
-    '@types/node': ^22.0.0
-    lodash: ^4.17.21
+    "@types/lodash": ^4.17.7
+    "@types/node": ^22.20.1
+    lodash: ^4.18.1
     typescript: ^5.9.3
-    vite: ^5.4.3
-    tsup: ^8.2.4
-    axios: ^1.7.0
+    vite: ^7.3.6
+    tsup: ^8.5.1
     dayjs: ^1.11.12

@@ -1,14 +1,12 @@
 import { join, resolve } from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 import { readFileSync } from "fs";
 import HtmlConfig from "vite-plugin-html-config";
 
 export default defineConfig({
     base: "./",
     plugins: [
-        nodePolyfills(),
         HtmlConfig({
             metas: [
                 {
@@ -26,6 +24,16 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src"),
+            path: "path-browserify",
+            url: "url",
+            os: "os-browserify/browser",
+            util: "util",
+            http: "stream-http",
+            https: "https-browserify",
+            "fs/promises": resolve(__dirname, "./src/browser-empty.ts"),
+            fs: resolve(__dirname, "./src/browser-empty.ts"),
+            module: resolve(__dirname, "./src/browser-empty.ts"),
+            crypto: resolve(__dirname, "./src/browser-empty.ts"),
         },
     },
     clearScreen: false,
