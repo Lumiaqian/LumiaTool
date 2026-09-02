@@ -24,7 +24,7 @@
     min-width: 0;
     min-height: 0;
     display: grid;
-    grid-template-columns: minmax(18rem, 5fr) minmax(24rem, 7fr);
+    grid-template-columns: minmax(14rem, 5fr) minmax(18rem, 7fr);
     gap: var(--lumia-space-3);
 }
 
@@ -610,7 +610,7 @@
     min-height: 0;
 }
 
-@container (max-width: 48rem) {
+@container (max-width: 34rem) {
     .lumia-inspector-family-split,
     .lumia-ipcalc-workspace {
         height: auto;
@@ -627,6 +627,9 @@
     .lumia-ipcalc-page .lumia-inspector-family-source {
         min-height: 0;
     }
+}
+
+@container (max-width: 48rem) {
 
     .lumia-ipcalc-results :is(.lumia-card-content, .lumia-card-body) > div[style*="grid-template-columns"] {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -658,6 +661,7 @@
         width: 100% !important;
     }
 }
+
 
 @container (max-width: 34rem) {
     .lumia-inspector-family-panel-header,
