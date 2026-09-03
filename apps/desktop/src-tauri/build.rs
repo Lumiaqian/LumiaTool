@@ -16,5 +16,6 @@ fn main() {
         println!("cargo:rustc-link-lib=framework=ImageIO");
         println!("cargo:rustc-link-lib=framework=UniformTypeIdentifiers");
         println!("cargo:rustc-link-lib=framework=Photos");
+        println!("cargo:rustc-link-lib=framework=VideoToolbox");
     }
 }

@@ -6,13 +6,20 @@
 #import <ImageIO/ImageIO.h>
 #import <Photos/Photos.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
+#import <VideoToolbox/VideoToolbox.h>
 #include <math.h>
 
 static const char *kContentIdentifierKey = "com.apple.quicktime.content.identifier";
 static const char *kStillImageTimeKey = "com.apple.quicktime.still-image-time";
 static const char *kLivePhotoAutoKey = "com.apple.quicktime.live-photo.auto";
+static const char *kLivePhotoInfoKey = "com.apple.quicktime.live-photo-info";
 static const char *kVitalityScoreKey = "com.apple.quicktime.live-photo.vitality-score";
 static const char *kVitalityScoringVersionKey = "com.apple.quicktime.live-photo.vitality-scoring-version";
+static const char *kVideoOrientationKey = "com.apple.quicktime.video-orientation";
+static const char *kStillImageTransformKey =
+    "com.apple.quicktime.live-photo-still-image-transform";
+static const char *kStillImageTransformDimensionsKey =
+    "com.apple.quicktime.live-photo-still-image-transform-reference-dimensions";
 
 static void set_error(char *err, int err_len, NSString *message) {
     if (err == NULL || err_len <= 0) {
@@ -499,6 +506,123 @@ static BOOL append_still_time_metadata(
     return appended;
 }
 
+static BOOL add_wallpaper_still_metadata_input(
+    AVAssetWriter *writer,
+    AVAssetWriterInput **outInput,
+    AVAssetWriterInputMetadataAdaptor **outAdaptor,
+    NSError **outError
+) {
+    NSArray *specs = @[
+        @{
+            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
+                [NSString stringWithFormat:@"mdta/%s", kStillImageTimeKey],
+            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
+                (__bridge NSString *)kCMMetadataBaseDataType_SInt8
+        },
+        @{
+            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
+                [NSString stringWithFormat:@"mdta/%s", kStillImageTransformKey],
+            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
+                (__bridge NSString *)kCMMetadataBaseDataType_PerspectiveTransformF64
+        },
+        @{
+            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier:
+                [NSString stringWithFormat:@"mdta/%s", kStillImageTransformDimensionsKey],
+            (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType:
+                (__bridge NSString *)kCMMetadataBaseDataType_DimensionsF32
+        }
+    ];
+    CMFormatDescriptionRef metadataFormat = NULL;
+    OSStatus status = CMMetadataFormatDescriptionCreateWithMetadataSpecifications(
+        kCFAllocatorDefault,
+        kCMMetadataFormatType_Boxed,
+        (__bridge CFArrayRef)specs,
+        &metadataFormat
+    );
+    if (status != noErr || metadataFormat == NULL) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:27 userInfo:@{
+                NSLocalizedDescriptionKey: [NSString stringWithFormat:
+                    @"Failed to create wallpaper still metadata (OSStatus %d)", (int)status]
+            }];
+        }
+        return NO;
+    }
+
+    AVAssetWriterInput *input = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata
+                                                                   outputSettings:nil
+                                                                 sourceFormatHint:metadataFormat];
+    CFRelease(metadataFormat);
+    input.expectsMediaDataInRealTime = NO;
+    if (![writer canAddInput:input]) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:28 userInfo:@{
+                NSLocalizedDescriptionKey: @"Cannot add wallpaper still metadata track"
+            }];
+        }
+        return NO;
+    }
+    [writer addInput:input];
+    *outInput = input;
+    *outAdaptor = [AVAssetWriterInputMetadataAdaptor assetWriterInputMetadataAdaptorWithAssetWriterInput:input];
+    return YES;
+}
+
+static BOOL append_wallpaper_still_metadata(
+    AVAssetWriter *writer,
+    AVAssetWriterInput *input,
+    AVAssetWriterInputMetadataAdaptor *adaptor,
+    CMTime stillTime,
+    CGFloat width,
+    CGFloat height,
+    NSError **outError
+) {
+    NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (!input.readyForMoreMediaData &&
+           writer.status == AVAssetWriterStatusWriting &&
+           deadline.timeIntervalSinceNow > 0) {
+        [NSThread sleepForTimeInterval:0.001];
+    }
+    if (!input.readyForMoreMediaData) {
+        if (outError) {
+            *outError = writer.error ?: [NSError errorWithDomain:@"lumiatool" code:29 userInfo:@{
+                NSLocalizedDescriptionKey: @"Timed out preparing wallpaper still metadata"
+            }];
+        }
+        return NO;
+    }
+
+    NSArray<NSNumber *> *identityTransform = @[
+        @1.0, @0.0, @0.0,
+        @0.0, @1.0, @0.0,
+        @0.0, @0.0, @1.0
+    ];
+    NSArray<AVMetadataItem *> *items = @[
+        live_metadata_item(kStillImageTimeKey, @0, kCMMetadataBaseDataType_SInt8),
+        live_metadata_item(
+            kStillImageTransformKey,
+            identityTransform,
+            kCMMetadataBaseDataType_PerspectiveTransformF64
+        ),
+        live_metadata_item(
+            kStillImageTransformDimensionsKey,
+            [NSValue valueWithSize:NSMakeSize(width, height)],
+            kCMMetadataBaseDataType_DimensionsF32
+        )
+    ];
+    AVTimedMetadataGroup *group = [[AVTimedMetadataGroup alloc]
+        initWithItems:items
+        timeRange:CMTimeRangeMake(stillTime, CMTimeMake(1, 15))];
+    BOOL appended = [adaptor appendTimedMetadataGroup:group];
+    [input markAsFinished];
+    if (!appended && outError) {
+        *outError = writer.error ?: [NSError errorWithDomain:@"lumiatool" code:30 userInfo:@{
+            NSLocalizedDescriptionKey: @"Failed to append wallpaper still metadata"
+        }];
+    }
+    return appended;
+}
+
 static BOOL attach_live_metadata(
     NSURL *sourceURL,
     NSURL *outputURL,
@@ -675,16 +799,84 @@ static BOOL attach_live_metadata(
     return YES;
 }
 
+static AVAssetTrack *find_metadata_track(AVAsset *asset, const char *metadataKey) {
+    NSString *key = [NSString stringWithFormat:@"mdta/%s", metadataKey];
+    for (AVAssetTrack *track in [asset tracksWithMediaType:AVMediaTypeMetadata]) {
+        for (id description in track.formatDescriptions) {
+            CMMetadataFormatDescriptionRef format =
+                (__bridge CMMetadataFormatDescriptionRef)description;
+            CFArrayRef identifiers = CMMetadataFormatDescriptionGetIdentifiers(format);
+            if (identifiers != NULL &&
+                [(__bridge NSArray *)identifiers containsObject:key]) {
+                return track;
+            }
+        }
+    }
+    return nil;
+}
+
+static NSArray<AVMetadataItem *> *wallpaper_top_level_metadata(
+    AVAsset *wallpaperBase,
+    NSString *contentId
+) {
+    NSMutableArray<AVMetadataItem *> *items =
+        [live_photo_top_level_metadata(contentId) mutableCopy];
+    for (AVMetadataItem *item in wallpaperBase.metadata) {
+        NSString *key = [item.key isKindOfClass:NSString.class] ? (NSString *)item.key : nil;
+        if ([key isEqualToString:@"com.apple.quicktime.full-frame-rate-playback-intent"] ||
+            [key hasPrefix:@"com.apple.quicktime.smartstyle."]) {
+            [items addObject:item];
+        }
+    }
+    return items;
+}
+
 static BOOL write_wallpaper_mov(
     AVAsset *asset,
     CMTimeRange range,
     NSString *contentId,
+    NSURL *wallpaperBaseURL,
     NSURL *outputURL,
     NSError **outError
 ) {
     NSFileManager *files = NSFileManager.defaultManager;
     if ([files fileExistsAtPath:outputURL.path]) {
         [files removeItemAtURL:outputURL error:nil];
+    }
+
+    AVURLAsset *wallpaperBase = [AVURLAsset URLAssetWithURL:wallpaperBaseURL options:@{
+        AVURLAssetPreferPreciseDurationAndTimingKey: @YES
+    }];
+    AVAssetTrack *sensorTrack = find_metadata_track(wallpaperBase, kLivePhotoInfoKey);
+    if (sensorTrack == nil) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:22 userInfo:@{
+                NSLocalizedDescriptionKey: @"Wallpaper metadata template has no live-photo-info track"
+            }];
+        }
+        return NO;
+    }
+    AVAssetTrack *wallpaperStillTrack =
+        find_metadata_track(wallpaperBase, kStillImageTimeKey);
+    if (wallpaperStillTrack == nil) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:26 userInfo:@{
+                NSLocalizedDescriptionKey: @"Wallpaper metadata template has no still-image-time track"
+            }];
+        }
+        return NO;
+    }
+    AVAssetTrack *wallpaperOrientationTrack =
+        find_metadata_track(wallpaperBase, kVideoOrientationKey);
+    AVAssetTrack *wallpaperBaseVideo =
+        [wallpaperBase tracksWithMediaType:AVMediaTypeVideo].firstObject;
+    if (wallpaperBaseVideo == nil) {
+        if (outError) {
+            *outError = [NSError errorWithDomain:@"lumiatool" code:25 userInfo:@{
+                NSLocalizedDescriptionKey: @"Wallpaper metadata template has no video track"
+            }];
+        }
+        return NO;
     }
 
     NSError *error = nil;
@@ -706,39 +898,79 @@ static BOOL write_wallpaper_mov(
         }
         return NO;
     }
+    CMTime targetDuration = wallpaperBase.duration;
+    [compVideo scaleTimeRange:CMTimeRangeMake(kCMTimeZero, range.duration)
+                   toDuration:targetDuration];
     AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
     AVMutableCompositionTrack *compAudio = nil;
     if (audioTrack != nil) {
         compAudio = [composition addMutableTrackWithMediaType:AVMediaTypeAudio
                                              preferredTrackID:kCMPersistentTrackID_Invalid];
-        [compAudio insertTimeRange:range ofTrack:audioTrack atTime:kCMTimeZero error:nil];
+        if ([compAudio insertTimeRange:range
+                              ofTrack:audioTrack
+                               atTime:kCMTimeZero
+                                error:nil]) {
+            [compAudio scaleTimeRange:CMTimeRangeMake(kCMTimeZero, range.duration)
+                          toDuration:targetDuration];
+        } else {
+            compAudio = nil;
+        }
+    }
+
+    NSMutableArray<AVAssetTrack *> *wallpaperMetadataTracks = [NSMutableArray array];
+    for (AVAssetTrack *metadataTrack in [wallpaperBase tracksWithMediaType:AVMediaTypeMetadata]) {
+        BOOL isStillTrack = metadataTrack.trackID == wallpaperStillTrack.trackID;
+        BOOL isOrientationTrack = wallpaperOrientationTrack != nil &&
+            metadataTrack.trackID == wallpaperOrientationTrack.trackID;
+        if (!isStillTrack && !isOrientationTrack) {
+            [wallpaperMetadataTracks addObject:metadataTrack];
+        }
+    }
+    NSMutableArray<AVMutableCompositionTrack *> *compMetadataTracks =
+        [NSMutableArray arrayWithCapacity:wallpaperMetadataTracks.count];
+    for (AVAssetTrack *metadataTrack in wallpaperMetadataTracks) {
+        AVMutableCompositionTrack *compMetadata =
+            [composition addMutableTrackWithMediaType:AVMediaTypeMetadata
+                                    preferredTrackID:kCMPersistentTrackID_Invalid];
+        CMTimeRange metadataRange =
+            CMTimeRangeMake(kCMTimeZero, metadataTrack.timeRange.duration);
+        if (![compMetadata insertTimeRange:metadataRange
+                                   ofTrack:metadataTrack
+                                    atTime:kCMTimeZero
+                                     error:&error]) {
+            if (outError) {
+                *outError = error;
+            }
+            return NO;
+        }
+        [compMetadataTracks addObject:compMetadata];
     }
 
     CGAffineTransform transform = videoTrack.preferredTransform;
     CGSize natural = videoTrack.naturalSize;
-    CGRect rendered = CGRectApplyAffineTransform(CGRectMake(0, 0, natural.width, natural.height), transform);
-    CGFloat width = floor(fabs(rendered.size.width) / 2.0) * 2.0;
-    CGFloat height = floor(fabs(rendered.size.height) / 2.0) * 2.0;
+    CGRect rendered =
+        CGRectApplyAffineTransform(CGRectMake(0, 0, natural.width, natural.height), transform);
+    CGFloat sourceWidth = fabs(rendered.size.width);
+    CGFloat sourceHeight = fabs(rendered.size.height);
+    CGAffineTransform wallpaperBaseTransform = wallpaperBaseVideo.preferredTransform;
+    CGSize wallpaperBaseSize = wallpaperBaseVideo.naturalSize;
+    CGRect wallpaperBaseRendered = CGRectApplyAffineTransform(
+        CGRectMake(0, 0, wallpaperBaseSize.width, wallpaperBaseSize.height),
+        wallpaperBaseTransform
+    );
+    CGFloat width = floor(fabs(wallpaperBaseRendered.size.width) / 2.0) * 2.0;
+    CGFloat height = floor(fabs(wallpaperBaseRendered.size.height) / 2.0) * 2.0;
+    CGFloat scale = MAX(width / sourceWidth, height / sourceHeight);
     CGAffineTransform baked = transform;
     baked.tx -= rendered.origin.x;
     baked.ty -= rendered.origin.y;
-    CGFloat longEdge = MAX(width, height);
-    if (longEdge > 1920) {
-        CGFloat scale = 1920 / longEdge;
-        width = floor(width * scale / 2.0) * 2.0;
-        height = floor(height * scale / 2.0) * 2.0;
-        baked = CGAffineTransformConcat(baked, CGAffineTransformMakeScale(scale, scale));
-    }
-    if (width < 16) {
-        width = 16;
-    }
-    if (height < 16) {
-        height = 16;
-    }
+    baked = CGAffineTransformConcat(baked, CGAffineTransformMakeScale(scale, scale));
+    baked.tx += (width - sourceWidth * scale) / 2.0;
+    baked.ty += (height - sourceHeight * scale) / 2.0;
 
     AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
     videoComposition.renderSize = CGSizeMake(width, height);
-    videoComposition.frameDuration = CMTimeMake(1, 30);
+    videoComposition.frameDuration = wallpaperBaseVideo.minFrameDuration;
     videoComposition.renderScale = 1;
     videoComposition.colorPrimaries = AVVideoColorPrimaries_ITU_R_709_2;
     videoComposition.colorTransferFunction = AVVideoTransferFunction_ITU_R_709_2;
@@ -746,7 +978,11 @@ static BOOL write_wallpaper_mov(
     AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     instruction.timeRange = CMTimeRangeMake(kCMTimeZero, composition.duration);
     AVMutableVideoCompositionLayerInstruction *layer = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compVideo];
-    [layer setTransform:baked atTime:kCMTimeZero];
+    CGAffineTransform motion = baked;
+    motion.ty -= height * 0.04;
+    [layer setTransformRampFromStartTransform:baked
+                               toEndTransform:motion
+                                    timeRange:instruction.timeRange];
     instruction.layerInstructions = @[layer];
     videoComposition.instructions = @[instruction];
 
@@ -763,8 +999,11 @@ static BOOL write_wallpaper_mov(
         AVVideoWidthKey: @(width),
         AVVideoHeightKey: @(height),
         AVVideoCompressionPropertiesKey: @{
-            AVVideoAverageBitRateKey: @(width * height * 6),
-            AVVideoMaxKeyFrameIntervalKey: @30
+            (__bridge NSString *)kVTCompressionPropertyKey_Quality: @0.95,
+            (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate:
+                @(width * height * 12),
+            (__bridge NSString *)kVTCompressionPropertyKey_MaxKeyFrameInterval:
+                @(MAX(1, (NSInteger)lround(wallpaperBaseVideo.nominalFrameRate)))
         }
     };
     AVAssetWriterInput *videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:videoSettings];
@@ -797,12 +1036,40 @@ static BOOL write_wallpaper_mov(
         }
     }
 
-    writer.metadata = live_photo_top_level_metadata(contentId);
-    AVAssetWriterInput *metadataInput = nil;
-    AVAssetWriterInputMetadataAdaptor *metadataAdaptor = nil;
-    if (!add_still_time_metadata_input(writer, &metadataInput, &metadataAdaptor, outError)) {
+    NSMutableArray<AVAssetWriterInput *> *metadataInputs =
+        [NSMutableArray arrayWithCapacity:wallpaperMetadataTracks.count];
+    for (AVAssetTrack *metadataTrack in wallpaperMetadataTracks) {
+        CMFormatDescriptionRef formatHint =
+            (__bridge CMFormatDescriptionRef)metadataTrack.formatDescriptions.firstObject;
+        AVAssetWriterInput *metadataInput =
+            [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata
+                                               outputSettings:nil
+                                             sourceFormatHint:formatHint];
+        metadataInput.expectsMediaDataInRealTime = NO;
+        if (![writer canAddInput:metadataInput]) {
+            if (outError) {
+                *outError = [NSError errorWithDomain:@"lumiatool" code:23 userInfo:@{
+                    NSLocalizedDescriptionKey: @"Cannot add wallpaper metadata input"
+                }];
+            }
+            return NO;
+        }
+        [writer addInput:metadataInput];
+        [metadataInputs addObject:metadataInput];
+    }
+
+    AVAssetWriterInput *stillMetadataInput = nil;
+    AVAssetWriterInputMetadataAdaptor *stillMetadataAdaptor = nil;
+    if (!add_wallpaper_still_metadata_input(
+        writer,
+        &stillMetadataInput,
+        &stillMetadataAdaptor,
+        outError
+    )) {
         return NO;
     }
+
+    writer.metadata = wallpaper_top_level_metadata(wallpaperBase, contentId);
 
     AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:composition error:&error];
     if (reader == nil) {
@@ -839,6 +1106,24 @@ static BOOL write_wallpaper_mov(
         }
     }
 
+    NSMutableArray<AVAssetReaderTrackOutput *> *metadataOutputs =
+        [NSMutableArray arrayWithCapacity:compMetadataTracks.count];
+    for (AVMutableCompositionTrack *compMetadata in compMetadataTracks) {
+        AVAssetReaderTrackOutput *metadataOutput =
+            [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:compMetadata
+                                                       outputSettings:nil];
+        if (![reader canAddOutput:metadataOutput]) {
+            if (outError) {
+                *outError = [NSError errorWithDomain:@"lumiatool" code:24 userInfo:@{
+                    NSLocalizedDescriptionKey: @"Cannot read wallpaper metadata track"
+                }];
+            }
+            return NO;
+        }
+        [reader addOutput:metadataOutput];
+        [metadataOutputs addObject:metadataOutput];
+    }
+
     if (![writer startWriting] || ![reader startReading]) {
         if (outError) {
             *outError = writer.error ?: reader.error;
@@ -846,17 +1131,16 @@ static BOOL write_wallpaper_mov(
         return NO;
     }
     [writer startSessionAtSourceTime:kCMTimeZero];
-
-    CMTime stillTime = CMTimeMultiplyByFloat64(composition.duration, 0.5);
-    if (!append_still_time_metadata(
+    if (!append_wallpaper_still_metadata(
         writer,
-        metadataInput,
-        metadataAdaptor,
-        stillTime,
+        stillMetadataInput,
+        stillMetadataAdaptor,
+        CMTimeMultiplyByFloat64(targetDuration, 0.5),
+        width,
+        height,
         outError
     )) {
         [reader cancelReading];
-        [writer cancelWriting];
         return NO;
     }
 
@@ -864,6 +1148,9 @@ static BOOL write_wallpaper_mov(
     start_copy_samples(videoOutput, videoInput, copyGroup);
     if (audioInput != nil && audioOutput != nil) {
         start_copy_samples(audioOutput, audioInput, copyGroup);
+    }
+    for (NSUInteger index = 0; index < metadataOutputs.count; index++) {
+        start_copy_samples(metadataOutputs[index], metadataInputs[index], copyGroup);
     }
     if (dispatch_group_wait(copyGroup, dispatch_time(DISPATCH_TIME_NOW, 180ll * NSEC_PER_SEC)) != 0) {
         if (outError) {
@@ -895,12 +1182,20 @@ static BOOL export_live_mov(
     CMTimeRange range,
     NSString *contentId,
     CMTime stillTime,
+    NSURL *wallpaperBaseURL,
     NSURL *outputURL,
     BOOL wallpaper,
     NSError **outError
 ) {
     if (wallpaper) {
-        return write_wallpaper_mov(asset, range, contentId, outputURL, outError);
+        return write_wallpaper_mov(
+            asset,
+            range,
+            contentId,
+            wallpaperBaseURL,
+            outputURL,
+            outError
+        );
     }
 
     NSString *tempName = [NSString stringWithFormat:
@@ -943,6 +1238,7 @@ int lumia_export_apple_live_photo(
     double duration,
     double cover_time,
     const char *output_dir,
+    const char *wallpaper_base_mov,
     int import_photos,
     int wallpaper_mode,
     char *heic_out,
@@ -963,6 +1259,7 @@ int lumia_export_apple_live_photo(
                 duration,
                 cover_time,
                 output_dir,
+                wallpaper_base_mov,
                 import_photos,
                 wallpaper_mode,
                 heic_out,
@@ -986,6 +1283,17 @@ int lumia_export_apple_live_photo(
         if (folder.length == 0) {
             set_error(err, err_len, @"Missing output directory");
             return 1;
+        }
+        NSURL *wallpaperBaseURL = nil;
+        if (wallpaper_mode) {
+            NSString *wallpaperBasePath =
+                [NSString stringWithUTF8String:wallpaper_base_mov ?: ""];
+            if (wallpaperBasePath.length == 0 ||
+                ![NSFileManager.defaultManager fileExistsAtPath:wallpaperBasePath]) {
+                set_error(err, err_len, @"Missing wallpaper metadata template");
+                return 1;
+            }
+            wallpaperBaseURL = [NSURL fileURLWithPath:wallpaperBasePath];
         }
         NSString *stem = [[[NSString stringWithUTF8String:src] lastPathComponent] stringByDeletingPathExtension];
         if (stem.length == 0) {
@@ -1030,6 +1338,7 @@ int lumia_export_apple_live_photo(
             range,
             contentId,
             stillTime,
+            wallpaperBaseURL,
             movURL,
             wallpaper_mode,
             &error

@@ -4,6 +4,7 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
+use tauri::{path::BaseDirectory, Manager};
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -313,6 +314,7 @@ mod apple {
             duration: f64,
             cover_time: f64,
             output_dir: *const c_char,
+            wallpaper_base_mov: *const c_char,
             import_photos: c_int,
             wallpaper_mode: c_int,
             heic_out: *mut c_char,
@@ -411,12 +413,14 @@ mod apple {
         duration: f64,
         cover_time: f64,
         output_dir: &str,
+        wallpaper_base_mov: &str,
         import_photos: bool,
         wallpaper_mode: bool,
     ) -> Result<AppleLivePhotoResult, String> {
         let src = c_string(src)?;
         let cover = c_string(cover_jpeg.unwrap_or(""))?;
         let output_dir = c_string(output_dir)?;
+        let wallpaper_base_mov = c_string(wallpaper_base_mov)?;
         let mut heic = [0u8; 1024];
         let mut mov = [0u8; 1024];
         let mut err = [0u8; 512];
@@ -428,6 +432,7 @@ mod apple {
                 duration,
                 cover_time,
                 output_dir.as_ptr(),
+                wallpaper_base_mov.as_ptr(),
                 if import_photos { 1 } else { 0 },
                 if wallpaper_mode { 1 } else { 0 },
                 heic.as_mut_ptr() as *mut c_char,
@@ -557,6 +562,7 @@ pub fn create_google_motion_photo(
 
 #[tauri::command]
 pub async fn create_apple_live_photo(
+    app: tauri::AppHandle,
     video_path: String,
     cover_path: Option<String>,
     output_dir: String,
@@ -566,6 +572,17 @@ pub async fn create_apple_live_photo(
     import_photos: bool,
     wallpaper: bool,
 ) -> Result<AppleLivePhotoResult, String> {
+    let wallpaper_base_mov = if wallpaper {
+        app.path()
+            .resolve(
+                "resources/live-photo-wallpaper-base.mov",
+                BaseDirectory::Resource,
+            )
+            .map_err(|error| error.to_string())?
+    } else {
+        PathBuf::new()
+    };
+    let wallpaper_base_mov = wallpaper_base_mov.to_string_lossy().into_owned();
     tauri::async_runtime::spawn_blocking(move || {
         #[cfg(target_os = "macos")]
         {
@@ -576,6 +593,7 @@ pub async fn create_apple_live_photo(
                 duration,
                 cover_time,
                 &output_dir,
+                &wallpaper_base_mov,
                 import_photos,
                 wallpaper,
             )

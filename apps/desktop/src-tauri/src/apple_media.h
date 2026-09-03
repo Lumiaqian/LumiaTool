@@ -35,6 +35,7 @@ int lumia_export_apple_live_photo(
     double duration,
     double cover_time,
     const char *output_dir,
+    const char *wallpaper_base_mov,
     int import_photos,
     int wallpaper_mode,
     char *heic_out,
