@@ -898,21 +898,17 @@ static BOOL write_wallpaper_mov(
         }
         return NO;
     }
-    CMTime targetDuration = wallpaperBase.duration;
-    [compVideo scaleTimeRange:CMTimeRangeMake(kCMTimeZero, range.duration)
-                   toDuration:targetDuration];
+    CMTime targetDuration = range.duration;
     AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
     AVMutableCompositionTrack *compAudio = nil;
     if (audioTrack != nil) {
         compAudio = [composition addMutableTrackWithMediaType:AVMediaTypeAudio
                                              preferredTrackID:kCMPersistentTrackID_Invalid];
-        if ([compAudio insertTimeRange:range
-                              ofTrack:audioTrack
-                               atTime:kCMTimeZero
-                                error:nil]) {
-            [compAudio scaleTimeRange:CMTimeRangeMake(kCMTimeZero, range.duration)
-                          toDuration:targetDuration];
-        } else {
+        if (![compAudio insertTimeRange:range
+                               ofTrack:audioTrack
+                                atTime:kCMTimeZero
+                                 error:nil]) {
+            [composition removeTrack:compAudio];
             compAudio = nil;
         }
     }
@@ -943,6 +939,9 @@ static BOOL write_wallpaper_mov(
             }
             return NO;
         }
+        // Fit the template metadata to the clip without retiming the source video or audio.
+        [compMetadata scaleTimeRange:CMTimeRangeMake(kCMTimeZero, wallpaperBase.duration)
+                         toDuration:targetDuration];
         [compMetadataTracks addObject:compMetadata];
     }
 
@@ -1309,20 +1308,15 @@ int lumia_export_apple_live_photo(
             [NSString stringWithFormat:@"%@_Live.MOV", stem]]];
 
         double assetDur = CMTimeGetSeconds(asset.duration);
-        if (!isfinite(assetDur) || assetDur <= 0) {
-            assetDur = MAX(duration, 0.2);
+        if (!isfinite(assetDur) || assetDur <= 0 ||
+            !isfinite(start) || start < 0 || start >= assetDur ||
+            !isfinite(duration) || duration <= 0 || !isfinite(cover_time)) {
+            set_error(err, err_len, @"Invalid clip start or duration");
+            return 1;
         }
-        double dur = MAX(duration, 0.2);
-        double st = MAX(start, 0);
-        double cover = MIN(MAX(cover_time, 0), assetDur);
-        if (wallpaper_mode) {
-            dur = MIN(dur, 3.0);
-            st = MAX(0, cover - dur / 2.0);
-            if (st + dur > assetDur) {
-                st = MAX(0, assetDur - dur);
-            }
-            dur = MIN(dur, MAX(assetDur - st, 0.2));
-        }
+        double st = start;
+        double dur = MIN(duration, assetDur - st);
+        double cover = MIN(MAX(cover_time, st), st + MAX(0, dur - 1.0 / 30.0));
 
         NSError *error = nil;
         CMTimeRange range = CMTimeRangeMake(

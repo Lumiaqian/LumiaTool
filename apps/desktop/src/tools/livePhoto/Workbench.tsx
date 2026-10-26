@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { convertFileSrc, isTauri } from "@tauri-apps/api/core";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 import { open, save } from "@tauri-apps/plugin-dialog";
-import { Bool, Button, Card, Exception, InputNumber, Select } from "@/components";
+import { Bool, Button, Card, Exception, Input, InputNumber, Select } from "@/components";
 import { createAppleLivePhoto, createGoogleMotionPhoto, isMacOs, probeLivePhotoVideo } from "@/lib/desktop";
 import { useMutable } from "@/lib/reactive";
 import { livePhotoSession } from "./session";
@@ -47,13 +47,26 @@ export default function Workbench({ variant }: { variant: Variant }) {
     const [status, setStatus] = useState("");
     const [dropActive, setDropActive] = useState(false);
     const [inspectorOpen, setInspectorOpen] = useState(false);
+    const [durationInput, setDurationInput] = useState<string | null>(null);
     const { videoPath, coverPath, info, start, duration, coverTime, quality, height, importPhotos } = session;
 
     const previewSrc = useMemo(() => (videoPath ? convertFileSrc(videoPath) : ""), [videoPath]);
     const maxDuration = info?.duration ?? 0;
-    const durationCap = variant === "wallpaper" ? Math.min(maxDuration || 3, 3) : maxDuration;
-    const clipDuration = Math.min(duration, Math.max(durationCap - start, 0.2), durationCap || 3);
+    const minDuration = Math.min(0.2, maxDuration);
+    const clipStart = Math.min(Math.max(start, 0), Math.max(maxDuration - minDuration, 0));
+    const remainingDuration = Math.max(maxDuration - clipStart, 0);
+    const clipDuration = Math.min(Math.max(duration, minDuration), remainingDuration);
+    const clipEnd = clipStart + clipDuration;
+    const clipCoverTime = Math.min(Math.max(coverTime, clipStart), Math.max(clipStart, clipEnd - 1 / 30));
     const appleBlocked = (variant === "apple" || variant === "wallpaper") && !isMacOs;
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video) {
+            video.pause();
+            video.currentTime = clipStart;
+        }
+    }, [clipStart, clipDuration]);
 
     const loadVideo = useCallback(
         async (selected: string) => {
@@ -64,7 +77,7 @@ export default function Workbench({ variant }: { variant: Variant }) {
                 session.videoPath = selected;
                 session.info = next;
                 session.start = 0;
-                session.duration = Math.max(next.duration, 0.2);
+                session.duration = next.duration;
                 session.coverTime = Math.min(1, next.duration);
                 if (!next.ffmpeg && !next.macos && variant === "google") {
                     setError($t("livePhoto_ffmpeg_hint"));
@@ -161,9 +174,9 @@ export default function Workbench({ variant }: { variant: Variant }) {
                     videoPath,
                     coverPath: coverPath || null,
                     outputPath,
-                    start,
+                    start: clipStart,
                     duration: clipDuration,
-                    coverTime,
+                    coverTime: clipCoverTime,
                     quality,
                     height: Number(height) || 0,
                 });
@@ -177,9 +190,9 @@ export default function Workbench({ variant }: { variant: Variant }) {
                     videoPath,
                     coverPath: coverPath || null,
                     outputDir,
-                    start,
+                    start: clipStart,
                     duration: clipDuration,
-                    coverTime,
+                    coverTime: clipCoverTime,
                     importPhotos,
                     wallpaper: variant === "wallpaper",
                 });
@@ -220,6 +233,25 @@ export default function Workbench({ variant }: { variant: Variant }) {
                             ) : null}
                         </div>
                         <div className="lumia-media-workbench-actions">
+                            <Input
+                                type="number"
+                                label={$t("livePhoto_duration")}
+                                value={durationInput ?? String(Number(clipDuration.toFixed(2)))}
+                                min={minDuration}
+                                max={remainingDuration}
+                                step={0.1}
+                                width={160}
+                                size="small"
+                                disabled={busy}
+                                onChange={value => {
+                                    setDurationInput(value);
+                                    const seconds = Number(value);
+                                    if (value !== "" && Number.isFinite(seconds)) {
+                                        session.duration = Math.min(Math.max(minDuration, seconds), remainingDuration);
+                                    }
+                                }}
+                                onBlur={() => setDurationInput(null)}
+                            />
                             <Button size="small" disabled={busy} onClick={() => void pickVideo()}>
                                 {$t("livePhoto_pick_video")}
                             </Button>
@@ -245,32 +277,26 @@ export default function Workbench({ variant }: { variant: Variant }) {
                         <div className="lumia-media-workbench-inspector">
                             <InputNumber
                                 label={$t("livePhoto_start")}
-                                value={Number(start.toFixed(2))}
+                                value={Number(clipStart.toFixed(2))}
                                 min={0}
-                                max={Math.max(maxDuration, 0)}
+                                max={Math.max(maxDuration - minDuration, 0)}
                                 step={0.1}
                                 onChange={value => {
-                                    session.start = Math.max(0, value);
-                                }}
-                            />
-                            <InputNumber
-                                label={$t("livePhoto_duration")}
-                                value={Number(Math.min(duration, durationCap || duration).toFixed(2))}
-                                min={0.2}
-                                max={Math.max(durationCap || 0.2, 0.2)}
-                                step={0.1}
-                                onChange={value => {
-                                    session.duration = Math.max(0.2, value);
+                                    if (Number.isFinite(value)) {
+                                        session.start = Math.min(Math.max(0, value), maxDuration - minDuration);
+                                    }
                                 }}
                             />
                             <InputNumber
                                 label={$t("livePhoto_cover_time")}
-                                value={Number(coverTime.toFixed(2))}
-                                min={0}
-                                max={Math.max(maxDuration, 0)}
+                                value={Number(clipCoverTime.toFixed(2))}
+                                min={clipStart}
+                                max={Math.max(clipStart, clipEnd - 1 / 30)}
                                 step={0.1}
                                 onChange={value => {
-                                    session.coverTime = Math.max(0, value);
+                                    if (Number.isFinite(value)) {
+                                        session.coverTime = Math.min(Math.max(clipStart, value), Math.max(clipStart, clipEnd - 1 / 30));
+                                    }
                                 }}
                             />
                             {variant === "google" ? (
@@ -352,6 +378,21 @@ export default function Workbench({ variant }: { variant: Variant }) {
                                 className="lumia-live-photo-video"
                                 src={previewSrc}
                                 controls
+                                onPlay={event => {
+                                    const video = event.currentTarget;
+                                    if (video.currentTime < clipStart || video.currentTime >= clipEnd) {
+                                        video.currentTime = clipStart;
+                                    }
+                                }}
+                                onTimeUpdate={event => {
+                                    const video = event.currentTarget;
+                                    if (!video.paused && video.currentTime >= clipEnd) {
+                                        video.pause();
+                                        video.currentTime = clipEnd;
+                                    } else if (!video.paused && video.currentTime < clipStart) {
+                                        video.currentTime = clipStart;
+                                    }
+                                }}
                                 onLoadedMetadata={event => {
                                     const next = event.currentTarget.duration;
                                     if (
