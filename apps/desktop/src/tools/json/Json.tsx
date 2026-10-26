@@ -139,7 +139,7 @@ export default function Json(): React.ReactElement {
 
     useEffect(() => {
         const tabs = action.current.tabs;
-        setExpandType(["from", "to", "path"].includes(tabs) ? tabs : "");
+        action.current.expand_type = ["from", "to", "path"].includes(tabs) ? tabs : "";
     }, [action.current.tabs]);
 
     const selectGeneralTransform = (value: string): void => {
@@ -294,67 +294,67 @@ export default function Json(): React.ReactElement {
                             ))}
                     </Align>
                 </Tabs>
-                <HeightResize append={[".lumia-page-option"]}>
-                    {({ height }: { height: number }) => (
-                        <div style={layoutStyle}>
-                            {action.current.expand_type === "from" && (
-                                <SerializeInput
-                                    allow={[action.current.option.from.type]}
-                                    height={height}
-                                    value={action.current.option.from}
-                                    onChange={value => {
-                                        action.current.option.from = value;
-                                    }}
-                                />
-                            )}
-                            <Editor
-                                value={action.current.input}
-                                onChange={value => {
-                                    action.current.input = value;
-                                }}
-                                lineInfo={action.current.option.info.line}
-                                placeholder={`Json ${$t("main_ui_input")}`}
-                                lang="json"
-                                height={`${height}px`}
-                            />
-                            {action.current.expand_type === "to" && (
-                                <SerializeOutput
-                                    allow={[action.current.option.to.type]}
-                                    content={inputSerialize}
-                                    height={height}
-                                    onSuccess={() => action.save()}
-                                    value={action.current.option.to}
-                                    onChange={value => {
-                                        action.current.option.to = value;
-                                    }}
-                                />
-                            )}
-                            {action.current.expand_type === "path" && (
-                                <Path
-                                    height={height}
-                                    json={inputSerialize}
-                                    value={action.current.option.path}
-                                    onChange={value => {
-                                        action.current.option.path = value;
-                                    }}
-                                    onSuccess={() => action.save()}
-                                />
-                            )}
-                            {action.current.expand_type === "json_schema" && (
-                                <Schema
-                                    height={height}
-                                    json={inputSerialize}
-                                    value={action.current.option.schema}
-                                    onChange={value => {
-                                        action.current.option.schema = value;
-                                    }}
-                                    onSuccess={() => action.save()}
-                                />
-                            )}
-                        </div>
-                    )}
-                </HeightResize>
             </div>
+            <HeightResize append={[".lumia-page-option"]}>
+                {({ height }: { height: number }) => (
+                    <div style={layoutStyle}>
+                        {action.current.expand_type === "from" && (
+                            <SerializeInput
+                                allow={[action.current.option.from.type]}
+                                height={height}
+                                value={action.current.option.from}
+                                onChange={value => {
+                                    action.current.option.from = value;
+                                }}
+                            />
+                        )}
+                        <Editor
+                            value={action.current.input}
+                            onChange={value => {
+                                action.current.input = value;
+                            }}
+                            lineInfo={action.current.option.info.line}
+                            placeholder={`Json ${$t("main_ui_input")}`}
+                            lang="json"
+                            height={`${height}px`}
+                        />
+                        {action.current.expand_type === "to" && (
+                            <SerializeOutput
+                                allow={[action.current.option.to.type]}
+                                content={inputSerialize}
+                                height={height}
+                                onSuccess={() => action.save()}
+                                value={action.current.option.to}
+                                onChange={value => {
+                                    action.current.option.to = value;
+                                }}
+                            />
+                        )}
+                        {action.current.expand_type === "path" && (
+                            <Path
+                                height={height}
+                                json={inputSerialize}
+                                value={action.current.option.path}
+                                onChange={value => {
+                                    action.current.option.path = value;
+                                }}
+                                onSuccess={() => action.save()}
+                            />
+                        )}
+                        {action.current.expand_type === "json_schema" && (
+                            <Schema
+                                height={height}
+                                json={inputSerialize}
+                                value={action.current.option.schema}
+                                onChange={value => {
+                                    action.current.option.schema = value;
+                                }}
+                                onSuccess={() => action.save()}
+                            />
+                        )}
+                    </div>
+                )}
+            </HeightResize>
             <ExtendPage value={toObjectOpen} onChange={setToObjectOpen}>
                 <ToObject
                     value={action.current.option.to_object}
